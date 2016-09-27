@@ -31,7 +31,7 @@ void Scene::init()
 {
 	initShaders();
 	map = TileMap::createTileMap("levels/levelTerraria.txt", glm::vec2(0, 0), texProgram);
-	player = new Player();
+	player = new P_conillet();
 	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
 	player->setTileMap(map);

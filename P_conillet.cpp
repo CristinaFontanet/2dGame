@@ -2,12 +2,12 @@
 #include <iostream>
 #include <GL/glew.h>
 #include <GL/glut.h>
-#include "Player.h"
+#include "P_conillet.h"
 #include "Game.h"
 
 
-#define JUMP_ANGLE_STEP 4
-#define JUMP_HEIGHT 96
+#define JUMP_ANGLE_STEP 5
+#define JUMP_HEIGHT 90
 #define FALL_STEP 4
 
 
@@ -17,7 +17,7 @@ enum PlayerAnims
 };
 
 
-void Player::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram)
+void P_conillet::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram)
 {
 	double heightProp = 1.f/7.f;
 	bJumping = false;
@@ -55,7 +55,7 @@ void Player::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram)
 	
 }
 
-void Player::update(int deltaTime)
+void P_conillet::update(int deltaTime)
 {
 	sprite->update(deltaTime);
 	if(Game::instance().getSpecialKey(GLUT_KEY_LEFT)) { //Moure dreta
@@ -115,17 +115,17 @@ void Player::update(int deltaTime)
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 }
 
-void Player::render()
+void P_conillet::render()
 {
 	sprite->render();
 }
 
-void Player::setTileMap(TileMap *tileMap)
+void P_conillet::setTileMap(TileMap *tileMap)
 {
 	map = tileMap;
 }
 
-void Player::setPosition(const glm::vec2 &pos)
+void P_conillet::setPosition(const glm::vec2 &pos)
 {
 	posPlayer = pos;
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));

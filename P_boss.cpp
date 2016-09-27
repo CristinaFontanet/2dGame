@@ -18,10 +18,10 @@ enum PlayerAnims
 
 void P_boss::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram)
 {
-	double heightProp = 1.f / 7.f;
+	double heightProp = 1.f / 11.f;
 	bJumping = false;
-	spritesheet.loadFromFile("images/NPC_47duo.png", TEXTURE_PIXEL_FORMAT_RGBA);
-	sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(0.5, heightProp), &spritesheet, &shaderProgram);
+	spritesheet.loadFromFile("images/NPC_506duo.png", TEXTURE_PIXEL_FORMAT_RGBA);
+	sprite = Sprite::createSprite(glm::ivec2(64, 128), glm::vec2(0.5, heightProp), &spritesheet, &shaderProgram);
 	sprite->setNumberAnimations(7);
 
 	sprite->setAnimationSpeed(STAND_LEFT, 8);
@@ -38,6 +38,10 @@ void P_boss::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram)
 	sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f, heightProp * 4));
 	sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f, heightProp * 5));
 	sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f, heightProp * 6));
+	sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f, heightProp * 7));
+	sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f, heightProp * 8));
+	sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f, heightProp * 9));
+	sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f, heightProp * 10));
 
 	sprite->setAnimationSpeed(MOVE_RIGHT, 8);
 	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(0.5f, 0.f));
@@ -47,6 +51,10 @@ void P_boss::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram)
 	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(0.5f, heightProp * 4));
 	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(0.5f, heightProp * 5));
 	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(0.5f, heightProp * 6));
+	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(0.5f, heightProp * 7));
+	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(0.5f, heightProp * 8));
+	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(0.5f, heightProp * 9));
+	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(0.5f, heightProp * 10));
 
 	sprite->changeAnimation(0);
 	tileMapDispl = tileMapPos;

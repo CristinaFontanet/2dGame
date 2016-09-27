@@ -6,6 +6,7 @@
 #include "ShaderProgram.h"
 #include "TileMap.h"
 #include "P_conillet.h"
+#include "P_boss.h"
 
 
 // Scene contains all the entities of our game.
@@ -29,6 +30,7 @@ private:
 private:
 	TileMap *map;
 	P_conillet *player;
+	P_boss *boss;
 	ShaderProgram texProgram;
 	float currentTime;
 	glm::mat4 projection;

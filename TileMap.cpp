@@ -4,6 +4,9 @@
 #include <vector>
 #include "TileMap.h"
 
+#define TERRA 24
+#define METALL 25
+#define FUSTA 26
 
 using namespace std;
 
@@ -29,8 +32,7 @@ TileMap::~TileMap()
 }
 
 
-void TileMap::render() const
-{
+void TileMap::render() const {
 	glEnable(GL_TEXTURE_2D);
 	tilesheet.use();
 	glBindVertexArray(vao);
@@ -228,33 +230,3 @@ bool TileMap::collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, i
 	
 	return false;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

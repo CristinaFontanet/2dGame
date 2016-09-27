@@ -92,6 +92,8 @@ bool TileMap::loadLevel(const string &levelFile)
 			int f = 0;
 			fs >> f;
 			switch (f) {
+				///AQUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+				//canviar num en funcio de la pos
 				case -1:
 					map[j*mapSize.x + i] = 0;
 					break;
@@ -99,19 +101,19 @@ bool TileMap::loadLevel(const string &levelFile)
 					map[j*mapSize.x + i] = 1;
 					break;
 				case 294: 
-					map[j*mapSize.x + i] = 1;
+					map[j*mapSize.x + i] =1;
 					break;
 				case 105:
 					map[j*mapSize.x + i] = 2;
 					break;
 				case 121:
-					map[j*mapSize.x + i] = 2;
+					map[j*mapSize.x + i] = 3;
 					break;
 				case 90:
-					map[j*mapSize.x + i] = 2;
+					map[j*mapSize.x + i] = 3;
 					break;
 				case 107:
-					map[j*mapSize.x + i] = 2;
+					map[j*mapSize.x + i] = 3;
 					break;
 			}
 		}

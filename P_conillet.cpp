@@ -10,6 +10,8 @@
 #define JUMP_HEIGHT 90
 #define FALL_STEP 4
 
+#define HEIGHT 32
+#define WIDTH 32
 
 enum PlayerAnims
 {
@@ -22,7 +24,7 @@ void P_conillet::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	double heightProp = 1.f/7.f;
 	bJumping = false;
 	spritesheet.loadFromFile("images/NPC_47duo.png", TEXTURE_PIXEL_FORMAT_RGBA);
-	sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(0.5, heightProp), &spritesheet, &shaderProgram);
+	sprite = Sprite::createSprite(glm::ivec2(WIDTH, HEIGHT), glm::vec2(0.5, heightProp), &spritesheet, &shaderProgram);
 	sprite->setNumberAnimations(7);
 	
 		sprite->setAnimationSpeed(STAND_LEFT, 8);
@@ -62,7 +64,7 @@ void P_conillet::update(int deltaTime)
 		if(sprite->animation() != MOVE_LEFT)
 			sprite->changeAnimation(MOVE_LEFT);
 		posPlayer.x -= 2;
-		if(map->collisionMoveLeft(posPlayer, glm::ivec2(32, 32)))
+		if(map->collisionMoveLeft(posPlayer, glm::ivec2(WIDTH, HEIGHT)))
 		{
 			posPlayer.x += 2;
 			sprite->changeAnimation(STAND_LEFT);
@@ -72,7 +74,7 @@ void P_conillet::update(int deltaTime)
 		if(sprite->animation() != MOVE_RIGHT)
 			sprite->changeAnimation(MOVE_RIGHT);
 		posPlayer.x += 2;
-		if(map->collisionMoveRight(posPlayer, glm::ivec2(32, 32)))
+		if(map->collisionMoveRight(posPlayer, glm::ivec2(WIDTH, HEIGHT)))
 		{
 			posPlayer.x -= 2;
 			sprite->changeAnimation(STAND_RIGHT);
@@ -96,12 +98,12 @@ void P_conillet::update(int deltaTime)
 		{
 			posPlayer.y = int(startY - 96 * sin(3.14159f * jumpAngle / 180.f));
 			if(jumpAngle > 90)
-				bJumping = !map->collisionMoveDown(posPlayer, glm::ivec2(32, 32), &posPlayer.y);
+				bJumping = !map->collisionMoveDown(posPlayer, glm::ivec2(WIDTH, HEIGHT), &posPlayer.y);
 		}
 	}
 	else {
 		posPlayer.y += FALL_STEP;
-		if(map->collisionMoveDown(posPlayer, glm::ivec2(32, 32), &posPlayer.y))
+		if(map->collisionMoveDown(posPlayer, glm::ivec2(WIDTH, HEIGHT), &posPlayer.y))
 		{
 			if(Game::instance().getSpecialKey(GLUT_KEY_UP))
 			{

@@ -251,3 +251,4 @@ ModelManifest.xml
 !*.png
 !**/*.dll
 !libs/*
+!*.lib

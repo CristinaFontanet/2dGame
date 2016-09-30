@@ -20,6 +20,7 @@ Scene::Scene()
 	map = NULL;
 	player = NULL;
 	boss = NULL;
+	mainPlayer = NULL;
 }
 
 Scene::~Scene()
@@ -30,6 +31,7 @@ Scene::~Scene()
 		delete player;
 	if (boss != NULL)
 		delete boss;
+	if (mainPlayer != NULL) delete mainPlayer;
 }
 
 
@@ -48,8 +50,11 @@ void Scene::init()
 	boss->setTileMap(map);
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 
-
-	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
+	//Main Player
+	mainPlayer = new MainPlayer();
+	mainPlayer->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	mainPlayer->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
+	mainPlayer->setTileMap(map);
 
 	currentTime = 0.0f;
 }
@@ -57,8 +62,9 @@ void Scene::init()
 void Scene::update(int deltaTime)
 {
 	currentTime += deltaTime;
-	player->update(deltaTime);
-	boss->update(deltaTime);
+//	player->update(deltaTime);
+//	boss->update(deltaTime);
+	mainPlayer->update(deltaTime);
 }
 
 void Scene::render()
@@ -72,8 +78,9 @@ void Scene::render()
 	texProgram.setUniformMatrix4f("modelview", modelview);
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
 	map->render();
-	player->render();
-	boss->render();
+//	player->render();
+//	boss->render();
+	mainPlayer->render();
 }
 
 void Scene::initShaders()

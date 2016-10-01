@@ -18,27 +18,26 @@ enum PlayerMoves
 	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT, ARM1_LEFT, ARM1_RIGHT, ARM2_LEFT, ARM2_RIGHT, RIDING_LEFT, RIDING_RIGHT
 };
 
-enum PlayerState {
-	WALKING, WEAPON1, WEAPON2, BYPET
-};
+
 
 void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram)
 {
-	double heightProp = 1.f / 44.f;
-	double widhtProp = 1.f / 65.f;
+	heightProp = 1.f / 44.f;
+	widhtProp = 1.f / 65.f;
 	double yoffset = 1.f /44.f;
 	bJumping = false;
-	spritesheet.loadFromFile("images/Especials.png", TEXTURE_PIXEL_FORMAT_RGBA);
+	spritesheet.loadFromFile("images/Especials_1.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	
-	sprite = Sprite::createSprite(glm::ivec2(WIDTH, HEIGHT), glm::vec2(widhtProp*2.5, heightProp*3), &spritesheet, &shaderProgram);
-	sprite->setNumberAnimations(14);
+	sprite = Sprite::createSprite(glm::ivec2(WIDTH, HEIGHT), glm::vec2(widhtProp*2.1, heightProp*3), &spritesheet, &shaderProgram);
+
+	sprite->setNumberAnimations(18);
 	//sprite->setScale(2.f, 2.f);
 	//caminar
 	sprite->setAnimationSpeed(STAND_LEFT, ANIMATION_SPEED);
-	sprite->addKeyframe(STAND_LEFT, glm::vec2(widhtProp, 0.f));
+	sprite->addKeyframe(STAND_LEFT, glm::vec2(0.f, 0.f));
 
 	sprite->setAnimationSpeed(STAND_RIGHT, ANIMATION_SPEED);
-	sprite->addKeyframe(STAND_RIGHT, glm::vec2(12*widhtProp,6*yoffset));
+	sprite->addKeyframe(STAND_RIGHT, glm::vec2(0.f, 7 * heightProp));
 
 	sprite->setAnimationSpeed(MOVE_LEFT, ANIMATION_SPEED);
 	sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f, 0.f));
@@ -49,12 +48,19 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f, 0.f));
 
 	sprite->setAnimationSpeed(MOVE_RIGHT, ANIMATION_SPEED);
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(112.f, 0.f));
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(112.f, 0.f));
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(112.f, 0.f));
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(112.f, 0.f));
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(112.f, 0.f));
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(112.f, 0.f));
+	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(0.f, 3 * heightProp));	//Corrent
+	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(0.f, 3 * heightProp));
+	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(0.f, 3 * heightProp));
+	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(0.f, 3 * heightProp));
+	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(0.f, 3 * heightProp));
+	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(0.f, 3 * heightProp));
+
+	//ARMS
+	sprite->addKeyframe(ARM1_LEFT, glm::vec2(0.f, 7 * heightProp));
+	sprite->addKeyframe(ARM1_LEFT, glm::vec2(0.f, 7 * heightProp));
+	sprite->addKeyframe(ARM1_LEFT, glm::vec2(0.f, 7 * heightProp));
+	sprite->addKeyframe(ARM1_LEFT, glm::vec2(0.f, 7 * heightProp));
+	
 
 	sprite->changeAnimation(0);
 	tileMapDispl = tileMapPos;
@@ -78,19 +84,23 @@ void MainPlayer::update(int deltaTime) {
 		if (sprite->animation() != MOVE_RIGHT)
 			sprite->changeAnimation(MOVE_RIGHT);
 		posPlayer.x += 2;
-		if (map->collisionMoveRight(posPlayer, glm::ivec2(WIDTH, HEIGHT)))
+		if (map->collisionMoveRight(posPlayer, glm::ivec2(WIDTH, HEIGHT)))	//si hi ha colisio, ens parem
 		{
 			posPlayer.x -= 2;
+			sprite->setSize(glm::vec2(widhtProp*3, heightProp * 3));
 			sprite->changeAnimation(STAND_RIGHT);
 		}
 	}
-	else {
-		if (sprite->animation() == MOVE_LEFT)
-			sprite->changeAnimation(STAND_LEFT);
-		else if (sprite->animation() == MOVE_RIGHT)
+	else {	//aturat
+		if (sprite->animation() == MOVE_LEFT) spriteStandLeft();
+		else if (sprite->animation() == MOVE_RIGHT) {
+
+			sprite->setSize(glm::vec2(widhtProp * 3, heightProp * 3));
 			sprite->changeAnimation(STAND_RIGHT);
+		}
 	}
 
+	//POSICIO
 	if (bJumping) {
 		jumpAngle += JUMP_ANGLE_STEP;
 		if (jumpAngle == 180)
@@ -120,6 +130,23 @@ void MainPlayer::update(int deltaTime) {
 
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 }
+
+void MainPlayer::spriteStandLeft() {
+	switch (playerState) {
+	case WALKING:
+		sprite->changeAnimation(STAND_LEFT);
+		break;
+	case WEAPON1:
+		sprite->changeAnimation(ARM1_LEFT);
+		break;
+	default:
+		break;
+	}
+}
+void MainPlayer::setPlayerState(int state) {
+	playerState = state;
+}
+
 
 void MainPlayer::render()
 {

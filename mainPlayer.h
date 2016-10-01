@@ -13,8 +13,15 @@ public:
 
 	void setTileMap(TileMap *tileMap);
 	void setPosition(const glm::vec2 &pos);
+	void setPlayerState(int state);
+
+	enum playerState {
+		WALKING, WEAPON1, WEAPON2, BYPET
+	};
 
 private:
+	void spriteStandLeft();
+
 	bool bJumping;
 	glm::ivec2 tileMapDispl, posPlayer;
 	int jumpAngle, startY;
@@ -22,6 +29,9 @@ private:
 	Sprite *sprite;
 	TileMap *map;
 	int playerState;
+
+	double heightProp;
+	double widhtProp;
 
 };
 

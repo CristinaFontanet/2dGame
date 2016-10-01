@@ -21,6 +21,7 @@ public:
 
 private:
 	void spriteStandLeft();
+	void spriteDig();
 
 	bool bJumping;
 	glm::ivec2 tileMapDispl, posPlayer;
@@ -32,6 +33,11 @@ private:
 
 	double heightProp;
 	double widhtProp;
+
+	int spriteSize;
+	enum SpriteSizes {
+		WALKINGSIZE,DIGSIZE
+	};
 
 };
 

@@ -40,9 +40,9 @@ enum SpriteMoves {
 */
 void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram)
 {
-	heightProp = 1.f / 44.f;
-	widhtProp = 1.f / 65.f;
-	double yoffset = 1.f /44.f;
+	heightProp = 1.f / 31.f;
+	widhtProp = 1.f / 47.f;
+	double yoffset = 1.f /32.f;
 	bJumping = false;
 	spritesheet.loadFromFile("images/Especials_1.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	
@@ -89,7 +89,7 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	sprite->addKeyframe(ARM1_LEFT, glm::vec2(widhtProp * 3 * 8, height));
 	sprite->addKeyframe(ARM1_LEFT, glm::vec2(widhtProp * 3 * 9, height));
 	sprite->addKeyframe(ARM1_LEFT, glm::vec2(widhtProp * 3 * 10, height));
-	height = 11 * heightProp + 0.5*heightProp;
+	height = 10 * heightProp + 0.5*heightProp;
 	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(0.f, height));
 	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widhtProp * 3, height));
 	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widhtProp * 3 * 2, height));

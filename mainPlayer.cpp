@@ -5,7 +5,7 @@
 #include "MainPlayer.h"
 #include "Game.h"
 
-#define JUMP_ANGLE_STEP 5
+#define JUMP_ANGLE_STEP 4
 #define JUMP_HEIGHT 90
 #define FALL_STEP 4
 #define HEIGHT 32
@@ -24,34 +24,37 @@ enum PlayerState {
 
 void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram)
 {
-	double heightProp = 1.f / 8.f;
-	double widhtProp = 1.f / 12.f;
+	double heightProp = 1.f / 44.f;
+	double widhtProp = 1.f / 65.f;
+	double yoffset = 1.f /44.f;
 	bJumping = false;
 	spritesheet.loadFromFile("images/Especials.png", TEXTURE_PIXEL_FORMAT_RGBA);
-	sprite = Sprite::createSprite(glm::ivec2(WIDTH, HEIGHT), glm::vec2(widhtProp, heightProp), &spritesheet, &shaderProgram);
+	
+	sprite = Sprite::createSprite(glm::ivec2(WIDTH, HEIGHT), glm::vec2(widhtProp*2.5, heightProp*3), &spritesheet, &shaderProgram);
 	sprite->setNumberAnimations(14);
+	//sprite->setScale(2.f, 2.f);
 	//caminar
 	sprite->setAnimationSpeed(STAND_LEFT, ANIMATION_SPEED);
-	sprite->addKeyframe(STAND_LEFT, glm::vec2(0.f, 0.f));
+	sprite->addKeyframe(STAND_LEFT, glm::vec2(widhtProp, 0.f));
 
 	sprite->setAnimationSpeed(STAND_RIGHT, ANIMATION_SPEED);
-	sprite->addKeyframe(STAND_RIGHT, glm::vec2(heightProp, 0.f));
+	sprite->addKeyframe(STAND_RIGHT, glm::vec2(12*widhtProp,6*yoffset));
 
 	sprite->setAnimationSpeed(MOVE_LEFT, ANIMATION_SPEED);
 	sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f, 0.f));
-	sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f, widhtProp));
-	sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f, widhtProp * 2));
-	sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f, widhtProp * 3));
-	sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f, widhtProp * 4));
-	sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f, widhtProp * 5));
+	sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f, 0.f));
+	sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f, 0.f));
+	sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f, 0.f));
+	sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f, 0.f));
+	sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f, 0.f));
 
 	sprite->setAnimationSpeed(MOVE_RIGHT, ANIMATION_SPEED);
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(heightProp, 0.f));
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(heightProp, widhtProp));
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(heightProp, widhtProp * 2));
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(heightProp, widhtProp * 3));
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(heightProp, widhtProp * 4));
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(heightProp, widhtProp * 5));
+	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(112.f, 0.f));
+	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(112.f, 0.f));
+	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(112.f, 0.f));
+	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(112.f, 0.f));
+	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(112.f, 0.f));
+	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(112.f, 0.f));
 
 	sprite->changeAnimation(0);
 	tileMapDispl = tileMapPos;

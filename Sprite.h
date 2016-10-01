@@ -27,6 +27,7 @@ public:
 	void free();
 
 	void setNumberAnimations(int nAnimations);
+	void setScale(int scaleX, int scaleY);
 	void setAnimationSpeed(int animId, int keyframesPerSec);
 	void addKeyframe(int animId, const glm::vec2 &frame);
 	void changeAnimation(int animId);
@@ -42,6 +43,7 @@ private:
 	GLint posLocation, texCoordLocation;
 	glm::vec2 position;
 	int currentAnimation, currentKeyframe;
+	glm::vec3 scale;
 	float timeAnimation;
 	glm::vec2 texCoordDispl;
 	vector<AnimKeyframes> animations;

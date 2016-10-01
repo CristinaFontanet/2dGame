@@ -14,6 +14,7 @@ Sprite *Sprite::createSprite(const glm::vec2 &quadSize, const glm::vec2 &sizeInS
 
 Sprite::Sprite(const glm::vec2 &quadSize, const glm::vec2 &sizeInSpritesheet, Texture *spritesheet, ShaderProgram *program)
 {
+	scale = glm::vec3(1.f, 1.f, 1.f);
 	float vertices[24] = {0.f, 0.f, 0.f, 0.f, 
 												quadSize.x, 0.f, sizeInSpritesheet.x, 0.f, 
 												quadSize.x, quadSize.y, sizeInSpritesheet.x, sizeInSpritesheet.y, 
@@ -50,7 +51,9 @@ void Sprite::update(int deltaTime)
 
 void Sprite::render() const
 {
+
 	glm::mat4 modelview = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.f));
+	modelview = glm::scale(modelview, scale);
 	shaderProgram->setUniformMatrix4f("modelview", modelview);
 	shaderProgram->setUniform2f("texCoordDispl", texCoordDispl.x, texCoordDispl.y);
 	glEnable(GL_TEXTURE_2D);
@@ -71,6 +74,11 @@ void Sprite::setNumberAnimations(int nAnimations)
 {
 	animations.clear();
 	animations.resize(nAnimations);
+}
+
+void Sprite::setScale(int scaleX, int scaleY)
+{
+	scale = glm::vec3(scaleX,scaleY, 1.f);
 }
 
 void Sprite::setAnimationSpeed(int animId, int keyframesPerSec)

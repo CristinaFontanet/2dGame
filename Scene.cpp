@@ -5,8 +5,8 @@
 #include "Game.h"
 
 
-#define SCREEN_X 32
-#define SCREEN_Y 16
+#define SCREEN_X 0
+#define SCREEN_Y 0
 
 #define INIT_PLAYER_X_TILES 4
 #define INIT_PLAYER_Y_TILES 10
@@ -38,7 +38,7 @@ Scene::~Scene()
 void Scene::init()
 {
 	initShaders();
-	map = TileMap::createTileMap("levels/levelTerraria.txt", glm::vec2(0, 0), texProgram);
+	map = TileMap::createTileMap("levels/levelTerraria.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
 	player = new P_conillet();
 	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
@@ -62,7 +62,7 @@ void Scene::init()
 void Scene::update(int deltaTime)
 {
 	currentTime += deltaTime;
-//	player->update(deltaTime);
+	player->update(deltaTime);
 //	boss->update(deltaTime);
 	mainPlayer->update(deltaTime);
 }

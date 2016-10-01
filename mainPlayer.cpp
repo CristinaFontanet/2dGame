@@ -48,7 +48,7 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	
 	sprite = Sprite::createSprite(glm::ivec2(WIDTH, HEIGHT), glm::vec2(widhtProp*2.1, heightProp*3), &spritesheet, &shaderProgram);
 //	spriteSize = WALKINGSIZE;
-	sprite->setNumberAnimations(40);
+	sprite->setNumberAnimations(36);
 	//sprite->setScale(2.f, 2.f);
 	//caminar
 	sprite->setAnimationSpeed(STAND_LEFT, ANIMATION_SPEED);
@@ -76,7 +76,8 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 
 
 	//WEAPON1 (11*2)
-	int height = 6 * heightProp + 0.5*heightProp;
+	float height = 6 * heightProp + 0.5*heightProp;
+	//float height = 6 * heightProp;
 	sprite->addKeyframe(ARM1_LEFT, glm::vec2(0.f, height));
 	sprite->addKeyframe(ARM1_LEFT, glm::vec2(widhtProp * 3, height));
 	sprite->addKeyframe(ARM1_LEFT, glm::vec2(widhtProp * 3 * 2, height));
@@ -108,32 +109,6 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 }
 
 void MainPlayer::update(int deltaTime) {
-	sprite->update(deltaTime);
-	if (Game::instance().getSpecialKey(GLUT_KEY_LEFT)) { //Moure dreta
-		if (sprite->animation() != MOVE_LEFT) sprite->changeAnimation(MOVE_LEFT);
-		posPlayer.x -= 2;
-		if (map->collisionMoveLeft(posPlayer, glm::ivec2(WIDTH, HEIGHT))) {
-			posPlayer.x += 2;
-			sprite->changeAnimation(STAND_LEFT);
-		}
-	}
-	else if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT)) { //Moure esquerre
-		if (sprite->animation() != MOVE_RIGHT) sprite->changeAnimation(MOVE_RIGHT);
-		posPlayer.x += 2;
-		if (map->collisionMoveRight(posPlayer, glm::ivec2(WIDTH, HEIGHT))) { 	//si hi ha colisio, ens parem
-			posPlayer.x -= 2;
-			sprite->changeAnimation(STAND_RIGHT);
-		}
-	}
-	else if (Game::instance().getKey('c') ){
-		spriteDig();
-	}
-	else {	//aturat
-		if (sprite->animation() == MOVE_LEFT) spriteStandLeft();
-		else if (sprite->animation() == MOVE_RIGHT) {
-			sprite->changeAnimation(STAND_RIGHT);
-		}
-	}
 
 	//POSICIO
 	if (bJumping) {
@@ -163,6 +138,36 @@ void MainPlayer::update(int deltaTime) {
 		}
 	}
 
+	sprite->update(deltaTime);
+	//SPRITE
+	if (Game::instance().getSpecialKey(GLUT_KEY_LEFT)) { //Moure dreta
+		if (sprite->animation() != MOVE_LEFT) sprite->changeAnimation(MOVE_LEFT);
+		posPlayer.x -= 2;
+		if (map->collisionMoveLeft(posPlayer, glm::ivec2(WIDTH, HEIGHT))) {
+			posPlayer.x += 2;
+			sprite->changeAnimation(STAND_LEFT);
+		}
+	}
+	else if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT)) { //Moure esquerre
+		if (sprite->animation() != MOVE_RIGHT) sprite->changeAnimation(MOVE_RIGHT);
+		posPlayer.x += 2;
+		if (map->collisionMoveRight(posPlayer, glm::ivec2(WIDTH, HEIGHT))) { 	//si hi ha colisio, ens parem
+			posPlayer.x -= 2;
+			sprite->changeAnimation(STAND_RIGHT);
+		}
+	}
+	else if (Game::instance().getKey('c') ){
+		spriteDig();
+	}
+	else {	//aturat
+		if (sprite->animation() == MOVE_RIGHT) {
+			sprite->changeAnimation(STAND_RIGHT);
+		}
+		else if(sprite->animation() != STAND_RIGHT) spriteStandLeft();
+	}
+
+	
+
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 }
 
@@ -172,21 +177,14 @@ void MainPlayer::spriteDig() {
 	}
 	else {
 		playerState = DIG;
-		sprite->setSize(glm::vec2(widhtProp * 3, heightProp * 3));
+		sprite->setSize(glm::vec2(widhtProp * 3, heightProp * 3.5));
 		sprite->changeAnimation(ARM1_LEFT);
 	}
 }
 void MainPlayer::spriteStandLeft() {
-	switch (playerState) {
-	case WALKING:
+	
 		sprite->changeAnimation(STAND_LEFT);
-		break;
-	case WEAPON1:
-		sprite->changeAnimation(ARM1_LEFT);
-		break;
-	default:
-		break;
-	}
+
 }
 void MainPlayer::setPlayerState(int state) {
 	playerState = state;

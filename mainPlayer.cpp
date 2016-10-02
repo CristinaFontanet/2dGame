@@ -8,8 +8,8 @@
 #define JUMP_ANGLE_STEP 4
 #define JUMP_HEIGHT 90
 #define FALL_STEP 4
-#define HEIGHT 32
-#define WIDTH 32
+#define HEIGHT 64
+#define WIDTH 64
 #define ANIMATION_SPEED 8
 
 

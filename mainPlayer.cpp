@@ -55,7 +55,7 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	sprite->addKeyframe(STAND_LEFT, glm::vec2(0.f, 0.f));
 
 	sprite->setAnimationSpeed(STAND_RIGHT, ANIMATION_SPEED);
-	sprite->addKeyframe(STAND_RIGHT, glm::vec2(0.f, 3 * heightProp));
+	sprite->addKeyframe(STAND_RIGHT, glm::vec2(widhtProp * 3 * 5, 3 * heightProp));
 
 	sprite->setAnimationSpeed(MOVE_LEFT, ANIMATION_SPEED);
 	sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f, 0.f));    

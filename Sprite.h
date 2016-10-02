@@ -34,8 +34,10 @@ public:
 	int animation() const;
 	
 	void setPosition(const glm::vec2 &pos);
+	void setSize(glm::vec2 &newSizeInSpritesheet);
 
 private:
+	glm::vec2 quadSize2;
 	Texture *texture;
 	ShaderProgram *shaderProgram;
 	GLuint vao;

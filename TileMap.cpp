@@ -7,9 +7,7 @@
 #define TERRA 24
 #define METALL 25
 #define FUSTA 26
-
 using namespace std;
-
 
 TileMap *TileMap::createTileMap(const string &levelFile, const glm::vec2 &minCoords, ShaderProgram &program)
 {
@@ -17,7 +15,6 @@ TileMap *TileMap::createTileMap(const string &levelFile, const glm::vec2 &minCoo
 	
 	return map;
 }
-
 
 TileMap::TileMap(const string &levelFile, const glm::vec2 &minCoords, ShaderProgram &program)
 {

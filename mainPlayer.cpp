@@ -14,20 +14,6 @@
 #define WALKINGSIZEVEC  glm::vec2(widhtProp*2.1, heightProp*3)
 #define DIGSIZEVEC glm::vec2(widhtProp * 3, heightProp * 3.5)
 
-/*
-//OPC1 -> es bloqueja
-enum PlayerMoves
-{
-	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT, ARM1_LEFT, ARM1_RIGHT, ARM2_LEFT, ARM2_RIGHT, RIDING_LEFT, RIDING_RIGHT
-};
-*/
-/*
-//OPC2 -> no para quiet
-
-enum PlayerMoves {
-	LEFT, RIGHT, MOVE_LEFT, MOVE_RIGHT, DIG
-};
-*/
 enum SpriteSizes {
 	WALKINGSIZE, DIGSIZE
 };
@@ -178,12 +164,14 @@ void MainPlayer::checkWalkingSize() {
 
 void MainPlayer::spriteDig() {
 	if (spriteSize == DIGSIZE) {
-		sprite->changeAnimation(ARM1_LEFT);
+		if (bLeft) sprite->changeAnimation(ARM1_LEFT);
+		else sprite->changeAnimation(ARM1_RIGHT);
 	}
 	else {
 		spriteSize = DIGSIZE;
 		sprite->setSize(DIGSIZEVEC);
-		sprite->changeAnimation(ARM1_LEFT);
+		if(bLeft) sprite->changeAnimation(ARM1_LEFT);
+		else sprite->changeAnimation(ARM1_RIGHT);
 	}
 }
 void MainPlayer::spriteStandLeft() {

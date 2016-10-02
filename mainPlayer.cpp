@@ -12,7 +12,7 @@
 #define WIDTH 64
 #define ANIMATION_SPEED 8
 #define WALKINGSIZEVEC  glm::vec2(widhtProp*2.1, heightProp*3)
-#define DIGSIZEVEC glm::vec2(widhtProp * 3, heightProp * 3.5)
+#define DIGSIZEVEC glm::vec2(widhtProp * 3 + widhtProp * 0.8, heightProp * 3 + 0.5 * heightProp)
 
 enum SpriteSizes {
 	WALKINGSIZE, DIGSIZE
@@ -29,7 +29,7 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	bLeft = true;
 	spritesheet.loadFromFile("images/Especials_1.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	
-	sprite = Sprite::createSprite(glm::ivec2(WIDTH, HEIGHT), glm::vec2(widhtProp*2.1, heightProp*3), &spritesheet, &shaderProgram);
+	sprite = Sprite::createSprite(glm::ivec2(WIDTH, HEIGHT), WALKINGSIZEVEC, &spritesheet, &shaderProgram);
 	spriteSize = WALKINGSIZE;
 	sprite->setNumberAnimations(6);
 
@@ -57,7 +57,7 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(widhtProp * 3 * 5, 3 * heightProp));
 
 	//WEAPON1 (11*2)
-	double height = 6 * heightProp + 0.7*heightProp;
+	double height = 6 * heightProp + 0.5 * heightProp;
 	sprite->setAnimationSpeed(ARM1_LEFT, ANIMATION_SPEED);
 	sprite->addKeyframe(ARM1_LEFT, glm::vec2(0.f, height));
 	sprite->addKeyframe(ARM1_LEFT, glm::vec2(widhtProp * 3, height));

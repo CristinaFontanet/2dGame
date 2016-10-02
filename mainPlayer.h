@@ -22,8 +22,10 @@ public:
 private:
 	void spriteStandLeft();
 	void spriteDig();
+	void checkWalkingSize();
 
 	bool bJumping;
+	bool bLeft;
 	glm::ivec2 tileMapDispl, posPlayer;
 	int jumpAngle, startY;
 	Texture spritesheet;

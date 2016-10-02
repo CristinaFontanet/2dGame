@@ -11,15 +11,9 @@
 #define HEIGHT 64
 #define WIDTH 64
 #define ANIMATION_SPEED 8
+#define WALKINGSIZEVEC  glm::vec2(widhtProp*2.1, heightProp*3)
+#define DIGSIZEVEC glm::vec2(widhtProp * 3, heightProp * 3.5)
 
-
-#define STAND_LEFT 0
-#define STAND_RIGHT 1
-#define MOVE_LEFT 2
-#define MOVE_RIGHT 3
-#define ARM1_LEFT 4
-#define ARM1_RIGHT 5
-#define DIG 6
 /*
 //OPC1 -> es bloqueja
 enum PlayerMoves
@@ -33,22 +27,26 @@ enum PlayerMoves
 enum PlayerMoves {
 	LEFT, RIGHT, MOVE_LEFT, MOVE_RIGHT, DIG
 };
-
-enum SpriteMoves {
-	ARM1_LEFT, ARM1_RIGHT, ARM2_LEFT, ARM2_RIGHT, RIDING_LEFT, RIDING_RIGHT
-};
 */
+enum SpriteSizes {
+	WALKINGSIZE, DIGSIZE
+};
+enum SpriteMoves {
+	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT, ARM1_LEFT, ARM1_RIGHT
+};
+
 void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram) {
 	heightProp = 1.f / 31.f;
 	widhtProp = 1.f / 47.f;
 	double yoffset = 1.f /32.f;
 	bJumping = false;
+	bLeft = true;
 	spritesheet.loadFromFile("images/Especials_1.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	
 	sprite = Sprite::createSprite(glm::ivec2(WIDTH, HEIGHT), glm::vec2(widhtProp*2.1, heightProp*3), &spritesheet, &shaderProgram);
-//	spriteSize = WALKINGSIZE;
+	spriteSize = WALKINGSIZE;
 	sprite->setNumberAnimations(6);
-	//sprite->setScale(2.f, 2.f);
+
 	//caminar
 	sprite->setAnimationSpeed(STAND_LEFT, ANIMATION_SPEED);
 	sprite->addKeyframe(STAND_LEFT, glm::vec2(0.f, 0.f));
@@ -112,7 +110,8 @@ void MainPlayer::update(int deltaTime) {
 	sprite->update(deltaTime);
 	//SPRITE
 	if (Game::instance().getSpecialKey(GLUT_KEY_LEFT)) { //Moure dreta
-		playerState = MOVE_LEFT;
+		checkWalkingSize();
+		bLeft = true;
 		if (sprite->animation() != MOVE_LEFT) sprite->changeAnimation(MOVE_LEFT);
 		posPlayer.x -= 2;
 		if (map->collisionMoveLeft(posPlayer, glm::ivec2(WIDTH, HEIGHT))) {
@@ -121,7 +120,8 @@ void MainPlayer::update(int deltaTime) {
 		}
 	}
 	else if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT)) { //Moure esquerre
-		playerState = MOVE_LEFT;
+		checkWalkingSize();
+		bLeft = false;
 		if (sprite->animation() != MOVE_RIGHT) sprite->changeAnimation(MOVE_RIGHT);
 		posPlayer.x += 2;
 		if (map->collisionMoveRight(posPlayer, glm::ivec2(WIDTH, HEIGHT))) { 	//si hi ha colisio, ens parem
@@ -133,7 +133,7 @@ void MainPlayer::update(int deltaTime) {
 		spriteDig();
 	}
 	else {	//aturat
-		playerState = MOVE_LEFT;
+		checkWalkingSize();
 		if (sprite->animation() == MOVE_RIGHT) {
 			sprite->changeAnimation(STAND_RIGHT);
 		}
@@ -169,26 +169,29 @@ void MainPlayer::update(int deltaTime) {
 	}
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 }
+void MainPlayer::checkWalkingSize() {
+	if (spriteSize != WALKING) {
+		spriteSize = WALKING;
+		sprite->setSize(WALKINGSIZEVEC);
+	}
+}
 
 void MainPlayer::spriteDig() {
-	if (playerState == DIG) {
+	if (spriteSize == DIGSIZE) {
 		sprite->changeAnimation(ARM1_LEFT);
 	}
 	else {
-		playerState = DIG;
-		sprite->setSize(glm::vec2(widhtProp * 3, heightProp * 3.5));
+		spriteSize = DIGSIZE;
+		sprite->setSize(DIGSIZEVEC);
 		sprite->changeAnimation(ARM1_LEFT);
 	}
 }
 void MainPlayer::spriteStandLeft() {
-	
 		sprite->changeAnimation(STAND_LEFT);
-
 }
 void MainPlayer::setPlayerState(int state) {
 	playerState = state;
 }
-
 
 void MainPlayer::render()
 {

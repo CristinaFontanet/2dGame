@@ -31,7 +31,7 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	
 	sprite = Sprite::createSprite(glm::ivec2(WIDTH, HEIGHT), WALKINGSIZEVEC, &spritesheet, &shaderProgram);
 	spriteSize = WALKINGSIZE;
-	sprite->setNumberAnimations(6);
+	sprite->setNumberAnimations(8);
 
 	//caminar
 	sprite->setAnimationSpeed(STAND_LEFT, ANIMATION_SPEED);
@@ -85,10 +85,8 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widhtProp * 3 * 9, height));
 	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widhtProp * 3 * 10, height));
 
-	sprite->changeAnimation(STAND_LEFT);
 	tileMapDispl = tileMapPos;
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
-	playerState = WALKING;
 }
 
 void MainPlayer::update(int deltaTime) {
@@ -126,7 +124,7 @@ void MainPlayer::update(int deltaTime) {
 		else if(sprite->animation() != STAND_RIGHT) spriteStandLeft();
 	}
 
-	//POSICIO
+	//POSICIO Y
 	if (bJumping) {
 		jumpAngle += JUMP_ANGLE_STEP;
 		if (jumpAngle == 180)
@@ -156,8 +154,8 @@ void MainPlayer::update(int deltaTime) {
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 }
 void MainPlayer::checkWalkingSize() {
-	if (spriteSize != WALKING) {
-		spriteSize = WALKING;
+	if (spriteSize != WALKINGSIZE) {
+		spriteSize = WALKINGSIZE;
 		sprite->setSize(WALKINGSIZEVEC);
 	}
 }
@@ -176,9 +174,6 @@ void MainPlayer::spriteDig() {
 }
 void MainPlayer::spriteStandLeft() {
 		sprite->changeAnimation(STAND_LEFT);
-}
-void MainPlayer::setPlayerState(int state) {
-	playerState = state;
 }
 
 void MainPlayer::render()

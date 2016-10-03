@@ -34,6 +34,7 @@ private:
 	P_boss *boss;
 	ShaderProgram texProgram;
 	float currentTime;
+	glm::vec3 playerPos;
 	glm::mat4 projection;
 
 };

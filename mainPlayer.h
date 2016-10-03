@@ -13,6 +13,7 @@ public:
 
 	void setTileMap(TileMap *tileMap);
 	void setPosition(const glm::vec2 &pos);
+	glm::vec3 getPlayerPosition();
 	void setPlayerState(int state);
 
 	enum playerState {

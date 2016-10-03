@@ -166,8 +166,8 @@ void MainPlayer::update(int deltaTime) {
 		}
 	}
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
+	
 }
-
 void MainPlayer::spriteDig() {
 	if (playerState == DIG) {
 		sprite->changeAnimation(ARM1_LEFT);
@@ -187,7 +187,6 @@ void MainPlayer::setPlayerState(int state) {
 	playerState = state;
 }
 
-
 void MainPlayer::render()
 {
 	sprite->render();
@@ -202,6 +201,10 @@ void MainPlayer::setPosition(const glm::vec2 &pos)
 {
 	posPlayer = pos;
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
+}
+
+glm::vec3 MainPlayer::getPlayerPosition() {
+	return glm::vec3(posPlayer.x, posPlayer.y, 0.f);
 }
 
 

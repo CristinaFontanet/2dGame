@@ -243,6 +243,7 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+*.exe
 *.lastbuildstate
 *.tlog
 *.idb

@@ -20,17 +20,19 @@ public:
 		WALKING, WEAPON1, WEAPON2, BYPET
 	};
 
+
 private:
 	void spriteStandLeft();
 	void spriteDig();
+	void checkWalkingSize();
 
 	bool bJumping;
+	bool bLeft;
 	glm::ivec2 tileMapDispl, posPlayer;
 	int jumpAngle, startY;
 	Texture spritesheet;
 	Sprite *sprite;
 	TileMap *map;
-	int playerState;
 
 	double heightProp;
 	double widhtProp;

@@ -11,45 +11,28 @@
 #define HEIGHT 64
 #define WIDTH 64
 #define ANIMATION_SPEED 8
+#define WALKINGSIZEVEC  glm::vec2(widhtProp*2.1, heightProp*3)
+#define DIGSIZEVEC glm::vec2(widhtProp * 3 + widhtProp * 0.8, heightProp * 3 + 0.5 * heightProp)
 
-
-#define STAND_LEFT 20
-#define STAND_RIGHT 21
-#define MOVE_LEFT 22
-#define MOVE_RIGHT 23
-#define ARM1_LEFT 24
-#define ARM1_RIGHT 25
-#define DIG 26
-/*
-//OPC1 -> es bloqueja
-enum PlayerMoves
-{
-	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT, ARM1_LEFT, ARM1_RIGHT, ARM2_LEFT, ARM2_RIGHT, RIDING_LEFT, RIDING_RIGHT
+enum SpriteSizes {
+	WALKINGSIZE, DIGSIZE
 };
-*/
-/*
-//OPC2 -> no para quiet
-
-enum PlayerMoves {
-	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT, DIG
-};
-
 enum SpriteMoves {
-	ARM1_LEFT, ARM1_RIGHT, ARM2_LEFT, ARM2_RIGHT, RIDING_LEFT, RIDING_RIGHT
+	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT, ARM1_LEFT, ARM1_RIGHT
 };
-*/
-void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram)
-{
+
+void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram) {
 	heightProp = 1.f / 31.f;
 	widhtProp = 1.f / 47.f;
 	double yoffset = 1.f /32.f;
 	bJumping = false;
+	bLeft = true;
 	spritesheet.loadFromFile("images/Especials_1.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	
-	sprite = Sprite::createSprite(glm::ivec2(WIDTH, HEIGHT), glm::vec2(widhtProp*2.1, heightProp*3), &spritesheet, &shaderProgram);
-//	spriteSize = WALKINGSIZE;
-	sprite->setNumberAnimations(36);
-	//sprite->setScale(2.f, 2.f);
+	sprite = Sprite::createSprite(glm::ivec2(WIDTH, HEIGHT), WALKINGSIZEVEC, &spritesheet, &shaderProgram);
+	spriteSize = WALKINGSIZE;
+	sprite->setNumberAnimations(8);
+
 	//caminar
 	sprite->setAnimationSpeed(STAND_LEFT, ANIMATION_SPEED);
 	sprite->addKeyframe(STAND_LEFT, glm::vec2(0.f, 0.f));
@@ -65,7 +48,6 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	sprite->addKeyframe(MOVE_LEFT, glm::vec2(widhtProp * 3 * 4, 0.f));
 	sprite->addKeyframe(MOVE_LEFT, glm::vec2(widhtProp * 3 * 5, 0.f));
 
-
 	sprite->setAnimationSpeed(MOVE_RIGHT, ANIMATION_SPEED);
 	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(0.f, 3 * heightProp));	//Corrent    
 	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(widhtProp * 3 , 3 * heightProp));
@@ -74,10 +56,9 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(widhtProp * 3 * 4, 3 * heightProp));
 	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(widhtProp * 3 * 5, 3 * heightProp));
 
-
 	//WEAPON1 (11*2)
-	float height = 6 * heightProp + 0.5*heightProp;
-	//float height = 6 * heightProp;
+	double height = 6 * heightProp + 0.5 * heightProp;
+	sprite->setAnimationSpeed(ARM1_LEFT, ANIMATION_SPEED);
 	sprite->addKeyframe(ARM1_LEFT, glm::vec2(0.f, height));
 	sprite->addKeyframe(ARM1_LEFT, glm::vec2(widhtProp * 3, height));
 	sprite->addKeyframe(ARM1_LEFT, glm::vec2(widhtProp * 3 * 2, height));
@@ -89,7 +70,9 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	sprite->addKeyframe(ARM1_LEFT, glm::vec2(widhtProp * 3 * 8, height));
 	sprite->addKeyframe(ARM1_LEFT, glm::vec2(widhtProp * 3 * 9, height));
 	sprite->addKeyframe(ARM1_LEFT, glm::vec2(widhtProp * 3 * 10, height));
+
 	height = 10 * heightProp + 0.5*heightProp;
+	sprite->setAnimationSpeed(ARM1_RIGHT, ANIMATION_SPEED);
 	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(0.f, height));
 	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widhtProp * 3, height));
 	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widhtProp * 3 * 2, height));
@@ -102,10 +85,8 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widhtProp * 3 * 9, height));
 	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widhtProp * 3 * 10, height));
 
-	sprite->changeAnimation(STAND_LEFT);
 	tileMapDispl = tileMapPos;
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
-	playerState = WALKING;
 }
 
 void MainPlayer::update(int deltaTime) {
@@ -113,6 +94,8 @@ void MainPlayer::update(int deltaTime) {
 	sprite->update(deltaTime);
 	//SPRITE
 	if (Game::instance().getSpecialKey(GLUT_KEY_LEFT)) { //Moure dreta
+		checkWalkingSize();
+		bLeft = true;
 		if (sprite->animation() != MOVE_LEFT) sprite->changeAnimation(MOVE_LEFT);
 		posPlayer.x -= 2;
 		if (map->collisionMoveLeft(posPlayer, glm::ivec2(WIDTH, HEIGHT))) {
@@ -121,6 +104,8 @@ void MainPlayer::update(int deltaTime) {
 		}
 	}
 	else if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT)) { //Moure esquerre
+		checkWalkingSize();
+		bLeft = false;
 		if (sprite->animation() != MOVE_RIGHT) sprite->changeAnimation(MOVE_RIGHT);
 		posPlayer.x += 2;
 		if (map->collisionMoveRight(posPlayer, glm::ivec2(WIDTH, HEIGHT))) { 	//si hi ha colisio, ens parem
@@ -132,13 +117,14 @@ void MainPlayer::update(int deltaTime) {
 		spriteDig();
 	}
 	else {	//aturat
+		checkWalkingSize();
 		if (sprite->animation() == MOVE_RIGHT) {
 			sprite->changeAnimation(STAND_RIGHT);
 		}
 		else if(sprite->animation() != STAND_RIGHT) spriteStandLeft();
 	}
 
-	//POSICIO
+	//POSICIO Y
 	if (bJumping) {
 		jumpAngle += JUMP_ANGLE_STEP;
 		if (jumpAngle == 180)
@@ -168,24 +154,30 @@ void MainPlayer::update(int deltaTime) {
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 	
 }
+
+void MainPlayer::checkWalkingSize() {
+	if (spriteSize != WALKINGSIZE) {
+		spriteSize = WALKINGSIZE;
+		sprite->setSize(WALKINGSIZEVEC);
+	}
+}
+
 void MainPlayer::spriteDig() {
-	if (playerState == DIG) {
-		sprite->changeAnimation(ARM1_LEFT);
+	if (spriteSize == DIGSIZE) {
+		if (bLeft) sprite->changeAnimation(ARM1_LEFT);
+		else sprite->changeAnimation(ARM1_RIGHT);
 	}
 	else {
-		playerState = DIG;
-		sprite->setSize(glm::vec2(widhtProp * 3, heightProp * 3.5));
-		sprite->changeAnimation(ARM1_LEFT);
+		spriteSize = DIGSIZE;
+		sprite->setSize(DIGSIZEVEC);
+		if(bLeft) sprite->changeAnimation(ARM1_LEFT);
+		else sprite->changeAnimation(ARM1_RIGHT);
 	}
 }
 void MainPlayer::spriteStandLeft() {
-	
 		sprite->changeAnimation(STAND_LEFT);
+}
 
-}
-void MainPlayer::setPlayerState(int state) {
-	playerState = state;
-}
 
 void MainPlayer::render()
 {

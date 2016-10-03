@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="..\Game.cpp" />
     <ClCompile Include="..\main.cpp" />
+    <ClCompile Include="..\mainPlayer.cpp" />
     <ClCompile Include="..\P_boss.cpp" />
     <ClCompile Include="..\P_conillet.cpp" />
     <ClCompile Include="..\Scene.cpp" />
@@ -25,6 +26,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\libs\glm\glm\detail\_vectorize.hpp" />
     <ClInclude Include="..\Game.h" />
+    <ClInclude Include="..\mainPlayer.h" />
     <ClInclude Include="..\P_boss.h" />
     <ClInclude Include="..\P_conillet.h" />
     <ClInclude Include="..\Scene.h" />

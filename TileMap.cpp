@@ -7,9 +7,7 @@
 #define TERRA 24
 #define METALL 25
 #define FUSTA 26
-
 using namespace std;
-
 
 TileMap *TileMap::createTileMap(const string &levelFile, const glm::vec2 &minCoords, ShaderProgram &program)
 {
@@ -17,7 +15,6 @@ TileMap *TileMap::createTileMap(const string &levelFile, const glm::vec2 &minCoo
 	
 	return map;
 }
-
 
 TileMap::TileMap(const string &levelFile, const glm::vec2 &minCoords, ShaderProgram &program)
 {
@@ -95,32 +92,28 @@ bool TileMap::loadLevel(const string &levelFile)
 				///AQUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
 				//canviar num en funcio de la pos
 				case -1:
-					map[j*mapSize.x + i] = 0;
+					map[j*mapSize.x + i]= 0;
 					break;
-				case 311:
-					map[j*mapSize.x + i] = 1;
+				case 311:	//piedra
+					map[j*mapSize.x + i] = 43;
 					break;
-				case 294: 
-					map[j*mapSize.x + i] =1;
+				case 294: //piedra
+					map[j*mapSize.x + i] = 43;
 					break;
 				case 105:
-					map[j*mapSize.x + i] = 2;
+					map[j*mapSize.x + i] = 13;
 					break;
 				case 121:
-					map[j*mapSize.x + i] = 3;
+					map[j*mapSize.x + i] = 13;
 					break;
 				case 90:
-					map[j*mapSize.x + i] = 3;
+					map[j*mapSize.x + i] = 14;
 					break;
 				case 107:
-					map[j*mapSize.x + i] = 3;
+					map[j*mapSize.x + i] = 14;
 					break;
 			}
 		}
-		fin.get(tile);
-#ifndef _WIN32
-		fin.get(tile);
-#endif
 	}
 	fin.close();
 	
@@ -133,7 +126,8 @@ void TileMap::prepareArrays(const glm::vec2 &minCoords, ShaderProgram &program)
 	glm::vec2 posTile, texCoordTile[2], halfTexel;
 	vector<float> vertices;
 	
-	halfTexel = glm::vec2(0.5f / tilesheet.width(), 0.5f / tilesheet.height());
+	halfTexel = glm::vec2(0.5f / tilesheet.width(),0.5f / tilesheet.height())*16.f;
+	//halfTexel = glm::vec2(0.f);
 	for(int j=0; j<mapSize.y; j++)
 	{
 		for(int i=0; i<mapSize.x; i++)
@@ -144,9 +138,9 @@ void TileMap::prepareArrays(const glm::vec2 &minCoords, ShaderProgram &program)
 				// Non-empty tile
 				nTiles++;
 				posTile = glm::vec2(minCoords.x + i * tileSize, minCoords.y + j * tileSize);
-				texCoordTile[0] = glm::vec2(float((tile-1)%2) / tilesheetSize.x, float((tile-1)/2) / tilesheetSize.y);
+				texCoordTile[0] = glm::vec2(float((tile-1)%8) / tilesheetSize.x, float((tile-1)/8) / tilesheetSize.y);
 				texCoordTile[1] = texCoordTile[0] + tileTexSize;
-				//texCoordTile[0] += halfTexel;
+				texCoordTile[0] += halfTexel;
 				texCoordTile[1] -= halfTexel;
 				// First triangle
 				vertices.push_back(posTile.x); vertices.push_back(posTile.y);

@@ -7,7 +7,7 @@
 #include "TileMap.h"
 #include "P_conillet.h"
 #include "P_boss.h"
-
+#include "MainPlayer.h"
 
 // Scene contains all the entities of our game.
 // It is responsible for updating and render them.
@@ -29,10 +29,12 @@ private:
 
 private:
 	TileMap *map;
+	MainPlayer *mainPlayer;
 	P_conillet *player;
 	P_boss *boss;
 	ShaderProgram texProgram;
 	float currentTime;
+	glm::vec3 playerPos;
 	glm::mat4 projection;
 
 };

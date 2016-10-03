@@ -8,8 +8,8 @@
 #define SCREEN_X 0
 #define SCREEN_Y 0
 
-#define INIT_PLAYER_X_TILES 4
-#define INIT_PLAYER_Y_TILES 10
+#define INIT_PLAYER_X_TILES 8
+#define INIT_PLAYER_Y_TILES 7
 #define INIT_BOSS_X_TILES 7
 #define INIT_BOSS_Y_TILES 8
 
@@ -38,7 +38,7 @@ Scene::~Scene()
 void Scene::init()
 {
 	initShaders();
-	map = TileMap::createTileMap("levels/levelTerraria.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
+	map = TileMap::createTileMap("levels/levelTerraria300.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
 	player = new P_conillet();
 	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
@@ -68,7 +68,7 @@ void Scene::update(int deltaTime)
 	player->update(deltaTime);
 //	boss->update(deltaTime);
 	mainPlayer->update(deltaTime);
-	projection = glm::translate(projection, glm::vec3(playerPos[0] -mainPlayer->getPlayerPosition()[0], playerPos[1] - mainPlayer->getPlayerPosition()[1] , 0.f));
+	if((((playerPos[0])-(SCREEN_WIDTH/2)) >= 0)&& (playerPos[0] < ((32*300)-(SCREEN_WIDTH/2)))) projection = glm::translate(projection, glm::vec3(playerPos[0] -mainPlayer->getPlayerPosition()[0], playerPos[1] - mainPlayer->getPlayerPosition()[1] , 0.f));
 	playerPos = mainPlayer->getPlayerPosition();
 
 }

@@ -89,28 +89,35 @@ bool TileMap::loadLevel(const string &levelFile)
 			int f = 0;
 			fs >> f;
 			switch (f) {
-				///AQUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
-				//canviar num en funcio de la pos
 				case -1:
 					map[j*mapSize.x + i]= 0;
 					break;
-				case 311:	//piedra
-					map[j*mapSize.x + i] = 43;
+				case 5:	//tierra con cesped
+					map[j*mapSize.x + i] = 6;
 					break;
-				case 294: //piedra
-					map[j*mapSize.x + i] = 43;
-					break;
-				case 105:
+				case 11:	//tierraText1
 					map[j*mapSize.x + i] = 13;
 					break;
-				case 121:
-					map[j*mapSize.x + i] = 13;
-					break;
-				case 90:
+				case 12: //tierraText2
 					map[j*mapSize.x + i] = 14;
 					break;
-				case 107:
-					map[j*mapSize.x + i] = 14;
+				case 37: //piedra 1
+					map[j*mapSize.x + i] = 43;
+					break;
+				case 4:	//piedra 2
+					map[j*mapSize.x + i] = 5;
+					break;
+				case 16: //carbon
+					map[j*mapSize.x + i] = 19;
+					break;
+				case 78: //oro
+					map[j*mapSize.x + i] = 90;
+					break;
+				case 99: //diam
+					map[j*mapSize.x + i] = 114;
+					break;
+				case 94: //FIn
+					map[j*mapSize.x + i] = 108;
 					break;
 			}
 		}
@@ -126,7 +133,7 @@ void TileMap::prepareArrays(const glm::vec2 &minCoords, ShaderProgram &program)
 	glm::vec2 posTile, texCoordTile[2], halfTexel;
 	vector<float> vertices;
 	
-	halfTexel = glm::vec2(0.5f / tilesheet.width(),0.5f / tilesheet.height())*16.f;
+	halfTexel = glm::vec2(0.5f / tilesheet.width(),0.5f / tilesheet.height())*18.f;
 	//halfTexel = glm::vec2(0.f);
 	for(int j=0; j<mapSize.y; j++)
 	{
@@ -180,6 +187,7 @@ bool TileMap::collisionMoveLeft(const glm::ivec2 &pos, const glm::ivec2 &size) c
 	x = pos.x / tileSize;
 	y0 = pos.y / tileSize;
 	y1 = (pos.y + size.y - 1) / tileSize;
+	if (x <= 0) return true;
 	for(int y=y0; y<=y1; y++)
 	{
 		if(map[y*mapSize.x+x] != 0)
@@ -196,6 +204,7 @@ bool TileMap::collisionMoveRight(const glm::ivec2 &pos, const glm::ivec2 &size) 
 	x = (pos.x + size.x - 1) / tileSize;
 	y0 = pos.y / tileSize;
 	y1 = (pos.y + size.y - 1) / tileSize;
+	if (x >= 300) return true;
 	for(int y=y0; y<=y1; y++)
 	{
 		if(map[y*mapSize.x+x] != 0)

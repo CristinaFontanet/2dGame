@@ -63,6 +63,7 @@ void Scene::init()
 
 void Scene::update(int deltaTime)
 {
+	//no cal fer update del mapa xq aquest no te animacions ni res 
 	currentTime += deltaTime;
 	player->update(deltaTime);
 //	boss->update(deltaTime);

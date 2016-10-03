@@ -56,7 +56,7 @@ void Scene::init()
 	mainPlayer->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
 	mainPlayer->setTileMap(map);
 	playerPos = mainPlayer->getPlayerPosition();
-	projection = glm::translate(projection, glm::vec3(280-playerPos[0],-150-playerPos[0] , 0.f));
+	projection = glm::translate(projection, glm::vec3(SCREEN_HEIGHT/2 -playerPos[0], SCREEN_WIDTH/2 - playerPos[1]*1.5 , 0.f));
 
 	currentTime = 0.0f;
 }

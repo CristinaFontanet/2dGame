@@ -22,7 +22,7 @@ enum SpriteMoves {
 
 void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram) {
 	heightProp = 1.f / 32.f;
-	widhtProp = 1.f / 47.f;
+	widhtProp = 1.f / 48.f;
 	double yoffset = 1.f /32.f;
 	bJumping = false;
 	bLeft = true;
@@ -109,9 +109,7 @@ void MainPlayer::update(int deltaTime) {
 		bLeft = false;
 		if (sprite->animation() != MOVE_RIGHT) sprite->changeAnimation(MOVE_RIGHT);
 		posPlayer.x += 2;
-		glm::ivec2 spritePos = posPlayer;
-		spritePos.x -= 32;
-		if (map->collisionMoveRight(spritePos, glm::ivec2(width, 64), SPRITEMARGIN)) { 	//si hi ha colisio, ens parem
+		if (map->collisionMoveRight(posPlayer, glm::ivec2(width, 64))) { 	//si hi ha colisio, ens parem
 			posPlayer.x -= 2;
 			sprite->changeAnimation(STAND_RIGHT);
 		}
@@ -126,7 +124,10 @@ void MainPlayer::update(int deltaTime) {
 		}
 		else if(sprite->animation() != STAND_RIGHT) spriteStandLeft();
 	}
-
+	
+	marg = 0;
+	//if (!bLeft) margR = 32;
+	//else margL = 32;
 	//POSICIO Y
 	if (bJumping) {
 		jumpAngle += JUMP_ANGLE_STEP;
@@ -140,16 +141,16 @@ void MainPlayer::update(int deltaTime) {
 			posPlayer.y = int(startY - 96 * sin(3.14159f * jumpAngle / 180.f));
 			if (jumpAngle > 90) {
 				glm::ivec2 spritePos = posPlayer;
-				if (!bLeft) spritePos.x += 32;
-				bJumping = !map->collisionMoveDown(spritePos, glm::ivec2(width, 64), &posPlayer.y);
+			//	if (!bLeft) spritePos.x += 32;
+				bJumping = !map->collisionMoveDown(spritePos, glm::ivec2(32, 64), &posPlayer.y,bLeft, marg);
 			}
 		}
 	}
 	else {
 		posPlayer.y += FALL_STEP;
 		glm::ivec2 spritePos = posPlayer;
-		if (!bLeft) spritePos.x -= 32;
-		if (map->collisionMoveDown(spritePos, glm::ivec2(width, 64), &posPlayer.y))
+	//	if (!bLeft) spritePos.x -= 32;
+		if (map->collisionMoveDown(spritePos, glm::ivec2(32,64), &posPlayer.y, bLeft, marg))
 		{
 			if (Game::instance().getSpecialKey(GLUT_KEY_UP))
 			{

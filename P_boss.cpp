@@ -80,7 +80,7 @@ void P_boss::update(int deltaTime) {
 		if (sprite->animation() != MOVE_RIGHT)
 			sprite->changeAnimation(MOVE_RIGHT);
 		posPlayer.x += 2;
-		if (map->collisionMoveRight(posPlayer, glm::ivec2(WIDTH, HEIGHT)))
+		if (map->collisionMoveRight(posPlayer, glm::ivec2(WIDTH, HEIGHT),0))
 		{
 			posPlayer.x -= 2;
 			sprite->changeAnimation(STAND_RIGHT);

@@ -10,10 +10,8 @@
 #define FALL_STEP 4
 #define HEIGHTWALK 64
 #define WIDTHWALK 32
+#define SPRITEMARGIN 32
 #define ANIMATION_SPEED 8
-
-#define WALKINGSIZEVEC  glm::vec2(widhtProp*2.1, heightProp*3)
-#define DIGSIZEVEC glm::vec2(widhtProp * 3 + widhtProp * 0.8, heightProp * 3 + 0.5 * heightProp)
 
 enum SpriteSizes {
 	WALKINGSIZE, DIGSIZE
@@ -23,14 +21,14 @@ enum SpriteMoves {
 };
 
 void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram) {
-	heightProp = 1.f / 33.f;
+	heightProp = 1.f / 32.f;
 	widhtProp = 1.f / 47.f;
-	double yoffset = 1.f /33.f;
+	double yoffset = 1.f /32.f;
 	bJumping = false;
 	bLeft = true;
 	spritesheet.loadFromFile("images/Especials_1.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	
-	sprite = Sprite::createSprite(glm::ivec2(64, 64), DIGSIZEVEC, &spritesheet, &shaderProgram);
+	sprite = Sprite::createSprite(glm::ivec2(64, 64), glm::vec2(widhtProp * 4, heightProp * 4), &spritesheet, &shaderProgram);
 	spriteSize = WALKINGSIZE;
 	sprite->setNumberAnimations(8);
 
@@ -112,8 +110,8 @@ void MainPlayer::update(int deltaTime) {
 		if (sprite->animation() != MOVE_RIGHT) sprite->changeAnimation(MOVE_RIGHT);
 		posPlayer.x += 2;
 		glm::ivec2 spritePos = posPlayer;
-		spritePos.r -= 32;
-		if (map->collisionMoveRight(spritePos, glm::ivec2(width, 64))) { 	//si hi ha colisio, ens parem
+		spritePos.x -= 32;
+		if (map->collisionMoveRight(spritePos, glm::ivec2(width, 64), SPRITEMARGIN)) { 	//si hi ha colisio, ens parem
 			posPlayer.x -= 2;
 			sprite->changeAnimation(STAND_RIGHT);
 		}
@@ -179,7 +177,7 @@ void MainPlayer::spriteDig() {
 	}
 	else {
 		spriteSize = DIGSIZE;
-		sprite->setSize(DIGSIZEVEC);
+	//	sprite->setSize(DIGSIZEVEC);
 		if(bLeft) sprite->changeAnimation(ARM1_LEFT);
 		else sprite->changeAnimation(ARM1_RIGHT);
 	}

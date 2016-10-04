@@ -38,6 +38,7 @@ private:
 	double widhtProp;
 
 	int spriteSize;
+	int height, width;
 	enum SpriteSizes {
 		WALKINGSIZE,DIGSIZE
 	};

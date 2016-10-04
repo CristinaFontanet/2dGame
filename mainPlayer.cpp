@@ -8,9 +8,10 @@
 #define JUMP_ANGLE_STEP 4
 #define JUMP_HEIGHT 90
 #define FALL_STEP 4
-#define HEIGHT 64
-#define WIDTH 64
+#define HEIGHTWALK 64
+#define WIDTHWALK 32
 #define ANIMATION_SPEED 8
+
 #define WALKINGSIZEVEC  glm::vec2(widhtProp*2.1, heightProp*3)
 #define DIGSIZEVEC glm::vec2(widhtProp * 3 + widhtProp * 0.8, heightProp * 3 + 0.5 * heightProp)
 
@@ -22,14 +23,14 @@ enum SpriteMoves {
 };
 
 void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram) {
-	heightProp = 1.f / 31.f;
+	heightProp = 1.f / 33.f;
 	widhtProp = 1.f / 47.f;
-	double yoffset = 1.f /32.f;
+	double yoffset = 1.f /33.f;
 	bJumping = false;
 	bLeft = true;
 	spritesheet.loadFromFile("images/Especials_1.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	
-	sprite = Sprite::createSprite(glm::ivec2(WIDTH, HEIGHT), WALKINGSIZEVEC, &spritesheet, &shaderProgram);
+	sprite = Sprite::createSprite(glm::ivec2(64, 64), DIGSIZEVEC, &spritesheet, &shaderProgram);
 	spriteSize = WALKINGSIZE;
 	sprite->setNumberAnimations(8);
 
@@ -37,24 +38,24 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	sprite->setAnimationSpeed(STAND_LEFT, ANIMATION_SPEED);
 	sprite->addKeyframe(STAND_LEFT, glm::vec2(0.f, 0.f));
 
-	sprite->setAnimationSpeed(STAND_RIGHT, ANIMATION_SPEED);
-	sprite->addKeyframe(STAND_RIGHT, glm::vec2(widhtProp * 3 * 5, 3 * heightProp));
-
 	sprite->setAnimationSpeed(MOVE_LEFT, ANIMATION_SPEED);
-	sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f, 0.f));    
-	sprite->addKeyframe(MOVE_LEFT, glm::vec2(widhtProp * 3, 0.f));
-	sprite->addKeyframe(MOVE_LEFT, glm::vec2(widhtProp * 3 * 2, 0.f));
-	sprite->addKeyframe(MOVE_LEFT, glm::vec2(widhtProp * 3 * 3, 0.f));
-	sprite->addKeyframe(MOVE_LEFT, glm::vec2(widhtProp * 3 * 4, 0.f));
-	sprite->addKeyframe(MOVE_LEFT, glm::vec2(widhtProp * 3 * 5, 0.f));
+	sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f, 0.f));
+	sprite->addKeyframe(MOVE_LEFT, glm::vec2(widhtProp * 4, 0.f));
+	sprite->addKeyframe(MOVE_LEFT, glm::vec2(widhtProp * 4 * 2, 0.f));
+	sprite->addKeyframe(MOVE_LEFT, glm::vec2(widhtProp * 4 * 3, 0.f));
+	sprite->addKeyframe(MOVE_LEFT, glm::vec2(widhtProp * 4 * 4, 0.f));
+	sprite->addKeyframe(MOVE_LEFT, glm::vec2(widhtProp * 4 * 5, 0.f));
+
+	sprite->setAnimationSpeed(STAND_RIGHT, ANIMATION_SPEED);
+	sprite->addKeyframe(STAND_RIGHT, glm::vec2(widhtProp * 4 * 5, 4 * heightProp));
 
 	sprite->setAnimationSpeed(MOVE_RIGHT, ANIMATION_SPEED);
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(0.f, 3 * heightProp));	//Corrent    
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(widhtProp * 3 , 3 * heightProp));
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(widhtProp * 3 * 2, 3 * heightProp));
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(widhtProp * 3 * 3, 3 * heightProp));
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(widhtProp * 3 * 4, 3 * heightProp));
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(widhtProp * 3 * 5, 3 * heightProp));
+	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(0.f, 4 * heightProp));	//Corrent    
+	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(widhtProp * 4 , 4 * heightProp));
+	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(widhtProp * 4 * 2, 4 * heightProp));
+	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(widhtProp * 4 * 3, 4 * heightProp));
+	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(widhtProp * 4 * 4, 4 * heightProp));
+	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(widhtProp * 4 * 5, 4 * heightProp));
 
 	//WEAPON1 (11*2)
 	double height = 6 * heightProp + 0.5 * heightProp;
@@ -87,6 +88,8 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 
 	tileMapDispl = tileMapPos;
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
+	height = HEIGHTWALK;
+	width = WIDTHWALK;
 }
 
 void MainPlayer::update(int deltaTime) {
@@ -98,7 +101,7 @@ void MainPlayer::update(int deltaTime) {
 		bLeft = true;
 		if (sprite->animation() != MOVE_LEFT) sprite->changeAnimation(MOVE_LEFT);
 		posPlayer.x -= 2;
-		if (map->collisionMoveLeft(posPlayer, glm::ivec2(WIDTH, HEIGHT))) {
+		if (map->collisionMoveLeft(posPlayer, glm::ivec2(width, 64))) {
 			posPlayer.x += 2;
 			sprite->changeAnimation(STAND_LEFT);
 		}
@@ -108,7 +111,9 @@ void MainPlayer::update(int deltaTime) {
 		bLeft = false;
 		if (sprite->animation() != MOVE_RIGHT) sprite->changeAnimation(MOVE_RIGHT);
 		posPlayer.x += 2;
-		if (map->collisionMoveRight(posPlayer, glm::ivec2(WIDTH, HEIGHT))) { 	//si hi ha colisio, ens parem
+		glm::ivec2 spritePos = posPlayer;
+		spritePos.r -= 32;
+		if (map->collisionMoveRight(spritePos, glm::ivec2(width, 64))) { 	//si hi ha colisio, ens parem
 			posPlayer.x -= 2;
 			sprite->changeAnimation(STAND_RIGHT);
 		}
@@ -135,13 +140,18 @@ void MainPlayer::update(int deltaTime) {
 		else
 		{
 			posPlayer.y = int(startY - 96 * sin(3.14159f * jumpAngle / 180.f));
-			if (jumpAngle > 90)
-				bJumping = !map->collisionMoveDown(posPlayer, glm::ivec2(WIDTH, HEIGHT), &posPlayer.y);
+			if (jumpAngle > 90) {
+				glm::ivec2 spritePos = posPlayer;
+				if (!bLeft) spritePos.x += 32;
+				bJumping = !map->collisionMoveDown(spritePos, glm::ivec2(width, 64), &posPlayer.y);
+			}
 		}
 	}
 	else {
 		posPlayer.y += FALL_STEP;
-		if (map->collisionMoveDown(posPlayer, glm::ivec2(WIDTH, HEIGHT), &posPlayer.y))
+		glm::ivec2 spritePos = posPlayer;
+		if (!bLeft) spritePos.x -= 32;
+		if (map->collisionMoveDown(spritePos, glm::ivec2(width, 64), &posPlayer.y))
 		{
 			if (Game::instance().getSpecialKey(GLUT_KEY_UP))
 			{
@@ -158,7 +168,7 @@ void MainPlayer::update(int deltaTime) {
 void MainPlayer::checkWalkingSize() {
 	if (spriteSize != WALKINGSIZE) {
 		spriteSize = WALKINGSIZE;
-		sprite->setSize(WALKINGSIZEVEC);
+	//	sprite->setSize(WALKINGSIZEVEC);
 	}
 }
 

@@ -27,6 +27,9 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	bJumping = false;
 	bLeft = true;
 	spritesheet.loadFromFile("images/Especials_1.png", TEXTURE_PIXEL_FORMAT_RGBA);
+
+	log.open("log.txt");
+	log << "Writing this to a file.\n";
 	
 	sprite = Sprite::createSprite(glm::ivec2(64, 64), glm::vec2(widhtProp * 4, heightProp * 4), &spritesheet, &shaderProgram);
 	spriteSize = WALKINGSIZE;
@@ -89,6 +92,9 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	height = HEIGHTWALK;
 	width = WIDTHWALK;
 }
+void MainPlayer::closeLog() {
+	log.close();
+}
 
 void MainPlayer::update(int deltaTime) {
 
@@ -131,34 +137,45 @@ void MainPlayer::update(int deltaTime) {
 	//POSICIO Y
 	if (bJumping) {
 		jumpAngle += JUMP_ANGLE_STEP;
+		log << "jumping ";
 		if (jumpAngle == 180)
 		{
 			bJumping = false;
-			posPlayer.y = startY;
+		//	posPlayer.y = startY;
+			log << "with 180 angle at x:" << posPlayer.x << ", y:" << posPlayer.y << ", r:" << posPlayer.r << "\n";
 		}
 		else
 		{
 			posPlayer.y = int(startY - 96 * sin(3.14159f * jumpAngle / 180.f));
+			log << "at x:" << posPlayer.x<<", y:" << posPlayer.y<<", r:" << posPlayer.r ;
 			if (jumpAngle > 90) {
 				glm::ivec2 spritePos = posPlayer;
 			//	if (!bLeft) spritePos.x += 32;
-				bJumping = !map->collisionMoveDown(spritePos, glm::ivec2(32, 64), &posPlayer.y,bLeft, marg);
+				bJumping = !map->collisionMoveDown(spritePos, glm::ivec2(32, 64), &posPlayer.y, bLeft, marg);
+				log << "and jumpAngle > 90 " << bJumping << "\n";
 			}
+
+			log <<"\n";
 		}
 	}
 	else {
+		log << "NOT jumping ";
 		posPlayer.y += FALL_STEP;
 		glm::ivec2 spritePos = posPlayer;
+		log << "at x:" << posPlayer.x << ", y:" << posPlayer.y << ", r:" << posPlayer.r << ", startY:" << startY;
 	//	if (!bLeft) spritePos.x -= 32;
 		if (map->collisionMoveDown(spritePos, glm::ivec2(32,64), &posPlayer.y, bLeft, marg))
 		{
+			log << " collision";
 			if (Game::instance().getSpecialKey(GLUT_KEY_UP))
 			{
+				log << " and key up pressed";
 				bJumping = true;
 				jumpAngle = 0;
 				startY = posPlayer.y;
 			}
 		}
+		log << "\n";
 	}
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 	

@@ -3,6 +3,9 @@
 
 #include "Sprite.h"
 #include "TileMap.h"
+#include <iostream>
+#include <fstream>
+using namespace std;
 
 class MainPlayer {
 
@@ -15,6 +18,7 @@ public:
 	void setPosition(const glm::vec2 &pos);
 	glm::vec3 getPlayerPosition();
 	void setPlayerState(int state);
+	void closeLog();
 
 	enum playerState {
 		WALKING, WEAPON1, WEAPON2, BYPET
@@ -25,7 +29,6 @@ private:
 	void spriteStandLeft();
 	void spriteDig();
 	void checkWalkingSize();
-
 	bool bJumping;
 	bool bLeft;
 	glm::ivec2 tileMapDispl, posPlayer;
@@ -37,6 +40,7 @@ private:
 	double heightProp;
 	double widhtProp;
 
+	ofstream log;
 	int spriteSize;
 	int marg;
 	int height, width;

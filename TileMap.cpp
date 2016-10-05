@@ -49,7 +49,7 @@ bool TileMap::loadLevel(const string &levelFile)
 	ifstream fin;
 	string line, tilesheetFile;
 	stringstream sstream;
-	char tile;
+//	char tile;
 	
 	fin.open(levelFile.c_str());
 	if(!fin.is_open())
@@ -214,9 +214,7 @@ bool TileMap::collisionMoveRight(const glm::ivec2 &pos, const glm::ivec2 &size) 
 	return false;
 }
 
-bool TileMap::collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, int *posY , const bool bLeft, const int marg) const
-{
-
+bool TileMap::collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, int *posY , const bool bLeft, const int marg) const {
 	int x0, x1, y;
 	if(bLeft) {
 		x0 = pos.x / tileSize;
@@ -230,7 +228,7 @@ bool TileMap::collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, i
 	for(int x=x0; x<=x1; x++)
 	{
 		if(map[y*mapSize.x+x] != 0) {
-			if(*posY - tileSize * y + size.y <= 4) {
+			if(*posY - tileSize * y + size.y <= 5) {
 				*posY = tileSize * y - size.y;
 				return true;
 			}

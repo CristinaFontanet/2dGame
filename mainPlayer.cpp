@@ -138,8 +138,7 @@ void MainPlayer::update(int deltaTime) {
 	if (bJumping) {
 		jumpAngle += JUMP_ANGLE_STEP;
 		log << "jumping ";
-		if (jumpAngle == 180)
-		{
+		if (jumpAngle == 180) {
 			bJumping = false;
 		//	posPlayer.y = startY;
 			log << "with 180 angle at x:" << posPlayer.x << ", y:" << posPlayer.y << ", r:" << posPlayer.r << "\n";
@@ -164,8 +163,7 @@ void MainPlayer::update(int deltaTime) {
 		glm::ivec2 spritePos = posPlayer;
 		log << "at x:" << posPlayer.x << ", y:" << posPlayer.y << ", r:" << posPlayer.r << ", startY:" << startY;
 	//	if (!bLeft) spritePos.x -= 32;
-		if (map->collisionMoveDown(spritePos, glm::ivec2(32,64), &posPlayer.y, bLeft, marg))
-		{
+		if (map->collisionMoveDown(spritePos, glm::ivec2(32,64), &posPlayer.y, bLeft, marg)) {
 			log << " collision";
 			if (Game::instance().getSpecialKey(GLUT_KEY_UP))
 			{

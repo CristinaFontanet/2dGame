@@ -27,7 +27,6 @@ void Game::keyPressed(int key)
 {
 	if(key == 27) // Escape code
 		bPlay = false;
-	if (key == 'T' || key == 't') scene.closeLog();
 	keys[key] = true;
 }
 

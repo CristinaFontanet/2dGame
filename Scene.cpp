@@ -34,10 +34,6 @@ Scene::~Scene()
 	if (mainPlayer != NULL) delete mainPlayer;
 }
 
-void Scene::closeLog() {
-	mainPlayer->closeLog();
-}
-
 
 void Scene::init()
 {

@@ -14,7 +14,7 @@
 #define ANIMATION_SPEED 8
 
 enum SpriteMoves {
-	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT, ARM1_LEFT, ARM1_RIGHT
+	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT, ARM1_LEFT,ARM1_LEFT_BOT, ARM1_RIGHT, ARM1_RIGHT_BOT
 };
 
 void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram) {
@@ -55,6 +55,20 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 
 	//WEAPON1 (11*2)
 	height = 8 * heightProp;
+	sprite->setAnimationSpeed(ARM1_LEFT_BOT, ANIMATION_SPEED);
+	sprite->addKeyframe(ARM1_LEFT_BOT, glm::vec2(0.f, height));
+	sprite->addKeyframe(ARM1_LEFT_BOT, glm::vec2(widht, height));
+	sprite->addKeyframe(ARM1_LEFT_BOT, glm::vec2(widht * 2, height));
+	sprite->addKeyframe(ARM1_LEFT_BOT, glm::vec2(widht * 3, height));
+	sprite->addKeyframe(ARM1_LEFT_BOT, glm::vec2(widht * 4, height));
+	sprite->addKeyframe(ARM1_LEFT_BOT, glm::vec2(widht * 5, height));
+	sprite->addKeyframe(ARM1_LEFT_BOT, glm::vec2(widht * 6, height));
+	sprite->addKeyframe(ARM1_LEFT_BOT, glm::vec2(widht * 7, height));
+	sprite->addKeyframe(ARM1_LEFT_BOT, glm::vec2(widht * 8, height));
+	sprite->addKeyframe(ARM1_LEFT_BOT, glm::vec2(widht * 9, height));
+	sprite->addKeyframe(ARM1_LEFT_BOT, glm::vec2(widht * 10, height));
+
+
 	sprite->setAnimationSpeed(ARM1_LEFT, ANIMATION_SPEED);
 	sprite->addKeyframe(ARM1_LEFT, glm::vec2(0.f, height));
 	sprite->addKeyframe(ARM1_LEFT, glm::vec2(widht, height));
@@ -65,10 +79,22 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	sprite->addKeyframe(ARM1_LEFT, glm::vec2(widht * 6, height));
 	sprite->addKeyframe(ARM1_LEFT, glm::vec2(widht * 7, height));
 	sprite->addKeyframe(ARM1_LEFT, glm::vec2(widht * 8, height));
-	sprite->addKeyframe(ARM1_LEFT, glm::vec2(widht * 9, height));
-	sprite->addKeyframe(ARM1_LEFT, glm::vec2(widht * 10, height));
 
 	height = 12 * heightProp;
+	sprite->setAnimationSpeed(ARM1_RIGHT_BOT, ANIMATION_SPEED);
+	sprite->addKeyframe(ARM1_RIGHT_BOT, glm::vec2(0.f, height));
+	sprite->addKeyframe(ARM1_RIGHT_BOT, glm::vec2(widht, height));
+	sprite->addKeyframe(ARM1_RIGHT_BOT, glm::vec2(widht * 2, height));
+	sprite->addKeyframe(ARM1_RIGHT_BOT, glm::vec2(widht * 3, height));
+	sprite->addKeyframe(ARM1_RIGHT_BOT, glm::vec2(widht * 4, height));
+	sprite->addKeyframe(ARM1_RIGHT_BOT, glm::vec2(widht * 5, height));
+	sprite->addKeyframe(ARM1_RIGHT_BOT, glm::vec2(widht * 6, height));
+	sprite->addKeyframe(ARM1_RIGHT_BOT, glm::vec2(widht * 7, height));
+	sprite->addKeyframe(ARM1_RIGHT_BOT, glm::vec2(widht * 8, height));
+	sprite->addKeyframe(ARM1_RIGHT_BOT, glm::vec2(widht * 9, height));
+	sprite->addKeyframe(ARM1_RIGHT_BOT, glm::vec2(widht * 10, height));
+
+
 	sprite->setAnimationSpeed(ARM1_RIGHT, ANIMATION_SPEED);
 	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(0.f, height));
 	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widht, height));
@@ -79,8 +105,8 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widht * 6, height));
 	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widht * 7, height));
 	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widht * 8, height));
-	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widht * 9, height));
-	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widht * 10, height));
+
+
 
 	tileMapDispl = tileMapPos;
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
@@ -93,9 +119,16 @@ void MainPlayer::update(int deltaTime) {
 	sprite->update(deltaTime);
 	//SPRITE
 	if (Game::instance().getKey('c')) {	//PICAR
+		//TODO: recolocar sprite si es troba en colisio
 		spriteWidth = 64;
-		if (bLeft && sprite->animation() != ARM1_LEFT) sprite->changeAnimation(ARM1_LEFT);
-		else if (!bLeft && sprite->animation() != ARM1_RIGHT) sprite->changeAnimation(ARM1_RIGHT);
+		if (Game::instance().getSpecialKey(GLUT_KEY_DOWN)) {
+			if (bLeft && sprite->animation() != ARM1_LEFT_BOT) sprite->changeAnimation(ARM1_LEFT_BOT);
+			else if (!bLeft && sprite->animation() != ARM1_RIGHT_BOT) sprite->changeAnimation(ARM1_RIGHT_BOT);
+		}
+		else {
+			if (bLeft && sprite->animation() != ARM1_LEFT) sprite->changeAnimation(ARM1_LEFT);
+			else if (!bLeft && sprite->animation() != ARM1_RIGHT) sprite->changeAnimation(ARM1_RIGHT);
+		}
 	}
 	else {
 		spriteWidth = 32;

@@ -42,11 +42,15 @@ public:
 
 	bool collisionMoveLeft(const glm::ivec2 &pos, const glm::ivec2 &size) const;
 	bool collisionMoveRight(const glm::ivec2 &pos, const glm::ivec2 &size) const;
-	bool collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, int *posY) const;
 
 	int tileToMaterial(int x, int y);
 
 	bool addMaterial(int x, int y, int material);
+
+	void addAndRender(int material,int x, int y);
+
+	bool collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, int *posY, const bool bLeft,const int marg) const;
+
 	
 private:
 	bool loadLevel(const string &levelFile);
@@ -64,6 +68,7 @@ private:
 	vector<int> materials;
 	glm::vec2 coordR;
 	ShaderProgram programR;
+	int ntilesVBO;
 };
 
 

@@ -47,8 +47,7 @@ bool TileMap::loadLevel(const string &levelFile)
 {
 	ifstream fin;
 	string line, tilesheetFile;
-	stringstream sstream;
-	
+	stringstream sstream;	
 	fin.open(levelFile.c_str());
 	if(!fin.is_open())
 		return false;
@@ -176,6 +175,8 @@ void TileMap::prepareArrays(const glm::vec2 &minCoords, ShaderProgram &program)
 		}
 	}
 
+	ntilesVBO = nTiles;
+
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 	glGenBuffers(1, &vbo);
@@ -223,19 +224,21 @@ bool TileMap::collisionMoveRight(const glm::ivec2 &pos, const glm::ivec2 &size) 
 	return false;
 }
 
-bool TileMap::collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, int *posY) const
-{
+bool TileMap::collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, int *posY , const bool bLeft, const int marg) const {
 	int x0, x1, y;
-	
-	x0 = pos.x / tileSize;
-	x1 = (pos.x + size.x - 1) / tileSize;
+	if(bLeft) {
+		x0 = pos.x / tileSize;
+		x1 = (pos.x + size.x - 1) / tileSize;
+	}
+	else {
+		x0 = (pos.x+marg) / tileSize;
+		x1 = (pos.x+marg + size.x - 1) / tileSize;
+	}
 	y = (pos.y + size.y - 1) / tileSize;
 	for(int x=x0; x<=x1; x++)
 	{
-		if(map[y*mapSize.x+x].first != 0)
-		{
-			if(*posY - tileSize * y + size.y <= 4)
-			{
+		if(map[y*mapSize.x+x].first != 0) {
+			if(*posY - tileSize * y + size.y <= 5) {
 				*posY = tileSize * y - size.y;
 				return true;
 			}
@@ -265,11 +268,37 @@ bool TileMap::addMaterial(int posx, int posy, int material) {
 		if (material == mat) {
 			map[y*mapSize.x + x].first = material;
 			map[y*mapSize.x + x].second = 2;
-			free();
-			prepareArrays(coordR,programR);
-			render();
+			addAndRender(material, x, y);
 			return true;
 		}
 	}
 	return false;
+}
+
+void TileMap::addAndRender(int material, int x, int y) {
+	glm::vec2 posTile, texCoordTile[2], halfTexel;
+	vector<float> vertices;
+	halfTexel = glm::vec2(0.5f / tilesheet.width(), 0.5f / tilesheet.height())*18.f;
+
+	posTile = glm::vec2(coordR.x * x* tileSize, coordR.y *y *tileSize);
+	texCoordTile[0] = glm::vec2(float((material-1) % 8) / tilesheetSize.x, float((material - 1) / 8) / tilesheetSize.y);
+	texCoordTile[1] = texCoordTile[0] + tileTexSize;
+	texCoordTile[0] += halfTexel;
+	texCoordTile[1] -= halfTexel;
+	// First triangle
+	vertices.push_back(posTile.x); vertices.push_back(posTile.y);
+	vertices.push_back(texCoordTile[0].x); vertices.push_back(texCoordTile[0].y);
+	vertices.push_back(posTile.x + blockSize); vertices.push_back(posTile.y);
+	vertices.push_back(texCoordTile[1].x); vertices.push_back(texCoordTile[0].y);
+	vertices.push_back(posTile.x + blockSize); vertices.push_back(posTile.y + blockSize);
+	vertices.push_back(texCoordTile[1].x); vertices.push_back(texCoordTile[1].y);
+	// Second triangle
+	vertices.push_back(posTile.x); vertices.push_back(posTile.y);
+	vertices.push_back(texCoordTile[0].x); vertices.push_back(texCoordTile[0].y);
+	vertices.push_back(posTile.x + blockSize); vertices.push_back(posTile.y + blockSize);
+	vertices.push_back(texCoordTile[1].x); vertices.push_back(texCoordTile[1].y);
+	vertices.push_back(posTile.x); vertices.push_back(posTile.y + blockSize);
+	vertices.push_back(texCoordTile[0].x); vertices.push_back(texCoordTile[1].y);
+	glBufferSubData(GL_ARRAY_BUFFER, 24 * ntilesVBO * sizeof(float), 24 * sizeof(float), &vertices[0]);
+	render();
 }

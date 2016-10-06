@@ -116,6 +116,9 @@ void MainPlayer::update(int deltaTime) {
 	else if (Game::instance().getKey('c') ){
 		spriteDig();
 	}
+	else if (Game::instance().getKey('p')) {
+		map->addMaterial(posPlayer.x, posPlayer.y, DIAMOND);
+	}
 	else {	//aturat
 		checkWalkingSize();
 		if (sprite->animation() == MOVE_RIGHT) {

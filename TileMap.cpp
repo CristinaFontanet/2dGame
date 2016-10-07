@@ -22,8 +22,7 @@ TileMap::TileMap(const string &levelFile, const glm::vec2 &minCoords, ShaderProg
 	prepareArrays(minCoords, program);
 }
 
-TileMap::~TileMap()
-{
+TileMap::~TileMap() {
 	if(map != NULL)
 		delete map;
 }
@@ -77,8 +76,7 @@ bool TileMap::loadLevel(const string &levelFile)
 	tileTexSize = glm::vec2(1.f / tilesheetSize.x, 1.f / tilesheetSize.y);
 	
 	map = new int[mapSize.x * mapSize.y];
-	for(int j=0; j<mapSize.y; j++)
-	{
+	for(int j=0; j<mapSize.y; j++) {
 		getline(fin, line);
 		stringstream ss(line);
 		string field;
@@ -127,8 +125,7 @@ bool TileMap::loadLevel(const string &levelFile)
 	return true;
 }
 
-void TileMap::prepareArrays(const glm::vec2 &minCoords, ShaderProgram &program)
-{
+void TileMap::prepareArrays(const glm::vec2 &minCoords, ShaderProgram &program) {
 	int tile, nTiles = 0;
 	glm::vec2 posTile, texCoordTile[2], halfTexel;
 	vector<float> vertices;

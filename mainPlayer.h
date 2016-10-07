@@ -23,7 +23,8 @@ public:
 
 private:
 	void spriteStandLeft();
-	void spriteDig();
+	bool isDiggingLateral();
+	bool isDiggingBottom();
 	bool bJumping;
 	bool bLeft;
 	glm::ivec2 tileMapDispl, posPlayer;
@@ -38,6 +39,7 @@ private:
 	int spriteSize;
 	int marg;
 	int height, spriteWidth;
+	int digCount;
 
 };
 

@@ -18,6 +18,7 @@ enum SpriteMoves {
 };
 
 void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram) {
+	digCount = 0;
 	heightProp = 1.f / 32.f;
 	widhtProp = 1.f / 48.f;
 	double yoffset = 1.f /32.f;
@@ -26,7 +27,7 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	spritesheet.loadFromFile("images/Especials_1.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	
 	sprite = Sprite::createSprite(glm::ivec2(64, 64), glm::vec2(widhtProp * 4, heightProp * 4), &spritesheet, &shaderProgram);
-	sprite->setNumberAnimations(8);
+	sprite->setNumberAnimations(10);
 
 	double widht = 4 * widhtProp;
 	//caminar
@@ -68,7 +69,6 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	sprite->addKeyframe(ARM1_LEFT_BOT, glm::vec2(widht * 9, height));
 	sprite->addKeyframe(ARM1_LEFT_BOT, glm::vec2(widht * 10, height));
 
-
 	sprite->setAnimationSpeed(ARM1_LEFT, ANIMATION_SPEED);
 	sprite->addKeyframe(ARM1_LEFT, glm::vec2(0.f, height));
 	sprite->addKeyframe(ARM1_LEFT, glm::vec2(widht, height));
@@ -94,7 +94,6 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	sprite->addKeyframe(ARM1_RIGHT_BOT, glm::vec2(widht * 9, height));
 	sprite->addKeyframe(ARM1_RIGHT_BOT, glm::vec2(widht * 10, height));
 
-
 	sprite->setAnimationSpeed(ARM1_RIGHT, ANIMATION_SPEED);
 	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(0.f, height));
 	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widht, height));
@@ -106,17 +105,40 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widht * 7, height));
 	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widht * 8, height));
 
-
-
 	tileMapDispl = tileMapPos;
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 	height = HEIGHTWALK;
 	spriteWidth = WIDTHWALK;
 }
 
+bool MainPlayer::isDiggingLateral() {
+	if (sprite->animation() == ARM1_LEFT || sprite->animation() == ARM1_RIGHT ) return true;
+	else return false;
+}
+bool MainPlayer::isDiggingBottom() {
+	if (sprite->animation() == ARM1_LEFT_BOT ||  sprite->animation() == ARM1_RIGHT_BOT) return true;
+	else return false;
+}
+
 void MainPlayer::update(int deltaTime) {
 
 	sprite->update(deltaTime);
+	if (isDiggingLateral()) { 
+		if (sprite->getNumKeyFrameMissing() != 8) {
+			
+		}
+		else {
+			++digCount;
+		}
+	}
+	else if (isDiggingBottom()) {
+		if (sprite->getNumKeyFrameMissing() != 11) {
+			
+		}
+		else {
+			++digCount;
+		}
+	}
 	//SPRITE
 	if (Game::instance().getKey('c')) {	//PICAR
 		//TODO: recolocar sprite si es troba en colisio

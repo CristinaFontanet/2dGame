@@ -3,8 +3,12 @@
 
 
 #include <glm/glm.hpp>
+#include <vector>
+#include <iostream>
 #include "Texture.h"
 #include "ShaderProgram.h"
+
+using namespace std;
 
 
 // Class Tilemap is capable of loading a tile map from a text file in a very
@@ -17,6 +21,14 @@ class TileMap
 {
 
 public:
+
+	#define ROCK 43
+	#define TUSK 14
+	#define WOOD 17
+	#define COAL 11
+	#define GOLD 78
+	#define DIAMOND 114
+	#define NONE 0
 	// Tile maps can only be created inside an OpenGL context
 	static TileMap *createTileMap(const string &levelFile, const glm::vec2 &minCoords, ShaderProgram &program);
 
@@ -30,7 +42,15 @@ public:
 
 	bool collisionMoveLeft(const glm::ivec2 &pos, const glm::ivec2 &size) const;
 	bool collisionMoveRight(const glm::ivec2 &pos, const glm::ivec2 &size) const;
+
+	int tileToMaterial(int x, int y);
+
+	bool addMaterial(int x, int y, int material);
+
+	void addAndRender(int material,int x, int y);
+
 	bool collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, int *posY, const bool bLeft,const int marg) const;
+
 	
 private:
 	bool loadLevel(const string &levelFile);
@@ -44,10 +64,13 @@ private:
 	int tileSize, blockSize;
 	Texture tilesheet;
 	glm::vec2 tileTexSize;
-	int *map;
-
+	pair<int,int> *map;
+	vector<int> materials;
+	glm::vec2 coordR;
+	ShaderProgram programR;
+	int ntilesVBO;
+	vector<float> vertices;
 };
-
 
 #endif // _TILE_MAP_INCLUDE
 

@@ -4,9 +4,7 @@
 #include <vector>
 #include "TileMap.h"
 
-#define TERRA 24
-#define METALL 25
-#define FUSTA 26
+
 using namespace std;
 
 TileMap *TileMap::createTileMap(const string &levelFile, const glm::vec2 &minCoords, ShaderProgram &program)
@@ -16,8 +14,9 @@ TileMap *TileMap::createTileMap(const string &levelFile, const glm::vec2 &minCoo
 	return map;
 }
 
-TileMap::TileMap(const string &levelFile, const glm::vec2 &minCoords, ShaderProgram &program)
-{
+TileMap::TileMap(const string &levelFile, const glm::vec2 &minCoords, ShaderProgram &program){
+	coordR = minCoords;
+	programR = program;
 	loadLevel(levelFile);
 	prepareArrays(minCoords, program);
 }
@@ -47,9 +46,7 @@ bool TileMap::loadLevel(const string &levelFile)
 {
 	ifstream fin;
 	string line, tilesheetFile;
-	stringstream sstream;
-//	char tile;
-	
+	stringstream sstream;	
 	fin.open(levelFile.c_str());
 	if(!fin.is_open())
 		return false;
@@ -75,8 +72,12 @@ bool TileMap::loadLevel(const string &levelFile)
 	sstream >> tilesheetSize.x >> tilesheetSize.y;
 	tileTexSize = glm::vec2(1.f / tilesheetSize.x, 1.f / tilesheetSize.y);
 	
-	map = new int[mapSize.x * mapSize.y];
-	for(int j=0; j<mapSize.y; j++) {
+	//map = new int[mapSize.x * mapSize.y];
+	//for(int j=0; j<mapSize.y; j++) {
+	map = new std::pair<int,int> [mapSize.x * mapSize.y];
+	materials = { COAL,DIAMOND,WOOD,TUSK,GOLD,ROCK };
+	for(int j=0; j<mapSize.y; j++)
+	{
 		getline(fin, line);
 		stringstream ss(line);
 		string field;
@@ -88,34 +89,44 @@ bool TileMap::loadLevel(const string &levelFile)
 			fs >> f;
 			switch (f) {
 				case -1:
-					map[j*mapSize.x + i]= 0;
+					map[j*mapSize.x + i].first= 0;
+					map[j*mapSize.x + i].second= 0;
 					break;
 				case 5:	//tierra con cesped
-					map[j*mapSize.x + i] = 6;
+					map[j*mapSize.x + i].first = 6;
+					map[j*mapSize.x + i].second = 1;
 					break;
 				case 11:	//tierraText1
-					map[j*mapSize.x + i] = 13;
+					map[j*mapSize.x + i].first = 13;
+					map[j*mapSize.x + i].second = 1;
 					break;
 				case 12: //tierraText2
-					map[j*mapSize.x + i] = 14;
+					map[j*mapSize.x + i].first = 14;
+					map[j*mapSize.x + i].second = 1;
 					break;
 				case 37: //piedra 1
-					map[j*mapSize.x + i] = 43;
+					map[j*mapSize.x + i].first = 43;
+					map[j*mapSize.x + i].second = 2;
 					break;
 				case 4:	//piedra 2
-					map[j*mapSize.x + i] = 5;
+					map[j*mapSize.x + i].first = 5;
+					map[j*mapSize.x + i].second = 2;
 					break;
 				case 16: //carbon
-					map[j*mapSize.x + i] = 19;
+					map[j*mapSize.x + i].first = 19;
+					map[j*mapSize.x + i].second = 3;
 					break;
 				case 78: //oro
-					map[j*mapSize.x + i] = 90;
+					map[j*mapSize.x + i].first = 90;
+					map[j*mapSize.x + i].second = 4;
 					break;
 				case 99: //diam
-					map[j*mapSize.x + i] = 114;
+					map[j*mapSize.x + i].first = 114;
+					map[j*mapSize.x + i].second = 6;
 					break;
 				case 94: //FIn
-					map[j*mapSize.x + i] = 108;
+					map[j*mapSize.x + i].first = 108;
+					map[j*mapSize.x + i].second = -1;
 					break;
 			}
 		}
@@ -127,16 +138,14 @@ bool TileMap::loadLevel(const string &levelFile)
 
 void TileMap::prepareArrays(const glm::vec2 &minCoords, ShaderProgram &program) {
 	int tile, nTiles = 0;
-	glm::vec2 posTile, texCoordTile[2], halfTexel;
-	vector<float> vertices;
-	
+	glm::vec2 posTile, texCoordTile[2], halfTexel;	
 	halfTexel = glm::vec2(0.5f / tilesheet.width(),0.5f / tilesheet.height())*18.f;
 	//halfTexel = glm::vec2(0.f);
 	for(int j=0; j<mapSize.y; j++)
 	{
 		for(int i=0; i<mapSize.x; i++)
 		{
-			tile = map[j * mapSize.x + i];
+			tile = map[j * mapSize.x + i].first;
 			if(tile != 0)
 			{
 				// Non-empty tile
@@ -164,6 +173,8 @@ void TileMap::prepareArrays(const glm::vec2 &minCoords, ShaderProgram &program) 
 		}
 	}
 
+	ntilesVBO = nTiles;
+
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 	glGenBuffers(1, &vbo);
@@ -187,7 +198,7 @@ bool TileMap::collisionMoveLeft(const glm::ivec2 &pos, const glm::ivec2 &size) c
 	if (x <= 0) return true;
 	for(int y=y0; y<=y1; y++)
 	{
-		if(map[y*mapSize.x+x] != 0)
+		if(map[y*mapSize.x+x].first != 0)
 			return true;
 	}
 	
@@ -204,7 +215,7 @@ bool TileMap::collisionMoveRight(const glm::ivec2 &pos, const glm::ivec2 &size) 
 	if (x >= 300) return true;
 	for(int y=y0; y<=y1; y++)
 	{
-		if(map[y*mapSize.x+x] != 0)
+		if(map[y*mapSize.x+x].first != 0)
 			return true;
 	}
 	
@@ -224,7 +235,7 @@ bool TileMap::collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, i
 	y = (pos.y + size.y - 1) / tileSize;
 	for(int x=x0; x<=x1; x++)
 	{
-		if(map[y*mapSize.x+x] != 0) {
+		if(map[y*mapSize.x+x].first != 0) {
 			if(*posY - tileSize * y + size.y <= 5) {
 				*posY = tileSize * y - size.y;
 				return true;
@@ -233,4 +244,66 @@ bool TileMap::collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, i
 	}
 	
 	return false;
+}
+
+int TileMap::tileToMaterial(int x, int y) {
+	int material = map[x, y].first;
+	if (material == 6 || material == 13 || material ==14) return TUSK;
+	if (material == 43 || material == 5 ) return ROCK;
+	if (material == 19 ) return COAL;
+	if (material == 90) return GOLD;
+	if (material == 114) return DIAMOND;
+	return NONE;
+}
+
+bool TileMap::addMaterial(int posx, int posy, int material) {
+	int x = 1 + posx / tileSize;
+	int y =  posy / tileSize;
+	if (map[x, y].first != 0 || (map[x - 1, y].first == 0 && map[x - 1, y - 1].first == 0 && map[x, y - 1].first == 0 && map[x + 1, y - 1].first == 0 && map[x + 1, y].first == 0 && map[x + 1, y + 1].first == 0 && map[x, y + 1].first == 0 && map[x - 1, y + 1].first == 0)) {
+		//return false;
+	}
+	for each (int mat in materials) {
+		if (material == mat) {
+			map[y*mapSize.x + x].first = material;
+			map[y*mapSize.x + x].second = 2;
+
+			addAndRender(material, x, y);
+			return true;
+		}
+	}
+	return false;
+}
+
+void TileMap::addAndRender(int material, int x, int y) {
+	glm::vec2 posTile, texCoordTile[2], halfTexel;
+	halfTexel = glm::vec2(0.5f / tilesheet.width(), 0.5f / tilesheet.height())*18.f;
+	posTile = glm::vec2(coordR.x + x* tileSize, coordR.y +y *tileSize);
+	texCoordTile[0] = glm::vec2(float((material-1) % 8) / tilesheetSize.x, float((material - 1) / 8) / tilesheetSize.y);
+	texCoordTile[1] = texCoordTile[0] + tileTexSize;
+	texCoordTile[0] += halfTexel;
+	texCoordTile[1] -= halfTexel;
+	// First triangle
+	vertices.push_back(posTile.x); vertices.push_back(posTile.y);
+	vertices.push_back(texCoordTile[0].x); vertices.push_back(texCoordTile[0].y);
+	vertices.push_back(posTile.x + blockSize); vertices.push_back(posTile.y);
+	vertices.push_back(texCoordTile[1].x); vertices.push_back(texCoordTile[0].y);
+	vertices.push_back(posTile.x + blockSize); vertices.push_back(posTile.y + blockSize);
+	vertices.push_back(texCoordTile[1].x); vertices.push_back(texCoordTile[1].y);
+	// Second triangle
+	vertices.push_back(posTile.x); vertices.push_back(posTile.y);
+	vertices.push_back(texCoordTile[0].x); vertices.push_back(texCoordTile[0].y);
+	vertices.push_back(posTile.x + blockSize); vertices.push_back(posTile.y + blockSize);
+	vertices.push_back(texCoordTile[1].x); vertices.push_back(texCoordTile[1].y);
+	vertices.push_back(posTile.x); vertices.push_back(posTile.y + blockSize);
+	vertices.push_back(texCoordTile[0].x); vertices.push_back(texCoordTile[1].y);
+
+	ntilesVBO++;
+	glGenVertexArrays(1, &vao);
+	glBindVertexArray(vao);
+	glGenBuffers(1, &vbo);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferData(GL_ARRAY_BUFFER, 24 * ntilesVBO * sizeof(float), &vertices[0], GL_STATIC_DRAW);
+	posLocation = programR.bindVertexAttribute("position", 2, 4 * sizeof(float), 0);
+	texCoordLocation = programR.bindVertexAttribute("texCoord", 2, 4 * sizeof(float), (void *)(2 * sizeof(float)));
+	render();
 }

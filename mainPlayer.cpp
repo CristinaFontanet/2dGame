@@ -140,6 +140,7 @@ void MainPlayer::update(int deltaTime) {
 		}
 	}
 	//SPRITE
+	if (Game::instance().getKey('p')) map->addMaterial(posPlayer.x, posPlayer.y, DIAMOND);	//bloque
 	if (Game::instance().getKey('c')) {	//PICAR
 		//TODO: recolocar sprite si es troba en colisio
 		spriteWidth = 64;
@@ -163,6 +164,7 @@ void MainPlayer::update(int deltaTime) {
 				sprite->changeAnimation(STAND_LEFT);
 			}
 		}
+
 		else if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT)) { //Moure esquerre
 			bLeft = false;
 			if (sprite->animation() != MOVE_RIGHT) sprite->changeAnimation(MOVE_RIGHT);

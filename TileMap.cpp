@@ -266,9 +266,7 @@ bool TileMap::addMaterial(int posx, int posy, int material) {
 		if (material == mat) {
 			map[y*mapSize.x + x].first = material;
 			map[y*mapSize.x + x].second = 2;
-			
 			addAndRender(material, x, y);
-			deleteAndRender(x, y+5);
 			return true;
 		}
 	}
@@ -276,7 +274,18 @@ bool TileMap::addMaterial(int posx, int posy, int material) {
 }
 
 int TileMap::dig(int posx, int posy) {
-
+	int x = posx / tileSize;
+	int y = 2 + posy / tileSize;
+	if (map[y*mapSize.x + x].first != 0) {
+		map[y*mapSize.x + x].second--;
+		if (map[y*mapSize.x + x].second == 0) {
+			int material = tileToMaterial(x, y);
+			map[y*mapSize.x + x].first = 0;
+			deleteAndRender(x, y);
+			return material;
+		}
+	}
+	return NONE;
 }
 
 void TileMap::addAndRender(int material, int x, int y) {

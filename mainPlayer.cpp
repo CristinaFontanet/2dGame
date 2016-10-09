@@ -143,6 +143,7 @@ void MainPlayer::update(int deltaTime) {
 	if (Game::instance().getKey('p')) map->addMaterial(posPlayer.x, posPlayer.y, DIAMOND);	//bloque
 	if (Game::instance().getKey('c')) {	//PICAR
 		//TODO: recolocar sprite si es troba en colisio
+		map->dig(posPlayer.x, posPlayer.y);
 		spriteWidth = 64;
 		if (Game::instance().getSpecialKey(GLUT_KEY_DOWN)) {
 			if (bLeft && sprite->animation() != ARM1_LEFT_BOT) sprite->changeAnimation(ARM1_LEFT_BOT);

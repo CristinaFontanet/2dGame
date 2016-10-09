@@ -266,12 +266,17 @@ bool TileMap::addMaterial(int posx, int posy, int material) {
 		if (material == mat) {
 			map[y*mapSize.x + x].first = material;
 			map[y*mapSize.x + x].second = 2;
-
+			
 			addAndRender(material, x, y);
+			deleteAndRender(x, y+5);
 			return true;
 		}
 	}
 	return false;
+}
+
+int TileMap::dig(int posx, int posy) {
+
 }
 
 void TileMap::addAndRender(int material, int x, int y) {
@@ -306,4 +311,26 @@ void TileMap::addAndRender(int material, int x, int y) {
 	posLocation = programR.bindVertexAttribute("position", 2, 4 * sizeof(float), 0);
 	texCoordLocation = programR.bindVertexAttribute("texCoord", 2, 4 * sizeof(float), (void *)(2 * sizeof(float)));
 	render();
+}
+
+
+void TileMap::deleteAndRender(int x, int y) {
+	glm::vec2 posTile = glm::vec2(coordR.x + x * tileSize, coordR.y + y* tileSize);
+	vector<float>::iterator it;
+	for (it = vertices.begin(); it < vertices.end(); it += 24) {
+		if (*it == posTile.x && *(it+1) == posTile.y ) {
+			for (int j = 0; j < 24; j++) it = vertices.erase(it);
+			ntilesVBO--;
+			glGenVertexArrays(1, &vao);
+			glBindVertexArray(vao);
+			glGenBuffers(1, &vbo);
+			glBindBuffer(GL_ARRAY_BUFFER, vbo);
+			glBufferData(GL_ARRAY_BUFFER, 24 * ntilesVBO * sizeof(float), &vertices[0], GL_STATIC_DRAW);
+			posLocation = programR.bindVertexAttribute("position", 2, 4 * sizeof(float), 0);
+			texCoordLocation = programR.bindVertexAttribute("texCoord", 2, 4 * sizeof(float), (void *)(2 * sizeof(float)));
+			render();
+			return;
+		}
+	}
+
 }

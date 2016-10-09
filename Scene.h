@@ -36,6 +36,7 @@ private:
 	float currentTime;
 	glm::vec3 playerPos;
 	glm::mat4 projection;
+	float offsetXCamera, offsetYCamera;
 
 };
 

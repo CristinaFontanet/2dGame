@@ -56,7 +56,9 @@ void Scene::init()
 	mainPlayer->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
 	mainPlayer->setTileMap(map);
 	playerPos = mainPlayer->getPlayerPosition();
-	projection = glm::translate(projection, glm::vec3(SCREEN_HEIGHT/2 -playerPos[0], SCREEN_WIDTH/2 - playerPos[1]*1.5 , 0.f));
+	offsetXCamera = SCREEN_HEIGHT / 2 - playerPos[0];
+	offsetYCamera = SCREEN_WIDTH / 2 - playerPos[1] * 1.5;
+	projection = glm::translate(projection, glm::vec3(offsetXCamera, offsetYCamera, 0.f));
 
 	currentTime = 0.0f;
 }
@@ -68,9 +70,15 @@ void Scene::update(int deltaTime)
 	player->update(deltaTime);
 //	boss->update(deltaTime);
 	mainPlayer->update(deltaTime);
-	if((((playerPos[0])-(SCREEN_WIDTH/2)) >= 0)&& (playerPos[0] < ((32*300)-(SCREEN_WIDTH/2)))) projection = glm::translate(projection, glm::vec3(playerPos[0] -mainPlayer->getPlayerPosition()[0], playerPos[1] - mainPlayer->getPlayerPosition()[1] , 0.f));
+	float incy, incx= 0;
+	incy = playerPos[1] - mainPlayer->getPlayerPosition()[1];
+	offsetYCamera += incy;
+	if ((((playerPos[0]) - (SCREEN_WIDTH / 2)) >= 0) && (playerPos[0] < ((32 * 300) - (SCREEN_WIDTH / 2)))) {
+		incx= playerPos[0] - mainPlayer->getPlayerPosition()[0];
+		offsetXCamera += incx;
+	}
+	projection = glm::translate(projection, glm::vec3(incx, incy, 0.f));
 	playerPos = mainPlayer->getPlayerPosition();
-
 }
 
 void Scene::render()

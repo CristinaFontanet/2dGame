@@ -47,10 +47,13 @@ void Game::specialKeyReleased(int key)
 
 void Game::mouseMove(int x, int y)
 {
+	mouseX = x;
+	mouseY = y;
 }
 
 void Game::mousePress(int button)
 {
+
 }
 
 void Game::mouseRelease(int button)
@@ -67,7 +70,12 @@ bool Game::getSpecialKey(int key) const
 	return specialKeys[key];
 }
 
-
+std::pair<int,int> Game::getMousePosition() {
+	pair <int, int> position;
+	position.first = mouseX;
+	position.second = mouseY;
+	return position;
+}
 
 
 

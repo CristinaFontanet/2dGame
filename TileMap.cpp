@@ -289,6 +289,7 @@ int TileMap::dig(int posx, int posy) {
 }
 
 void TileMap::addAndRender(int material, int x, int y) {
+	deleteAndRender(x, y);
 	glm::vec2 posTile, texCoordTile[2], halfTexel;
 	halfTexel = glm::vec2(0.5f / tilesheet.width(), 0.5f / tilesheet.height())*18.f;
 	posTile = glm::vec2(coordR.x + x* tileSize, coordR.y +y *tileSize);
@@ -327,19 +328,18 @@ void TileMap::deleteAndRender(int x, int y) {
 	glm::vec2 posTile = glm::vec2(coordR.x + x * tileSize, coordR.y + y* tileSize);
 	vector<float>::iterator it;
 	for (it = vertices.begin(); it < vertices.end(); it += 24) {
-		if (*it == posTile.x && *(it+1) == posTile.y ) {
-			for (int j = 0; j < 24; j++) it = vertices.erase(it);
-			ntilesVBO--;
-			glGenVertexArrays(1, &vao);
-			glBindVertexArray(vao);
-			glGenBuffers(1, &vbo);
-			glBindBuffer(GL_ARRAY_BUFFER, vbo);
-			glBufferData(GL_ARRAY_BUFFER, 24 * ntilesVBO * sizeof(float), &vertices[0], GL_STATIC_DRAW);
-			posLocation = programR.bindVertexAttribute("position", 2, 4 * sizeof(float), 0);
-			texCoordLocation = programR.bindVertexAttribute("texCoord", 2, 4 * sizeof(float), (void *)(2 * sizeof(float)));
-			render();
-			return;
-		}
+			if (*it == posTile.x && *(it + 1) == posTile.y) {
+				for (int j = 0; j < 24; j++) it = vertices.erase(it);
+				ntilesVBO--;
+				glGenVertexArrays(1, &vao);
+				glBindVertexArray(vao);
+				glGenBuffers(1, &vbo);
+				glBindBuffer(GL_ARRAY_BUFFER, vbo);
+				glBufferData(GL_ARRAY_BUFFER, 24 * ntilesVBO * sizeof(float), &vertices[0], GL_STATIC_DRAW);
+				posLocation = programR.bindVertexAttribute("position", 2, 4 * sizeof(float), 0);
+				texCoordLocation = programR.bindVertexAttribute("texCoord", 2, 4 * sizeof(float), (void *)(2 * sizeof(float)));
+				render();
+				break;
+			}
 	}
-
 }

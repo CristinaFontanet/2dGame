@@ -77,5 +77,7 @@ std::pair<int,int> Game::getMousePosition() {
 	return position;
 }
 
-
+std::pair<float, float> Game::getOffsetCamera() {
+	return scene.getOffsetCamera();
+}
 

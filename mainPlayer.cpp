@@ -142,6 +142,7 @@ void MainPlayer::update(int deltaTime) {
 	//SPRITE
 	if (Game::instance().getKey('p')) {
 		pair<int,int> mousePos = Game::instance().getMousePosition();
+		
 		map->addMaterial(posPlayer.x, posPlayer.y, DIAMOND);	//bloque
 	}
 	if (Game::instance().getKey('c')) {	//PICAR

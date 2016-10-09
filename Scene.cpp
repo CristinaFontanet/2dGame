@@ -126,5 +126,10 @@ void Scene::initShaders()
 	fShader.free();
 }
 
-
+std::pair<float, float> Scene::getOffsetCamera() {
+	pair <float, float> offset;
+	offset.first = offsetXCamera;
+	offset.second = offsetYCamera;
+	return offset;
+}
 

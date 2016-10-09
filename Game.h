@@ -44,6 +44,8 @@ public:
 
 	std::pair<int, int> getMousePosition();
 
+	std::pair<float, float> getOffsetCamera();
+
 private:
 	int mouseX, mouseY;
 	bool bPlay;                       // Continue to play game?

@@ -23,9 +23,11 @@ public:
 	void init();
 	void update(int deltaTime);
 	void render();
+	std::pair<float, float> getOffsetCamera();
 
 private:
 	void initShaders();
+
 
 private:
 	TileMap *map;

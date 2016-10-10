@@ -4,6 +4,8 @@
 #include <GL/glut.h>
 #include "MainPlayer.h"
 #include "Game.h"
+#include <CEGUI/CEGUI.h>
+#include <CEGUI/RendererModules/OpenGL/GL3Renderer.h>
 
 #define JUMP_ANGLE_STEP 4
 #define JUMP_HEIGHT 90
@@ -130,6 +132,7 @@ void MainPlayer::mouseClick(int x, int y) {
 	spriteWidth = 64;
 	animationInProgress = true;
 	if (equipedItem == PICKAXE) digAnimation();
+//CEGUI::OpenGL3Renderer& myRenderer = CEGUI::bootstrapSystem();
 }
 
 void MainPlayer::update(int deltaTime) {

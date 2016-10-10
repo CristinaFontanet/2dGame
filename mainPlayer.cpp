@@ -12,6 +12,7 @@
 #define WIDTHWALK 32
 #define SPRITEMARGIN 32
 #define ANIMATION_SPEED 8
+#define ALLEGRO_PI        3.14159265358979323846
 
 enum SpriteMoves {
 	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT, ARM1_LEFT,ARM1_LEFT_BOT, ARM1_RIGHT, ARM1_RIGHT_BOT
@@ -23,6 +24,7 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	widhtProp = 1.f / 48.f;
 	double yoffset = 1.f /32.f;
 	bJumping = false;
+	lastDeltaTime = 2;
 	bLeft = true;
 	spritesheet.loadFromFile("images/Especials_1.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	
@@ -120,34 +122,48 @@ bool MainPlayer::isDiggingBottom() {
 	else return false;
 }
 
+void MainPlayer::mouseClick(int x, int y) {
+	pair<int, int> offset = Game::instance().getOffsetCamera();
+	map->dig(x+offset.first, y+offset.second);
+}
+
 void MainPlayer::update(int deltaTime) {
 
 	sprite->update(deltaTime);
-	if (isDiggingLateral()) { 
-		if (sprite->getNumKeyFrameMissing() != 8) {
-			
+	int dif = deltaTime - lastDeltaTime;
+	if (dif > 15) {
+		lastDeltaTime = deltaTime;
+		if (isDiggingLateral()) {
+			if (sprite->getNumKeyFrameMissing() == 8) {
+				++digCount;
+				//	map->dig(posPlayer.x,posPlayer.y);
+			}
 		}
-		else {
-			++digCount;
+		else if (isDiggingBottom()) {
+			if (sprite->getNumKeyFrameMissing() == 10) {
+				++digCount;
+				map->dig(posPlayer.x, posPlayer.y);
+			}
 		}
 	}
-	else if (isDiggingBottom()) {
-		if (sprite->getNumKeyFrameMissing() != 11) {
-			
-		}
-		else {
-			++digCount;
-		}
+	pair<int, int> mousePos = Game::instance().getMousePosition();
+	if (mousePos.first != 0) {
+		int i = 1;
 	}
 	//SPRITE
 	if (Game::instance().getKey('p')) {
-		pair<int,int> mousePos = Game::instance().getMousePosition();
-		
+		pair<float,float> offset = Game::instance().getOffsetCamera();
+		int difX = posPlayer.x - mousePos.first;
+		int blocksX = difX / 8;
+		int difY = posPlayer.y - mousePos.second;
+		int blocksY = difY / 16;
+		double dir = atan2(posPlayer.y -mousePos.second, posPlayer.x - mousePos.first)*180.0 / ALLEGRO_PI;
+	
 		map->addMaterial(posPlayer.x, posPlayer.y, DIAMOND);	//bloque
 	}
 	if (Game::instance().getKey('c')) {	//PICAR
 		//TODO: recolocar sprite si es troba en colisio
-		map->dig(posPlayer.x, posPlayer.y);
+	//	map->dig(posPlayer.x, posPlayer.y);
 		spriteWidth = 64;
 		if (Game::instance().getSpecialKey(GLUT_KEY_DOWN)) {
 			if (bLeft && sprite->animation() != ARM1_LEFT_BOT) sprite->changeAnimation(ARM1_LEFT_BOT);

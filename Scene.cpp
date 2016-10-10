@@ -13,8 +13,6 @@
 #define INIT_BOSS_X_TILES 7
 #define INIT_BOSS_Y_TILES 8
 
-
-
 Scene::Scene()
 {
 	map = NULL;
@@ -33,7 +31,6 @@ Scene::~Scene()
 		delete boss;
 	if (mainPlayer != NULL) delete mainPlayer;
 }
-
 
 void Scene::init()
 {
@@ -96,6 +93,10 @@ void Scene::render()
 	mainPlayer->render();
 }
 
+void Scene::mouseClicked(int x, int y) {
+	mainPlayer->mouseClick(x, y);
+}
+
 void Scene::initShaders()
 {
 	Shader vShader, fShader;
@@ -128,8 +129,8 @@ void Scene::initShaders()
 
 std::pair<float, float> Scene::getOffsetCamera() {
 	pair <float, float> offset;
-	offset.first = offsetXCamera;
-	offset.second = offsetYCamera;
+	offset.first = abs(offsetXCamera);
+	offset.second = abs(offsetYCamera);
 	return offset;
 }
 

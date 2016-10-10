@@ -275,7 +275,7 @@ bool TileMap::addMaterial(int posx, int posy, int material) {
 
 int TileMap::dig(int posx, int posy) {
 	int x = posx / tileSize;
-	int y = 2 + posy / tileSize;
+	int y = posy / tileSize;
 	if (map[y*mapSize.x + x].first != 0) {
 		map[y*mapSize.x + x].second--;
 		if (map[y*mapSize.x + x].second == 0) {

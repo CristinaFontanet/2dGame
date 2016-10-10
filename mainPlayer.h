@@ -15,6 +15,7 @@ public:
 	void setPosition(const glm::vec2 &pos);
 	glm::vec3 getPlayerPosition();
 	void setPlayerState(int state);
+	void mouseClick(int x, int y);
 
 	enum playerState {
 		WALKING, WEAPON1, WEAPON2, BYPET
@@ -40,7 +41,7 @@ private:
 	int marg;
 	int height, spriteWidth;
 	int digCount;
-
+	int lastDeltaTime;
 };
 
 

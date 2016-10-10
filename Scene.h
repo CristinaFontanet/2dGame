@@ -23,6 +23,7 @@ public:
 	void init();
 	void update(int deltaTime);
 	void render();
+	void mouseClicked(int x, int y);
 	std::pair<float, float> getOffsetCamera();
 
 private:

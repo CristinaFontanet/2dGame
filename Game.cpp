@@ -51,13 +51,17 @@ void Game::mouseMove(int x, int y)
 	mouseY = y;
 }
 
-void Game::mousePress(int button)
+void Game::mousePress(int button, int x, int y)
 {
-
+	mouseX = x;
+	mouseY = y;
+	scene.mouseClicked(x, y);
 }
 
-void Game::mouseRelease(int button)
+void Game::mouseRelease(int button, int x, int y)
 {
+	mouseX = x;
+	mouseY = y;
 }
 
 bool Game::getKey(int key) const

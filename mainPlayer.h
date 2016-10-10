@@ -5,6 +5,7 @@
 #include "TileMap.h"
 
 class MainPlayer {
+#define PICKAXE 1
 
 public:
 	void init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram);
@@ -14,6 +15,7 @@ public:
 	void setTileMap(TileMap *tileMap);
 	void setPosition(const glm::vec2 &pos);
 	glm::vec3 getPlayerPosition();
+	void digAnimation();
 	void setPlayerState(int state);
 	void mouseClick(int x, int y);
 
@@ -42,6 +44,10 @@ private:
 	int height, spriteWidth;
 	int digCount;
 	int lastDeltaTime;
+	bool animationInProgress;
+	int currentAnimation;
+	int lastXclick, lastYclick;
+	int equipedItem; 
 };
 
 

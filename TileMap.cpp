@@ -273,9 +273,12 @@ bool TileMap::addMaterial(int posx, int posy, int material) {
 	return false;
 }
 
-int TileMap::dig(int posx, int posy) {
+int TileMap::dig(int posx, int posy, int playerX, int playerY, int range) {
 	int x = posx / tileSize;
 	int y = posy / tileSize;
+	int xplay = playerX / tileSize;
+	int yplay = playerY / tileSize;
+	if (abs(x - xplay) > range || abs(y - yplay) > range) return NONE;
 	if (map[y*mapSize.x + x].first != 0) {
 		map[y*mapSize.x + x].second--;
 		if (map[y*mapSize.x + x].second == 0) {

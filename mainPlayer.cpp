@@ -19,7 +19,8 @@ enum SpriteMoves {
 };
 
 void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram) {
-	digCount = 0;
+	animationInProgress = false;
+	equipedItem = PICKAXE;
 	heightProp = 1.f / 32.f;
 	widhtProp = 1.f / 48.f;
 	double yoffset = 1.f /32.f;
@@ -124,57 +125,40 @@ bool MainPlayer::isDiggingBottom() {
 
 void MainPlayer::mouseClick(int x, int y) {
 	pair<int, int> offset = Game::instance().getOffsetCamera();
-	map->dig(x+offset.first, y+offset.second);
+	lastXclick = x + offset.first;
+	lastYclick = y + offset.second;
+	spriteWidth = 64;
+	animationInProgress = true;
+	if (equipedItem == PICKAXE) digAnimation();
 }
 
 void MainPlayer::update(int deltaTime) {
 
 	sprite->update(deltaTime);
-	int dif = deltaTime - lastDeltaTime;
-	if (dif > 15) {
-		lastDeltaTime = deltaTime;
-		if (isDiggingLateral()) {
-			if (sprite->getNumKeyFrameMissing() == 8) {
-				++digCount;
-				//	map->dig(posPlayer.x,posPlayer.y);
-			}
-		}
-		else if (isDiggingBottom()) {
-			if (sprite->getNumKeyFrameMissing() == 10) {
-				++digCount;
-				map->dig(posPlayer.x, posPlayer.y);
-			}
+
+	if (isDiggingLateral()) {
+		if (sprite->getNumKeyFrameMissing() == 8) {
+			if(sprite->animation() == ARM1_LEFT)sprite->changeAnimation(STAND_LEFT);
+			else sprite->changeAnimation(STAND_RIGHT);
+			map->dig(lastXclick,lastYclick,posPlayer.x,posPlayer.y+spriteWidth/2,1);
+			animationInProgress = false;
 		}
 	}
-	pair<int, int> mousePos = Game::instance().getMousePosition();
-	if (mousePos.first != 0) {
-		int i = 1;
+	else if (isDiggingBottom()) {
+		if (sprite->getNumKeyFrameMissing() == 10) {
+			if (sprite->animation() == ARM1_LEFT_BOT)sprite->changeAnimation(STAND_LEFT);
+			else sprite->changeAnimation(STAND_RIGHT);
+			map->dig(lastXclick, lastYclick, posPlayer.x, posPlayer.y +spriteWidth/2,1);
+			animationInProgress = false;
+		}
 	}
+
 	//SPRITE
 	if (Game::instance().getKey('p')) {
-		pair<float,float> offset = Game::instance().getOffsetCamera();
-		int difX = posPlayer.x - mousePos.first;
-		int blocksX = difX / 8;
-		int difY = posPlayer.y - mousePos.second;
-		int blocksY = difY / 16;
-		double dir = atan2(posPlayer.y -mousePos.second, posPlayer.x - mousePos.first)*180.0 / ALLEGRO_PI;
-	
 		map->addMaterial(posPlayer.x, posPlayer.y, DIAMOND);	//bloque
 	}
-	if (Game::instance().getKey('c')) {	//PICAR
-		//TODO: recolocar sprite si es troba en colisio
-	//	map->dig(posPlayer.x, posPlayer.y);
-		spriteWidth = 64;
-		if (Game::instance().getSpecialKey(GLUT_KEY_DOWN)) {
-			if (bLeft && sprite->animation() != ARM1_LEFT_BOT) sprite->changeAnimation(ARM1_LEFT_BOT);
-			else if (!bLeft && sprite->animation() != ARM1_RIGHT_BOT) sprite->changeAnimation(ARM1_RIGHT_BOT);
-		}
-		else {
-			if (bLeft && sprite->animation() != ARM1_LEFT) sprite->changeAnimation(ARM1_LEFT);
-			else if (!bLeft && sprite->animation() != ARM1_RIGHT) sprite->changeAnimation(ARM1_RIGHT);
-		}
-	}
-	else {
+
+	if(!animationInProgress) {
 		spriteWidth = 32;
 		if (Game::instance().getSpecialKey(GLUT_KEY_LEFT)) { //Moure dreta
 			bLeft = true;
@@ -254,4 +238,17 @@ void MainPlayer::setPosition(const glm::vec2 &pos)
 
 glm::vec3 MainPlayer::getPlayerPosition() {
 	return glm::vec3(posPlayer.x, posPlayer.y, 0.f);
+}
+
+
+void MainPlayer::digAnimation() {
+	if ((posPlayer.y + spriteWidth) < lastYclick) {
+		if (posPlayer.x  > lastXclick && sprite->animation() != ARM1_LEFT_BOT) sprite->changeAnimation(ARM1_LEFT_BOT);
+		else if (posPlayer.x < lastXclick && sprite->animation() != ARM1_RIGHT_BOT) sprite->changeAnimation(ARM1_RIGHT_BOT);
+	}
+	else {
+		if (posPlayer.x > lastXclick && sprite->animation() != ARM1_LEFT) sprite->changeAnimation(ARM1_LEFT);
+		else if (posPlayer.x < lastXclick && sprite->animation() != ARM1_RIGHT) sprite->changeAnimation(ARM1_RIGHT);
+
+	}
 }

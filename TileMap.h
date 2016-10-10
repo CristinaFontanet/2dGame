@@ -47,7 +47,7 @@ public:
 
 	bool addMaterial(int x, int y, int material);
 
-	int dig(int posx, int posy);
+	int dig(int posx, int posy, int playerX, int playerY, int range);
 
 	void actualizarVBO();
 

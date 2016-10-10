@@ -49,9 +49,11 @@ public:
 
 	int dig(int posx, int posy);
 
-	void addAndRender(int material,int x, int y);
+	void actualizarVBO();
 
-	void deleteAndRender(int x, int y);
+	void addVertices(int material,int x, int y);
+
+	void deleteVertices(int x, int y);
 
 	bool collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, int *posY, const bool bLeft,const int marg) const;
 

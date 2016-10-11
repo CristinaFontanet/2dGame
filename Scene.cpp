@@ -3,6 +3,11 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "Scene.h"
 #include "Game.h"
+#include <CEGUI/CEGUI.h>
+#include <CEGUI/Window.h>
+#include <CEGUI/WindowManager.h>
+#include <CEGUI\RendererModules\Ogre\Renderer.h>
+#include <CEGUI\RendererModules\OpenGL\GL3Renderer.h>
 
 
 #define SCREEN_X 0
@@ -60,11 +65,13 @@ void Scene::init()
 	currentTime = 0.0f;
 
 	//GUI
-
+	
 	m_gui.init("../GUI");
 	m_gui.loadScheme("TaharezLook.scheme");
 	m_gui.setFont("DejaVuSans-10");
-	m_gui.createWidget("TaharezLook/FrameWindow", glm::vec4(0.5f, 0.5f, 0.1f, 0.5f), glm::vec4(0.0f), "Test Button");
+//	m_gui.setMouseCursor("TaharezLook/MouseArrow");
+	m_gui.createInventory("TaharezLook/FrameWindow", glm::vec4(0.5f, 0.5f, 0.1f, 0.5f), glm::vec4(0.0f), "Test Button");
+
 }
 
 void Scene::update(int deltaTime)

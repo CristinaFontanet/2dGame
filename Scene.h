@@ -8,6 +8,7 @@
 #include "P_conillet.h"
 #include "P_boss.h"
 #include "MainPlayer.h"
+#include "GUI.h"
 
 // Scene contains all the entities of our game.
 // It is responsible for updating and render them.
@@ -25,6 +26,7 @@ public:
 	void render();
 	void mouseClicked(int x, int y);
 	std::pair<float, float> getOffsetCamera();
+	Bengine::GUI m_gui;
 
 private:
 	void initShaders();

@@ -130,6 +130,7 @@ void MainPlayer::mouseClick(int x, int y) {
 	spriteWidth = 64;
 	animationInProgress = true;
 	if (equipedItem == PICKAXE) digAnimation();
+
 }
 
 void MainPlayer::update(int deltaTime) {

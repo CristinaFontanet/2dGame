@@ -8,6 +8,7 @@
 #include "P_conillet.h"
 #include "P_boss.h"
 #include "MainPlayer.h"
+#include "GUI.h"
 
 // Scene contains all the entities of our game.
 // It is responsible for updating and render them.

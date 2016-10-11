@@ -25,6 +25,7 @@ public:
 	void render();
 	void mouseClicked(int x, int y);
 	std::pair<float, float> getOffsetCamera();
+	Bengine::GUI m_gui;
 
 private:
 	void initShaders();

@@ -58,6 +58,13 @@ void Scene::init()
 	projection = glm::translate(projection, glm::vec3(offsetXCamera, offsetYCamera, 0.f));
 
 	currentTime = 0.0f;
+
+	//GUI
+
+	m_gui.init("../GUI");
+	m_gui.loadScheme("TaharezLook.scheme");
+	m_gui.setFont("DejaVuSans-10");
+	m_gui.createWidget("TaharezLook/FrameWindow", glm::vec4(0.5f, 0.5f, 0.1f, 0.5f), glm::vec4(0.0f), "Test Button");
 }
 
 void Scene::update(int deltaTime)
@@ -91,6 +98,7 @@ void Scene::render()
 //	player->render();
 //	boss->render();
 	mainPlayer->render();
+	m_gui.draw();
 }
 
 void Scene::mouseClicked(int x, int y) {

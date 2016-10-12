@@ -16,7 +16,7 @@
 
                     <Window name="Image" type="WindowsLook/StaticImage">
                         <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}" />
-                        <Property name="Image" value="TaharezLook/GenericBrush" />
+                        <Property name="Image" value="spritesheet_tiles/Pedra" />
                         <Property name="MousePassThroughEnabled" value="True" />
                     </Window>
 
@@ -33,6 +33,12 @@
             <Window name="Slot2" type="WindowsLook/Static">
                 <Property name="Position" value="{{0.283,0},{0.05,0}}" />
                 <Property name="Size" value="{{0.2,0},{0.26,0}}" />
+                <Property name="Image" value="spritesheet_tiles/Fusta" />
+                <Window name="Quant2" type="WindowsLook/Static">
+                    <Property name="Position" value="{{0.8,0},{0.75,0}}" />
+                    <Property name="Size" value="{{0,10},{0,15}}" />
+                    <Property name="Text" value= " 0" />
+                </Window>
             </Window>
 
             <Window name="Slot3" type="WindowsLook/Static">

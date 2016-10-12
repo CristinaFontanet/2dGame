@@ -40,7 +40,18 @@ void Bengine::GUI::init(const std::string& resourceDirectory) {
 	loadScheme("SampleBrowser.scheme");
 	loadScheme("VanillaSkin.scheme");
 	loadScheme("VanillaCommonDialogs.scheme");
-	
+	ImageManager::getSingleton().loadImageset("TaharezLook.imageset", "imagesets");
+	ImageManager::getSingleton().loadImageset("spritesheet_tiles.imageset", "imagesets");
+
+	CEGUI::System::getSingleton().getDefaultGUIContext().injectKeyDown(Key::Scan::ArrowDown); // Tells CEGUI Key has been Pressed
+	CEGUI::System::getSingleton().getDefaultGUIContext().injectKeyUp(Key::Scan::ArrowUp); // Tells CEGUI Key has been Released
+
+	CEGUI::System::getSingleton().getDefaultGUIContext().injectChar('c');
+
+	CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseButtonDown(CEGUI::MouseButton::LeftButton);
+	CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseButtonUp(CEGUI::MouseButton::LeftButton);
+	//CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseMove(float delta_x, float delta_y);
+	//CEGUI::System::getSingleton().injectTimePulse(float timeElapsed);
 }
 
 void Bengine::GUI::destroy() {
@@ -81,7 +92,6 @@ void Bengine::GUI::hideMouseCursor() {
 }
 /*
 CEGUI::Key::Scan SDLKeyToCEGUIKey(SDL_Keycode key) {
-    using namespace CEGUI;
     switch (key) {
         case SDLK_BACKSPACE:    return Key::Backspace;
         case SDLK_TAB:          return Key::Tab;
@@ -249,12 +259,21 @@ CEGUI::Window* Bengine::GUI::createInventory(const glm::vec4& destRectPerc, cons
 	if (inventoryWindow == nullptr) {
 		inventoryWindow = WindowManager::getSingleton().loadLayoutFromFile("inventory.layout");
 	}
-	if (m_context->getRootWindow() == NULL) m_context->setRootWindow(inventoryWindow);
+	if (m_context->getRootWindow() == NULL) {
+		m_context->setRootWindow(inventoryWindow);
+	
+	//	inventoryWindow->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&OurPlayer::Jump, leftPlayer));
+		//inventoryWindow->subscribeEvent(FrameWindow::EventCloseClicked, Event::Subscriber(&Bengine::GUI::closeWindowButton));
+	//	inventoryWindow->subscribeEvent(CEGUI::PushButton::EventClicked, Event::Subscriber(&MainPlayer::digAnimation));
+	}
 	else m_context->setRootWindow(NULL);
 	
 	return inventoryWindow;
 }
 
+void Bengine::GUI::closeWindowButton() {
+
+}
 
 void Bengine::GUI::setWidgetDestRect(CEGUI::Window* widget, const glm::vec4& destRectPerc, const glm::vec4& destRectPix) {
     widget->setPosition(CEGUI::UVector2(CEGUI::UDim(destRectPerc.x, destRectPix.x), CEGUI::UDim(destRectPerc.y, destRectPix.y)));

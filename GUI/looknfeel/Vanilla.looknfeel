@@ -224,10 +224,10 @@
                         <AbsoluteDim value="0"/>
                     </Dim>
                     <Dim type="Width">
-                        <UnifiedDim scale="1" type="Width"/>
+                        <UnifiedDim scale="10" type="Width"/>
                     </Dim>
                     <Dim type="Height">
-                        <UnifiedDim scale="1" type="Height"/>
+                        <UnifiedDim scale="10" type="Height"/>
                     </Dim>
                 </Area>
                 <ImageProperty name="NormalImage"/>
@@ -245,10 +245,10 @@
                         <AbsoluteDim value="0"/>
                     </Dim>
                     <Dim type="Width">
-                        <UnifiedDim scale="1" type="Width"/>
+                        <UnifiedDim scale="10" type="Width"/>
                     </Dim>
                     <Dim type="Height">
-                        <UnifiedDim scale="1" type="Height"/>
+                        <UnifiedDim scale="10" type="Height"/>
                     </Dim>
                 </Area>
                 <ImageProperty name="HoverImage"/>
@@ -266,10 +266,10 @@
                         <AbsoluteDim value="0"/>
                     </Dim>
                     <Dim type="Width">
-                        <UnifiedDim scale="1" type="Width"/>
+                        <UnifiedDim scale="10" type="Width"/>
                     </Dim>
                     <Dim type="Height">
-                        <UnifiedDim scale="1" type="Height"/>
+                        <UnifiedDim scale="10" type="Height"/>
                     </Dim>
                 </Area>
                 <ImageProperty name="PushedImage"/>

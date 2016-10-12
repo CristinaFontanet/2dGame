@@ -3,6 +3,7 @@
 #include <CEGUI/CEGUI.h>
 #include <CEGUI/RendererModules/OpenGL/GL3Renderer.h>
 #include <glm/glm.hpp>
+#include "mainPlayer.h"
 using namespace CEGUI;
 //#include <SDL/SDL_events.h>
 
@@ -18,6 +19,7 @@ namespace Bengine {
         void setMouseCursor(const std::string& imageFile);
         void showMouseCursor();
         void hideMouseCursor();
+		void closeWindowButton();
 
     //    void onSDLEvent(SDL_Event& evnt);
 

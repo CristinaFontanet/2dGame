@@ -66,9 +66,8 @@ void Scene::init()
 	//GUI
 	
 	m_gui.init("../GUI");
-	m_gui.loadScheme("TaharezLook.scheme");
 	m_gui.setFont("DejaVuSans-10");
-
+	m_gui.setMouseCursor("TaharezLook/MouseArrow");
 }
 
 void Scene::update(int deltaTime)
@@ -108,7 +107,7 @@ void Scene::mouseClicked(int x, int y) {
 }
 
 void Scene::openInventory() {
-	m_gui.createInventory("TaharezLook/FrameWindow", glm::vec4(0.5f, 0.5f, 0.1f, 0.5f), glm::vec4(0.0f), "Test Button");
+	m_gui.createInventory( glm::vec4(0.5f, 0.5f, 0.1f, 0.5f), glm::vec4(0.0f), "Test Button");
 }
 
 void Scene::initShaders()

@@ -45,6 +45,7 @@ private:
 	glm::mat4 projection;
 	float offsetXCamera, offsetYCamera;
 
+
 };
 
 

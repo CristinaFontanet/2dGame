@@ -1,5 +1,6 @@
 #include "GUI.h"
 #include <string>
+#include <vector>
 
 //#include <SDL/SDL_timer.h>
 
@@ -31,14 +32,10 @@ void Bengine::GUI::init(const std::string& resourceDirectory) {
     }
 
     m_context = &System::getSingleton().createGUIContext(m_renderer->getDefaultRenderTarget());
-	ImageManager::getSingleton().loadImageset( "TaharezLook.imageset", "imagesets");
 
-    m_root = WindowManager::getSingleton().createWindow("DefaultWindow", "root");
-    m_context->setRootWindow(m_root);
-
-	//m_context->getMouseCursor().setDefaultImage("TaharezLook/MouseArrow");
-
-	System::getSingleton().getDefaultGUIContext().getMouseCursor().setDefaultImage("TaharezLook/MouseArrow");
+	loadScheme("TaharezLook.scheme");
+	loadScheme("WindowsLook.scheme");
+	
 }
 
 void Bengine::GUI::destroy() {
@@ -233,6 +230,7 @@ void Bengine::GUI::onSDLEvent(SDL_Event& evnt) {
 */
 void Bengine::GUI::loadScheme(const std::string& schemeFile) {
     CEGUI::SchemeManager::getSingleton().createFromFile(schemeFile);
+	ImageManager::getSingleton().loadImageset("TaharezLook.imageset", "imagesets");
 }
 
 CEGUI::Window* Bengine::GUI::createWidget(const std::string& type, const glm::vec4& destRectPerc, const glm::vec4& destRectPix, const std::string& name /*= ""*/) {
@@ -242,15 +240,21 @@ CEGUI::Window* Bengine::GUI::createWidget(const std::string& type, const glm::ve
     return newWindow;
 }
 
-CEGUI::Window* Bengine::GUI::createInventory(const std::string& type, const glm::vec4& destRectPerc, const glm::vec4& destRectPix, const std::string& name /*= ""*/) {
+CEGUI::Window* Bengine::GUI::createInventory(const glm::vec4& destRectPerc, const glm::vec4& destRectPix, const std::string& name /*= ""*/) {
+	//m_root = WindowManager::getSingleton().createWindow("TaharezLook/FrameWindow", "root");
+//	m_root->setPosition(CEGUI::UVector2(CEGUI::UDim(0, 0), CEGUI::UDim(0, 0)));
+	
 	if (inventoryWindow == nullptr) {
-		inventoryWindow = WindowManager::getSingleton().loadLayoutFromFile("test.layout");
+		inventoryWindow = WindowManager::getSingleton().loadLayoutFromFile("DragDropDemo.layout");
 	}
-	if (!m_root->isChild(inventoryWindow)) {
-		m_root->addChild(inventoryWindow);
-		setWidgetDestRect(inventoryWindow, destRectPerc, destRectPix);
-		inventoryWindow->setPosition(CEGUI::UVector2(CEGUI::UDim(destRectPerc.x, destRectPix.x), CEGUI::UDim(destRectPerc.y, destRectPix.y)));
-		inventoryWindow->setSize(CEGUI::USize(CEGUI::UDim(destRectPerc.z, destRectPix.z), CEGUI::UDim(destRectPerc.w, destRectPix.w)));
+	if (m_context->getRootWindow() == NULL) {
+		m_context->setRootWindow(inventoryWindow);
+	//	setWidgetDestRect(inventoryWindow, destRectPerc, destRectPix);
+	//	inventoryWindow->setPosition(CEGUI::UVector2(CEGUI::UDim(destRectPerc.x, destRectPix.x), CEGUI::UDim(destRectPerc.y, destRectPix.y)));
+	//	inventoryWindow->setSize(CEGUI::USize(CEGUI::UDim(destRectPerc.z, destRectPix.z), CEGUI::UDim(destRectPerc.w, destRectPix.w)));
+	}
+	else {
+		m_context->setRootWindow(NULL);
 	}
 	return inventoryWindow;
 }

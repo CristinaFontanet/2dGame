@@ -16,8 +16,7 @@
 // It is responsible for updating and render them.
 
 
-class Scene
-{
+class Scene {
 
 public:
 	Scene();
@@ -27,6 +26,7 @@ public:
 	void update(int deltaTime);
 	void render();
 	void mouseClicked(int x, int y);
+	void openInventory();
 	std::pair<float, float> getOffsetCamera();
 	Bengine::GUI m_gui;
 

@@ -10,7 +10,7 @@ void Bengine::GUI::init(const std::string& resourceDirectory) {
     if (m_renderer == nullptr) {
         m_renderer = &CEGUI::OpenGL3Renderer::bootstrapSystem();
 
-        CEGUI::DefaultResourceProvider* rp = static_cast<CEGUI::DefaultResourceProvider*>(CEGUI::System::getSingleton().getResourceProvider());
+        DefaultResourceProvider* rp = static_cast<DefaultResourceProvider*>(System::getSingleton().getResourceProvider());
         rp->setResourceGroupDirectory("imagesets", resourceDirectory + "/imagesets/");
         rp->setResourceGroupDirectory("schemes", resourceDirectory + "/schemes/");
         rp->setResourceGroupDirectory("fonts", resourceDirectory + "/fonts/");
@@ -18,24 +18,27 @@ void Bengine::GUI::init(const std::string& resourceDirectory) {
         rp->setResourceGroupDirectory("looknfeels", resourceDirectory + "/looknfeel/");
         rp->setResourceGroupDirectory("lua_scripts", resourceDirectory + "/lua_scripts/");
 
-        CEGUI::ImageManager::setImagesetDefaultResourceGroup("imagesets");
+        ImageManager::setImagesetDefaultResourceGroup("imagesets");
 		CEGUI::String im = rp->getDefaultResourceGroup();
 		CEGUI::String im2 = CEGUI::ImageManager::getSingleton().getDefaultResourceGroup();
 		int im3 = CEGUI::ImageManager::getSingleton().getImageCount();
 		CEGUI::String im4 = CEGUI::ImageManager::getSingleton().getImagesetDefaultResourceGroup();
-        CEGUI::Scheme::setDefaultResourceGroup("schemes");
-        CEGUI::Font::setDefaultResourceGroup("fonts");
-        CEGUI::WidgetLookManager::setDefaultResourceGroup("looknfeels");
-        CEGUI::WindowManager::setDefaultResourceGroup("layouts");
-        CEGUI::ScriptModule::setDefaultResourceGroup("lua_scripts");
+        Scheme::setDefaultResourceGroup("schemes");
+        Font::setDefaultResourceGroup("fonts");
+        WidgetLookManager::setDefaultResourceGroup("looknfeels");
+        WindowManager::setDefaultResourceGroup("layouts");
+        ScriptModule::setDefaultResourceGroup("lua_scripts");
     }
 
-    m_context = &CEGUI::System::getSingleton().createGUIContext(m_renderer->getDefaultRenderTarget());
-    m_root = CEGUI::WindowManager::getSingleton().createWindow("DefaultWindow", "root");
-    m_context->setRootWindow(m_root);
-//	m_context->getMouseCursor().setDefaultImage("TaharezLook/MouseArrow");
+    m_context = &System::getSingleton().createGUIContext(m_renderer->getDefaultRenderTarget());
+	ImageManager::getSingleton().loadImageset( "TaharezLook.imageset", "imagesets");
 
-	//CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().setDefaultImage("TaharezLook/MouseArrow");
+    m_root = WindowManager::getSingleton().createWindow("DefaultWindow", "root");
+    m_context->setRootWindow(m_root);
+
+	//m_context->getMouseCursor().setDefaultImage("TaharezLook/MouseArrow");
+
+	System::getSingleton().getDefaultGUIContext().getMouseCursor().setDefaultImage("TaharezLook/MouseArrow");
 }
 
 void Bengine::GUI::destroy() {
@@ -240,10 +243,16 @@ CEGUI::Window* Bengine::GUI::createWidget(const std::string& type, const glm::ve
 }
 
 CEGUI::Window* Bengine::GUI::createInventory(const std::string& type, const glm::vec4& destRectPerc, const glm::vec4& destRectPix, const std::string& name /*= ""*/) {
-	CEGUI::Window* newWindow = CEGUI::WindowManager::getSingleton().createWindow(type, name);
-	m_root->addChild(newWindow);
-	setWidgetDestRect(newWindow, destRectPerc, destRectPix);
-	return newWindow;
+	if (inventoryWindow == nullptr) {
+		inventoryWindow = WindowManager::getSingleton().loadLayoutFromFile("test.layout");
+	}
+	if (!m_root->isChild(inventoryWindow)) {
+		m_root->addChild(inventoryWindow);
+		setWidgetDestRect(inventoryWindow, destRectPerc, destRectPix);
+		inventoryWindow->setPosition(CEGUI::UVector2(CEGUI::UDim(destRectPerc.x, destRectPix.x), CEGUI::UDim(destRectPerc.y, destRectPix.y)));
+		inventoryWindow->setSize(CEGUI::USize(CEGUI::UDim(destRectPerc.z, destRectPix.z), CEGUI::UDim(destRectPerc.w, destRectPix.w)));
+	}
+	return inventoryWindow;
 }
 
 

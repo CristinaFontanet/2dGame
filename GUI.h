@@ -3,6 +3,7 @@
 #include <CEGUI/CEGUI.h>
 #include <CEGUI/RendererModules/OpenGL/GL3Renderer.h>
 #include <glm/glm.hpp>
+using namespace CEGUI;
 //#include <SDL/SDL_events.h>
 
 namespace Bengine {
@@ -33,5 +34,6 @@ namespace Bengine {
         CEGUI::GUIContext* m_context = nullptr;
         CEGUI::Window* m_root = nullptr;
         unsigned int m_lastTime = 0;
+		Window* inventoryWindow;
     };
 }

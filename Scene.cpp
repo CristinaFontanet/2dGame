@@ -18,8 +18,7 @@
 #define INIT_BOSS_X_TILES 7
 #define INIT_BOSS_Y_TILES 8
 
-Scene::Scene()
-{
+Scene::Scene() {
 	map = NULL;
 	player = NULL;
 	boss = NULL;
@@ -69,8 +68,6 @@ void Scene::init()
 	m_gui.init("../GUI");
 	m_gui.loadScheme("TaharezLook.scheme");
 	m_gui.setFont("DejaVuSans-10");
-//	m_gui.setMouseCursor("TaharezLook/MouseArrow");
-	m_gui.createInventory("TaharezLook/FrameWindow", glm::vec4(0.5f, 0.5f, 0.1f, 0.5f), glm::vec4(0.0f), "Test Button");
 
 }
 
@@ -102,14 +99,16 @@ void Scene::render()
 	texProgram.setUniformMatrix4f("modelview", modelview);
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
 	map->render();
-//	player->render();
-//	boss->render();
 	mainPlayer->render();
 	m_gui.draw();
 }
 
 void Scene::mouseClicked(int x, int y) {
 	mainPlayer->mouseClick(x, y);
+}
+
+void Scene::openInventory() {
+	m_gui.createInventory("TaharezLook/FrameWindow", glm::vec4(0.5f, 0.5f, 0.1f, 0.5f), glm::vec4(0.0f), "Test Button");
 }
 
 void Scene::initShaders()

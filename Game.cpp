@@ -27,6 +27,7 @@ void Game::keyPressed(int key)
 {
 	if(key == 27) // Escape code
 		bPlay = false;
+	if (key == 'i' || key == 'I') scene.openInventory();
 	keys[key] = true;
 }
 

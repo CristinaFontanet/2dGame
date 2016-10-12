@@ -35,6 +35,11 @@ void Bengine::GUI::init(const std::string& resourceDirectory) {
 
 	loadScheme("TaharezLook.scheme");
 	loadScheme("WindowsLook.scheme");
+	loadScheme("OgreTray.scheme");
+	loadScheme("AlfiskoSkin.scheme");
+	loadScheme("SampleBrowser.scheme");
+	loadScheme("VanillaSkin.scheme");
+	loadScheme("VanillaCommonDialogs.scheme");
 	
 }
 
@@ -241,21 +246,12 @@ CEGUI::Window* Bengine::GUI::createWidget(const std::string& type, const glm::ve
 }
 
 CEGUI::Window* Bengine::GUI::createInventory(const glm::vec4& destRectPerc, const glm::vec4& destRectPix, const std::string& name /*= ""*/) {
-	//m_root = WindowManager::getSingleton().createWindow("TaharezLook/FrameWindow", "root");
-//	m_root->setPosition(CEGUI::UVector2(CEGUI::UDim(0, 0), CEGUI::UDim(0, 0)));
-	
 	if (inventoryWindow == nullptr) {
-		inventoryWindow = WindowManager::getSingleton().loadLayoutFromFile("DragDropDemo.layout");
+		inventoryWindow = WindowManager::getSingleton().loadLayoutFromFile("inventory.layout");
 	}
-	if (m_context->getRootWindow() == NULL) {
-		m_context->setRootWindow(inventoryWindow);
-	//	setWidgetDestRect(inventoryWindow, destRectPerc, destRectPix);
-	//	inventoryWindow->setPosition(CEGUI::UVector2(CEGUI::UDim(destRectPerc.x, destRectPix.x), CEGUI::UDim(destRectPerc.y, destRectPix.y)));
-	//	inventoryWindow->setSize(CEGUI::USize(CEGUI::UDim(destRectPerc.z, destRectPix.z), CEGUI::UDim(destRectPerc.w, destRectPix.w)));
-	}
-	else {
-		m_context->setRootWindow(NULL);
-	}
+	if (m_context->getRootWindow() == NULL) m_context->setRootWindow(inventoryWindow);
+	else m_context->setRootWindow(NULL);
+	
 	return inventoryWindow;
 }
 

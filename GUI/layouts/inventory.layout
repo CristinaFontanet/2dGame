@@ -6,42 +6,59 @@
             <Property name="Text" value="Drag and Drop Demo" />
             <Property name="RollUpEnabled" value="False" />
             <Property name="SizingEnabled" value="False" />
+            <Property name="CloseButtonEnabled" value="True"/> 
+            
+            <Window name="Submit" type="TaharezLook/Button">
+                <Property name="ID" value="Submit" />
+                <Property name="VerticalAlignment" value="Bottom" />
+                <Property name="HorizontalAlignment" value="Right" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="Position" value="{{0,-7},{0,-7}}" />
+                <Property name="Size" value="{{0.25,0},{0,30}}" />
+                <Property name="Text" value="Submit" />
+            </Window>
 
-            <Window name="Slot1" type="WindowsLook/Static">
+            <Window name="Slot1" type="Vanilla/StaticImage">
                 <Property name="Position" value="{{0.05,0},{0.05,0}}" />
                 <Property name="Size" value="{{0.2,0},{0.26,0}}" />
 
                 <Window name="DragContainer1" type="DragContainer">
                     <Property name="Area" value="{{0.05,0},{0.05,0},{0.95,0},{0.95,0}" />
 
-                    <Window name="Image" type="WindowsLook/StaticImage">
+                    <Window name="Image" type="Vanilla/StaticImage">
                         <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}" />
                         <Property name="Image" value="spritesheet_tiles/Pedra" />
                         <Property name="MousePassThroughEnabled" value="True" />
                     </Window>
 
                     <Window name="Quant1" type="Vanilla/StaticText" value = "0">
-                        <Property name="Position" value="{{0.8,0},{0.75,0}}" />
-                        <Property name="Size" value="{{0.3,0},{0.35,0}}" />
-                        <Property name="Text" value= "0" />
+                        <Property name="Position" value="{{0.6,0},{0.75,0}}" />
+                        <Property name="Size" value="{{0,40},{0.35,0}}" />
+                        <Property name="Text" value= " 10" />
                     </Window>
 
                 </Window>
 
             </Window>
 
-            <Window name="Slot2" type="WindowsLook/Static">
+            <Window name="Slot2" type="Vanilla/StaticImage">
                 <Property name="Position" value="{{0.283,0},{0.05,0}}" />
                 <Property name="Size" value="{{0.2,0},{0.26,0}}" />
-                <Window name="Image" type="WindowsLook/StaticImage">
+                <Window name="DragContainer1" type="DragContainer">
+                    <Property name="Area" value="{{0.05,0},{0.05,0},{0.95,0},{0.95,0}" />
+
+                    <Window name="Image" type="Vanilla/StaticImage">
                         <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}" />
                         <Property name="Image" value="spritesheet_tiles/Fusta" />
                         <Property name="MousePassThroughEnabled" value="True" />
                     </Window>
-                <Window name="Quant2" type="WindowsLook/Static">
-                    <Property name="Position" value="{{0.8,0},{0.75,0}}" />
-                    <Property name="Size" value="{{0,10},{0,15}}" />
-                    <Property name="Text" value= " 0" />
+
+                    <Window name="Quant1" type="Vanilla/StaticText" value = "0">
+                        <Property name="Position" value="{{0.6,0},{0.75,0}}" />
+                        <Property name="Size" value="{{0,40},{0.35,0}}" />
+                        <Property name="Text" value= "  0" />
+                    </Window>
+
                 </Window>
             </Window>
 
@@ -74,10 +91,10 @@
                         <Property name="MousePassThroughEnabled" value="True" />
                     </Window>
 
-                    <Window name="Quant1" type="Vanilla/StaticText" value = "0">
-                        <Property name="Position" value="{{0.8,0},{0.75,0}}" />
-                        <Property name="Size" value="{{0.3,0},{0.35,0}}" />
-                        <Property name="Text" value= "0" />
+                    <Window name="Quant1" type="Vanilla/StaticText" >
+                        <Property name="Position" value="{{0.6,0},{0.75,0}}" />
+                        <Property name="Size" value="{{0,40},{0.35,0}}" />
+                        <Property name="Text" value= "100" />
                     </Window>
 
                 </Window>
@@ -109,10 +126,7 @@
                 <Property name="Size" value="{{0.2,0},{0.26,0}}" />
             </Window>
 
-            <Window name="Slot12" type="WindowsLook/Static">
-                <Property name="Position" value="{{0.749,0},{0.69,0}}" />
-                <Property name="Size" value="{{0.2,0},{0.26,0}}" />
-            </Window>
+       
 
         </Window>
 

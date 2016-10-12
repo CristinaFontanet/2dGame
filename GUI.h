@@ -4,6 +4,8 @@
 #include <CEGUI/RendererModules/OpenGL/GL3Renderer.h>
 #include <glm/glm.hpp>
 #include "mainPlayer.h"
+#include <include\SDL_timer.h>
+#include <include\SDL_events.h>
 using namespace CEGUI;
 //#include <SDL/SDL_events.h>
 
@@ -19,9 +21,9 @@ namespace Bengine {
         void setMouseCursor(const std::string& imageFile);
         void showMouseCursor();
         void hideMouseCursor();
-		void closeWindowButton();
+		bool closeWindowButton(const CEGUI::EventArgs& e);
 
-    //    void onSDLEvent(SDL_Event& evnt);
+        void onSDLEvent(SDL_Event& evnt);
 
         void loadScheme(const std::string& schemeFile);
         void setFont(const std::string& fontFile);
@@ -36,6 +38,7 @@ namespace Bengine {
         CEGUI::GUIContext* m_context = nullptr;
         CEGUI::Window* m_root = nullptr;
         unsigned int m_lastTime = 0;
-		Window* inventoryWindow;
+		DefaultWindow* d_root;
+		FrameWindow* inventoryWindow;
     };
 }

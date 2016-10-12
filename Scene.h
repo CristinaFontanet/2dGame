@@ -2,6 +2,7 @@
 #define _SCENE_INCLUDE
 
 
+
 #include <glm/glm.hpp>
 #include "ShaderProgram.h"
 #include "TileMap.h"
@@ -29,7 +30,8 @@ public:
 	void openInventory();
 	std::pair<float, float> getOffsetCamera();
 	Bengine::GUI m_gui;
-
+	SDL_Window& init_SDL();
+	void checkInput();
 private:
 	void initShaders();
 

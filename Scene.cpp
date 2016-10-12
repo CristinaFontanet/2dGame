@@ -9,7 +9,19 @@
 #include <CEGUI\RendererModules\Ogre\Renderer.h>
 #include <CEGUI\RendererModules\OpenGL\GL3Renderer.h>
 
+#include <include\SDL.h>
+#include <include\SDL_timer.h>
+#include <include\SDL_events.h>
 
+#include  "CEGUI\RendererModules\OpenGL\GLRenderer.h"
+#include <GL/gl.h>
+
+
+#include <iostream>
+
+using namespace std;
+
+using namespace CEGUI;
 #define SCREEN_X 0
 #define SCREEN_Y 0
 
@@ -35,6 +47,7 @@ Scene::~Scene()
 		delete boss;
 	if (mainPlayer != NULL) delete mainPlayer;
 }
+
 
 void Scene::init()
 {
@@ -68,6 +81,10 @@ void Scene::init()
 	m_gui.init("../GUI");
 	m_gui.setFont("DejaVuSans-10");
 	m_gui.setMouseCursor("TaharezLook/MouseArrow");
+	m_gui.showMouseCursor();
+	//
+	//SDL_Window & screen = init_SDL();
+	//SDL_ShowCursor(0);
 }
 
 void Scene::update(int deltaTime)
@@ -86,6 +103,16 @@ void Scene::update(int deltaTime)
 	}
 	projection = glm::translate(projection, glm::vec3(incx, incy, 0.f));
 	playerPos = mainPlayer->getPlayerPosition();
+	checkInput();
+}
+
+
+void Scene::checkInput() {
+	SDL_Event evnt;
+	while (SDL_PollEvent(&evnt)) {
+			//	m_game->onSDLEvent(evnt);
+		m_gui.onSDLEvent(evnt);
+	} 
 }
 
 void Scene::render()
@@ -100,7 +127,11 @@ void Scene::render()
 	map->render();
 	mainPlayer->render();
 	m_gui.draw();
+
+	// Updates the screen:
+//	SDL_GL_SwapBuffers();
 }
+
 
 void Scene::mouseClicked(int x, int y) {
 	mainPlayer->mouseClick(x, y);
@@ -147,3 +178,38 @@ std::pair<float, float> Scene::getOffsetCamera() {
 	return offset;
 }
 
+
+SDL_Window & Scene::init_SDL()
+{
+
+	cout << " - initializing SDL" << endl;
+
+	atexit(SDL_Quit);
+
+	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+	{
+		cerr << "Unable to initialise SDL: " << SDL_GetError();
+		exit(0);
+	}
+	SDL_Window *screen = SDL_CreateWindow("My Game Window",
+		SDL_WINDOWPOS_UNDEFINED,
+		SDL_WINDOWPOS_UNDEFINED,
+		1920, 1080,
+		SDL_WINDOW_FULLSCREEN | SDL_WINDOW_OPENGL);
+
+	//SDL_Surface * screen = SDL_SetVideoMode(600, 480, 0, SDL_HWSURFACE);
+
+	if (screen == 0)
+	{
+		cerr << "Unable to set OpenGL videomode: " << SDL_GetError();
+		SDL_Quit();
+		exit(0);
+	}
+
+	SDL_ShowCursor(SDL_DISABLE);
+	//	SDL_EnableUNICODE(1);
+	//	SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
+
+	return *screen;
+
+}

@@ -2,8 +2,6 @@
 #include <string>
 #include <vector>
 
-//#include <SDL/SDL_timer.h>
-
 CEGUI::OpenGL3Renderer* Bengine::GUI::m_renderer = nullptr;
 
 void Bengine::GUI::init(const std::string& resourceDirectory) {
@@ -49,7 +47,11 @@ void Bengine::GUI::init(const std::string& resourceDirectory) {
 	CEGUI::System::getSingleton().getDefaultGUIContext().injectChar('c');
 
 	CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseButtonDown(CEGUI::MouseButton::LeftButton);
+
 	CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseButtonUp(CEGUI::MouseButton::LeftButton);
+
+
+
 	//CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseMove(float delta_x, float delta_y);
 	//CEGUI::System::getSingleton().injectTimePulse(float timeElapsed);
 }
@@ -90,7 +92,7 @@ void Bengine::GUI::showMouseCursor() {
 void Bengine::GUI::hideMouseCursor() {
     m_context->getMouseCursor().hide();
 }
-/*
+
 CEGUI::Key::Scan SDLKeyToCEGUIKey(SDL_Keycode key) {
     switch (key) {
         case SDLK_BACKSPACE:    return Key::Backspace;
@@ -189,8 +191,8 @@ CEGUI::Key::Scan SDLKeyToCEGUIKey(SDL_Keycode key) {
         default:                return Key::Unknown;
     }
 }
-*/
-/*
+
+
 CEGUI::MouseButton SDLButtonToCEGUIButton(Uint8 sdlButton) {
     switch (sdlButton) {
         case SDL_BUTTON_LEFT: return CEGUI::MouseButton::LeftButton;
@@ -201,8 +203,12 @@ CEGUI::MouseButton SDLButtonToCEGUIButton(Uint8 sdlButton) {
     }
     return CEGUI::MouseButton::NoButton;
 }
-*/
-/*
+bool Window::captureInput(void)
+{
+	int i = 2;
+	return true;
+}
+
 void Bengine::GUI::onSDLEvent(SDL_Event& evnt) {
     CEGUI::utf32 codePoint;
     switch (evnt.type) {
@@ -242,7 +248,7 @@ void Bengine::GUI::onSDLEvent(SDL_Event& evnt) {
             break;
     }
 }
-*/
+
 void Bengine::GUI::loadScheme(const std::string& schemeFile) {
     CEGUI::SchemeManager::getSingleton().createFromFile(schemeFile);
 	ImageManager::getSingleton().loadImageset("TaharezLook.imageset", "imagesets");
@@ -257,22 +263,51 @@ CEGUI::Window* Bengine::GUI::createWidget(const std::string& type, const glm::ve
 
 CEGUI::Window* Bengine::GUI::createInventory(const glm::vec4& destRectPerc, const glm::vec4& destRectPix, const std::string& name /*= ""*/) {
 	if (inventoryWindow == nullptr) {
-		inventoryWindow = WindowManager::getSingleton().loadLayoutFromFile("inventory.layout");
+
+		m_context->getMouseCursor().setDefaultImage("TaharezLook/MouseArrow");
+		d_root = (DefaultWindow*)WindowManager::getSingleton().createWindow("DefaultWindow", "Root");
+
+		m_context->setRootWindow(d_root);
+
+		inventoryWindow = (FrameWindow*)WindowManager::getSingleton().loadLayoutFromFile("inventory.layout");
+		d_root->addChild(inventoryWindow); inventoryWindow->subscribeEvent(CEGUI::Window::EventMouseClick, Event::Subscriber(&Bengine::GUI::closeWindowButton, this));;
 	}
-	if (m_context->getRootWindow() == NULL) {
-		m_context->setRootWindow(inventoryWindow);
-	
-	//	inventoryWindow->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&OurPlayer::Jump, leftPlayer));
-		//inventoryWindow->subscribeEvent(FrameWindow::EventCloseClicked, Event::Subscriber(&Bengine::GUI::closeWindowButton));
-	//	inventoryWindow->subscribeEvent(CEGUI::PushButton::EventClicked, Event::Subscriber(&MainPlayer::digAnimation));
+	/*if (m_context->getRootWindow() == NULL) {
+		
+		int num = inventoryWindow->getChildCount();
+		Window* mainWindow = inventoryWindow->getChildAtIdx(0);
+		inventoryWindow->subscribeEvent(FrameWindow::EventCloseClicked, Event::Subscriber(&Bengine::GUI::closeWindowButton, this));
+		inventoryWindow->setMousePassThroughEnabled(true);
+		mainWindow->subscribeEvent(FrameWindow::EventCloseClicked, Event::Subscriber(&Bengine::GUI::closeWindowButton, this));
+		m_context->subscribeEvent(FrameWindow::EventCloseClicked, Event::Subscriber(&Bengine::GUI::closeWindowButton, this));
+
+		m_context->subscribeEvent(Window::EventMouseClick, Event::Subscriber(&Bengine::GUI::closeWindowButton, this));
+		mainWindow->subscribeEvent(Window::EventMouseClick, Event::Subscriber(&Bengine::GUI::closeWindowButton, this));
+		inventoryWindow->subscribeEvent(Window::EventMouseClick, Event::Subscriber(&Bengine::GUI::closeWindowButton, this));
+		mainWindow->setMousePassThroughEnabled(true); // this is important!
+		inventoryWindow->setMousePassThroughEnabled(true); // this is important!
+		inventoryWindow->subscribeEvent(CEGUI::Editbox::EventTextAccepted,
+			CEGUI::Event::Subscriber(&Bengine::GUI::closeWindowButton, this));
+		int y = mainWindow->getChildCount();
+		Window* aux = mainWindow->getChild("Submit");
+		if (aux != nullptr) {
+		mainWindow->getChild("Submit")->subscribeEvent(
+			CEGUI::PushButton::EventMouseClick,    // If we recall our button was of type CEGUI::PushButton in the .scheme
+												// and we want to acknowledge the EventClicked action.
+			CEGUI::Event::Subscriber(           // What function to call when this is clicked.  Remember, all functions 
+												// are contained within (this) class.
+				&Bengine::GUI::closeWindowButton,  // Call Handle_SendButtonPressed member of GameConsoleWindow
+				this));
+		} 
 	}
-	else m_context->setRootWindow(NULL);
+	else m_context->setRootWindow(NULL);*/
 	
 	return inventoryWindow;
 }
 
-void Bengine::GUI::closeWindowButton() {
-
+bool  Bengine::GUI::closeWindowButton(const CEGUI::EventArgs& e) {
+	static_cast<const CEGUI::WindowEventArgs&>(e).window->destroy();
+	return true;
 }
 
 void Bengine::GUI::setWidgetDestRect(CEGUI::Window* widget, const glm::vec4& destRectPerc, const glm::vec4& destRectPix) {

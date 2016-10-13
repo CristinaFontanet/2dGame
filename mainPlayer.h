@@ -12,7 +12,7 @@ class MainPlayer {
 #define PICKAXE 1
 
 public:
-	void init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram);
+	void init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram, CEGUI::Window* inventoryWindow);
 	void update(int deltaTime);
 	void render();
 

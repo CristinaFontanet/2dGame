@@ -6,27 +6,32 @@
 #include <vector>
 #include <iostream>
 
+#include <CEGUI/CEGUI.h>
+#include <CEGUI/RendererModules/OpenGL/GL3Renderer.h>
 
 using namespace std;
 
 
-class Item
-{
+class Item {
 public:
 	#define PICKAXE 1
 	#define MATERIAL 2
 
-
-	Item(int typeP, int elementP, int dmgP);
+	Item * createItem(int type, int element, int dmg, int amount, CEGUI::Window* inventoryWindow);
+	Item(int typeP, int elementP, int dmgP, int amount, CEGUI::Window* inventoryWindow);
 	Item();
 
 	int type;
 	int element;
 	int dmg;
+	int amount;
 
 private:
 
-	Item * createItem(int type, int element, int dmg);
+	CEGUI::Window* windImage;
+	CEGUI::Window* windImageSelected;
+	CEGUI::Window* windAmount;
+	CEGUI::Window* windInventory;
 };
 
 #endif 

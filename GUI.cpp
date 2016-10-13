@@ -97,7 +97,6 @@ CEGUI::Window* Bengine::GUI::createInventory() {
 		
 		Window* sl1 = inventoryWindow->getChild("Slot1");
 		if (sl1 != nullptr) {
-		//	sl1->setLookNFeel("TaharezLook/StaticImage");
 			Window* img = sl1->getChild("Image");
 			img->setProperty("Image", "spritesheet_tiles/Fusta");
 			Window* img2 = sl1->getChild("ImageS");
@@ -106,10 +105,11 @@ CEGUI::Window* Bengine::GUI::createInventory() {
 			Window* quant = sl1->getChild("Quant");
 			quant->setProperty("Text", "99");
 		}
-		int i = 1;
-		++i;
-
 	}
+	return inventoryWindow;
+}
+
+CEGUI::Window* Bengine::GUI::getInventoryWindow() {
 	return inventoryWindow;
 }
 

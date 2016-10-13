@@ -19,11 +19,11 @@ enum SpriteMoves {
 	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT, ARM1_LEFT,ARM1_LEFT_BOT, ARM1_RIGHT, ARM1_RIGHT_BOT
 };
 
-void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram) {
+void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram, CEGUI::Window* inventoryWindow) {
 	animationInProgress = false;
 	inventory = vector<Item>(20);
-	inventory[0] = Item(PICKAXE,20, 1);
-	inventory[1] = Item(MATERIAL, TUSK , 0);
+	inventory[0] = Item(PICKAXE,20, 1,1, inventoryWindow);
+	inventory[1] = Item(MATERIAL, TUSK , 0,28, inventoryWindow);
 	equipedItem = inventory[0];
 	heightProp = 1.f / 32.f;
 	widhtProp = 1.f / 48.f;

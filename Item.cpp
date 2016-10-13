@@ -4,11 +4,13 @@
 #include <vector>
 #include "Item.h"
 
-using namespace std;
 
-Item *Item::createItem(int type, int element)
-{
+Item *Item::createItem(int type, int element, CEGUI::Window* inventoryWindow) {
 	Item *item = new Item(type, element);
+	if (inventoryWindow == nullptr) {
+
+	}
+
 	return item;
 }
 

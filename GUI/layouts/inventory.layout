@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <GUILayout version="4">
     <Window name="Inventory" type="DefaultWindow">
-        <Window name="MainWindow" type="Vanilla/FrameWindow">
+        <Window name="MainWindow" type="WindowsLook/FrameWindow">
             <Property name="Area" value="{{0.25,0},{0.25,0},{0.75,0},{0.75,0}" />
             <Property name="Text" value="Drag and Drop Demo" />
             <Property name="RollUpEnabled" value="False" />

@@ -28,6 +28,8 @@ void Game::keyPressed(int key)
 	pressedKey = key;
 	if(key == 27) // Escape code
 		bPlay = false;
+	if (key == '1') scene.selectItem(0);
+	if (key =='2') scene.selectItem(1);
 	keys[key] = true;
 }
 

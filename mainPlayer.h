@@ -23,6 +23,7 @@ public:
 	void putMaterial();
 	void setPlayerState(int state);
 	void mouseClick(int x, int y);
+	void equipItem(int num);
 
 	enum playerState {
 		WALKING, WEAPON1, WEAPON2, BYPET

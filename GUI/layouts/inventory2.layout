@@ -6,13 +6,11 @@
             <Property name="Size" value="{{0,40},{0,40}}" />
                 <Window name="Image" type="Vanilla/StaticImage">
                     <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}" />
-                    <Property name="Image" value="spritesheet_tiles/Pedra" />
                     <Property name="MousePassThroughEnabled" value="True" />
                     <Property name="Visible" value="True"/>
                 </Window>
                  <Window name="ImageS" type="OgreTray/StaticImage">
                     <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}" />
-                    <Property name="Image" value="spritesheet_tiles/Pedra" />
                     <Property name="MousePassThroughEnabled" value="True" />
                     <Property name="Visible" value="False"/>
                 </Window>
@@ -29,10 +27,13 @@
                 <Property name="Size" value="{{0,40},{0,40}}" />
                 <Window name="Image" type="WindowsLook/StaticImage">
                     <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}" />
-                    <Property name="Image" value="spritesheet_tiles/Pedra" />
                     <Property name="MousePassThroughEnabled" value="True" />
                 </Window>
-
+                <Window name="ImageS" type="OgreTray/StaticImage">
+                    <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}" />
+                    <Property name="MousePassThroughEnabled" value="True" />
+                    <Property name="Visible" value="False"/>
+                </Window>
                 <Window name="Quant" type="Vanilla/StaticText" value = "0">
                     <Property name="Position" value="{{0.53,0},{0.60,0}}" />
                     <Property name="Size" value="{{0.47,0},{0.40,0}}" />

@@ -105,10 +105,11 @@ CEGUI::Window* Bengine::GUI::createInventory() {
 			Window* quant = sl1->getChild("Quant");
 			quant->setProperty("Text", "99");
 		}
-		int i = 1;
-		++i;
-
 	}
+	return inventoryWindow;
+}
+
+CEGUI::Window* Bengine::GUI::getInventoryWindow() {
 	return inventoryWindow;
 }
 

@@ -23,6 +23,7 @@ namespace Bengine {
         // Getters
         static CEGUI::OpenGL3Renderer* getRenderer() { return m_renderer; }
         const CEGUI::GUIContext* getContext() { return m_context; }
+		CEGUI::Window* Bengine::GUI::getInventoryWindow();
     private:
 		CEGUI::Window* Bengine::GUI::createInventory();
         static CEGUI::OpenGL3Renderer* m_renderer;

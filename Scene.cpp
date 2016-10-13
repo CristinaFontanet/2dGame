@@ -51,9 +51,13 @@ void Scene::init()
 	boss->setTileMap(map);
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 
+	//GUI
+	m_gui.init("../GUI");
+	Window* inventoryWindow = m_gui.getInventoryWindow();
+	
 	//Main Player
 	mainPlayer = new MainPlayer();
-	mainPlayer->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	mainPlayer->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, inventoryWindow);
 	mainPlayer->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
 	mainPlayer->setTileMap(map);
 	playerPos = mainPlayer->getPlayerPosition();
@@ -63,9 +67,6 @@ void Scene::init()
 
 	currentTime = 0.0f;
 
-	//GUI
-	
-	m_gui.init("../GUI");
 }
 
 void Scene::update(int deltaTime)

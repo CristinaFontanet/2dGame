@@ -262,7 +262,7 @@ bool TileMap::addMaterial(int posx, int posy, int playerX, int playerY, int mate
 	int xplay = playerX / tileSize;
 	int yplay = playerY / tileSize;
 	if ((y == yplay || y == (yplay+1)) && (x == xplay || x == (xplay-1) || x == (xplay+1))) return false;
-	if (abs(x - xplay) > range || abs(y - yplay) > range) return false;
+	if (abs(x - xplay) > range || (abs(y - yplay) > range && abs(y - yplay-1)> range)) return false;
 	if (map[y*mapSize.x + x].first != 0 || (map[y*mapSize.x + x-1].first == 0 && map[(y-1)*mapSize.x + x-1].first == 0 && map[(y-1)*mapSize.x + x].first == 0 && map[(y-1)*mapSize.x + x+1].first == 0 && map[y*mapSize.x + x+1].first == 0 && map[(y+1)*mapSize.x + x+1].first == 0 && map[(y+1)*mapSize.x + x].first == 0 && map[(y+1)*mapSize.x + x-1].first == 0)) {
 		return false;
 	}

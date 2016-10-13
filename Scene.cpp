@@ -137,8 +137,8 @@ void Scene::initShaders()
 
 std::pair<float, float> Scene::getOffsetCamera() {
 	pair <float, float> offset;
-	offset.first = abs(offsetXCamera);
-	offset.second = abs(offsetYCamera);
+	offset.first = -1 * offsetXCamera;
+	offset.second = -1 * offsetYCamera;
 	return offset;
 }
 

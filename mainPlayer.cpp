@@ -174,7 +174,7 @@ void MainPlayer::update(int deltaTime) {
 	
 	if(!animationInProgress) {
 		spriteWidth = 32;
-		if (Game::instance().getSpecialKey(GLUT_KEY_LEFT)) { //Moure dreta
+		if (Game::instance().getSpecialKey(GLUT_KEY_LEFT) || Game::instance().getKey('a')) { //Moure dreta
 			bLeft = true;
 			if (sprite->animation() != MOVE_LEFT) sprite->changeAnimation(MOVE_LEFT);
 			posPlayer.x -= 2;
@@ -184,7 +184,7 @@ void MainPlayer::update(int deltaTime) {
 			}
 		}
 
-		else if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT)) { //Moure esquerre
+		else if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT) || Game::instance().getKey('d')) { //Moure esquerre
 			bLeft = false;
 			if (sprite->animation() != MOVE_RIGHT) sprite->changeAnimation(MOVE_RIGHT);
 			posPlayer.x += 2;
@@ -220,7 +220,7 @@ void MainPlayer::update(int deltaTime) {
 		posPlayer.y += FALL_STEP;
 		glm::ivec2 spritePos = posPlayer;
 		if (map->collisionMoveDown(spritePos, glm::ivec2(spriteWidth,64), &posPlayer.y, bLeft, marg)) {
-			if (Game::instance().getSpecialKey(GLUT_KEY_UP)) {
+			if (Game::instance().getSpecialKey(GLUT_KEY_UP) || Game::instance().getKey('w')) {
 				bJumping = true;
 				jumpAngle = 0;
 				startY = posPlayer.y;
@@ -270,5 +270,5 @@ void MainPlayer::digAnimation() {
 }
 
 void MainPlayer::putMaterial() {
-	map->addMaterial(lastXclick, lastYclick, posPlayer.x, posPlayer.y + spriteWidth / 2, equipedItem.element, RANGE*3);
+	map->addMaterial(lastXclick, lastYclick, posPlayer.x, posPlayer.y + spriteWidth / 2, equipedItem.element, RANGE*4);
 }

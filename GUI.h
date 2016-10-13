@@ -22,14 +22,19 @@ namespace Bengine {
 		void loadScheme(const std::string& schemeFile);
         // Getters
         static CEGUI::OpenGL3Renderer* getRenderer() { return m_renderer; }
-        const CEGUI::GUIContext* getContext() { return m_context; }
+        const CEGUI::GUIContext* getContext() { return m_context_inv; }
 		CEGUI::Window* Bengine::GUI::getInventoryWindow();
     private:
-		CEGUI::Window* Bengine::GUI::createInventory();
+		void Bengine::GUI::createInventory();
+		void Bengine::GUI::createLives();
         static CEGUI::OpenGL3Renderer* m_renderer;
-        CEGUI::GUIContext* m_context = nullptr;
-        CEGUI::Window* m_root = nullptr;
+        CEGUI::GUIContext* m_context_inv = nullptr;
+		CEGUI::GUIContext* m_context_lives = nullptr;
+		CEGUI::Window* m_root_inv = nullptr;
+        CEGUI::Window* m_root_lives = nullptr;
         unsigned int m_lastTime = 0;
 		Window* inventoryWindow;
+		Window* livesWindow;
+		vector<Window*> lives;
     };
 }

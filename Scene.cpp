@@ -66,9 +66,6 @@ void Scene::init()
 	//GUI
 	
 	m_gui.init("../GUI");
-	m_gui.setFont("DejaVuSans-10");
-	m_gui.setMouseCursor("TaharezLook/MouseArrow");
-	m_gui.createInventory();
 }
 
 void Scene::update(int deltaTime)

@@ -4,7 +4,6 @@
 #include <vector>
 #include "TileMap.h"
 
-
 using namespace std;
 
 TileMap *TileMap::createTileMap(const string &levelFile, const glm::vec2 &minCoords, ShaderProgram &program)
@@ -25,7 +24,6 @@ TileMap::~TileMap() {
 	if(map != NULL)
 		delete map;
 }
-
 
 void TileMap::render() const {
 	glEnable(GL_TEXTURE_2D);
@@ -246,6 +244,27 @@ bool TileMap::collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, i
 	return false;
 }
 
+bool TileMap::collisionMoveUp(const glm::ivec2 &pos, const glm::ivec2 &size, int *posY, const bool bLeft, const int marg) const {
+	int x0, x1, y;
+	if (bLeft) {
+		x0 = pos.x / tileSize;
+		x1 = (pos.x + size.x - 1) / tileSize;
+	}
+	else {
+		x0 = (pos.x + marg) / tileSize;
+		x1 = (pos.x + marg + size.x - 1) / tileSize;
+	}
+	y = (pos.y + size.y/2) / tileSize;
+	for (int x = x0; x <= x1; x++)
+	{
+		if (map[y*mapSize.x + x].first != 0) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
 int TileMap::tileToMaterial(int x, int y) {
 	int material = map[x, y].first;
 	if (material == 6 || material == 13 || material ==14) return TUSK;
@@ -323,7 +342,6 @@ void TileMap::addVertices(int material, int x, int y) {
 	ntilesVBO++;
 	actualizarVBO();
 }
-
 
 void TileMap::deleteVertices(int x, int y) {
 	int ntilesIiciales = ntilesVBO;

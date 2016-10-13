@@ -213,9 +213,13 @@ void MainPlayer::update(int deltaTime) {
 			bJumping = false;
 		}
 		else {
+			int posPlayerIniY = posPlayer.y;
 			posPlayer.y = int(startY - 96 * sin(3.14159f * jumpAngle / 180.f));
+			glm::ivec2 spritePos = posPlayer;
+			if (map->collisionMoveUp(spritePos, glm::ivec2(spriteWidth, 64), &posPlayer.y, bLeft, marg)) {
+				bJumping = false;
+			}
 			if (jumpAngle > 90) {
-				glm::ivec2 spritePos = posPlayer;
 				bJumping = !map->collisionMoveDown(spritePos, glm::ivec2(spriteWidth, 64), &posPlayer.y, bLeft, marg);
 			}
 		}

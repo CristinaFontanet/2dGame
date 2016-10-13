@@ -261,15 +261,24 @@ CEGUI::Window* Bengine::GUI::createWidget(const std::string& type, const glm::ve
 CEGUI::Window* Bengine::GUI::createInventory() {
 	if (inventoryWindow == nullptr) {
 		inventoryWindow = WindowManager::getSingleton().loadLayoutFromFile("inventory2.layout");
-	}
-	if (m_context->getRootWindow() == NULL) {
 		m_context->setRootWindow(inventoryWindow);
-	
+		Window* sl1 = inventoryWindow->getChild("Slot1");
+		if (sl1 != nullptr) {
+			Window* img = sl1->getChild("Image");
+			img->setProperty("Image", "spritesheet_tiles/Fusta");
+		}
+		int i = 1;
+		++i;
+
+	//	CEGUI::DefaultWindow* thumbnail = static_cast<CEGUI::DefaultWindow*>(parrentWindow->getChild("Thunbnail_1"));
+	//	thumbnail->setProperty("BackgroundImage", "MyImageSet/movieClipIcon");
+
+	}
+
 	//	inventoryWindow->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&OurPlayer::Jump, leftPlayer));
 		//inventoryWindow->subscribeEvent(FrameWindow::EventCloseClicked, Event::Subscriber(&Bengine::GUI::closeWindowButton));
 	//	inventoryWindow->subscribeEvent(CEGUI::PushButton::EventClicked, Event::Subscriber(&MainPlayer::digAnimation));
-	}
-	else m_context->setRootWindow(NULL);
+
 	
 	return inventoryWindow;
 }

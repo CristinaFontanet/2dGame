@@ -3,6 +3,7 @@
 
 #include "Sprite.h"
 #include "TileMap.h"
+#include "Item.h"
 
 class MainPlayer {
 #define PICKAXE 1
@@ -48,6 +49,8 @@ private:
 	int currentAnimation;
 	int lastXclick, lastYclick;
 	int equipedItem; 
+	vector<Item> inventory;
+
 };
 
 

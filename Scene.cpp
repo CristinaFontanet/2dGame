@@ -135,6 +135,11 @@ void Scene::initShaders()
 	fShader.free();
 }
 
+
+void Scene::selectItem(int num) {
+	mainPlayer->equipItem(num);
+}
+
 std::pair<float, float> Scene::getOffsetCamera() {
 	pair <float, float> offset;
 	offset.first = -1 * offsetXCamera;

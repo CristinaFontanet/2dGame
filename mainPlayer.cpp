@@ -21,7 +21,7 @@ enum SpriteMoves {
 
 void MainPlayer::equipItem(int num) {
 	equipedItem.setSelected(false);
-	equipedItem = inventory[num - 1];
+	equipedItem = inventory[num];
 	equipedItem.setSelected(true);
 
 } 

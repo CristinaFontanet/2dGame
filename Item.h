@@ -17,17 +17,15 @@ public:
 	#define PICKAXE 1
 	#define MATERIAL 2
 
-
-	Item * createItem(int type, int element, CEGUI::Window* inventoryWindow);
-	Item(int typeP, int elementP);
+	Item * createItem(int type, int element, int dmg, CEGUI::Window* inventoryWindow);
+	Item(int typeP, int elementP, int dmgP);
 	Item();
 
 	int type;
 	int element;
+	int dmg;
 
 private:
-
-
 
 	CEGUI::Window* windImage;
 	CEGUI::Window* windImageSelected;

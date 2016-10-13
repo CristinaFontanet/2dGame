@@ -13,6 +13,7 @@
 #define SPRITEMARGIN 32
 #define ANIMATION_SPEED 8
 #define ALLEGRO_PI        3.14159265358979323846
+#define RANGE 1
 
 enum SpriteMoves {
 	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT, ARM1_LEFT,ARM1_LEFT_BOT, ARM1_RIGHT, ARM1_RIGHT_BOT
@@ -21,8 +22,8 @@ enum SpriteMoves {
 void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram) {
 	animationInProgress = false;
 	inventory = vector<Item>(20);
-	inventory[0] = Item(PICKAXE,20);
-	inventory[1] = Item(MATERIAL, TUSK);
+	inventory[0] = Item(PICKAXE,20, 1);
+	inventory[1] = Item(MATERIAL, TUSK , 0);
 	equipedItem = inventory[0];
 	heightProp = 1.f / 32.f;
 	widhtProp = 1.f / 48.f;
@@ -130,8 +131,6 @@ void MainPlayer::mouseClick(int x, int y) {
 	pair<int, int> offset = Game::instance().getOffsetCamera();
 	lastXclick = x + offset.first;
 	lastYclick = y + offset.second;
-	spriteWidth = 64;
-	animationInProgress = true;
 	if (equipedItem.type == PICKAXE) digAnimation();
 	if (equipedItem.type == MATERIAL) putMaterial();
 }
@@ -139,25 +138,36 @@ void MainPlayer::mouseClick(int x, int y) {
 void MainPlayer::update(int deltaTime) {
 
 	sprite->update(deltaTime);
-	switch (Game::instance().getKey()) {
 
-	}
-	if (isDiggingLateral()) {
-		if (sprite->getNumKeyFrameMissing() == 8) {
-			if(sprite->animation() == ARM1_LEFT)sprite->changeAnimation(STAND_LEFT);
-			else sprite->changeAnimation(STAND_RIGHT);
-			map->dig(lastXclick,lastYclick,posPlayer.x,posPlayer.y+spriteWidth/2,1);
-			animationInProgress = false;
+	if (isDiggingBottom() || isDiggingLateral()) {
+		if (isDiggingLateral()) {
+			if (sprite->getNumKeyFrameMissing() == 8) {
+				if (sprite->animation() == ARM1_LEFT)sprite->changeAnimation(STAND_LEFT);
+				else sprite->changeAnimation(STAND_RIGHT);
+				map->dig(lastXclick, lastYclick, posPlayer.x, posPlayer.y + spriteWidth / 2, RANGE,equipedItem.dmg);
+				animationInProgress = false;
+			}
+		}
+		else if (isDiggingBottom()) {
+			if (sprite->getNumKeyFrameMissing() == 10) {
+				if (sprite->animation() == ARM1_LEFT_BOT)sprite->changeAnimation(STAND_LEFT);
+				else sprite->changeAnimation(STAND_RIGHT);
+				map->dig(lastXclick, lastYclick, posPlayer.x, posPlayer.y + spriteWidth / 2, RANGE, equipedItem.dmg);
+				animationInProgress = false;
+			}
+		}
+	} 
+	else {
+		switch (Game::instance().getPressedKey()) {
+		case '1':
+			equipedItem = inventory[0];
+			break;
+		case '2':
+			equipedItem = inventory[1];
+			break;
 		}
 	}
-	else if (isDiggingBottom()) {
-		if (sprite->getNumKeyFrameMissing() == 10) {
-			if (sprite->animation() == ARM1_LEFT_BOT)sprite->changeAnimation(STAND_LEFT);
-			else sprite->changeAnimation(STAND_RIGHT);
-			map->dig(lastXclick, lastYclick, posPlayer.x, posPlayer.y +spriteWidth/2,1);
-			animationInProgress = false;
-		}
-	}
+	
 	if(!animationInProgress) {
 		spriteWidth = 32;
 		if (Game::instance().getSpecialKey(GLUT_KEY_LEFT)) { //Moure dreta
@@ -185,7 +195,7 @@ void MainPlayer::update(int deltaTime) {
 			}
 			else if (sprite->animation() != STAND_RIGHT) spriteStandLeft();
 		}
-	}
+	}  
 	
 	marg = 0;
 	//POSICIO Y
@@ -242,6 +252,8 @@ glm::vec3 MainPlayer::getPlayerPosition() {
 
 
 void MainPlayer::digAnimation() {
+	spriteWidth = 64;
+	animationInProgress = true;
 	if ((posPlayer.y + spriteWidth) < lastYclick) {
 		if (posPlayer.x  > lastXclick && sprite->animation() != ARM1_LEFT_BOT) sprite->changeAnimation(ARM1_LEFT_BOT);
 		else if (posPlayer.x < lastXclick && sprite->animation() != ARM1_RIGHT_BOT) sprite->changeAnimation(ARM1_RIGHT_BOT);
@@ -254,5 +266,5 @@ void MainPlayer::digAnimation() {
 }
 
 void MainPlayer::putMaterial() {
-	map->addMaterial(posPlayer.x, posPlayer.y, equipedItem.element);	
+	map->addMaterial(lastXclick, lastYclick, posPlayer.x, posPlayer.y + spriteWidth / 2, equipedItem.element, RANGE*3);
 }

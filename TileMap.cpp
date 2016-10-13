@@ -256,11 +256,15 @@ int TileMap::tileToMaterial(int x, int y) {
 	return NONE;
 }
 
-bool TileMap::addMaterial(int posx, int posy, int material) {
-	int x = 1 + posx / tileSize;
+bool TileMap::addMaterial(int posx, int posy, int playerX, int playerY, int material, int range) {
+	int x =  posx / tileSize;
 	int y =  posy / tileSize;
-	if (map[x, y].first != 0 || (map[x - 1, y].first == 0 && map[x - 1, y - 1].first == 0 && map[x, y - 1].first == 0 && map[x + 1, y - 1].first == 0 && map[x + 1, y].first == 0 && map[x + 1, y + 1].first == 0 && map[x, y + 1].first == 0 && map[x - 1, y + 1].first == 0)) {
-		//return false;
+	int xplay = playerX / tileSize;
+	int yplay = playerY / tileSize;
+	if ((y == yplay || y == (yplay+1)) && (x == xplay || x == (xplay-1) || x == (xplay+1))) return false;
+	if (abs(x - xplay) > range || abs(y - yplay) > range) return false;
+	if (map[y*mapSize.x + x].first != 0 || (map[y*mapSize.x + x-1].first == 0 && map[(y-1)*mapSize.x + x-1].first == 0 && map[(y-1)*mapSize.x + x].first == 0 && map[(y-1)*mapSize.x + x+1].first == 0 && map[y*mapSize.x + x+1].first == 0 && map[(y+1)*mapSize.x + x+1].first == 0 && map[(y+1)*mapSize.x + x].first == 0 && map[(y+1)*mapSize.x + x-1].first == 0)) {
+		return false;
 	}
 	for each (int mat in materials) {
 		if (material == mat) {
@@ -273,16 +277,17 @@ bool TileMap::addMaterial(int posx, int posy, int material) {
 	return false;
 }
 
-int TileMap::dig(int posx, int posy, int playerX, int playerY, int range) {
+int TileMap::dig(int posx, int posy, int playerX, int playerY, int range, int dmg) {
 	int x = posx / tileSize;
 	int y = posy / tileSize;
 	int xplay = playerX / tileSize;
 	int yplay = playerY / tileSize;
 	if (abs(x - xplay) > range || abs(y - yplay) > range) return NONE;
 	if (map[y*mapSize.x + x].first != 0) {
-		map[y*mapSize.x + x].second--;
-		if (map[y*mapSize.x + x].second == 0) {
+		map[y*mapSize.x + x].second-= dmg;
+		if (map[y*mapSize.x + x].second <= 0) {
 			int material = tileToMaterial(x, y);
+			map[y*mapSize.x + x].second = 0;
 			map[y*mapSize.x + x].first = 0;
 			deleteVertices(x, y);
 			return material;

@@ -25,6 +25,7 @@ void Game::render()
 
 void Game::keyPressed(int key)
 {
+	pressedKey = key;
 	if(key == 27) // Escape code
 		bPlay = false;
 	keys[key] = true;
@@ -86,5 +87,5 @@ std::pair<float, float> Game::getOffsetCamera() {
 }
 
 int Game::getPressedKey() {
-
+	return pressedKey;
 }

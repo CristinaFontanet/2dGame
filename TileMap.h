@@ -45,9 +45,10 @@ public:
 
 	int tileToMaterial(int x, int y);
 
-	bool addMaterial(int x, int y, int material);
+	bool addMaterial(int posx, int posy, int playerX, int playerY, int material, int range);
 
-	int dig(int posx, int posy, int playerX, int playerY, int range);
+
+	int dig(int posx, int posy, int playerX, int playerY, int range, int dmg);
 
 	void actualizarVBO();
 

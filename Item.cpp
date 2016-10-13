@@ -48,3 +48,22 @@ Item::Item(int typeP, int elementP, int dmgP, int initialAmount, CEGUI::Window* 
 Item::Item() {
 
  }
+
+
+void Item::setAmount(int newAmount) {
+	amount = newAmount;
+	if (windAmount != nullptr)
+		windAmount->setProperty("Text", to_string(amount));
+	
+}
+
+void Item::setSelected(bool select) {
+	if (select) {
+		windImageSelected->setVisible(true);
+		windImage->setVisible(false);
+	}
+	else {
+		windImageSelected->setVisible(false);
+		windImage->setVisible(true);
+	}
+}

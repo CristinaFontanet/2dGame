@@ -21,6 +21,9 @@ public:
 	Item(int typeP, int elementP, int dmgP, int amount, CEGUI::Window* inventoryWindow);
 	Item();
 
+	void setAmount(int newAmount);
+	void setSelected(bool select);
+
 	int type;
 	int element;
 	int dmg;

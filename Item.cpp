@@ -83,11 +83,11 @@ void Item::setAmount(int newAmount) {
 
 void Item::setSelected(bool select) {
 	if (select) {
-		windImageSelected->setVisible(true);
-		windImage->setVisible(false);
+		if (!windImageSelected->isVisible()) windImageSelected->setVisible(true);
+		if(windImage->isVisible())windImage->setVisible(false);
 	}
 	else {
-		windImageSelected->setVisible(false);
-		windImage->setVisible(true);
+		if (windImageSelected->isVisible())windImageSelected->setVisible(false);
+		if (!windImage->isVisible())windImage->setVisible(true);
 	}
 }

@@ -7,12 +7,10 @@
                 <Window name="Image" type="Vanilla/StaticImage">
                     <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}" />
                     <Property name="MousePassThroughEnabled" value="True" />
-                    <Property name="Visible" value="True"/>
                 </Window>
                  <Window name="ImageS" type="OgreTray/StaticImage">
                     <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}" />
                     <Property name="MousePassThroughEnabled" value="True" />
-                    <Property name="Visible" value="False"/>
                 </Window>
 
                 <Window name="Quant" type="Vanilla/StaticText" value = "0">

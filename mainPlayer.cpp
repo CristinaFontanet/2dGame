@@ -13,7 +13,7 @@
 #define SPRITEMARGIN 32
 #define ANIMATION_SPEED 8
 #define ALLEGRO_PI        3.14159265358979323846
-#define RANGE 1
+#define RANGE 2
 
 enum SpriteMoves {
 	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT, ARM1_LEFT,ARM1_LEFT_BOT, ARM1_RIGHT, ARM1_RIGHT_BOT
@@ -224,7 +224,7 @@ void MainPlayer::update(int deltaTime) {
 		posPlayer.y += FALL_STEP;
 		glm::ivec2 spritePos = posPlayer;
 		if (map->collisionMoveDown(spritePos, glm::ivec2(spriteWidth,64), &posPlayer.y, bLeft, marg)) {
-			if (Game::instance().getSpecialKey(GLUT_KEY_UP) || Game::instance().getKey('w')) {
+			if (Game::instance().getSpecialKey(GLUT_KEY_UP) || Game::instance().getKey('w') || Game::instance().getKey(32)) {
 				bJumping = true;
 				jumpAngle = 0;
 				startY = posPlayer.y;
@@ -274,5 +274,5 @@ void MainPlayer::digAnimation() {
 }
 
 void MainPlayer::putMaterial() {
-	map->addMaterial(lastXclick, lastYclick, posPlayer.x, posPlayer.y + spriteWidth / 2, equipedItem.element, RANGE*4);
+	map->addMaterial(lastXclick, lastYclick, posPlayer.x, posPlayer.y + spriteWidth / 2, equipedItem.element, RANGE*2);
 }

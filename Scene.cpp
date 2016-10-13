@@ -14,7 +14,7 @@
 #define SCREEN_Y 0
 
 #define INIT_PLAYER_X_TILES 8
-#define INIT_PLAYER_Y_TILES 7
+#define INIT_PLAYER_Y_TILES 107
 #define INIT_BOSS_X_TILES 7
 #define INIT_BOSS_Y_TILES 8
 
@@ -62,7 +62,7 @@ void Scene::init()
 	mainPlayer->setTileMap(map);
 	playerPos = mainPlayer->getPlayerPosition();
 	offsetXCamera = SCREEN_HEIGHT / 2 - playerPos[0];
-	offsetYCamera = SCREEN_WIDTH / 2 - playerPos[1] * 1.5;
+	offsetYCamera = SCREEN_WIDTH / 2 - playerPos[1] * 1.025;
 	projection = glm::translate(projection, glm::vec3(offsetXCamera, offsetYCamera, 0.f));
 
 	currentTime = 0.0f;

@@ -266,6 +266,8 @@ CEGUI::Window* Bengine::GUI::createInventory() {
 		if (sl1 != nullptr) {
 			Window* img = sl1->getChild("Image");
 			img->setProperty("Image", "spritesheet_tiles/Fusta");
+			Window* quant = sl1->getChild("Quant");
+			quant->setProperty("Text", "99");
 		}
 		int i = 1;
 		++i;

@@ -17,15 +17,16 @@ public:
 	#define MATERIAL 2
 
 
-	Item(int typeP, int elementP);
+	Item(int typeP, int elementP, int dmgP);
 	Item();
 
 	int type;
 	int element;
+	int dmg;
 
 private:
 
-	Item * createItem(int type, int element);
+	Item * createItem(int type, int element, int dmg);
 };
 
 #endif 

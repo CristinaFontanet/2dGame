@@ -36,15 +36,17 @@ Item::Item(int typeP, int elementP, int dmgP, int initialAmount, CEGUI::Window* 
 			}
 			break;
 		case MATERIAL:
-			slot = "Slot2"; 
 			switch (elementP) {
 			case WOOD:
+				slot = "Slot3";
 				material = "Wood";
 				break;
 			case ROCK:
+				slot = "Slot4";
 				material = "Rock";
 				break;
 			case TUSK:
+				slot = "Slot2";
 				material = "Tusk";
 				break;
 			default:

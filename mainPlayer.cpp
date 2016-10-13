@@ -19,20 +19,10 @@ enum SpriteMoves {
 	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT, ARM1_LEFT,ARM1_LEFT_BOT, ARM1_RIGHT, ARM1_RIGHT_BOT
 };
 
-void MainPlayer::equipItem(int num) {
-	equipedItem.setSelected(false);
-	equipedItem = inventory[num];
-	equipedItem.setSelected(true);
-
-} 
 
 void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram, CEGUI::Window* inventoryWindow) {
 	animationInProgress = false;
-	inventory = vector<Item>(20);
-	inventory[0] = Item(PICKAXE,WOOD, 1,1, inventoryWindow);
-	inventory[1] = Item(MATERIAL, TUSK , 0,28, inventoryWindow);
-	equipedItem = inventory[0];
-	equipedItem.setSelected(true);
+	setUpInventory(inventoryWindow);
 	heightProp = 1.f / 32.f;
 	widhtProp = 1.f / 48.f;
 	double yoffset = 1.f /32.f;
@@ -126,6 +116,21 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	spriteWidth = WIDTHWALK;
 }
 
+void MainPlayer::equipItem(int num) {
+	equipedItem.setSelected(false);
+	equipedItem = inventory[num];
+	equipedItem.setSelected(true);
+}
+
+void MainPlayer::setUpInventory(CEGUI::Window* inventoryWindow) {
+	inventory = vector<Item>(20);
+	inventory[0] = Item(PICKAXE, WOOD, 1, 1, inventoryWindow);
+	inventory[1] = Item(MATERIAL, TUSK, 0, 28, inventoryWindow);
+	inventory[2] = Item(MATERIAL, WOOD, 0, 28, inventoryWindow);
+	inventory[3] = Item(MATERIAL, ROCK, 0, 28, inventoryWindow);
+	equipedItem = inventory[0];
+	equipedItem.setSelected(true);
+}
 bool MainPlayer::isDiggingLateral() {
 	if (sprite->animation() == ARM1_LEFT || sprite->animation() == ARM1_RIGHT ) return true;
 	else return false;

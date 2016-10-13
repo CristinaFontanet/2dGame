@@ -31,6 +31,7 @@ public:
 
 
 private:
+	void setUpInventory(CEGUI::Window* inventoryWindow);
 	void spriteStandLeft();
 	bool isDiggingLateral();
 	bool isDiggingBottom();

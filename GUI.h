@@ -27,7 +27,7 @@ namespace Bengine {
         void setFont(const std::string& fontFile);
         CEGUI::Window* createWidget(const std::string& type, const glm::vec4& destRectPerc, const glm::vec4& destRectPix, const std::string& name = "");
         static void setWidgetDestRect(CEGUI::Window* widget, const glm::vec4& destRectPerc, const glm::vec4& destRectPix);
-		CEGUI::Window* Bengine::GUI::createInventory(const glm::vec4& destRectPerc, const glm::vec4& destRectPix, const std::string& name = "");
+		CEGUI::Window* Bengine::GUI::createInventory();
         // Getters
         static CEGUI::OpenGL3Renderer* getRenderer() { return m_renderer; }
         const CEGUI::GUIContext* getContext() { return m_context; }

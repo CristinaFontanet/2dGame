@@ -35,7 +35,10 @@ void Bengine::GUI::init(const std::string& resourceDirectory) {
 
 	loadScheme("TaharezLook.scheme");
 	loadScheme("WindowsLook.scheme");
-	loadScheme("OgreTray.scheme");
+	loadScheme("HUDDemo.scheme");
+	loadScheme("GameMenu.scheme");
+	loadScheme("Generic.scheme");
+	loadScheme("OgreTray.scheme"); 
 	loadScheme("AlfiskoSkin.scheme");
 	loadScheme("SampleBrowser.scheme");
 	loadScheme("VanillaSkin.scheme");
@@ -255,9 +258,9 @@ CEGUI::Window* Bengine::GUI::createWidget(const std::string& type, const glm::ve
     return newWindow;
 }
 
-CEGUI::Window* Bengine::GUI::createInventory(const glm::vec4& destRectPerc, const glm::vec4& destRectPix, const std::string& name /*= ""*/) {
+CEGUI::Window* Bengine::GUI::createInventory() {
 	if (inventoryWindow == nullptr) {
-		inventoryWindow = WindowManager::getSingleton().loadLayoutFromFile("inventory.layout");
+		inventoryWindow = WindowManager::getSingleton().loadLayoutFromFile("inventory2.layout");
 	}
 	if (m_context->getRootWindow() == NULL) {
 		m_context->setRootWindow(inventoryWindow);

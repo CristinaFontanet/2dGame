@@ -86,3 +86,6 @@ std::pair<float, float> Game::getOffsetCamera() {
 	return scene.getOffsetCamera();
 }
 
+int Game::getPressedKey() {
+
+}

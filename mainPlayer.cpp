@@ -20,7 +20,10 @@ enum SpriteMoves {
 
 void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram) {
 	animationInProgress = false;
-	equipedItem = PICKAXE;
+	inventory = vector<Item>(20);
+	inventory[0] = Item(PICKAXE,20);
+	inventory[1] = Item(MATERIAL, TUSK);
+	equipedItem = inventory[0];
 	heightProp = 1.f / 32.f;
 	widhtProp = 1.f / 48.f;
 	double yoffset = 1.f /32.f;
@@ -59,7 +62,7 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 
 	//WEAPON1 (11*2)
 	height = 8 * heightProp;
-	sprite->setAnimationSpeed(ARM1_LEFT_BOT, ANIMATION_SPEED);
+	sprite->setAnimationSpeed(ARM1_LEFT_BOT, ANIMATION_SPEED*1.5);
 	sprite->addKeyframe(ARM1_LEFT_BOT, glm::vec2(0.f, height));
 	sprite->addKeyframe(ARM1_LEFT_BOT, glm::vec2(widht, height));
 	sprite->addKeyframe(ARM1_LEFT_BOT, glm::vec2(widht * 2, height));
@@ -72,7 +75,7 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	sprite->addKeyframe(ARM1_LEFT_BOT, glm::vec2(widht * 9, height));
 	sprite->addKeyframe(ARM1_LEFT_BOT, glm::vec2(widht * 10, height));
 
-	sprite->setAnimationSpeed(ARM1_LEFT, ANIMATION_SPEED);
+	sprite->setAnimationSpeed(ARM1_LEFT, ANIMATION_SPEED*1.5);
 	sprite->addKeyframe(ARM1_LEFT, glm::vec2(0.f, height));
 	sprite->addKeyframe(ARM1_LEFT, glm::vec2(widht, height));
 	sprite->addKeyframe(ARM1_LEFT, glm::vec2(widht * 2, height));
@@ -84,7 +87,7 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	sprite->addKeyframe(ARM1_LEFT, glm::vec2(widht * 8, height));
 
 	height = 12 * heightProp;
-	sprite->setAnimationSpeed(ARM1_RIGHT_BOT, ANIMATION_SPEED);
+	sprite->setAnimationSpeed(ARM1_RIGHT_BOT, ANIMATION_SPEED*1.5);
 	sprite->addKeyframe(ARM1_RIGHT_BOT, glm::vec2(0.f, height));
 	sprite->addKeyframe(ARM1_RIGHT_BOT, glm::vec2(widht, height));
 	sprite->addKeyframe(ARM1_RIGHT_BOT, glm::vec2(widht * 2, height));
@@ -97,7 +100,7 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	sprite->addKeyframe(ARM1_RIGHT_BOT, glm::vec2(widht * 9, height));
 	sprite->addKeyframe(ARM1_RIGHT_BOT, glm::vec2(widht * 10, height));
 
-	sprite->setAnimationSpeed(ARM1_RIGHT, ANIMATION_SPEED);
+	sprite->setAnimationSpeed(ARM1_RIGHT, ANIMATION_SPEED*1.5);
 	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(0.f, height));
 	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widht, height));
 	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widht * 2, height));
@@ -129,14 +132,16 @@ void MainPlayer::mouseClick(int x, int y) {
 	lastYclick = y + offset.second;
 	spriteWidth = 64;
 	animationInProgress = true;
-	if (equipedItem == PICKAXE) digAnimation();
-
+	if (equipedItem.type == PICKAXE) digAnimation();
+	if (equipedItem.type == MATERIAL) putMaterial();
 }
 
 void MainPlayer::update(int deltaTime) {
 
 	sprite->update(deltaTime);
+	switch (Game::instance().getKey()) {
 
+	}
 	if (isDiggingLateral()) {
 		if (sprite->getNumKeyFrameMissing() == 8) {
 			if(sprite->animation() == ARM1_LEFT)sprite->changeAnimation(STAND_LEFT);
@@ -153,12 +158,6 @@ void MainPlayer::update(int deltaTime) {
 			animationInProgress = false;
 		}
 	}
-
-	//SPRITE
-	if (Game::instance().getKey('p')) {
-		map->addMaterial(posPlayer.x, posPlayer.y, DIAMOND);	//bloque
-	}
-
 	if(!animationInProgress) {
 		spriteWidth = 32;
 		if (Game::instance().getSpecialKey(GLUT_KEY_LEFT)) { //Moure dreta
@@ -252,4 +251,8 @@ void MainPlayer::digAnimation() {
 		else if (posPlayer.x < lastXclick && sprite->animation() != ARM1_RIGHT) sprite->changeAnimation(ARM1_RIGHT);
 
 	}
+}
+
+void MainPlayer::putMaterial() {
+	map->addMaterial(posPlayer.x, posPlayer.y, equipedItem.element);	
 }

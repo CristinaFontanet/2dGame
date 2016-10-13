@@ -13,14 +13,19 @@ using namespace std;
 class Item
 {
 public:
+	#define PICKAXE 1
+	#define MATERIAL 2
 
-	Item(int type, int element);
+
+	Item(int typeP, int elementP);
+	Item();
+
+	int type;
+	int element;
 
 private:
 
 	Item * createItem(int type, int element);
-
-
 };
 
 #endif 

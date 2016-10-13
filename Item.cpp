@@ -12,6 +12,11 @@ Item *Item::createItem(int type, int element)
 	return item;
 }
 
-Item::Item(int type, int element) {
-
+Item::Item(int typeP, int elementP) {
+	type = typeP;
+	element = elementP;
 }
+
+Item::Item() {
+
+ }

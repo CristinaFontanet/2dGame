@@ -1,9 +1,12 @@
 #ifndef _MAINPLAYER_INCLUDE
 #define _MAINPLAYER_INCLUDE
 
+#include <vector>
 #include "Sprite.h"
 #include "TileMap.h"
 #include "Item.h"
+
+using namespace std;
 
 class MainPlayer {
 #define PICKAXE 1
@@ -17,6 +20,7 @@ public:
 	void setPosition(const glm::vec2 &pos);
 	glm::vec3 getPlayerPosition();
 	void digAnimation();
+	void putMaterial();
 	void setPlayerState(int state);
 	void mouseClick(int x, int y);
 
@@ -48,9 +52,8 @@ private:
 	bool animationInProgress;
 	int currentAnimation;
 	int lastXclick, lastYclick;
-	int equipedItem; 
+	Item equipedItem; 
 	vector<Item> inventory;
-
 };
 
 

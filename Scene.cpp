@@ -23,6 +23,7 @@ Scene::Scene() {
 	player = NULL;
 	boss = NULL;
 	mainPlayer = NULL;
+	enemy = NULL;
 }
 
 Scene::~Scene()
@@ -34,6 +35,7 @@ Scene::~Scene()
 	if (boss != NULL)
 		delete boss;
 	if (mainPlayer != NULL) delete mainPlayer;
+	if (enemy != NULL) delete enemy;
 }
 
 void Scene::init()

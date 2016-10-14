@@ -2,15 +2,14 @@
 #include <string>
 #include <vector>
 
-
 #define ANIMATION_SPEED 8
 
 enum SpriteMoves {
 	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT
 };
 void Enemy::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram) {
-	heightProp = 1.f / 2.f;
-	widhtProp = 1.f / 16.f;
+	heightProp = 1.f / 16.f;
+	widhtProp = 1.f / 2.f;
 	double yoffset = 1.f / 32.f;
 	spritesheet.loadFromFile("images/unicorn.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	sprite = Sprite::createSprite(glm::ivec2(64, 64), glm::vec2(widhtProp, heightProp), &spritesheet, &shaderProgram);

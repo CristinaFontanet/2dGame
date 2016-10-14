@@ -8,6 +8,7 @@
 #include "P_conillet.h"
 #include "P_boss.h"
 #include "MainPlayer.h"
+#include "Enemy.h"
 #include "GUI.h"
 #include <CEGUI/CEGUI.h>
 #include <CEGUI/RendererModules/OpenGL/GL3Renderer.h>
@@ -37,6 +38,7 @@ private:
 private:
 	TileMap *map;
 	MainPlayer *mainPlayer;
+	Enemy *enemy;
 	P_conillet *player;
 	P_boss *boss;
 	ShaderProgram texProgram;

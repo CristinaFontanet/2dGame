@@ -64,6 +64,11 @@ void Scene::init()
 	offsetXCamera = SCREEN_HEIGHT / 2 - playerPos[0];
 	offsetYCamera = SCREEN_WIDTH / 2 - playerPos[1] * 1.025;
 	projection = glm::translate(projection, glm::vec3(offsetXCamera, offsetYCamera, 0.f));
+	
+	enemy = new Enemy();
+	enemy->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	enemy->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
+	enemy->setTileMap(map);
 
 	currentTime = 0.0f;
 
@@ -98,6 +103,7 @@ void Scene::render()
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
 	map->render();
 	mainPlayer->render();
+	enemy->render();
 	m_gui.draw();
 }
 

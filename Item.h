@@ -22,6 +22,8 @@ public:
 	Item();
 
 	void setAmount(int newAmount);
+	void reduceAmount();
+	int getAmount();
 	void addItem();
 	void setSelected(bool select);
 

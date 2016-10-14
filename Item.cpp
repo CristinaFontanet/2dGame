@@ -88,6 +88,16 @@ Item::Item() {
 
  }
 
+int Item::getAmount() {
+	return amount;
+}
+
+void Item::reduceAmount() {
+	amount -= 1;
+	if (windAmount != nullptr)
+		windAmount->setProperty("Text", to_string(amount));
+}
+
 void Item::addItem() {
 	amount += 1;
 	if (windAmount != nullptr)

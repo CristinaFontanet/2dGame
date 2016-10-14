@@ -55,7 +55,7 @@ private:
 	bool animationInProgress;
 	int currentAnimation;
 	int lastXclick, lastYclick;
-	Item equipedItem; 
+	Item* equipedItem; 
 	vector<Item> inventory;
 };
 

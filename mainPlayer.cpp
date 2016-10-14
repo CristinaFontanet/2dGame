@@ -117,9 +117,9 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 }
 
 void MainPlayer::equipItem(int num) {
-	equipedItem.setSelected(false);
-	equipedItem = inventory[num];
-	equipedItem.setSelected(true);
+	equipedItem->setSelected(false);
+	equipedItem = &inventory[num];
+	equipedItem->setSelected(true);
 }
 
 bool MainPlayer::isDiggingLateral() {
@@ -135,8 +135,8 @@ void MainPlayer::mouseClick(int x, int y) {
 	pair<int, int> offset = Game::instance().getOffsetCamera();
 	lastXclick = x + offset.first;
 	lastYclick = y + offset.second;
-	if (equipedItem.type == PICKAXE) digAnimation();
-	if (equipedItem.type == MATERIAL) putMaterial();
+	if (equipedItem->type == PICKAXE) digAnimation();
+	if (equipedItem->type == MATERIAL) putMaterial();
 }
 
 void MainPlayer::update(int deltaTime) {
@@ -148,7 +148,7 @@ void MainPlayer::update(int deltaTime) {
 			if (sprite->getNumKeyFrameMissing() == 8) {
 				if (sprite->animation() == ARM1_LEFT)sprite->changeAnimation(STAND_LEFT);
 				else sprite->changeAnimation(STAND_RIGHT);
-				int material = map->dig(lastXclick, lastYclick, posPlayer.x, posPlayer.y + spriteWidth / 2, RANGE,equipedItem.dmg);
+				int material = map->dig(lastXclick, lastYclick, posPlayer.x, posPlayer.y + spriteWidth / 2, RANGE,equipedItem->dmg);
 				materialDigged(material);
 				animationInProgress = false;
 			}
@@ -157,7 +157,7 @@ void MainPlayer::update(int deltaTime) {
 			if (sprite->getNumKeyFrameMissing() == 10) {
 				if (sprite->animation() == ARM1_LEFT_BOT)sprite->changeAnimation(STAND_LEFT);
 				else sprite->changeAnimation(STAND_RIGHT);
-				int material = map->dig(lastXclick, lastYclick, posPlayer.x, posPlayer.y + spriteWidth / 2, RANGE, equipedItem.dmg);
+				int material = map->dig(lastXclick, lastYclick, posPlayer.x, posPlayer.y + spriteWidth / 2, RANGE, equipedItem->dmg);
 				materialDigged(material);
 				animationInProgress = false;
 			}
@@ -166,10 +166,10 @@ void MainPlayer::update(int deltaTime) {
 	else {
 		switch (Game::instance().getPressedKey()) {
 		case '1':
-			equipedItem = inventory[0];
+			equipedItem = &inventory[0];
 			break;
 		case '2':
-			equipedItem = inventory[1];
+			equipedItem = &inventory[1];
 			break;
 		}
 	}
@@ -245,8 +245,8 @@ void MainPlayer::setUpInventory(CEGUI::Window* inventoryWindow) {
 	inventory[4] = Item(MATERIAL, COAL, 0, 28, inventoryWindow);
 	inventory[5] = Item(MATERIAL, GOLD, 0, 28, inventoryWindow);
 	inventory[6] = Item(MATERIAL, DIAMOND, 0, 28, inventoryWindow);
-	equipedItem = inventory[0];
-	equipedItem.setSelected(true);
+	equipedItem = &inventory[0];
+	equipedItem->setSelected(true);
 }
 
 void MainPlayer::materialDigged(int material) {
@@ -315,5 +315,12 @@ void MainPlayer::digAnimation() {
 }
 
 void MainPlayer::putMaterial() {
-	map->addMaterial(lastXclick, lastYclick, posPlayer.x, posPlayer.y + spriteWidth / 2, equipedItem.element, RANGE*2);
+	if (equipedItem->getAmount() > 0) {
+		if (map->addMaterial(lastXclick, lastYclick, posPlayer.x, posPlayer.y + spriteWidth / 2, equipedItem->element, RANGE * 2)) {
+			equipedItem->reduceAmount();
+		}
+	}
+	else {
+		//TODO: avisar que no queda material
+	}
 }

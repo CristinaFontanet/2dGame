@@ -73,6 +73,7 @@ void Scene::init()
 	enemy->setTileMap(map);
 
 	currentTime = 0.0f;
+	m_gui.setLives(0);
 
 }
 

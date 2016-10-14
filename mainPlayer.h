@@ -40,6 +40,7 @@ private:
 	bool bLeft;
 	glm::ivec2 tileMapDispl, posPlayer;
 	int jumpAngle, startY;
+	int live;
 	Texture spritesheet;
 	Sprite *sprite;
 	TileMap *map;

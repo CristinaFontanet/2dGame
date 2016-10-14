@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <GUILayout version="4">
     <Window type="DefaultWindow" name="root" >
-        <Window name="Image" type="Vanilla/StaticImage">
+        <Window name="Image1" type="Vanilla/StaticImage">
             <Property name="Position" value="{{0.95,0},{0,5}}" />
             <Property name="Size" value="{{0,20},{0,20}}" />
             <Property name="FrameEnabled" value="False" />

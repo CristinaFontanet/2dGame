@@ -24,6 +24,7 @@ namespace Bengine {
         static CEGUI::OpenGL3Renderer* getRenderer() { return m_renderer; }
         const CEGUI::GUIContext* getContext() { return m_context_inv; }
 		CEGUI::Window* Bengine::GUI::getInventoryWindow();
+		void setLives(int numLives);
     private:
 		void Bengine::GUI::createInventory();
 		void Bengine::GUI::createLives();
@@ -35,6 +36,9 @@ namespace Bengine {
         unsigned int m_lastTime = 0;
 		Window* inventoryWindow;
 		Window* livesWindow;
+		Window* windHeart1;
+		Window* windHeart2;
+		Window* windHeart3;
 		vector<Window*> lives;
     };
 }

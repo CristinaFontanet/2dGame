@@ -50,15 +50,6 @@ void Bengine::GUI::init(const std::string& resourceDirectory) {
 
 	setMouseCursor("TaharezLook/MouseArrow");
 
-	CEGUI::System::getSingleton().getDefaultGUIContext().injectKeyDown(Key::Scan::ArrowDown); // Tells CEGUI Key has been Pressed
-	CEGUI::System::getSingleton().getDefaultGUIContext().injectKeyUp(Key::Scan::ArrowUp); // Tells CEGUI Key has been Released
-
-	CEGUI::System::getSingleton().getDefaultGUIContext().injectChar('c');
-
-	CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseButtonDown(CEGUI::MouseButton::LeftButton);
-	CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseButtonUp(CEGUI::MouseButton::LeftButton);
-	//CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseMove(float delta_x, float delta_y);
-	//CEGUI::System::getSingleton().injectTimePulse(float timeElapsed);
 	createInventory();
 	createLives();
 }
@@ -91,7 +82,6 @@ void Bengine::GUI::hideMouseCursor() {
 	m_context_lives->getMouseCursor().hide();
 }
 
-
 void Bengine::GUI::loadScheme(const std::string& schemeFile) {
 	CEGUI::SchemeManager::getSingleton().createFromFile(schemeFile);
 }
@@ -115,10 +105,36 @@ void Bengine::GUI::createInventory() {
 }
 
 void Bengine::GUI::createLives() {
-//	if (livesWindow != nullptr) {
-		livesWindow = WindowManager::getSingleton().loadLayoutFromFile("lives.layout");
-		m_context_lives->setRootWindow(livesWindow);
-//	}
+	livesWindow = WindowManager::getSingleton().loadLayoutFromFile("lives.layout");
+	m_context_lives->setRootWindow(livesWindow);
+	windHeart1 = livesWindow->getChild("Image1");
+	windHeart2 = livesWindow->getChild("Image2");
+	windHeart3 = livesWindow->getChild("Image3");
+}
+
+void Bengine::GUI::setLives(int numLives) {
+	if (numLives < 2) {
+		if (numLives == 1) windHeart1->setProperty("Image", "spritesheet_tiles/HeartHalf");
+		else  windHeart1->setProperty("Image", "spritesheet_tiles/HeartEmpty");
+		windHeart2->setProperty("Image", "spritesheet_tiles/HeartEmpty");
+		windHeart3->setProperty("Image", "spritesheet_tiles/HeartEmpty");
+	}
+	else {
+		windHeart1->setProperty("Image", "spritesheet_tiles/HeartFull");
+		if (numLives < 4) {
+			if (numLives == 3) windHeart2->setProperty("Image", "spritesheet_tiles/HeartHalf");
+			else  windHeart2->setProperty("Image", "spritesheet_tiles/HeartEmpty");
+			windHeart3->setProperty("Image", "spritesheet_tiles/HeartEmpty");
+		}
+		else {
+			windHeart2->setProperty("Image", "spritesheet_tiles/HeartFull");
+			if (numLives < 6) {
+				if (numLives == 5) windHeart3->setProperty("Image", "spritesheet_tiles/HeartHalf");
+				else  windHeart3->setProperty("Image", "spritesheet_tiles/HeartEmpty");
+			}
+			else  windHeart3->setProperty("Image", "spritesheet_tiles/HeartFull");
+		}
+	}
 }
 
 CEGUI::Window* Bengine::GUI::getInventoryWindow() {

@@ -266,7 +266,7 @@ bool TileMap::collisionMoveUp(const glm::ivec2 &pos, const glm::ivec2 &size, int
 }
 
 int TileMap::tileToMaterial(int x, int y) {
-	int material = map[x, y].first;
+	int material = map[y*mapSize.x + x].first;
 	if (material == 6 || material == 13 || material ==14) return TUSK;
 	if (material == 43 || material == 5 ) return ROCK;
 	if (material == 19 ) return COAL;

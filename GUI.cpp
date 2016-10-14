@@ -65,25 +65,30 @@ void Bengine::GUI::init(const std::string& resourceDirectory) {
 
 void Bengine::GUI::destroy() {
     CEGUI::System::getSingleton().destroyGUIContext(*m_context_inv);
+	CEGUI::System::getSingleton().destroyGUIContext(*m_context_lives);
 }
 
 void Bengine::GUI::draw() {
     m_renderer->beginRendering();
     m_context_inv->draw();
+	m_context_lives->draw();
     m_renderer->endRendering();
     glDisable(GL_SCISSOR_TEST);
 }
 
 void Bengine::GUI::setMouseCursor(const std::string& imageFile) {
     m_context_inv->getMouseCursor().setDefaultImage(imageFile);
+	m_context_lives->getMouseCursor().setDefaultImage(imageFile);
 }
 
 void Bengine::GUI::showMouseCursor() {
     m_context_inv->getMouseCursor().show();
+	m_context_lives->getMouseCursor().show();
 }
 
 void Bengine::GUI::hideMouseCursor() {
     m_context_inv->getMouseCursor().hide();
+	m_context_lives->getMouseCursor().hide();
 }
 
 
@@ -110,10 +115,10 @@ void Bengine::GUI::createInventory() {
 }
 
 void Bengine::GUI::createLives() {
-	if (livesWindow != nullptr) {
+//	if (livesWindow != nullptr) {
 		livesWindow = WindowManager::getSingleton().loadLayoutFromFile("lives.layout");
 		m_context_lives->setRootWindow(livesWindow);
-	}
+//	}
 }
 
 CEGUI::Window* Bengine::GUI::getInventoryWindow() {
@@ -123,4 +128,5 @@ CEGUI::Window* Bengine::GUI::getInventoryWindow() {
 void Bengine::GUI::setFont(const std::string& fontFile) {
     CEGUI::FontManager::getSingleton().createFromFile(fontFile + ".font");
     m_context_inv->setDefaultFont(fontFile);
+	m_context_lives->setDefaultFont(fontFile);
 }

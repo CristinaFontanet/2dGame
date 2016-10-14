@@ -2,8 +2,19 @@
 <GUILayout version="4">
     <Window type="DefaultWindow" name="root" >
         <Window name="Image" type="Vanilla/StaticImage">
-            <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}" />
-            <Property name="MousePassThroughEnabled" value="True" />
+            <Property name="Position" value="{{0.9,0},{0,5}}" />
+            <Property name="Size" value="{{0,40},{0,40}}" />
+            <Property name="Image" value="spritesheet_tiles/HeartFull" />
+        </Window>
+        <Window name="Image2" type="Vanilla/StaticImage">
+            <Property name="Position" value="{{0.9,0},{0,55}}" />
+            <Property name="Size" value="{{0,40},{0,40}}" />
+            <Property name="Image" value="spritesheet_tiles/HeartHalf" />
+        </Window>
+        <Window name="Image3" type="Vanilla/StaticImage">
+            <Property name="Position" value="{{0.9,0},{0,105}}" />
+            <Property name="Size" value="{{0,40},{0,40}}" />
+            <Property name="Image" value="spritesheet_tiles/HeartEmpty" />
         </Window>
                 
     </Window>

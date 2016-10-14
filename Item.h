@@ -22,6 +22,7 @@ public:
 	Item();
 
 	void setAmount(int newAmount);
+	void addItem();
 	void setSelected(bool select);
 
 	int type;

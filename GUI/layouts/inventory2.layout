@@ -93,5 +93,43 @@
                     <Property name="Text" value= "0" />
                 </Window>
         </Window>
+        <Window name="Slot6" type="Vanilla/StaticImage">
+                <Property name="Position" value="{{0,260},{0,05}}" />
+                <Property name="Size" value="{{0,40},{0,40}}" />
+                <Property name="Color" value="{{0,40},{0,40}}" />
+                <Window name="Image" type="Vanilla/StaticImage">
+                    <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}" />
+                    <Property name="MousePassThroughEnabled" value="True" />
+                </Window>
+                <Window name="ImageS" type="OgreTray/StaticImage">
+                    <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}" />
+                    <Property name="MousePassThroughEnabled" value="True" />
+                    <Property name="Visible" value="False"/>
+                </Window>
+                <Window name="Quant" type="Vanilla/StaticText" value = "0">
+                    <Property name="Position" value="{{0.53,0},{0.60,0}}" />
+                    <Property name="Size" value="{{0.47,0},{0.40,0}}" />
+                    <Property name="Text" value= "0" />
+                </Window>
+        </Window>
+        <Window name="Slot7" type="Vanilla/StaticImage">
+                <Property name="Position" value="{{0,310},{0,05}}" />
+                <Property name="Size" value="{{0,40},{0,40}}" />
+                <Property name="Color" value="{{0,40},{0,40}}" />
+                <Window name="Image" type="Vanilla/StaticImage">
+                    <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}" />
+                    <Property name="MousePassThroughEnabled" value="True" />
+                </Window>
+                <Window name="ImageS" type="OgreTray/StaticImage">
+                    <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}" />
+                    <Property name="MousePassThroughEnabled" value="True" />
+                    <Property name="Visible" value="False"/>
+                </Window>
+                <Window name="Quant" type="Vanilla/StaticText" value = "0">
+                    <Property name="Position" value="{{0.53,0},{0.60,0}}" />
+                    <Property name="Size" value="{{0.47,0},{0.40,0}}" />
+                    <Property name="Text" value= "0" />
+                </Window>
+        </Window>
     </Window>
 </GUILayout>

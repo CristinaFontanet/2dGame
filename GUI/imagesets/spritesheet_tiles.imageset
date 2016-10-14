@@ -2,6 +2,9 @@
     <Image height="128" name="Rock" width="128" xPos="0" yPos="0" />
     <Image height="128" name="Wood" width="128" xPos="0" yPos="128" />
     <Image height="128" name="Tusk" width="128" xPos="513" yPos="128" />
+    <Image height="128" name="Coal" width="128" xPos="513" yPos="128" />
+    <Image height="128" name="Gold" width="128" xPos="513" yPos="128" />
+    <Image height="128" name="Diamont" width="128" xPos="513" yPos="128" />
     <Image height="128" name="PickaxeWood" width="128" xPos="386" yPos="128" />
     <Image height="128" name="PickaxeRock" width="128" xPos="385" yPos="256" />
     <Image height="46" name="HeartFull" width="53" xPos="780" yPos="0" />

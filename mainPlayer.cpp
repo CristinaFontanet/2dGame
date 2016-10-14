@@ -122,15 +122,6 @@ void MainPlayer::equipItem(int num) {
 	equipedItem.setSelected(true);
 }
 
-void MainPlayer::setUpInventory(CEGUI::Window* inventoryWindow) {
-	inventory = vector<Item>(20);
-	inventory[0] = Item(PICKAXE, WOOD, 1, 1, inventoryWindow);
-	inventory[1] = Item(MATERIAL, TUSK, 0, 28, inventoryWindow);
-	inventory[2] = Item(MATERIAL, WOOD, 0, 28, inventoryWindow);
-	inventory[3] = Item(MATERIAL, ROCK, 0, 28, inventoryWindow);
-	equipedItem = inventory[0];
-	equipedItem.setSelected(true);
-}
 bool MainPlayer::isDiggingLateral() {
 	if (sprite->animation() == ARM1_LEFT || sprite->animation() == ARM1_RIGHT ) return true;
 	else return false;
@@ -157,7 +148,8 @@ void MainPlayer::update(int deltaTime) {
 			if (sprite->getNumKeyFrameMissing() == 8) {
 				if (sprite->animation() == ARM1_LEFT)sprite->changeAnimation(STAND_LEFT);
 				else sprite->changeAnimation(STAND_RIGHT);
-				map->dig(lastXclick, lastYclick, posPlayer.x, posPlayer.y + spriteWidth / 2, RANGE,equipedItem.dmg);
+				int material = map->dig(lastXclick, lastYclick, posPlayer.x, posPlayer.y + spriteWidth / 2, RANGE,equipedItem.dmg);
+				materialDigged(material);
 				animationInProgress = false;
 			}
 		}
@@ -165,7 +157,8 @@ void MainPlayer::update(int deltaTime) {
 			if (sprite->getNumKeyFrameMissing() == 10) {
 				if (sprite->animation() == ARM1_LEFT_BOT)sprite->changeAnimation(STAND_LEFT);
 				else sprite->changeAnimation(STAND_RIGHT);
-				map->dig(lastXclick, lastYclick, posPlayer.x, posPlayer.y + spriteWidth / 2, RANGE, equipedItem.dmg);
+				int material = map->dig(lastXclick, lastYclick, posPlayer.x, posPlayer.y + spriteWidth / 2, RANGE, equipedItem.dmg);
+				materialDigged(material);
 				animationInProgress = false;
 			}
 		}
@@ -241,6 +234,45 @@ void MainPlayer::update(int deltaTime) {
 		}
 	}
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
+}
+
+void MainPlayer::setUpInventory(CEGUI::Window* inventoryWindow) {
+	inventory = vector<Item>(20);
+	inventory[0] = Item(PICKAXE, WOOD, 1, 1, inventoryWindow);
+	inventory[1] = Item(MATERIAL, TUSK, 0, 28, inventoryWindow);
+	inventory[2] = Item(MATERIAL, WOOD, 0, 28, inventoryWindow);
+	inventory[3] = Item(MATERIAL, ROCK, 0, 28, inventoryWindow);
+	inventory[4] = Item(MATERIAL, COAL, 0, 28, inventoryWindow);
+	inventory[5] = Item(MATERIAL, GOLD, 0, 28, inventoryWindow);
+	inventory[6] = Item(MATERIAL, DIAMOND, 0, 28, inventoryWindow);
+	equipedItem = inventory[0];
+	equipedItem.setSelected(true);
+}
+
+void MainPlayer::materialDigged(int material) {
+	switch (material) {
+	case TUSK:
+		inventory[1].addItem();
+		break;
+	case WOOD:
+		inventory[2].addItem();
+		break;
+	case ROCK:
+		inventory[3].addItem();
+		break;
+	case COAL:
+		inventory[4].addItem();
+		break;
+	case GOLD:
+		inventory[5].addItem();
+		break;
+	case DIAMOND:
+		inventory[6].addItem();
+		break;
+	default:
+		int i = 2;
+		break;
+	}
 }
 
 void MainPlayer::spriteStandLeft() {

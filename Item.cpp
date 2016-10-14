@@ -49,6 +49,18 @@ Item::Item(int typeP, int elementP, int dmgP, int initialAmount, CEGUI::Window* 
 				slot = "Slot2";
 				material = "Tusk";
 				break;
+			case COAL:
+				slot = "Slot5";
+				material = "Coal";
+				break;
+			case GOLD:
+				slot = "Slot6";
+				material = "Gold";
+				break;
+			case DIAMOND:
+				slot = "Slot7";
+				material = "Diamont";
+				break;
 			default:
 				material = "";
 				break;
@@ -75,6 +87,12 @@ Item::Item(int typeP, int elementP, int dmgP, int initialAmount, CEGUI::Window* 
 Item::Item() {
 
  }
+
+void Item::addItem() {
+	amount += 1;
+	if (windAmount != nullptr)
+		windAmount->setProperty("Text", to_string(amount));
+}
 
 void Item::setAmount(int newAmount) {
 	amount = newAmount;

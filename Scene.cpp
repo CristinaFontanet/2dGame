@@ -73,7 +73,8 @@ void Scene::init()
 	enemy->setTileMap(map);
 
 	currentTime = 0.0f;
-	m_gui.setLives(0);
+
+	m_gui.setLives(3);	//es podria moure a dins del jugador passantli m_gui, la deixo aqui aviam on va millor quan fem l'atac de l'enemic
 
 }
 
@@ -82,7 +83,6 @@ void Scene::update(int deltaTime)
 	//no cal fer update del mapa xq aquest no te animacions ni res 
 	currentTime += deltaTime;
 	player->update(deltaTime);
-//	boss->update(deltaTime);
 	mainPlayer->update(deltaTime);
 	float incy, incx= 0;
 	incy = playerPos[1] - mainPlayer->getPlayerPosition()[1];

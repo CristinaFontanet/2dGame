@@ -21,7 +21,6 @@ public:
 	glm::vec3 getPlayerPosition();
 	void digAnimation();
 	void putMaterial();
-	void setPlayerState(int state);
 	void mouseClick(int x, int y);
 	void equipItem(int num);
 

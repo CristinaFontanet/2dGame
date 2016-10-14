@@ -1,13 +1,15 @@
 <Imageset autoScaled="vertical" imagefile="spritesheet_tiles.png" name="spritesheet_tiles" nativeHorzRes="1024" nativeVertRes="2048" version="2">
+<!--cada 130  -->
     <Image height="128" name="Rock" width="128" xPos="0" yPos="0" />
-    <Image height="128" name="Wood" width="128" xPos="0" yPos="128" />
-    <Image height="128" name="Tusk" width="128" xPos="513" yPos="128" />
-    <Image height="128" name="Coal" width="128" xPos="513" yPos="128" />
-    <Image height="128" name="Gold" width="128" xPos="513" yPos="128" />
-    <Image height="128" name="Diamont" width="128" xPos="513" yPos="128" />
-    <Image height="128" name="PickaxeWood" width="128" xPos="386" yPos="128" />
-    <Image height="128" name="PickaxeRock" width="128" xPos="385" yPos="256" />
+    <Image height="128" name="Wood" width="128" xPos="0" yPos="1430" />
+    <Image height="128" name="Tusk" width="128" xPos="260" yPos="1690" />
+    <Image height="128" name="Coal" width="128" xPos="260" yPos="130" />
+    <Image height="128" name="Gold" width="128" xPos="130" yPos="1430" />
+    <Image height="128" name="Diamont" width="128" xPos="260" yPos="0" />
+    <Image height="128" name="PickaxeWood" width="128" xPos="780" yPos="390" />
+    <Image height="128" name="PickaxeRock" width="128" xPos="780" yPos="520" />
+    <Image height="128" name="PickaxeDiamond" width="128" xPos="780" yPos="650" />
     <Image height="46" name="HeartFull" width="53" xPos="780" yPos="0" />
-    <Image height="46" name="HeartHalf" width="53" xPos="780" yPos="128" />
+    <Image height="46" name="HeartHalf" width="53" xPos="780" yPos="130" />
     <Image height="46" name="HeartEmpty" width="53" xPos="780" yPos="259" />
 </Imageset>

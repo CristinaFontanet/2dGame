@@ -239,12 +239,12 @@ void MainPlayer::update(int deltaTime) {
 void MainPlayer::setUpInventory(CEGUI::Window* inventoryWindow) {
 	inventory = vector<Item>(20);
 	inventory[0] = Item(PICKAXE, WOOD, 1, 1, inventoryWindow);
-	inventory[1] = Item(MATERIAL, TUSK, 0, 28, inventoryWindow);
-	inventory[2] = Item(MATERIAL, WOOD, 0, 28, inventoryWindow);
-	inventory[3] = Item(MATERIAL, ROCK, 0, 28, inventoryWindow);
-	inventory[4] = Item(MATERIAL, COAL, 0, 28, inventoryWindow);
-	inventory[5] = Item(MATERIAL, GOLD, 0, 28, inventoryWindow);
-	inventory[6] = Item(MATERIAL, DIAMOND, 0, 28, inventoryWindow);
+	inventory[1] = Item(MATERIAL, TUSK, 0, 0, inventoryWindow);
+	inventory[2] = Item(MATERIAL, WOOD, 0, 0, inventoryWindow);
+	inventory[3] = Item(MATERIAL, ROCK, 0, 0, inventoryWindow);
+	inventory[4] = Item(MATERIAL, COAL, 0, 0, inventoryWindow);
+	inventory[5] = Item(MATERIAL, GOLD, 0, 0, inventoryWindow);
+	inventory[6] = Item(MATERIAL, DIAMOND, 0, 0, inventoryWindow);
 	equipedItem = &inventory[0];
 	equipedItem->setSelected(true);
 }

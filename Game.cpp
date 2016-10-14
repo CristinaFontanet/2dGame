@@ -32,7 +32,9 @@ void Game::keyPressed(int key)
 	if (key =='2') scene.selectItem(1);
 	if (key == '3') scene.selectItem(2);
 	if (key == '4') scene.selectItem(3);
-//	if (key == '5') scene.selectItem(4);
+	if (key == '5') scene.selectItem(4);
+	if (key == '6') scene.selectItem(5);
+	if (key == '7') scene.selectItem(6);
 	keys[key] = true;
 }
 

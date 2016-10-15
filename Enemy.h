@@ -5,6 +5,7 @@
 #include "TileMap.h"
 #include "Sprite.h"
 
+
 using namespace std;
 
 class Enemy {
@@ -21,13 +22,21 @@ public:
 
 	void render();
 
+	void update(int deltaTime);
+
 private:
+
+	bool nextBool(double probability);
+
 	Texture spritesheet;
 	Sprite *sprite;
 	TileMap *map;
 	double heightProp;
 	double widhtProp;
 	glm::ivec2 tileMapDispl, posEnemy;
+	bool bLeft;
+	bool bJumping;
+	int jumpAngle, startY;
 
 };
 

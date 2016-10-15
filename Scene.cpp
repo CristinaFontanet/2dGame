@@ -83,6 +83,7 @@ void Scene::update(int deltaTime)
 	//no cal fer update del mapa xq aquest no te animacions ni res 
 	currentTime += deltaTime;
 	player->update(deltaTime);
+	enemy->update(deltaTime);
 	mainPlayer->update(deltaTime);
 	float incy, incx= 0;
 	incy = playerPos[1] - mainPlayer->getPlayerPosition()[1];

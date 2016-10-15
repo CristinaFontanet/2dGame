@@ -9,8 +9,8 @@
 #include "Game.h"
 
 #define ANIMATION_SPEED 8
-#define JUMP_ANGLE_STEP 4
-#define JUMP_HEIGHT 90
+#define JUMP_ANGLE_STEP 2
+#define JUMP_HEIGHT 45
 
 enum SpriteMoves {
 	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT
@@ -85,23 +85,33 @@ void Enemy::update(int deltaTime) {
 		posEnemy.x -= 2;
 	}
 	else {
-		bLeft = false;
-		if (sprite->animation() != MOVE_RIGHT) sprite->changeAnimation(MOVE_RIGHT);
-		posEnemy.x += 2;
-		if (map->collisionMoveRight(posEnemy, glm::ivec2(spriteWidth, 64)) && !bJumping) { 	//si hi ha colisio, ens parem
-			if (nextBool(0.7)) {
-				posEnemy.x -= 2;
-				bLeft = true;
-				if (sprite->animation() != MOVE_LEFT) sprite->changeAnimation(MOVE_LEFT);
-			}
+		if (bLeft) {
+			if (nextBool(0.3)) bLeft = false;
 			else {
 				bJumping = true;
 				jumpAngle = 0;
 				startY = posEnemy.y;
 			}
-
+		}
+		else {
+			if (sprite->animation() != MOVE_RIGHT) sprite->changeAnimation(MOVE_RIGHT);
+			posEnemy.x += 2;
+			if (map->collisionMoveRight(posEnemy, glm::ivec2(spriteWidth, 64)) && !bJumping) { 	//si hi ha colisio, ens parem
+				if (nextBool(0.3)) {
+					posEnemy.x -= 2;
+					bLeft = true;
+					if (sprite->animation() != MOVE_LEFT) sprite->changeAnimation(MOVE_LEFT);
+				}
+				else {
+					bJumping = true;
+					jumpAngle = 0;
+					startY = posEnemy.y;
+				}
+			}
 		}
 	}
+
+	glm::ivec2 spritePos = posEnemy;
 
 	if (bJumping) {
 		jumpAngle += JUMP_ANGLE_STEP;
@@ -111,7 +121,6 @@ void Enemy::update(int deltaTime) {
 		else {
 			int posPlayerIniY = posEnemy.y;
 			posEnemy.y = int(startY - 96 * sin(3.14159f * jumpAngle / 180.f));
-			glm::ivec2 spritePos = posEnemy;
 			if (map->collisionMoveUp(spritePos, glm::ivec2(spriteWidth, 64), &posEnemy.y, bLeft, 0)) {
 				bJumping = false;
 			}
@@ -120,7 +129,7 @@ void Enemy::update(int deltaTime) {
 			}
 		}
 	}
-	else {
+	else if(!map->collisionMoveDown(spritePos + 5, glm::ivec2(spriteWidth, 64), &posEnemy.y, bLeft, 0)){
 		posEnemy.y += 2;
 	}
 

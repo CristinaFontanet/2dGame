@@ -16,7 +16,7 @@
 #define RANGE 2
 
 enum SpriteMoves {
-	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT, ARM1_LEFT,ARM1_LEFT_BOT, ARM1_RIGHT, ARM1_RIGHT_BOT
+	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT, ARM1_LEFT,ARM1_LEFT_BOT, ARM1_RIGHT, ARM1_RIGHT_BOT, ATAC_LEFT
 };
 
 
@@ -111,8 +111,18 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widht * 7, height));
 	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widht * 8, height));
 
+	spritesheetAtac.loadFromFile("images/main_atac.png", TEXTURE_PIXEL_FORMAT_RGBA);
+	widhtProp = 1.0 / 59.f;
+	heightProp = 1.0 / 10.f;
+	spriteAtac = Sprite::createSprite(glm::ivec2(64, 64), glm::vec2(widhtProp * 6, heightProp * 4), &spritesheetAtac, &shaderProgram);
+	spriteAtac->setAnimationSpeed(ATAC_LEFT, ANIMATION_SPEED*1.5);
+	spriteAtac->addKeyframe(ATAC_LEFT, glm::vec2(0.f, 0.f));
+	spriteAtac->changeAnimation(ATAC_LEFT);
+
+
 	tileMapDispl = tileMapPos;
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
+	spriteAtac->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 	height = HEIGHTWALK;
 	spriteWidth = WIDTHWALK;
 }
@@ -143,6 +153,7 @@ void MainPlayer::mouseClick(int x, int y) {
 void MainPlayer::update(int deltaTime) {
 
 	sprite->update(deltaTime);
+	spriteAtac->update(deltaTime);
 	
 	if (isDiggingBottom() || isDiggingLateral()) {
 		if (isDiggingLateral()) {
@@ -236,6 +247,7 @@ void MainPlayer::update(int deltaTime) {
 	}
 
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
+	spriteAtac->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 }
 
 void MainPlayer::setUpInventory(CEGUI::Window* inventoryWindow) {
@@ -283,7 +295,8 @@ void MainPlayer::spriteStandLeft() {
 
 void MainPlayer::render()
 {
-	sprite->render();
+	//sprite->render();
+	spriteAtac->render();
 }
 
 void MainPlayer::setTileMap(TileMap *tileMap)

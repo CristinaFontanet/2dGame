@@ -41,7 +41,9 @@ private:
 	int jumpAngle, startY;
 	int live;
 	Texture spritesheet;
+	Texture spritesheetAtac;
 	Sprite *sprite;
+	Sprite *spriteAtac;
 	TileMap *map;
 
 	double heightProp;

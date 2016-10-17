@@ -1,3 +1,4 @@
+
 #include <cmath>
 #include <iostream>
 #include <GL/glew.h>
@@ -5,8 +6,8 @@
 #include "MainPlayer.h"
 #include "Game.h"
 
-#define JUMP_ANGLE_STEP 2
-#define JUMP_HEIGHT 90
+#define JUMP_ANGLE_STEP 4
+#define JUMP_HEIGHT 45
 #define FALL_STEP 4
 #define HEIGHTWALK 64
 #define WIDTHWALK 32
@@ -20,16 +21,17 @@ enum SpriteMoves {
 };
 
 
-void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram, CEGUI::Window* inventoryWindow) {
+void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram, CEGUI::Window* inventoryWindow, CEGUI::Window* livesWindiowP) {
+	live = 100;
 	animationInProgress = false;
 	setUpInventory(inventoryWindow);
+	setUpLives(livesWindiowP);
 	heightProp = 1.f / 32.f;
 	widhtProp = 1.f / 48.f;
 	double yoffset = 1.f /32.f;
 	bJumping = false;
 	lastDeltaTime = 2;
 	bLeft = true;
-	live = 6;
 	spritesheet.loadFromFile("images/Especials_1.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	
 	sprite = Sprite::createSprite(glm::ivec2(64, 64), glm::vec2(widhtProp * 4, heightProp * 4), &spritesheet, &shaderProgram);
@@ -212,7 +214,7 @@ void MainPlayer::update(int deltaTime) {
 		}
 		else {
 			int posPlayerIniY = posPlayer.y;
-			posPlayer.y = int(startY - 96 * sin(3.14159f * jumpAngle / 180.f));
+			posPlayer.y = int(startY - JUMP_HEIGHT * sin(3.14159f * jumpAngle / 180.f));
 			glm::ivec2 spritePos = posPlayer;
 			//48 = 64/4*3 per l'alçada real del sprite xq no funciona 48????
 			if (map->collisionMoveUp(spritePos, glm::ivec2(spriteWidth,50), &posPlayer.y, bLeft, marg)) {
@@ -301,7 +303,38 @@ glm::vec3 MainPlayer::getPlayerPosition() {
 	return glm::vec3(posPlayer.x, posPlayer.y, 0.f);
 }
 
+void MainPlayer::setUpLives(CEGUI::Window *livesWindowP) {
+	livesWindow = livesWindowP;
+	windHeart1 = livesWindow->getChild("Image1");
+	windHeart2 = livesWindow->getChild("Image2");
+	windHeart3 = livesWindow->getChild("Image3");
+	setLives(live);
+}
 
+void MainPlayer::setLives(int numLives) {
+	if (numLives < 33) {
+		if (numLives == 16) windHeart1->setProperty("Image", "spritesheet_tiles/HeartHalf");
+		else  windHeart1->setProperty("Image", "spritesheet_tiles/HeartEmpty");
+		windHeart2->setProperty("Image", "spritesheet_tiles/HeartEmpty");
+		windHeart3->setProperty("Image", "spritesheet_tiles/HeartEmpty");
+	}
+	else {
+		windHeart1->setProperty("Image", "spritesheet_tiles/HeartFull");
+		if (numLives < 66) {
+			if (numLives == 50) windHeart2->setProperty("Image", "spritesheet_tiles/HeartHalf");
+			else  windHeart2->setProperty("Image", "spritesheet_tiles/HeartEmpty");
+			windHeart3->setProperty("Image", "spritesheet_tiles/HeartEmpty");
+		}
+		else {
+			windHeart2->setProperty("Image", "spritesheet_tiles/HeartFull");
+			if (numLives < 100) {
+				if (numLives == 83) windHeart3->setProperty("Image", "spritesheet_tiles/HeartHalf");
+				else  windHeart3->setProperty("Image", "spritesheet_tiles/HeartEmpty");
+			}
+			else  windHeart3->setProperty("Image", "spritesheet_tiles/HeartFull");
+		}
+	}
+}
 void MainPlayer::digAnimation() {
 	spriteWidth = 64;
 	animationInProgress = true;
@@ -325,4 +358,9 @@ void MainPlayer::putMaterial() {
 	else {
 		//TODO: avisar que no queda material
 	}
+}
+
+void MainPlayer::reciveDMG(int dmg) {
+	live -= dmg;
+	setLives(live);
 }

@@ -56,10 +56,11 @@ void Scene::init()
 	//GUI
 	m_gui.init("../GUI");
 	Window* inventoryWindow = m_gui.getInventoryWindow();
+	Window* livesWindow = m_gui.getLivesWindow();
 	
 	//Main Player
 	mainPlayer = new MainPlayer();
-	mainPlayer->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, inventoryWindow);
+	mainPlayer->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, inventoryWindow,livesWindow);
 	mainPlayer->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
 	mainPlayer->setTileMap(map);
 	playerPos = mainPlayer->getPlayerPosition();
@@ -71,11 +72,9 @@ void Scene::init()
 	enemy->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 	enemy->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
 	enemy->setTileMap(map);
+	enemy->setTarget(mainPlayer);
 
 	currentTime = 0.0f;
-
-	m_gui.setLives(3);	//es podria moure a dins del jugador passantli m_gui, la deixo aqui aviam on va millor quan fem l'atac de l'enemic
-
 }
 
 void Scene::update(int deltaTime)
@@ -106,8 +105,8 @@ void Scene::render()
 	texProgram.setUniformMatrix4f("modelview", modelview);
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
 	map->render();
-	mainPlayer->render();
 	enemy->render();
+	mainPlayer->render();
 	m_gui.draw();
 }
 

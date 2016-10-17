@@ -107,39 +107,16 @@ void Bengine::GUI::createInventory() {
 void Bengine::GUI::createLives() {
 	livesWindow = WindowManager::getSingleton().loadLayoutFromFile("lives.layout");
 	m_context_lives->setRootWindow(livesWindow);
-	windHeart1 = livesWindow->getChild("Image1");
-	windHeart2 = livesWindow->getChild("Image2");
-	windHeart3 = livesWindow->getChild("Image3");
-}
-
-void Bengine::GUI::setLives(int numLives) {
-	if (numLives < 2) {
-		if (numLives == 1) windHeart1->setProperty("Image", "spritesheet_tiles/HeartHalf");
-		else  windHeart1->setProperty("Image", "spritesheet_tiles/HeartEmpty");
-		windHeart2->setProperty("Image", "spritesheet_tiles/HeartEmpty");
-		windHeart3->setProperty("Image", "spritesheet_tiles/HeartEmpty");
-	}
-	else {
-		windHeart1->setProperty("Image", "spritesheet_tiles/HeartFull");
-		if (numLives < 4) {
-			if (numLives == 3) windHeart2->setProperty("Image", "spritesheet_tiles/HeartHalf");
-			else  windHeart2->setProperty("Image", "spritesheet_tiles/HeartEmpty");
-			windHeart3->setProperty("Image", "spritesheet_tiles/HeartEmpty");
-		}
-		else {
-			windHeart2->setProperty("Image", "spritesheet_tiles/HeartFull");
-			if (numLives < 6) {
-				if (numLives == 5) windHeart3->setProperty("Image", "spritesheet_tiles/HeartHalf");
-				else  windHeart3->setProperty("Image", "spritesheet_tiles/HeartEmpty");
-			}
-			else  windHeart3->setProperty("Image", "spritesheet_tiles/HeartFull");
-		}
-	}
 }
 
 CEGUI::Window* Bengine::GUI::getInventoryWindow() {
 	return inventoryWindow;
 }
+
+CEGUI::Window* Bengine::GUI::getLivesWindow() {
+	return livesWindow;
+}
+
 
 void Bengine::GUI::setFont(const std::string& fontFile) {
     CEGUI::FontManager::getSingleton().createFromFile(fontFile + ".font");

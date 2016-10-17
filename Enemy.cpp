@@ -5,7 +5,6 @@
 #include <iostream>
 #include <GL/glew.h>
 #include <GL/glut.h>
-#include "MainPlayer.h"
 #include "Game.h"
 
 #define ANIMATION_SPEED 8
@@ -69,6 +68,10 @@ void Enemy::setPosition(const glm::vec2 &pos)
 {
 	posEnemy = pos;
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posEnemy.x), float(tileMapDispl.y + posEnemy.y)));
+}
+
+void Enemy::setTarget(MainPlayer *target){
+	player = target;
 }
 
 void Enemy::render()

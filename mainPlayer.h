@@ -1,6 +1,8 @@
 #ifndef _MAINPLAYER_INCLUDE
 #define _MAINPLAYER_INCLUDE
 
+#include <CEGUI/CEGUI.h>
+#include <CEGUI/RendererModules/OpenGL/GL3Renderer.h>
 #include <vector>
 #include "Sprite.h"
 #include "TileMap.h"
@@ -12,15 +14,16 @@ class MainPlayer {
 #define PICKAXE 1
 
 public:
-	void init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram, CEGUI::Window* inventoryWindow);
+	void init(const glm::ivec2 & tileMapPos, ShaderProgram & shaderProgram, CEGUI::Window * inventoryWindow, CEGUI::Window * livesWindow);
 	void update(int deltaTime);
 	void render();
-
 	void setTileMap(TileMap *tileMap);
 	void setPosition(const glm::vec2 &pos);
 	glm::vec3 getPlayerPosition();
+	void setLives(int numLives);
 	void digAnimation();
 	void putMaterial();
+	void reciveDMG(int dmg);
 	void mouseClick(int x, int y);
 	void equipItem(int num);
 
@@ -31,6 +34,7 @@ public:
 
 private:
 	void setUpInventory(CEGUI::Window* inventoryWindow);
+	void setUpLives(CEGUI::Window * livesWindowP);
 	void materialDigged(int material);
 	void spriteStandLeft();
 	bool isDiggingLateral();
@@ -43,7 +47,10 @@ private:
 	Texture spritesheet;
 	Sprite *sprite;
 	TileMap *map;
-
+	CEGUI::Window* windHeart1;
+	CEGUI::Window* windHeart2;
+	CEGUI::Window* windHeart3;
+	CEGUI::Window* livesWindow;
 	double heightProp;
 	double widhtProp;
 

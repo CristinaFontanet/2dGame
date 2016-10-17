@@ -24,6 +24,8 @@ namespace Bengine {
         static CEGUI::OpenGL3Renderer* getRenderer() { return m_renderer; }
         const CEGUI::GUIContext* getContext() { return m_context_inv; }
 		CEGUI::Window* Bengine::GUI::getInventoryWindow();
+		CEGUI::Window* Bengine::GUI::getLivesWindow();
+
 		void setLives(int numLives);
     private:
 		void Bengine::GUI::createInventory();

@@ -31,7 +31,7 @@ void TileMap::render() const {
 	glBindVertexArray(vao);
 	glEnableVertexAttribArray(posLocation);
 	glEnableVertexAttribArray(texCoordLocation);
-	glDrawArrays(GL_TRIANGLES, 0, 6 * mapSize.x * mapSize.y);
+	glDrawArrays(GL_TRIANGLES, 0,  6*ntilesVBO);
 	glDisable(GL_TEXTURE_2D);
 }
 
@@ -338,7 +338,6 @@ void TileMap::addVertices(int material, int x, int y) {
 	vertices.push_back(texCoordTile[1].x); vertices.push_back(texCoordTile[1].y);
 	vertices.push_back(posTile.x); vertices.push_back(posTile.y + blockSize);
 	vertices.push_back(texCoordTile[0].x); vertices.push_back(texCoordTile[1].y);
-
 	ntilesVBO++;
 	actualizarVBO();
 }

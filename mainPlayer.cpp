@@ -5,7 +5,7 @@
 #include "MainPlayer.h"
 #include "Game.h"
 
-#define JUMP_ANGLE_STEP 4
+#define JUMP_ANGLE_STEP 2
 #define JUMP_HEIGHT 90
 #define FALL_STEP 4
 #define HEIGHTWALK 64
@@ -143,7 +143,7 @@ void MainPlayer::mouseClick(int x, int y) {
 void MainPlayer::update(int deltaTime) {
 
 	sprite->update(deltaTime);
-
+	
 	if (isDiggingBottom() || isDiggingLateral()) {
 		if (isDiggingLateral()) {
 			if (sprite->getNumKeyFrameMissing() == 8) {
@@ -203,7 +203,6 @@ void MainPlayer::update(int deltaTime) {
 			else if (sprite->animation() != STAND_RIGHT) spriteStandLeft();
 		}
 	}  
-	
 	marg = 0;
 	//POSICIO Y
 	if (bJumping) {
@@ -215,7 +214,8 @@ void MainPlayer::update(int deltaTime) {
 			int posPlayerIniY = posPlayer.y;
 			posPlayer.y = int(startY - 96 * sin(3.14159f * jumpAngle / 180.f));
 			glm::ivec2 spritePos = posPlayer;
-			if (map->collisionMoveUp(spritePos, glm::ivec2(spriteWidth, 64), &posPlayer.y, bLeft, marg)) {
+			//48 = 64/4*3 per l'alçada real del sprite xq no funciona 48????
+			if (map->collisionMoveUp(spritePos, glm::ivec2(spriteWidth,50), &posPlayer.y, bLeft, marg)) {
 				bJumping = false;
 			}
 			if (jumpAngle > 90) {
@@ -226,7 +226,7 @@ void MainPlayer::update(int deltaTime) {
 	else {
 		posPlayer.y += FALL_STEP;
 		glm::ivec2 spritePos = posPlayer;
-		if (map->collisionMoveDown(spritePos, glm::ivec2(spriteWidth,64), &posPlayer.y, bLeft, marg)) {
+		if (map->collisionMoveDown(spritePos, glm::ivec2(spriteWidth, 64), &posPlayer.y, bLeft, marg)) {
 			if (Game::instance().getSpecialKey(GLUT_KEY_UP) || Game::instance().getKey('w') || Game::instance().getKey(32)) {
 				bJumping = true;
 				jumpAngle = 0;
@@ -234,6 +234,7 @@ void MainPlayer::update(int deltaTime) {
 			}
 		}
 	}
+
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 }
 

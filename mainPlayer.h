@@ -45,7 +45,9 @@ private:
 	int jumpAngle, startY;
 	int live;
 	Texture spritesheet;
+	Texture spritesheetAtac;
 	Sprite *sprite;
+	Sprite *spriteAtac;
 	TileMap *map;
 	CEGUI::Window* windHeart1;
 	CEGUI::Window* windHeart2;

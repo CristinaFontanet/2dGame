@@ -39,6 +39,7 @@ private:
 	TileMap *map;
 	MainPlayer *mainPlayer;
 	Enemy *enemy;
+	Enemy *pony;
 	P_conillet *player;
 	P_boss *boss;
 	ShaderProgram texProgram;

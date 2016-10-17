@@ -312,8 +312,8 @@ void MainPlayer::setPosition(const glm::vec2 &pos)
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 }
 
-glm::vec3 MainPlayer::getPlayerPosition() {
-	return glm::vec3(posPlayer.x, posPlayer.y, 0.f);
+glm::vec2 MainPlayer::getPlayerPosition() {
+	return posPlayer;
 }
 
 void MainPlayer::setUpLives(CEGUI::Window *livesWindowP) {
@@ -376,4 +376,5 @@ void MainPlayer::putMaterial() {
 void MainPlayer::reciveDMG(int dmg) {
 	live -= dmg;
 	setLives(live);
+	cout << live << endl;
 }

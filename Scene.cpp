@@ -80,6 +80,8 @@ void Scene::init()
 	pony->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 	pony->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
 	pony->setTileMap(map);
+	pony->setTarget(mainPlayer);
+
 
 	currentTime = 0.0f;
 }

@@ -52,6 +52,8 @@ public:
 
 	void actualizarVBO();
 
+	int getTileSize();
+
 	void addVertices(int material,int x, int y);
 
 	void deleteVertices(int x, int y);

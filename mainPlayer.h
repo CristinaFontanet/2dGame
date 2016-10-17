@@ -19,7 +19,7 @@ public:
 	void render();
 	void setTileMap(TileMap *tileMap);
 	void setPosition(const glm::vec2 &pos);
-	glm::vec3 getPlayerPosition();
+	glm::vec2 getPlayerPosition();
 	void setLives(int numLives);
 	void digAnimation();
 	void putMaterial();

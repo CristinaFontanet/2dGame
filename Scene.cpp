@@ -24,6 +24,7 @@ Scene::Scene() {
 	boss = NULL;
 	mainPlayer = NULL;
 	enemy = NULL;
+	pony = NULL;
 }
 
 Scene::~Scene()
@@ -36,6 +37,7 @@ Scene::~Scene()
 		delete boss;
 	if (mainPlayer != NULL) delete mainPlayer;
 	if (enemy != NULL) delete enemy;
+	if (pony != NULL) delete pony;
 }
 
 void Scene::init()
@@ -72,6 +74,11 @@ void Scene::init()
 	enemy->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
 	enemy->setTileMap(map);
 
+	pony = new Enemy();
+	pony->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	pony->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
+	pony->setTileMap(map);
+
 	currentTime = 0.0f;
 
 	m_gui.setLives(3);	//es podria moure a dins del jugador passantli m_gui, la deixo aqui aviam on va millor quan fem l'atac de l'enemic
@@ -84,6 +91,7 @@ void Scene::update(int deltaTime)
 	currentTime += deltaTime;
 	player->update(deltaTime);
 	enemy->update(deltaTime);
+	pony->update(deltaTime);
 	mainPlayer->update(deltaTime);
 	float incy, incx= 0;
 	incy = playerPos[1] - mainPlayer->getPlayerPosition()[1];
@@ -108,6 +116,7 @@ void Scene::render()
 	map->render();
 	mainPlayer->render();
 	enemy->render();
+	pony->render();
 	m_gui.draw();
 }
 

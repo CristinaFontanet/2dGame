@@ -171,17 +171,22 @@ void MainPlayer::mouseClick(int x, int y) {
 	lastXclick = x + offset.first;
 	lastYclick = y + offset.second;
 	if (equipedItem->type == PICKAXE) digAnimation();
-	if (equipedItem->type == SWORD) atacAnimation();
+	if (equipedItem->type == SWORD) attackAnimation();
 	if (equipedItem->type == MATERIAL) putMaterial();
 }
 
 void MainPlayer::update(int deltaTime) {
-
-	sprite->update(deltaTime);
-	spriteAtac->update(deltaTime);
+	switch (spriteState) {
+	case ATTACKING:
+		spriteAtac->update(deltaTime);
+		break;
+	default:
+		sprite->update(deltaTime);
+		break;
+	}
 	if (isDiggingBottom() || isDiggingLateral()) {
 		if (isDiggingLateral()) {
-			if (sprite->getNumKeyFrameMissing() == 8) {
+			if (sprite->getCurrentNumKeyFrame() == 8) {
 				if (sprite->animation() == ARM1_LEFT)sprite->changeAnimation(STAND_LEFT);
 				else sprite->changeAnimation(STAND_RIGHT);
 				int material = map->dig(lastXclick, lastYclick, posPlayer.x, posPlayer.y + spriteWidth / 2, RANGE,equipedItem->dmg);
@@ -190,7 +195,7 @@ void MainPlayer::update(int deltaTime) {
 			}
 		}
 		else if (isDiggingBottom()) {
-			if (sprite->getNumKeyFrameMissing() == 10) {
+			if (sprite->getCurrentNumKeyFrame() == 10) {
 				if (sprite->animation() == ARM1_LEFT_BOT)sprite->changeAnimation(STAND_LEFT);
 				else sprite->changeAnimation(STAND_RIGHT);
 				int material = map->dig(lastXclick, lastYclick, posPlayer.x, posPlayer.y + spriteWidth / 2, RANGE, equipedItem->dmg);
@@ -200,10 +205,11 @@ void MainPlayer::update(int deltaTime) {
 		}
 	} 
 	else if (isAttacking()) {
-		if (sprite->getNumKeyFrameMissing() == 7) {
+		if (spriteAtac->getCurrentNumKeyFrame() == 7) {
 			animationInProgress = false;
 			spriteState = NORMAL;
-			currentSprite = sprite;
+			if (bLeft) sprite->changeAnimation(STAND_LEFT);
+			else sprite->changeAnimation(STAND_RIGHT);
 		}
 	}
 	else {
@@ -379,12 +385,12 @@ void MainPlayer::setLives(int numLives) {
 }
 
 
-void MainPlayer::atacAnimation() {
+void MainPlayer::attackAnimation() {
 	spriteWidth = 64;
 	animationInProgress = true;
 	spriteState = ATTACKING;
-	if(bLeft && spriteAtac->animation() != ATTACK_LEFT) spriteAtac->changeAnimation(ATTACK_LEFT);
-	else if (!bLeft &&spriteAtac->animation() != ATTACK_RIGHT) spriteAtac->changeAnimation(ATTACK_RIGHT);
+	if(bLeft) spriteAtac->changeAnimation(ATTACK_LEFT);
+	else if (!bLeft) spriteAtac->changeAnimation(ATTACK_RIGHT);
 
 }
 

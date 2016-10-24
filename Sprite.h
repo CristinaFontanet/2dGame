@@ -35,7 +35,7 @@ public:
 	
 	void setPosition(const glm::vec2 &pos);
 	void setSize(glm::vec2 &newSizeInSpritesheet);
-	int getNumKeyFrameMissing();
+	int getCurrentNumKeyFrame();
 
 private:
 	glm::vec2 quadSize2;

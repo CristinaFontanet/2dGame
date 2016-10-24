@@ -22,7 +22,7 @@ public:
 	glm::vec2 getPlayerPosition();
 	void setLives(int numLives);
 	void digAnimation();
-	void atacAnimation();
+	void attackAnimation();
 	void putMaterial();
 	void reciveDMG(int dmg);
 	void configSounds();
@@ -32,7 +32,6 @@ public:
 	enum playerState {
 		WALKING, WEAPON1, WEAPON2, BYPET
 	};
-
 
 	enum SpriteState {
 		NORMAL, ATTACKING
@@ -55,7 +54,6 @@ private:
 	Texture spritesheetAtac;
 	Sprite *sprite;
 	Sprite *spriteAtac;
-	Sprite *currentSprite;
 	TileMap *map;
 	SpriteState spriteState;
 	CEGUI::Window* windHeart1;

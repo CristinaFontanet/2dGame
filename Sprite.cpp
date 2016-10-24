@@ -59,7 +59,7 @@ void Sprite::update(int deltaTime)
 	}
 }
 
-int Sprite::getNumKeyFrameMissing() {
+int Sprite::getCurrentNumKeyFrame() {
 //	int numFrames = animations[currentAnimation].keyframeDispl.size();
 	return currentKeyframe;
 }

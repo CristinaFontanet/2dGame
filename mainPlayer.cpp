@@ -17,7 +17,7 @@
 #define RANGE 2
 
 enum SpriteMoves {
-	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT, ARM1_LEFT,ARM1_LEFT_BOT, ARM1_RIGHT, ARM1_RIGHT_BOT, ATAC_LEFT
+	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT, ARM1_LEFT,ARM1_LEFT_BOT, ARM1_RIGHT, ARM1_RIGHT_BOT, ATTACK_LEFT, ATTACK_RIGHT
 };
 
 void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram, CEGUI::Window* inventoryWindow, CEGUI::Window* livesWindiowP) {
@@ -118,16 +118,27 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	widht = widhtProp * 6;
 	spriteAtac = Sprite::createSprite(glm::ivec2(64, 64), glm::vec2(widhtProp * 6, heightProp * 4), &spritesheetAtac, &shaderProgram);
 	spriteAtac->setNumberAnimations(10);
-	spriteAtac->setAnimationSpeed(ATAC_LEFT, ANIMATION_SPEED*1.5);
-	spriteAtac->addKeyframe(ATAC_LEFT, glm::vec2(0.f, 0.f));
-	spriteAtac->addKeyframe(ATAC_LEFT, glm::vec2(widht, 0.f));
-	spriteAtac->addKeyframe(ATAC_LEFT, glm::vec2(widht*2, 0.f));
-	spriteAtac->addKeyframe(ATAC_LEFT, glm::vec2(widht * 3, 0.f));
-	spriteAtac->addKeyframe(ATAC_LEFT, glm::vec2(widht * 4, 0.f));
-	spriteAtac->addKeyframe(ATAC_LEFT, glm::vec2(widht * 5, 0.f));
-	spriteAtac->addKeyframe(ATAC_LEFT, glm::vec2(widht * 6, 0.f));
-	spriteAtac->addKeyframe(ATAC_LEFT, glm::vec2(widht * 7, 0.f));
-//	spriteAtac->changeAnimation(ATAC_LEFT);
+	spriteAtac->setAnimationSpeed(ATTACK_LEFT, ANIMATION_SPEED);
+	spriteAtac->addKeyframe(ATTACK_LEFT, glm::vec2(widht * 7, 0.f));
+	spriteAtac->addKeyframe(ATTACK_LEFT, glm::vec2(widht * 6, 0.f));
+	spriteAtac->addKeyframe(ATTACK_LEFT, glm::vec2(widht * 5, 0.f));
+	spriteAtac->addKeyframe(ATTACK_LEFT, glm::vec2(widht * 4, 0.f));
+	spriteAtac->addKeyframe(ATTACK_LEFT, glm::vec2(widht * 3, 0.f));
+	spriteAtac->addKeyframe(ATTACK_LEFT, glm::vec2(widht * 2, 0.f));
+	spriteAtac->addKeyframe(ATTACK_LEFT, glm::vec2(widht, 0.f));
+	spriteAtac->addKeyframe(ATTACK_LEFT, glm::vec2(0.f, 0.f));
+
+	height = heightProp * 5;
+	spriteAtac->setAnimationSpeed(ATTACK_RIGHT, ANIMATION_SPEED);
+	spriteAtac->addKeyframe(ATTACK_RIGHT, glm::vec2(0.f, height));
+	spriteAtac->addKeyframe(ATTACK_RIGHT, glm::vec2(widht, height));
+	spriteAtac->addKeyframe(ATTACK_RIGHT, glm::vec2(widht * 2, height));
+	spriteAtac->addKeyframe(ATTACK_RIGHT, glm::vec2(widht * 3, height));
+	spriteAtac->addKeyframe(ATTACK_RIGHT, glm::vec2(widht * 4, height));
+	spriteAtac->addKeyframe(ATTACK_RIGHT, glm::vec2(widht * 5, height));
+	spriteAtac->addKeyframe(ATTACK_RIGHT, glm::vec2(widht * 6, height));
+	spriteAtac->addKeyframe(ATTACK_RIGHT, glm::vec2(widht * 7, height));
+
 	spriteState = NORMAL;
 	tileMapDispl = tileMapPos;
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
@@ -371,10 +382,9 @@ void MainPlayer::atacAnimation() {
 	spriteWidth = 64;
 	animationInProgress = true;
 	spriteState = ATTACKING;
-	if (spriteAtac->animation() != ATAC_LEFT) {
-		cout << "Start sprite animation" << endl;
-		spriteAtac->changeAnimation(ATAC_LEFT);
-	}
+	if(bLeft && spriteAtac->animation() != ATTACK_LEFT) spriteAtac->changeAnimation(ATTACK_LEFT);
+	else if (!bLeft &&spriteAtac->animation() != ATTACK_RIGHT) spriteAtac->changeAnimation(ATTACK_RIGHT);
+
 }
 
 

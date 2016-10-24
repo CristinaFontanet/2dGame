@@ -167,3 +167,30 @@ std::pair<float, float> Scene::getOffsetCamera() {
 	return offset;
 }
 
+void  Scene::background(){
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+	gluOrtho2D(0, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glLoadIdentity();
+	// Draw your quad here in screen coordinates
+	glBegin(GL_QUADS);
+		glTexCoord2f(0.0, 0.0);
+		glVertex3f(-1.0f, -1.0f, -1.5f);
+		glTexCoord2f(1.0, 0.0);
+		glVertex3f(1.0f, -1.0f, -1.5f);
+		glTexCoord2f(1.0, 1.0);
+		glVertex3f(1.0f, 1.0f, -1.5f);
+		glTexCoord2f(0.0, 1.0);
+		glVertex3f(-1.0f, 1.0f, -1.5f);
+	glEnd();
+	//end draw background quad 
+	glPopMatrix();
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+	glMatrixMode(GL_MODELVIEW);
+
+}
+

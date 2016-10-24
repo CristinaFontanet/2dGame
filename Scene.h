@@ -27,6 +27,7 @@ public:
 	void update(int deltaTime);
 	void render();
 	void mouseClicked(int x, int y);
+	void background();
 	void selectItem(int num);
 	std::pair<float, float> getOffsetCamera();
 	Bengine::GUI m_gui;

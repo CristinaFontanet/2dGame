@@ -407,6 +407,8 @@ void MainPlayer::digAnimation() {
 		else if (posPlayer.x < lastXclick && sprite->animation() != ARM1_RIGHT) sprite->changeAnimation(ARM1_RIGHT);
 
 	}
+	system->playSound(digSound, 0, true, &playerChannel);
+	playerChannel->setPaused(false);
 }
 
 void MainPlayer::putMaterial() {
@@ -434,5 +436,6 @@ void MainPlayer::reciveDMG(int dmg) {
 void MainPlayer::configSounds() {
 	system = Game::instance().getSoundSystem();
 	system->createSound("sounds/punched.wav", FMOD_2D, 0, &dmgSound);
+	system->createSound("sounds/dig.wav", FMOD_2D, 0, &digSound);
 
 }

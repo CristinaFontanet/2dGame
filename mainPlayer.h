@@ -65,6 +65,7 @@ private:
 	FMOD::System *system;
 	FMOD::Channel   *playerChannel = 0;
 	FMOD::Sound     *dmgSound;
+	FMOD::Sound     *digSound;
 	int spriteSize;
 	int marg;
 	int height, spriteWidth;

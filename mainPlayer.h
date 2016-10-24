@@ -55,7 +55,7 @@ private:
 	Sprite *sprite;
 	Sprite *spriteAtac;
 	TileMap *map;
-	SpriteState spriteState;
+	int spriteState;
 	CEGUI::Window* windHeart1;
 	CEGUI::Window* windHeart2;
 	CEGUI::Window* windHeart3;

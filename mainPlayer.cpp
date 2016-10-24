@@ -15,9 +15,10 @@
 #define ANIMATION_SPEED 8
 #define ALLEGRO_PI        3.14159265358979323846
 #define RANGE 2
+#define ATTACKLEFTOFFSITE 32
 
 enum SpriteMoves {
-	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT, ARM1_LEFT,ARM1_LEFT_BOT, ARM1_RIGHT, ARM1_RIGHT_BOT, ATTACK_LEFT, ATTACK_RIGHT
+	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT, ARM1_LEFT,ARM1_LEFT_BOT, ARM1_RIGHT, ARM1_RIGHT_BOT, ATTACK_LEFT, ATTACK_RIGHT, QUIET
 };
 
 void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram, CEGUI::Window* inventoryWindow, CEGUI::Window* livesWindiowP) {
@@ -119,7 +120,6 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	spriteAtac = Sprite::createSprite(glm::ivec2(64, 64), glm::vec2(widhtProp * 6, heightProp * 4), &spritesheetAtac, &shaderProgram);
 	spriteAtac->setNumberAnimations(10);
 	spriteAtac->setAnimationSpeed(ATTACK_LEFT, ANIMATION_SPEED);
-	spriteAtac->addKeyframe(ATTACK_LEFT, glm::vec2(widht * 7, 0.f));
 	spriteAtac->addKeyframe(ATTACK_LEFT, glm::vec2(widht * 6, 0.f));
 	spriteAtac->addKeyframe(ATTACK_LEFT, glm::vec2(widht * 5, 0.f));
 	spriteAtac->addKeyframe(ATTACK_LEFT, glm::vec2(widht * 4, 0.f));
@@ -127,6 +127,7 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	spriteAtac->addKeyframe(ATTACK_LEFT, glm::vec2(widht * 2, 0.f));
 	spriteAtac->addKeyframe(ATTACK_LEFT, glm::vec2(widht, 0.f));
 	spriteAtac->addKeyframe(ATTACK_LEFT, glm::vec2(0.f, 0.f));
+	spriteAtac->addKeyframe(ATTACK_LEFT, glm::vec2(widht * 7, 0.f));
 
 	height = heightProp * 5;
 	spriteAtac->setAnimationSpeed(ATTACK_RIGHT, ANIMATION_SPEED);
@@ -138,6 +139,9 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	spriteAtac->addKeyframe(ATTACK_RIGHT, glm::vec2(widht * 5, height));
 	spriteAtac->addKeyframe(ATTACK_RIGHT, glm::vec2(widht * 6, height));
 	spriteAtac->addKeyframe(ATTACK_RIGHT, glm::vec2(widht * 7, height));
+
+	spriteAtac->setAnimationSpeed(QUIET, ANIMATION_SPEED);
+	spriteAtac->addKeyframe(QUIET, glm::vec2(0.f, height));
 
 	spriteState = NORMAL;
 	tileMapDispl = tileMapPos;
@@ -153,7 +157,9 @@ void MainPlayer::equipItem(int num) {
 	equipedItem = &inventory[num];
 	equipedItem->setSelected(true);
 }
+
 bool MainPlayer::isAttacking() {
+	cout << "SpriteStateBool: " << spriteState << endl;
 	return spriteState == ATTACKING;
 }
 
@@ -204,25 +210,14 @@ void MainPlayer::update(int deltaTime) {
 			}
 		}
 	} 
-	else if (isAttacking()) {
-		if (spriteAtac->getCurrentNumKeyFrame() == 7) {
-			animationInProgress = false;
-			spriteState = NORMAL;
-			if (bLeft) sprite->changeAnimation(STAND_LEFT);
-			else sprite->changeAnimation(STAND_RIGHT);
-		}
+	else if (isAttacking() && spriteAtac->getCurrentNumKeyFrame() == 7) {
+		spriteState = NORMAL;
+		spriteAtac->changeAnimation(QUIET);
+		if (bLeft)sprite->changeAnimation(STAND_LEFT);
+		else sprite->changeAnimation(STAND_RIGHT);
+		animationInProgress = false;
 	}
-	else {
-		switch (Game::instance().getPressedKey()) {
-		case '1':
-			equipedItem = &inventory[0];
-			break;
-		case '2':
-			equipedItem = &inventory[1];
-			break;
-		}
-	}
-	
+
 	if(!animationInProgress) {
 		spriteWidth = 32;
 		if (Game::instance().getSpecialKey(GLUT_KEY_LEFT) || Game::instance().getKey('a')) { //Moure dreta
@@ -283,14 +278,15 @@ void MainPlayer::update(int deltaTime) {
 	}
 
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
-	spriteAtac->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
+	if(bLeft) spriteAtac->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x-ATTACKLEFTOFFSITE), float(tileMapDispl.y + posPlayer.y)));
+	else spriteAtac->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 }
 
 void MainPlayer::setUpInventory(CEGUI::Window* inventoryWindow) {
 	inventory = vector<Item>(20);
 	inventory[0] = Item(PICKAXE, WOOD, 1, 1, inventoryWindow);
 	inventory[1] = Item(SWORD, TUSK, 1, 1, inventoryWindow);
-	inventory[2] = Item(MATERIAL, WOOD, 0, 0, inventoryWindow);
+	inventory[2] = Item(MATERIAL, TUSK, 0, 0, inventoryWindow);
 	inventory[3] = Item(MATERIAL, ROCK, 0, 0, inventoryWindow);
 	inventory[4] = Item(MATERIAL, COAL, 0, 0, inventoryWindow);
 	inventory[5] = Item(MATERIAL, GOLD, 0, 0, inventoryWindow);
@@ -301,7 +297,7 @@ void MainPlayer::setUpInventory(CEGUI::Window* inventoryWindow) {
 
 void MainPlayer::materialDigged(int material) {
 	switch (material) {
-	case WOOD:
+	case TUSK:
 		inventory[2].addItem();
 		break;
 	case ROCK:
@@ -387,10 +383,15 @@ void MainPlayer::setLives(int numLives) {
 
 void MainPlayer::attackAnimation() {
 	spriteWidth = 64;
-	animationInProgress = true;
-	spriteState = ATTACKING;
-	if(bLeft) spriteAtac->changeAnimation(ATTACK_LEFT);
-	else if (!bLeft) spriteAtac->changeAnimation(ATTACK_RIGHT);
+	if (!animationInProgress) {
+		animationInProgress = true;
+		spriteState = ATTACKING;
+		if (bLeft && spriteAtac->animation() != ATTACK_LEFT) spriteAtac->changeAnimation(ATTACK_LEFT);
+		else if (!bLeft && spriteAtac->animation() != ATTACK_RIGHT) spriteAtac->changeAnimation(ATTACK_RIGHT);
+	}
+	else {
+		int i;
+	}
 
 }
 

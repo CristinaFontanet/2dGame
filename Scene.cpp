@@ -171,26 +171,28 @@ void  Scene::background(){
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
-	gluOrtho2D(0, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
+	//glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f)
+	gluOrtho2D(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
+
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 	glLoadIdentity();
 	// Draw your quad here in screen coordinates
 	glBegin(GL_QUADS);
-		glTexCoord2f(0.0, 0.0);
-		glVertex3f(-1.0f, -1.0f, -1.5f);
-		glTexCoord2f(1.0, 0.0);
-		glVertex3f(1.0f, -1.0f, -1.5f);
-		glTexCoord2f(1.0, 1.0);
-		glVertex3f(1.0f, 1.0f, -1.5f);
-		glTexCoord2f(0.0, 1.0);
-		glVertex3f(-1.0f, 1.0f, -1.5f);
+		glColor3f(1,0,0);
+		glVertex3f(0.0f, float(SCREEN_HEIGHT-1), 0.f);
+		glColor3f(0, 1, 0);
+		glVertex3f(float(SCREEN_WIDTH-1),float(SCREEN_HEIGHT-1), 0.f);
+		glColor3f(1, 0, 0);
+		glVertex3f(float(SCREEN_WIDTH-1),0.f, 0.f);
+		glColor3f(1, 0, 0);
+		glVertex3f(0.0f, 0.f, 0.f);
 	glEnd();
 	//end draw background quad 
-	glPopMatrix();
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
+	glPopMatrix();
 
 }
 

@@ -366,3 +366,6 @@ void TileMap::actualizarVBO() {
 	texCoordLocation = programR.bindVertexAttribute("texCoord", 2, 4 * sizeof(float), (void *)(2 * sizeof(float)));
 	render();
 }
+int  TileMap::getTileSize() {
+	return tileSize;
+}

@@ -82,6 +82,16 @@ void Enemy::render()
 void Enemy::update(int deltaTime) {
 	sprite->update(deltaTime);
 	int spriteWidth = 64;
+	int tileSize = map->getTileSize();
+	int tileXPlayer = player->getPlayerPosition().x/tileSize;
+	int tileYPlayer = player->getPlayerPosition().y/tileSize;
+	int tileXEnemy = posEnemy.x/tileSize;
+	int tileYEnemy = posEnemy.y/tileSize;
+	if (tileXPlayer == tileXEnemy && tileYPlayer == tileYEnemy) player->reciveDMG(1);
+	if (bLeft) tileXEnemy -= 1;
+	else tileXEnemy += 1;
+	if (tileXPlayer == tileXEnemy && tileYPlayer == tileYEnemy) player->reciveDMG(1);
+
 	if (bLeft && !map->collisionMoveLeft(posEnemy, glm::ivec2(spriteWidth, 64))) { //Moure esquerra
 		bLeft = true;
 		if (sprite->animation() != MOVE_LEFT) sprite->changeAnimation(MOVE_LEFT);
@@ -135,11 +145,6 @@ void Enemy::update(int deltaTime) {
 	else if(!map->collisionMoveDown(spritePos + 5, glm::ivec2(spriteWidth, 64), &posEnemy.y, bLeft, 0)){
 		posEnemy.y += 2;
 	}
-
-	/*if(!map->collisionMoveDown(posEnemy, glm::ivec2(64, 64), &posEnemy.y, bLeft, 0)){
-		posEnemy.y += 1;
-	}	*/
-
 
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posEnemy.x), float(tileMapDispl.y + posEnemy.y)));
 }

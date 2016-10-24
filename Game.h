@@ -48,6 +48,8 @@ public:
 
 	int getPressedKey();
 
+	void loopSound();
+
 private:
 	int mouseX, mouseY;
 	bool bPlay;                       // Continue to play game?

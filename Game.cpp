@@ -1,6 +1,9 @@
 #include <GL/glew.h>
 #include <GL/glut.h>
 #include "Game.h"
+#include "fmod.hpp"
+
+
 
 
 void Game::init()
@@ -8,6 +11,7 @@ void Game::init()
 	bPlay = true;
 	glClearColor(0.27f, 0.53f, 0.71f, 1.0f);
 	scene.init();
+	loopSound();
 }
 
 bool Game::update(int deltaTime)
@@ -97,4 +101,17 @@ std::pair<float, float> Game::getOffsetCamera() {
 
 int Game::getPressedKey() {
 	return pressedKey;
+}
+
+void Game::loopSound() {
+	FMOD::System    *system;
+	FMOD::Sound     *sound1;
+	FMOD::Channel   *channel1 = 0;	
+	
+	FMOD::System_Create(&system);
+	system->init(100, FMOD_INIT_NORMAL, NULL);
+	system->createSound("sounds/mainLoop.wav", FMOD_2D, 0, &sound1);
+	sound1->setMode(FMOD_LOOP_NORMAL);
+	system->playSound(sound1, 0, true, &channel1);
+	channel1->setPaused(false);
 }

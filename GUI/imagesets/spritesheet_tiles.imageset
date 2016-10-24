@@ -12,4 +12,7 @@
     <Image height="46" name="HeartFull" width="53" xPos="780" yPos="0" />
     <Image height="46" name="HeartHalf" width="53" xPos="780" yPos="130" />
     <Image height="46" name="HeartEmpty" width="53" xPos="780" yPos="259" />
+    <Image height="128" name="TuskSword" width="128" xPos="780" yPos="780" />
+    <Image height="128" name="RockSword" width="128" xPos="780" yPos="910" />
+    <Image height="128" name="GoldSword" width="128" xPos="780" yPos="1040" />
 </Imageset>

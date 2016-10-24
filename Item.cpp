@@ -35,6 +35,20 @@ Item::Item(int typeP, int elementP, int dmgP, int initialAmount, CEGUI::Window* 
 				break;
 			}
 			break;
+		case SWORD:
+			slot = "Slot2";
+			switch (elementP) {
+			case TUSK:
+				material = "TuskSword";
+				break;
+			case ROCK:
+				material = "RockSword";
+				break;
+			case GOLD:
+				material = "GoldSword";
+				break;
+			}
+			break;
 		case MATERIAL:
 			switch (elementP) {
 			case WOOD:
@@ -44,10 +58,6 @@ Item::Item(int typeP, int elementP, int dmgP, int initialAmount, CEGUI::Window* 
 			case ROCK:
 				slot = "Slot4";
 				material = "Rock";
-				break;
-			case TUSK:
-				slot = "Slot2";
-				material = "Tusk";
 				break;
 			case COAL:
 				slot = "Slot5";
@@ -70,16 +80,18 @@ Item::Item(int typeP, int elementP, int dmgP, int initialAmount, CEGUI::Window* 
 			slot = "";
 			break;
 		}
-		CEGUI::Window* sl1 = windInventory->getChild(slot);
-		if (sl1 != nullptr && slot.size() >0 && material.size()>0) {
-			windImage = sl1->getChild("Image");
-			windImageSelected = sl1->getChild("ImageS");
-			windImage->setProperty("Image", "spritesheet_tiles/"+material);
-			windImageSelected->setProperty("Image", "spritesheet_tiles/" + material);
-			windImageSelected->setVisible(false);
-			windImage->setVisible(true);
-			windAmount = sl1->getChild("Quant");
-			windAmount->setProperty("Text", to_string(amount));
+		if (slot.size() > 0 && material.size() > 0) {
+			CEGUI::Window* sl1 = windInventory->getChild(slot);
+			if (sl1 != nullptr) {
+				windImage = sl1->getChild("Image");
+				windImageSelected = sl1->getChild("ImageS");
+				windImage->setProperty("Image", "spritesheet_tiles/" + material);
+				windImageSelected->setProperty("Image", "spritesheet_tiles/" + material);
+				windImageSelected->setVisible(false);
+				windImage->setVisible(true);
+				windAmount = sl1->getChild("Quant");
+				windAmount->setProperty("Text", to_string(amount));
+			}
 		}
 	}
 }

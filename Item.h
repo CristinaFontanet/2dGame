@@ -16,6 +16,7 @@ class Item {
 public:
 	#define PICKAXE 1
 	#define MATERIAL 2
+	#define SWORD 3
 
 	Item * createItem(int type, int element, int dmg, int amount, CEGUI::Window* inventoryWindow);
 	Item(int typeP, int elementP, int dmgP, int amount, CEGUI::Window* inventoryWindow);

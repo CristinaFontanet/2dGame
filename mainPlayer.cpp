@@ -114,25 +114,37 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widht * 8, height));
 
 	spritesheetAtac.loadFromFile("images/main_atac.png", TEXTURE_PIXEL_FORMAT_RGBA);
-	widhtProp = 1.0 / 59.f;
+	widhtProp = 1.0 / 49.f;
 	heightProp = 1.0 / 10.f;
+	widht = widhtProp * 6;
 	spriteAtac = Sprite::createSprite(glm::ivec2(64, 64), glm::vec2(widhtProp * 6, heightProp * 4), &spritesheetAtac, &shaderProgram);
 	spriteAtac->setAnimationSpeed(ATAC_LEFT, ANIMATION_SPEED*1.5);
 	spriteAtac->addKeyframe(ATAC_LEFT, glm::vec2(0.f, 0.f));
-	spriteAtac->changeAnimation(ATAC_LEFT);
-
+	spriteAtac->addKeyframe(ATAC_LEFT, glm::vec2(widht, 0.f));
+	spriteAtac->addKeyframe(ATAC_LEFT, glm::vec2(widht*2, 0.f));
+	spriteAtac->addKeyframe(ATAC_LEFT, glm::vec2(widht * 3, 0.f));
+	spriteAtac->addKeyframe(ATAC_LEFT, glm::vec2(widht * 4, 0.f));
+	spriteAtac->addKeyframe(ATAC_LEFT, glm::vec2(widht * 5, 0.f));
+	spriteAtac->addKeyframe(ATAC_LEFT, glm::vec2(widht * 6, 0.f));
+	spriteAtac->addKeyframe(ATAC_LEFT, glm::vec2(widht * 7, 0.f));
+//	spriteAtac->changeAnimation(ATAC_LEFT);
 
 	tileMapDispl = tileMapPos;
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 	spriteAtac->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 	height = HEIGHTWALK;
 	spriteWidth = WIDTHWALK;
+	currentSprite = sprite;
 }
 
 void MainPlayer::equipItem(int num) {
 	equipedItem->setSelected(false);
 	equipedItem = &inventory[num];
 	equipedItem->setSelected(true);
+}
+bool MainPlayer::isAttacking() {
+	if (currentSprite == spriteAtac) return true;
+	else return false;
 }
 
 bool MainPlayer::isDiggingLateral() {
@@ -149,6 +161,7 @@ void MainPlayer::mouseClick(int x, int y) {
 	lastXclick = x + offset.first;
 	lastYclick = y + offset.second;
 	if (equipedItem->type == PICKAXE) digAnimation();
+	if (equipedItem->type == SWORD) atacAnimation();
 	if (equipedItem->type == MATERIAL) putMaterial();
 }
 
@@ -177,6 +190,13 @@ void MainPlayer::update(int deltaTime) {
 			}
 		}
 	} 
+	else if (isAttacking()) {
+		if (sprite->getNumKeyFrameMissing() == 7) {
+			
+			animationInProgress = false;
+			currentSprite = sprite;
+		}
+	}
 	else {
 		switch (Game::instance().getPressedKey()) {
 		case '1':
@@ -189,6 +209,7 @@ void MainPlayer::update(int deltaTime) {
 	}
 	
 	if(!animationInProgress) {
+		currentSprite = sprite;
 		spriteWidth = 32;
 		if (Game::instance().getSpecialKey(GLUT_KEY_LEFT) || Game::instance().getKey('a')) { //Moure dreta
 			bLeft = true;
@@ -199,7 +220,6 @@ void MainPlayer::update(int deltaTime) {
 				sprite->changeAnimation(STAND_LEFT);
 			}
 		}
-
 		else if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT) || Game::instance().getKey('d')) { //Moure esquerre
 			bLeft = false;
 			if (sprite->animation() != MOVE_RIGHT) sprite->changeAnimation(MOVE_RIGHT);
@@ -255,7 +275,7 @@ void MainPlayer::update(int deltaTime) {
 void MainPlayer::setUpInventory(CEGUI::Window* inventoryWindow) {
 	inventory = vector<Item>(20);
 	inventory[0] = Item(PICKAXE, WOOD, 1, 1, inventoryWindow);
-	inventory[1] = Item(MATERIAL, TUSK, 0, 0, inventoryWindow);
+	inventory[1] = Item(SWORD, TUSK, 1, 1, inventoryWindow);
 	inventory[2] = Item(MATERIAL, WOOD, 0, 0, inventoryWindow);
 	inventory[3] = Item(MATERIAL, ROCK, 0, 0, inventoryWindow);
 	inventory[4] = Item(MATERIAL, COAL, 0, 0, inventoryWindow);
@@ -267,9 +287,6 @@ void MainPlayer::setUpInventory(CEGUI::Window* inventoryWindow) {
 
 void MainPlayer::materialDigged(int material) {
 	switch (material) {
-	case TUSK:
-		inventory[1].addItem();
-		break;
 	case WOOD:
 		inventory[2].addItem();
 		break;
@@ -286,7 +303,6 @@ void MainPlayer::materialDigged(int material) {
 		inventory[6].addItem();
 		break;
 	default:
-		int i = 2;
 		break;
 	}
 }
@@ -297,7 +313,8 @@ void MainPlayer::spriteStandLeft() {
 
 void MainPlayer::render()
 {
-	sprite->render();
+	currentSprite->render();
+	//sprite->render();
 	//spriteAtac->render();
 }
 
@@ -348,9 +365,20 @@ void MainPlayer::setLives(int numLives) {
 		}
 	}
 }
+
+
+void MainPlayer::atacAnimation() {
+	spriteWidth = 64;
+	animationInProgress = true;
+	currentSprite = spriteAtac;
+	if(spriteAtac->animation()!= ATAC_LEFT)spriteAtac->changeAnimation(ATAC_LEFT);
+}
+
+
 void MainPlayer::digAnimation() {
 	spriteWidth = 64;
 	animationInProgress = true;
+	currentSprite = sprite;
 	if ((posPlayer.y + spriteWidth) < lastYclick) {
 		if (posPlayer.x  > lastXclick && sprite->animation() != ARM1_LEFT_BOT) sprite->changeAnimation(ARM1_LEFT_BOT);
 		else if (posPlayer.x < lastXclick && sprite->animation() != ARM1_RIGHT_BOT) sprite->changeAnimation(ARM1_RIGHT_BOT);
@@ -374,6 +402,7 @@ void MainPlayer::putMaterial() {
 }
 
 void MainPlayer::reciveDMG(int dmg) {
+	//afegir if animacio de "mal" no fer dmg
 	live -= dmg;
 	setLives(live);
 }

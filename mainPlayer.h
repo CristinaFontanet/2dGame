@@ -11,7 +11,6 @@
 using namespace std;
 
 class MainPlayer {
-#define PICKAXE 1
 
 public:
 	void init(const glm::ivec2 & tileMapPos, ShaderProgram & shaderProgram, CEGUI::Window * inventoryWindow, CEGUI::Window * livesWindow);
@@ -22,6 +21,7 @@ public:
 	glm::vec3 getPlayerPosition();
 	void setLives(int numLives);
 	void digAnimation();
+	void atacAnimation();
 	void putMaterial();
 	void reciveDMG(int dmg);
 	void mouseClick(int x, int y);
@@ -39,6 +39,7 @@ private:
 	void spriteStandLeft();
 	bool isDiggingLateral();
 	bool isDiggingBottom();
+	bool isAttacking();
 	bool bJumping;
 	bool bLeft;
 	glm::ivec2 tileMapDispl, posPlayer;
@@ -48,6 +49,7 @@ private:
 	Texture spritesheetAtac;
 	Sprite *sprite;
 	Sprite *spriteAtac;
+	Sprite *currentSprite;
 	TileMap *map;
 	CEGUI::Window* windHeart1;
 	CEGUI::Window* windHeart2;

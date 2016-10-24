@@ -7,6 +7,7 @@
 #include "Sprite.h"
 #include "TileMap.h"
 #include "Item.h"
+#include "fmod.hpp"
 
 using namespace std;
 
@@ -24,6 +25,7 @@ public:
 	void atacAnimation();
 	void putMaterial();
 	void reciveDMG(int dmg);
+	void configSounds();
 	void mouseClick(int x, int y);
 	void equipItem(int num);
 
@@ -62,7 +64,9 @@ private:
 	CEGUI::Window* livesWindow;
 	double heightProp;
 	double widhtProp;
-
+	FMOD::System *system;
+	FMOD::Channel   *playerChannel = 0;
+	FMOD::Sound     *dmgSound;
 	int spriteSize;
 	int marg;
 	int height, spriteWidth;

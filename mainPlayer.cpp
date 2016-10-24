@@ -134,6 +134,7 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	spriteAtac->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 	height = HEIGHTWALK;
 	spriteWidth = WIDTHWALK;
+	configSounds();
 }
 
 void MainPlayer::equipItem(int num) {
@@ -406,6 +407,16 @@ void MainPlayer::putMaterial() {
 void MainPlayer::reciveDMG(int dmg) {
 	//afegir if animacio de "mal" no fer dmg
 	live -= dmg;
+	if (live < 0) live = 100;
 	setLives(live);
+
+	system->playSound(dmgSound, 0, true, &playerChannel);
+	playerChannel->setPaused(false);
 	cout <<"Remaining: "<< live << endl;
+}
+
+void MainPlayer::configSounds() {
+	system = Game::instance().getSoundSystem();
+	system->createSound("sounds/punched.wav", FMOD_2D, 0, &dmgSound);
+
 }

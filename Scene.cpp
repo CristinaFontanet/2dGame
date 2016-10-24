@@ -8,6 +8,7 @@
 #include <CEGUI/WindowManager.h>
 #include <CEGUI\RendererModules\Ogre\Renderer.h>
 #include <CEGUI\RendererModules\OpenGL\GL3Renderer.h>
+#include <GL/glut.h>
 
 
 #define SCREEN_X 0
@@ -89,20 +90,22 @@ void Scene::init()
 void Scene::update(int deltaTime)
 {
 	//no cal fer update del mapa xq aquest no te animacions ni res 
-	currentTime += deltaTime;
-	player->update(deltaTime);
-	enemy->update(deltaTime);
-	pony->update(deltaTime);
-	mainPlayer->update(deltaTime);
-	float incy, incx= 0;
-	incy = playerPos[1] - mainPlayer->getPlayerPosition()[1];
-	offsetYCamera += incy;
-	if ((((playerPos[0]) - (SCREEN_WIDTH / 2)) >= 0) && (playerPos[0] < ((32 * 300) - (SCREEN_WIDTH / 2)))) {
-		incx= playerPos[0] - mainPlayer->getPlayerPosition()[0];
-		offsetXCamera += incx;
+	if(!showingMenu) {		//PAUSA si s'esta mostrant el menu
+		currentTime += deltaTime;
+		player->update(deltaTime);
+		enemy->update(deltaTime);
+		pony->update(deltaTime);
+		mainPlayer->update(deltaTime);
+		float incy, incx = 0;
+		incy = playerPos[1] - mainPlayer->getPlayerPosition()[1];
+		offsetYCamera += incy;
+		if ((((playerPos[0]) - (SCREEN_WIDTH / 2)) >= 0) && (playerPos[0] < ((32 * 300) - (SCREEN_WIDTH / 2)))) {
+			incx = playerPos[0] - mainPlayer->getPlayerPosition()[0];
+			offsetXCamera += incx;
+		}
+		projection = glm::translate(projection, glm::vec3(incx, incy, 0.f));
+		playerPos = mainPlayer->getPlayerPosition();
 	}
-	projection = glm::translate(projection, glm::vec3(incx, incy, 0.f));
-	playerPos = mainPlayer->getPlayerPosition();
 }
 
 void Scene::render()
@@ -126,8 +129,9 @@ void Scene::showMenu() {
 	m_gui.setShowMenu(showingMenu);
 }
 
-void Scene::mouseClicked(int x, int y) {
-	mainPlayer->mouseClick(x, y);
+void Scene::mouseClicked(int button, int x, int y) {
+		if (!showingMenu)mainPlayer->mouseClick(x, y);
+		else m_gui.mouseClick(x, y);
 }
 
 void Scene::initShaders()
@@ -162,7 +166,7 @@ void Scene::initShaders()
 
 
 void Scene::selectItem(int num) {
-	mainPlayer->equipItem(num);
+	if (!showingMenu) mainPlayer->equipItem(num);
 }
 
 std::pair<float, float> Scene::getOffsetCamera() {

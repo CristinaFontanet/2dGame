@@ -1,5 +1,6 @@
 #include "GUI.h"
 #include <string>
+#include <iostream>
 #include <vector>
 
 //#include <SDL/SDL_timer.h>
@@ -55,8 +56,63 @@ void Bengine::GUI::init(const std::string& resourceDirectory) {
 	createLives();
 	men_context_lives = &System::getSingleton().createGUIContext(m_renderer->getDefaultRenderTarget());
 	Window* menuWin = WindowManager::getSingleton().loadLayoutFromFile("menu.layout");
-
 	men_context_lives->setRootWindow(menuWin);
+	//menuWin->setMousePassThroughEnabled(true); // this is important!
+	//menuWin->subscribeEvent(Window::EventMouseClick, Event::Subscriber(&FirstWindowSample::evClicked, this));
+	pushButton = (PushButton*)menuWin->getChild("Button1");
+	pushButton->setText("Hey! Come here!");
+	pushButton2 = (PushButton*)menuWin->getChild("Button2");
+	pushButton2->setText("Hey! Come here!");
+	pushButton2->subscribeEvent(PushButton::EventMouseButtonDown, Event::Subscriber(&Bengine::GUI::onPushButtonClicked, this));
+	pushButton->subscribeEvent(PushButton::EventMouseButtonDown, Event::Subscriber(&Bengine::GUI::onPushButtonClicked, this));
+//	pushButton->subscribeEvent(PushButton::EventMouseEnters, Event::Subscriber(&Bengine::GUI::onMouseEnters, this));
+	//pushButton->subscribeEvent(PushButton::EventMouseLeaves, Event::Subscriber(&Bengine::GUI::onMouseLeaves, this));
+}
+
+bool  Bengine::GUI::onPushButtonClicked(const CEGUI::EventArgs &e)
+{
+	// Our button has been clicked!
+	//CEGUI::PushButton * pushButton = static_cast<CEGUI::PushButton*>(CEGUI::WindowManager::getSingleton().getWindow("Button1"));
+//	pushButton->setText("We got clicked!");
+/*	const CEGUI::WindowEventArgs& wea =
+        static_cast<const CEGUI::WindowEventArgs&>(e);
+
+    wea.window->setText( "Why you click me?" ); */
+
+	const CEGUI::MouseEventArgs& we =
+		static_cast<const CEGUI::MouseEventArgs&>(e);
+
+	CEGUI::String senderID = we.window->getName();
+	string aux = senderID.c_str();
+	if (senderID == "Button1")
+	{
+		pushButton->setText("We got clicked!");
+		// code for dealing with a "TheButton"
+	}
+	else if (senderID == "Button2")
+	{
+		pushButton2->setText("We got clicked!");
+		// code for dealing with a "TheButton"
+	}
+
+	return true;
+}
+
+bool  Bengine::GUI::onMouseEnters(const CEGUI::EventArgs &e)
+{
+	// Mouse has entered the button. (Hover)
+	//CEGUI::PushButton * pushButton = static_cast<CEGUI::PushButton*>(CEGUI::WindowManager::getSingleton().getWindow("Button1"));
+	pushButton->setText("Now click!");
+	return true;
+}
+
+bool  Bengine::GUI::onMouseLeaves(const CEGUI::EventArgs &e)
+{
+	// Mouse has left the button.
+	//CEGUI::PushButton * pushButton = static_cast<CEGUI::PushButton*>(CEGUI::WindowManager::getSingleton().getWindow("Button1"));
+	// Back to its original state!
+	pushButton->setText("Hey! Come here!");
+	return true;
 }
 
 void Bengine::GUI::destroy() {
@@ -75,6 +131,11 @@ void Bengine::GUI::draw() {
 
 void Bengine::GUI::setShowMenu(bool show) {
 	showMenu = show;
+}
+
+void Bengine::GUI::mouseClick( int x, int y) {
+	//CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseButtonDown(CEGUI::LeftButton);
+	men_context_lives->injectMouseButtonDown(CEGUI::LeftButton);
 }
 
 void Bengine::GUI::setMouseCursor(const std::string& imageFile) {

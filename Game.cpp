@@ -70,7 +70,7 @@ void Game::mousePress(int button, int x, int y)
 {
 	mouseX = x;
 	mouseY = y;
-	scene.mouseClicked(x, y);
+	scene.mouseClicked(button, x, y);
 }
 
 void Game::mouseRelease(int button, int x, int y)

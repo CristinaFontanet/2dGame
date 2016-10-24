@@ -2,6 +2,10 @@
 
 #include <CEGUI/CEGUI.h>
 #include <CEGUI/RendererModules/OpenGL/GL3Renderer.h>
+#include <CEGUI/Event.h>
+#include <CEGUI/PropertySet.h>
+#include <CEGUI/EventSet.h>
+#include <CEGUI/InputEvent.h>
 #include <glm/glm.hpp>
 #include "mainPlayer.h"
 using namespace CEGUI;
@@ -17,6 +21,7 @@ namespace Bengine {
         void setMouseCursor(const std::string& imageFile);
         void showMouseCursor();
         void hideMouseCursor();
+		void mouseClick(int x, int y);
 		void setShowMenu(bool show);
 
         void setFont(const std::string& fontFile);
@@ -45,5 +50,11 @@ namespace Bengine {
 		Window* windHeart3;
 		vector<Window*> lives;
 		bool showMenu;
+		PushButton * pushButton;
+		PushButton * pushButton2;
+
+		bool  onPushButtonClicked(const CEGUI::EventArgs &e);
+		bool  onMouseEnters(const CEGUI::EventArgs &e);
+		bool  onMouseLeaves(const CEGUI::EventArgs &e);
     };
 }

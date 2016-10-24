@@ -88,8 +88,8 @@ void Enemy::update(int deltaTime) {
 	int tileXEnemy = posEnemy.x/tileSize;
 	int tileYEnemy = posEnemy.y/tileSize;
 	if (tileXPlayer == tileXEnemy && tileYPlayer == tileYEnemy) player->reciveDMG(1);
-	if (bLeft) tileXEnemy -= 1;
-	else tileXEnemy += 1;
+	if (bLeft) tileXEnemy += 1;
+	else tileXEnemy -= 1;
 	if (tileXPlayer == tileXEnemy && tileYPlayer == tileYEnemy) player->reciveDMG(1);
 
 	if (bLeft && !map->collisionMoveLeft(posEnemy, glm::ivec2(spriteWidth, 64))) { //Moure esquerra

@@ -3,7 +3,7 @@
 
 
 #include "Scene.h"
-
+#include "fmod.hpp"
 
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
@@ -50,7 +50,10 @@ public:
 
 	void loopSound();
 
+	FMOD::System* getSoundSystem();
+
 private:
+	FMOD::System *system;
 	int mouseX, mouseY;
 	bool bPlay;                       // Continue to play game?
 	Scene scene;                      // Scene to render

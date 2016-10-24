@@ -32,6 +32,10 @@ public:
 	};
 
 
+	enum SpriteState {
+		NORMAL, ATTACKING
+	};
+
 private:
 	void setUpInventory(CEGUI::Window* inventoryWindow);
 	void setUpLives(CEGUI::Window * livesWindowP);
@@ -51,6 +55,7 @@ private:
 	Sprite *spriteAtac;
 	Sprite *currentSprite;
 	TileMap *map;
+	SpriteState spriteState;
 	CEGUI::Window* windHeart1;
 	CEGUI::Window* windHeart2;
 	CEGUI::Window* windHeart3;

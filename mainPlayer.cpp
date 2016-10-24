@@ -20,7 +20,6 @@ enum SpriteMoves {
 	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT, ARM1_LEFT,ARM1_LEFT_BOT, ARM1_RIGHT, ARM1_RIGHT_BOT, ATAC_LEFT
 };
 
-
 void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram, CEGUI::Window* inventoryWindow, CEGUI::Window* livesWindiowP) {
 	live = 100;
 	animationInProgress = false;
@@ -114,10 +113,11 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widht * 8, height));
 
 	spritesheetAtac.loadFromFile("images/main_atac.png", TEXTURE_PIXEL_FORMAT_RGBA);
-	widhtProp = 1.0 / 49.f;
+	widhtProp = 1.0 / 48.f;
 	heightProp = 1.0 / 10.f;
 	widht = widhtProp * 6;
 	spriteAtac = Sprite::createSprite(glm::ivec2(64, 64), glm::vec2(widhtProp * 6, heightProp * 4), &spritesheetAtac, &shaderProgram);
+	spriteAtac->setNumberAnimations(10);
 	spriteAtac->setAnimationSpeed(ATAC_LEFT, ANIMATION_SPEED*1.5);
 	spriteAtac->addKeyframe(ATAC_LEFT, glm::vec2(0.f, 0.f));
 	spriteAtac->addKeyframe(ATAC_LEFT, glm::vec2(widht, 0.f));
@@ -128,13 +128,12 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	spriteAtac->addKeyframe(ATAC_LEFT, glm::vec2(widht * 6, 0.f));
 	spriteAtac->addKeyframe(ATAC_LEFT, glm::vec2(widht * 7, 0.f));
 //	spriteAtac->changeAnimation(ATAC_LEFT);
-
+	spriteState = NORMAL;
 	tileMapDispl = tileMapPos;
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 	spriteAtac->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 	height = HEIGHTWALK;
 	spriteWidth = WIDTHWALK;
-	currentSprite = sprite;
 }
 
 void MainPlayer::equipItem(int num) {
@@ -143,8 +142,7 @@ void MainPlayer::equipItem(int num) {
 	equipedItem->setSelected(true);
 }
 bool MainPlayer::isAttacking() {
-	if (currentSprite == spriteAtac) return true;
-	else return false;
+	return spriteState == ATTACKING;
 }
 
 bool MainPlayer::isDiggingLateral() {
@@ -169,7 +167,6 @@ void MainPlayer::update(int deltaTime) {
 
 	sprite->update(deltaTime);
 	spriteAtac->update(deltaTime);
-	
 	if (isDiggingBottom() || isDiggingLateral()) {
 		if (isDiggingLateral()) {
 			if (sprite->getNumKeyFrameMissing() == 8) {
@@ -192,8 +189,8 @@ void MainPlayer::update(int deltaTime) {
 	} 
 	else if (isAttacking()) {
 		if (sprite->getNumKeyFrameMissing() == 7) {
-			
 			animationInProgress = false;
+			spriteState = NORMAL;
 			currentSprite = sprite;
 		}
 	}
@@ -209,7 +206,6 @@ void MainPlayer::update(int deltaTime) {
 	}
 	
 	if(!animationInProgress) {
-		currentSprite = sprite;
 		spriteWidth = 32;
 		if (Game::instance().getSpecialKey(GLUT_KEY_LEFT) || Game::instance().getKey('a')) { //Moure dreta
 			bLeft = true;
@@ -311,11 +307,15 @@ void MainPlayer::spriteStandLeft() {
 		sprite->changeAnimation(STAND_LEFT);
 }
 
-void MainPlayer::render()
-{
-	currentSprite->render();
-	//sprite->render();
-	//spriteAtac->render();
+void MainPlayer::render() {
+	switch (spriteState) {
+	case ATTACKING:
+		spriteAtac->render();
+		break;
+	default:
+		sprite->render();
+		break;
+	}
 }
 
 void MainPlayer::setTileMap(TileMap *tileMap)
@@ -370,15 +370,17 @@ void MainPlayer::setLives(int numLives) {
 void MainPlayer::atacAnimation() {
 	spriteWidth = 64;
 	animationInProgress = true;
-	currentSprite = spriteAtac;
-	if(spriteAtac->animation()!= ATAC_LEFT)spriteAtac->changeAnimation(ATAC_LEFT);
+	spriteState = ATTACKING;
+	if (spriteAtac->animation() != ATAC_LEFT) {
+		cout << "Start sprite animation" << endl;
+		spriteAtac->changeAnimation(ATAC_LEFT);
+	}
 }
 
 
 void MainPlayer::digAnimation() {
 	spriteWidth = 64;
 	animationInProgress = true;
-	currentSprite = sprite;
 	if ((posPlayer.y + spriteWidth) < lastYclick) {
 		if (posPlayer.x  > lastXclick && sprite->animation() != ARM1_LEFT_BOT) sprite->changeAnimation(ARM1_LEFT_BOT);
 		else if (posPlayer.x < lastXclick && sprite->animation() != ARM1_RIGHT_BOT) sprite->changeAnimation(ARM1_RIGHT_BOT);
@@ -405,5 +407,5 @@ void MainPlayer::reciveDMG(int dmg) {
 	//afegir if animacio de "mal" no fer dmg
 	live -= dmg;
 	setLives(live);
-	cout << live << endl;
+	cout <<"Remaining: "<< live << endl;
 }

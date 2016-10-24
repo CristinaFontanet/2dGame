@@ -29,6 +29,7 @@ public:
 	void mouseClicked(int x, int y);
 	void background();
 	void selectItem(int num);
+	void showMenu();
 	std::pair<float, float> getOffsetCamera();
 	Bengine::GUI m_gui;
 
@@ -48,6 +49,7 @@ private:
 	glm::vec2 playerPos;
 	glm::mat4 projection;
 	float offsetXCamera, offsetYCamera;
+	bool showingMenu;
 
 
 };

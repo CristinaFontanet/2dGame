@@ -17,6 +17,7 @@ namespace Bengine {
         void setMouseCursor(const std::string& imageFile);
         void showMouseCursor();
         void hideMouseCursor();
+		void setShowMenu(bool show);
 
         void setFont(const std::string& fontFile);
 		void loadScheme(const std::string& schemeFile);
@@ -33,6 +34,7 @@ namespace Bengine {
         static CEGUI::OpenGL3Renderer* m_renderer;
         CEGUI::GUIContext* m_context_inv = nullptr;
 		CEGUI::GUIContext* m_context_lives = nullptr;
+		CEGUI::GUIContext* men_context_lives = nullptr;
 		CEGUI::Window* m_root_inv = nullptr;
         CEGUI::Window* m_root_lives = nullptr;
         unsigned int m_lastTime = 0;
@@ -42,5 +44,6 @@ namespace Bengine {
 		Window* windHeart2;
 		Window* windHeart3;
 		vector<Window*> lives;
+		bool showMenu;
     };
 }

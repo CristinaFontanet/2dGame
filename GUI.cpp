@@ -7,6 +7,7 @@
 CEGUI::OpenGL3Renderer* Bengine::GUI::m_renderer = nullptr;
 
 void Bengine::GUI::init(const std::string& resourceDirectory) {
+	showMenu = false;
     // Check if the renderer and system were not already initialized
     if (m_renderer == nullptr) {
         m_renderer = &CEGUI::OpenGL3Renderer::bootstrapSystem();
@@ -52,6 +53,10 @@ void Bengine::GUI::init(const std::string& resourceDirectory) {
 
 	createInventory();
 	createLives();
+	men_context_lives = &System::getSingleton().createGUIContext(m_renderer->getDefaultRenderTarget());
+	Window* menuWin = WindowManager::getSingleton().loadLayoutFromFile("menu.layout");
+
+	men_context_lives->setRootWindow(menuWin);
 }
 
 void Bengine::GUI::destroy() {
@@ -63,8 +68,13 @@ void Bengine::GUI::draw() {
     m_renderer->beginRendering();
     m_context_inv->draw();
 	m_context_lives->draw();
+	if(showMenu)men_context_lives->draw();
     m_renderer->endRendering();
     glDisable(GL_SCISSOR_TEST);
+}
+
+void Bengine::GUI::setShowMenu(bool show) {
+	showMenu = show;
 }
 
 void Bengine::GUI::setMouseCursor(const std::string& imageFile) {

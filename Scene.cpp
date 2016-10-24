@@ -82,7 +82,7 @@ void Scene::init()
 	pony->setTileMap(map);
 	pony->setTarget(mainPlayer);
 
-
+	showingMenu = false;
 	currentTime = 0.0f;
 }
 
@@ -119,6 +119,11 @@ void Scene::render()
 	mainPlayer->render();
 	pony->render();
 	m_gui.draw();
+}
+
+void Scene::showMenu() {
+	showingMenu = !showingMenu;
+	m_gui.setShowMenu(showingMenu);
 }
 
 void Scene::mouseClicked(int x, int y) {

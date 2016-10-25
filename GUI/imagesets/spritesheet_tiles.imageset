@@ -15,4 +15,7 @@
     <Image height="128" name="TuskSword" width="128" xPos="780" yPos="780" />
     <Image height="128" name="RockSword" width="128" xPos="780" yPos="910" />
     <Image height="128" name="GoldSword" width="128" xPos="780" yPos="1040" />
+    <Image height="16" name="EqualWhite" width="16" xPos="780" yPos="1170" />
+    <Image height="16" name="SumWhite" width="16" xPos="780" yPos="1186" />
+    <!-- iconos: http://www.flaticon.es/icono-gratis/igual_225147 -->
 </Imageset>

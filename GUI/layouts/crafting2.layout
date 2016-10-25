@@ -30,11 +30,9 @@
                     </Window>
                 </Window>
 
-                <Window type="TaharezLook/StaticText" name="lblHorzFormatting" >
-                    <Property name="Area" value="{{0,95},{0.0565401,0},{0,110},{0.938917,0}}" />
-                    <Property name="Text" value="=" />
-                    <Property name="Font" value="GreatVibes-42" />
-                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Window type="Vanilla/StaticImage" name="lblHorzFormatting" >
+                    <Property name="Area" value="{{0,95},{0,50},{0,111},{0,76}}" />
+                    <Property name="Image" value="spritesheet_tiles/EqualWhite" />
                     <Property name="FrameEnabled" value="False" />
                     <Property name="BackgroundEnabled" value="False" />
                 </Window>
@@ -53,10 +51,9 @@
                     </Window>
                 </Window>
 
-                <Window type="TaharezLook/StaticText" name="lblHorzFormatting+" >
-                    <Property name="Area" value="{{0,180},{0.0565401,0},{0,185},{0.938917,0}}" />
-                    <Property name="Text" value="+" />
-                    <Property name="Font" value="GreatVibes-42" />
+                <Window type="Vanilla/StaticImage" name="lblHorzFormatting+" >
+                    <Property name="Area" value="{{0,180},{0,50},{0,185},{0,76}}" />
+                    <Property name="Image" value="spritesheet_tiles/SumWhite" />
                     <Property name="FrameEnabled" value="False" />
                     <Property name="BackgroundEnabled" value="False" />
                 </Window>

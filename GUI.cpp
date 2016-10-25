@@ -210,7 +210,7 @@ void Bengine::GUI::createMenu() {
 
 void Bengine::GUI::createCraftWindow() {
 	m_context_craft = &System::getSingleton().createGUIContext(m_renderer->getDefaultRenderTarget());
-	craftWindow = WindowManager::getSingleton().loadLayoutFromFile("crafting.layout");
+	craftWindow = WindowManager::getSingleton().loadLayoutFromFile("crafting2.layout");
 	craftWindow->setMousePassThroughEnabled(true); // this is important!
 	m_context_craft->setRootWindow(craftWindow);
 }

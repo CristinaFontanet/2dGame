@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout version="4" >
+    <Window type="DefaultWindow" name="Root" >
+        <Property name="Area" value="{{0.05,0},{0.15,0},{0.95,0},{1,0}}" />
+        <Property name="MaxSize" value="{{1,0},{1,0}}" />
+        <Property name="InheritsAlpha" value="False" />
+        <Window type="Vanilla/FrameWindow" name="CraftingWind" >
+            <Property name="Area" value="{{0.0191444,-4},{0.0367866,0},{0.989488,-4},{0.901572,0}}" />
+            <Property name="Text" value="Crafting" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+
+            <Window type="TaharezLook/GroupBox" name="StaticGroup" >
+                <Property name="Area" value="{{0.0173979,0},{0.018319,0},{0.986007,0},{0.404881,0}}" />
+                <Property name="Text" value="Improve Sword" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+
+
+                <Window name="Slot1" type="Vanilla/StaticImage">
+                    <Property name="Area" value="{{0.032217,0},{0.0565401,0},{0.42415,0},{0.938917,0}}" />
+                    <Window name="Image" type="Vanilla/StaticImage">
+                        <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}" />
+                        <Property name="MousePassThroughEnabled" value="True" />
+                        <Property name="Image" value="spritesheet_tiles/RockSword" />
+                    </Window>
+
+                    <Window name="Quant" type="Vanilla/StaticText" value = "0">
+                        <Property name="Position" value="{{0.53,0},{0.60,0}}" />
+                        <Property name="Size" value="{{0.47,0},{0.40,0}}" />
+                        <Property name="Text" value= "1" />
+                    </Window>
+                </Window>
+
+                <Window type="TaharezLook/StaticText" name="lblHorzFormatting" >
+                    <Property name="Area" value="{{0.435194,0},{0.0565401,0},{0.585194,0},{0.938917,0}}" />
+                    <Property name="Text" value="=" />
+                    <Property name="Font" value="GreatVibes-42" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                    <Property name="FrameEnabled" value="False" />
+                    <Property name="BackgroundEnabled" value="False" />
+                </Window>
+
+                <Window name="Slot1" type="Vanilla/StaticImage">
+                    <Property name="Area" value="{{0.630188,0},{0.066344,0},{0.780188,0},{0.883333,0}}" />
+                    <Window name="Image" type="Vanilla/StaticImage">
+                        <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}" />
+                        <Property name="MousePassThroughEnabled" value="True" />
+                        <Property name="Image" value="spritesheet_tiles/RockSword" />
+                    </Window>
+                
+                    <Window name="Quant" type="Vanilla/StaticText" value = "0">
+                        <Property name="Position" value="{{0.53,0},{0.60,0}}" />
+                        <Property name="Size" value="{{0.47,0},{0.40,0}}" />
+                        <Property name="Text" value= "1" />
+                    </Window>
+                </Window>
+            </Window>
+        </Window>
+    </Window>
+</GUILayout>

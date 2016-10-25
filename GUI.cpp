@@ -89,7 +89,7 @@ void Bengine::GUI::mouseClick(int x, int y) {
 		if (x > x0 && x < x1) {
 			if (y > b1yt && y < b1yb) onMenu1Click();
 			else if (y > b2yt && y < b2yb) onMenu2Click();
-			else if (y > b3yt && y < b3yb) onMenu3Click();
+			else if (y > b3yt && y < b3yb) onMenuExitClick();
 			else if (y > b4yt && y < b4yb) onMenuCancelClick();
 		}
 	}
@@ -154,8 +154,9 @@ void  Bengine::GUI::onMenu2Click() {
 	pushButton2->setText("Button 2 clicked");
 }
 
-void  Bengine::GUI::onMenu3Click() {
+void  Bengine::GUI::onMenuExitClick() {
 	pushButton3->setText("Button 3 clicked");
+	exit(0);
 }
 
 void  Bengine::GUI::onMenuCancelClick() {

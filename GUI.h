@@ -61,7 +61,7 @@ namespace Bengine {
 
 		void  onMenu1Click();
 		void  onMenu2Click();
-		void  onMenu3Click();
+		void  onMenuExitClick();
 		void  onMenuCancelClick();
     };
 }

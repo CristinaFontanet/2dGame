@@ -36,7 +36,6 @@ namespace Bengine {
 		CEGUI::GUIContext* getMenuContext();
 
     private:
-		int b1yt, b1yb, b2yt, b2yb, b3yt, b3yb, b4yt, b4yb, x0, x1;
 		void createInventory();
 		void createLives();
 		void createCraftWindow();
@@ -45,27 +44,32 @@ namespace Bengine {
         CEGUI::GUIContext* m_context_inv = nullptr;
 		CEGUI::GUIContext* m_context_lives = nullptr;
 		CEGUI::GUIContext* m_context_menu = nullptr;
-		CEGUI::GUIContext* m_context_craft = nullptr;
 		CEGUI::Window* m_root_inv = nullptr;
         CEGUI::Window* m_root_lives = nullptr;
         unsigned int m_lastTime = 0;
 		Window* inventoryWindow;
 		Window* livesWindow;
-		Window* craftWindow;
 		Window* windHeart1;
 		Window* windHeart2;
 		Window* windHeart3;
 		vector<Window*> lives;
+
+		/** Menu*/
+		int b1yt, b1yb, b2yt, b2yb, b3yt, b3yb, b4yt, b4yb, x0, x1;
 		bool showMenu;
-		bool showCrafting;
 		PushButton* pushButton;
 		PushButton* pushButton2;
 		PushButton* pushButton3;
 		PushButton* pushButton4;
-
 		void  onMenu1Click();
 		void  onMenuCraftClick();
 		void  onMenuExitClick();
 		void  onMenuCancelClick();
+
+		/** Crafting*/
+		bool showCrafting;
+		CEGUI::GUIContext* m_context_craft = nullptr;
+		Window* craftWindow;
+		void setCraftElements(vector<vector<Item>> *itemsToImprove);
     };
 }

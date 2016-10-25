@@ -11,19 +11,53 @@ Item *Item::createItem(int type, int element, int dmg, int amount, CEGUI::Window
 	return item;
 }
 
+vector<pair<Item*, int>>* Item::getEvolveItemsNeeded() {
+	return evolveItems;
+}
+
+void  Item::setEvolveItemsNeeded(vector<pair<Item*, int>> *items) {
+	evolveItems = items;
+}
+
+//Pre: te els materials i es resten
+bool Item::improveSword() {
+	if (type == SWORD) {
+		switch (element) {
+		case TUSK:										//TODO: canviar dmg
+			element = ROCK;
+			dmg = 20;
+			setWindowProperties();
+			break;
+		case ROCK:
+			element = GOLD;
+			dmg = 30;
+			setWindowProperties();
+			break;
+		case GOLD:
+			return false;
+			break;
+		}
+	}
+	return false;
+}
+
 Item::Item(int typeP, int elementP, int dmgP, int initialAmount, CEGUI::Window* inventoryWindow) {
 	type = typeP;
 	element = elementP;
 	dmg = dmgP;
 	windInventory = inventoryWindow;
 	amount = initialAmount;
+	evolveItems = &vector<pair<Item*, int>>();
+	setWindowProperties();
+}
+
+void Item::setWindowProperties() {
 	if (windInventory != nullptr) {
 		string slot, material;
-
-		switch (typeP) {
+		switch (type) {
 		case PICKAXE:
 			slot = "Slot1";
-			switch (elementP) {
+			switch (element) {
 			case WOOD:
 				material = "PickaxeWood";
 				break;
@@ -37,7 +71,7 @@ Item::Item(int typeP, int elementP, int dmgP, int initialAmount, CEGUI::Window* 
 			break;
 		case SWORD:
 			slot = "Slot2";
-			switch (elementP) {
+			switch (element) {
 			case TUSK:
 				material = "TuskSword";
 				break;
@@ -50,7 +84,7 @@ Item::Item(int typeP, int elementP, int dmgP, int initialAmount, CEGUI::Window* 
 			}
 			break;
 		case MATERIAL:
-			switch (elementP) {
+			switch (element) {
 			case TUSK:
 				slot = "Slot3";
 				material = "Tusk";

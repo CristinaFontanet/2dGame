@@ -7,6 +7,7 @@
 #include <iostream>
 
 #include <CEGUI/CEGUI.h>
+#include <vector>
 #include <CEGUI/RendererModules/OpenGL/GL3Renderer.h>
 
 using namespace std;
@@ -27,18 +28,25 @@ public:
 	int getAmount();
 	void addItem();
 	void setSelected(bool select);
-
+	void setWindowProperties();
+	bool improveSword();
+	vector<pair<Item*, int>>* getEvolveItemsNeeded();
+	void setEvolveItemsNeeded(vector<pair<Item*, int>>*);
 	int type;
 	int element;
 	int dmg;
 	int amount;
 
 private:
-
+	vector<pair<Item*,int>> *evolveItems;
 	CEGUI::Window* windImage;
 	CEGUI::Window* windImageSelected;
 	CEGUI::Window* windAmount;
 	CEGUI::Window* windInventory;
+
+	struct evolveItem {
+		int type;
+	};
 };
 
 #endif 

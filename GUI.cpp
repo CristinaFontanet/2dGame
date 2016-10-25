@@ -215,3 +215,7 @@ void Bengine::GUI::createCraftWindow() {
 	m_context_craft->setRootWindow(craftWindow);
 }
 
+void Bengine::GUI::setCraftElements(vector<vector<Item>> *itemsToImprove) {
+	
+}
+

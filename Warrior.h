@@ -1,5 +1,5 @@
-#ifndef _ENEMY_INCLUDE
-#define _ENEMY_INCLUDE
+#ifndef _WARRIOR_INCLUDE
+#define _WARRIOR_INCLUDE
 
 #include <vector>
 #include "TileMap.h"

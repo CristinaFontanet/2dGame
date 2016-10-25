@@ -26,7 +26,7 @@ public:
 	void init();
 	void update(int deltaTime);
 	void render();
-	void mouseClicked(int button, int x, int y);
+	void mouseClicked(int x, int y);
 	void background();
 	void selectItem(int num);
 	void showMenu();

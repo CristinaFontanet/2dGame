@@ -3,6 +3,8 @@
 #include <iostream>
 #include <vector>
 
+#define SCREEN_WIDTH 640
+#define SCREEN_HEIGHT 480
 //#include <SDL/SDL_timer.h>
 
 CEGUI::OpenGL3Renderer* Bengine::GUI::m_renderer = nullptr;
@@ -54,65 +56,35 @@ void Bengine::GUI::init(const std::string& resourceDirectory) {
 
 	createInventory();
 	createLives();
-	men_context_lives = &System::getSingleton().createGUIContext(m_renderer->getDefaultRenderTarget());
+	m_context_menu = &System::getSingleton().createGUIContext(m_renderer->getDefaultRenderTarget());
 	Window* menuWin = WindowManager::getSingleton().loadLayoutFromFile("menu.layout");
-	men_context_lives->setRootWindow(menuWin);
-	//menuWin->setMousePassThroughEnabled(true); // this is important!
-	//menuWin->subscribeEvent(Window::EventMouseClick, Event::Subscriber(&FirstWindowSample::evClicked, this));
+	menuWin->setMousePassThroughEnabled(true); // this is important!
+	m_context_menu->setRootWindow(menuWin);
 	pushButton = (PushButton*)menuWin->getChild("Button1");
-	pushButton->setText("Hey! Come here!");
 	pushButton2 = (PushButton*)menuWin->getChild("Button2");
-	pushButton2->setText("Hey! Come here!");
-	pushButton2->subscribeEvent(PushButton::EventMouseButtonDown, Event::Subscriber(&Bengine::GUI::onPushButtonClicked, this));
-	pushButton->subscribeEvent(PushButton::EventMouseButtonDown, Event::Subscriber(&Bengine::GUI::onPushButtonClicked, this));
-//	pushButton->subscribeEvent(PushButton::EventMouseEnters, Event::Subscriber(&Bengine::GUI::onMouseEnters, this));
-	//pushButton->subscribeEvent(PushButton::EventMouseLeaves, Event::Subscriber(&Bengine::GUI::onMouseLeaves, this));
+	pushButton3 = (PushButton*)menuWin->getChild("Button3");
+	pushButton4 = (PushButton*)menuWin->getChild("Button4");
 }
 
-bool  Bengine::GUI::onPushButtonClicked(const CEGUI::EventArgs &e)
-{
-	// Our button has been clicked!
-	//CEGUI::PushButton * pushButton = static_cast<CEGUI::PushButton*>(CEGUI::WindowManager::getSingleton().getWindow("Button1"));
-//	pushButton->setText("We got clicked!");
-/*	const CEGUI::WindowEventArgs& wea =
-        static_cast<const CEGUI::WindowEventArgs&>(e);
-
-    wea.window->setText( "Why you click me?" ); */
-
-	const CEGUI::MouseEventArgs& we =
-		static_cast<const CEGUI::MouseEventArgs&>(e);
-
-	CEGUI::String senderID = we.window->getName();
-	string aux = senderID.c_str();
-	if (senderID == "Button1")
-	{
-		pushButton->setText("We got clicked!");
-		// code for dealing with a "TheButton"
-	}
-	else if (senderID == "Button2")
-	{
-		pushButton2->setText("We got clicked!");
-		// code for dealing with a "TheButton"
-	}
-
-	return true;
+CEGUI::GUIContext*  Bengine::GUI::getMenuContext() {
+	return m_context_menu;
 }
 
-bool  Bengine::GUI::onMouseEnters(const CEGUI::EventArgs &e)
-{
-	// Mouse has entered the button. (Hover)
-	//CEGUI::PushButton * pushButton = static_cast<CEGUI::PushButton*>(CEGUI::WindowManager::getSingleton().getWindow("Button1"));
-	pushButton->setText("Now click!");
-	return true;
+void  Bengine::GUI::onMenu2Click() {
+	pushButton2->setText("Button 2 clicked");
 }
 
-bool  Bengine::GUI::onMouseLeaves(const CEGUI::EventArgs &e)
-{
-	// Mouse has left the button.
-	//CEGUI::PushButton * pushButton = static_cast<CEGUI::PushButton*>(CEGUI::WindowManager::getSingleton().getWindow("Button1"));
-	// Back to its original state!
-	pushButton->setText("Hey! Come here!");
-	return true;
+void  Bengine::GUI::onMenu3Click() {
+	pushButton3->setText("Button 3 clicked");
+}
+
+void  Bengine::GUI::onMenu4Click() {
+	pushButton4->setText("Button 4 clicked");
+}
+
+
+void  Bengine::GUI::onMenu1Click() {
+	pushButton->setText("Button 1 clicked");
 }
 
 void Bengine::GUI::destroy() {
@@ -124,7 +96,7 @@ void Bengine::GUI::draw() {
     m_renderer->beginRendering();
     m_context_inv->draw();
 	m_context_lives->draw();
-	if(showMenu)men_context_lives->draw();
+	if(showMenu)m_context_menu->draw();
     m_renderer->endRendering();
     glDisable(GL_SCISSOR_TEST);
 }
@@ -134,8 +106,35 @@ void Bengine::GUI::setShowMenu(bool show) {
 }
 
 void Bengine::GUI::mouseClick( int x, int y) {
-	//CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseButtonDown(CEGUI::LeftButton);
-	men_context_lives->injectMouseButtonDown(CEGUI::LeftButton);
+	//x: 313 y: 121
+	int x0 = 0.35*SCREEN_WIDTH;
+	int x1 = 0.65*SCREEN_WIDTH;
+	if (x > x0 && x < x1) {
+		int b1yt = 0.2*SCREEN_HEIGHT;
+		int b1yb = 0.3*SCREEN_HEIGHT;
+
+		int b2yt = 0.35*SCREEN_HEIGHT;
+		int b2yb = 0.45*SCREEN_HEIGHT;
+
+		int b3yt = 0.5*SCREEN_HEIGHT;
+		int b3yb = 0.6*SCREEN_HEIGHT;
+
+		int b4yt = 0.65*SCREEN_HEIGHT;
+		int b4yb = 0.75*SCREEN_HEIGHT;
+		if (y > b1yt && y < b1yb) {
+			onMenu1Click();
+		}
+		else if(y > b2yt && y < b2yb) {
+			onMenu2Click();
+		}
+		else if(y > b3yt && y < b3yb) {
+			onMenu3Click();
+		}
+		else if(y > b4yt && y < b4yb) {
+			onMenu4Click();
+		}
+
+	}
 }
 
 void Bengine::GUI::setMouseCursor(const std::string& imageFile) {

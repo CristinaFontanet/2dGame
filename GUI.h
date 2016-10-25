@@ -33,13 +33,14 @@ namespace Bengine {
 		CEGUI::Window* Bengine::GUI::getLivesWindow();
 
 		void setLives(int numLives);
+		CEGUI::GUIContext* getMenuContext();
     private:
 		void Bengine::GUI::createInventory();
 		void Bengine::GUI::createLives();
         static CEGUI::OpenGL3Renderer* m_renderer;
         CEGUI::GUIContext* m_context_inv = nullptr;
 		CEGUI::GUIContext* m_context_lives = nullptr;
-		CEGUI::GUIContext* men_context_lives = nullptr;
+		CEGUI::GUIContext* m_context_menu = nullptr;
 		CEGUI::Window* m_root_inv = nullptr;
         CEGUI::Window* m_root_lives = nullptr;
         unsigned int m_lastTime = 0;
@@ -50,11 +51,14 @@ namespace Bengine {
 		Window* windHeart3;
 		vector<Window*> lives;
 		bool showMenu;
-		PushButton * pushButton;
-		PushButton * pushButton2;
+		PushButton* pushButton;
+		PushButton* pushButton2;
+		PushButton* pushButton3;
+		PushButton* pushButton4;
 
-		bool  onPushButtonClicked(const CEGUI::EventArgs &e);
-		bool  onMouseEnters(const CEGUI::EventArgs &e);
-		bool  onMouseLeaves(const CEGUI::EventArgs &e);
+		void  onMenu1Click();
+		void  onMenu2Click();
+		void  onMenu3Click();
+		void  onMenu4Click();
     };
 }

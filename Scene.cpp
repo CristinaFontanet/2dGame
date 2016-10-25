@@ -129,9 +129,9 @@ void Scene::showMenu() {
 	m_gui.setShowMenu(showingMenu);
 }
 
-void Scene::mouseClicked(int button, int x, int y) {
-		if (!showingMenu)mainPlayer->mouseClick(x, y);
-		else m_gui.mouseClick(x, y);
+void Scene::mouseClicked(int x, int y) {
+	if (!showingMenu)mainPlayer->mouseClick(x, y);
+	else m_gui.mouseClick(x, y);
 }
 
 void Scene::initShaders()

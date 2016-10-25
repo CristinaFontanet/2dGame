@@ -66,14 +66,14 @@ void Game::mouseMove(int x, int y)
 	mouseY = y;
 }
 
-void Game::mousePress(int button, int x, int y)
+void Game::mousePress(int x, int y)
 {
 	mouseX = x;
 	mouseY = y;
-	scene.mouseClicked(button, x, y);
+	scene.mouseClicked(x, y);
 }
 
-void Game::mouseRelease(int button, int x, int y)
+void Game::mouseRelease(int x, int y)
 {
 	mouseX = x;
 	mouseY = y;

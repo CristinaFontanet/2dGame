@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Enemy.cpp" />
+    <ClCompile Include="..\Warrior.cpp" />
     <ClCompile Include="..\Game.cpp" />
     <ClCompile Include="..\GUI.cpp" />
     <ClCompile Include="..\Item.cpp" />
@@ -29,6 +30,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\libs\glm\glm\detail\_vectorize.hpp" />
     <ClInclude Include="..\Enemy.h" />
+    <ClInclude Include="..\Warrior.h" />
     <ClInclude Include="..\Game.h" />
     <ClInclude Include="..\GUI.h" />
     <ClInclude Include="..\Item.h" />

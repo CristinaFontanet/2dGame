@@ -8,6 +8,7 @@ CEGUI::OpenGL3Renderer* Bengine::GUI::m_renderer = nullptr;
 
 void Bengine::GUI::init(const std::string& resourceDirectory) {
 	showMenu = false;
+	showCrafting = false;
     // Check if the renderer and system were not already initialized
     if (m_renderer == nullptr) {
         m_renderer = &CEGUI::OpenGL3Renderer::bootstrapSystem();
@@ -54,6 +55,7 @@ void Bengine::GUI::init(const std::string& resourceDirectory) {
 	createInventory();
 	createLives();
 	createMenu();
+	createCraftWindow();
 	
 }
 
@@ -67,6 +69,7 @@ void Bengine::GUI::draw() {
     m_context_inv->draw();
 	m_context_lives->draw();
 	if(showMenu)m_context_menu->draw();
+	if (showCrafting)m_context_craft->draw();
     m_renderer->endRendering();
     glDisable(GL_SCISSOR_TEST);
 }
@@ -88,7 +91,7 @@ void Bengine::GUI::mouseClick(int x, int y) {
 	if (showMenu) {
 		if (x > x0 && x < x1) {
 			if (y > b1yt && y < b1yb) onMenu1Click();
-			else if (y > b2yt && y < b2yb) onMenu2Click();
+			else if (y > b2yt && y < b2yb) onMenuCraftClick();
 			else if (y > b3yt && y < b3yb) onMenuExitClick();
 			else if (y > b4yt && y < b4yb) onMenuCancelClick();
 		}
@@ -150,17 +153,18 @@ void  Bengine::GUI::onMenu1Click() {
 	pushButton->setText("Button 1 clicked");
 }
 
-void  Bengine::GUI::onMenu2Click() {
+void  Bengine::GUI::onMenuCraftClick() {
 	pushButton2->setText("Button 2 clicked");
+	showCrafting = true;
 }
 
 void  Bengine::GUI::onMenuExitClick() {
-	pushButton3->setText("Button 3 clicked");
+	//pushButton3->setText("Button 3 clicked");
 	exit(0);
 }
 
 void  Bengine::GUI::onMenuCancelClick() {
-	pushButton4->setText("Button 4 clicked");
+	//pushButton4->setText("Button 4 clicked");
 	showMenu = false;
 }
 
@@ -202,4 +206,12 @@ void Bengine::GUI::createMenu() {
 	b4yb = 0.75*SCREEN_HEIGHT;
 }
 
+/** Crafting **/
+
+void Bengine::GUI::createCraftWindow() {
+	m_context_craft = &System::getSingleton().createGUIContext(m_renderer->getDefaultRenderTarget());
+	craftWindow = WindowManager::getSingleton().loadLayoutFromFile("crafting.layout");
+	craftWindow->setMousePassThroughEnabled(true); // this is important!
+	m_context_craft->setRootWindow(craftWindow);
+}
 

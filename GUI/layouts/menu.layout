@@ -11,12 +11,12 @@
     </Window>
 
     <Window name="Button2" type="TaharezLook/Button">
-        <Property name="Text" value="- Two -" />
+        <Property name="Text" value="Craft" />
         <Property name="Area" value="{{0.35,0},{0.35,0},{0.65,0},{0.45,0}}" />
     </Window>
 
     <Window name="Button3" type="TaharezLook/Button">
-        <Property name="Text" value="- Three -" />
+        <Property name="Text" value="Exit Game" />
         <Property name="Area" value="{{0.35,0},{0.5,0},{0.65,0},{0.6,0}}" />
     </Window>
 

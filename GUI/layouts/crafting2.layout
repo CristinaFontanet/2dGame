@@ -10,56 +10,76 @@
             <Property name="Text" value="Crafting" />
             <Property name="MaxSize" value="{{1,0},{1,0}}" />
 
-
             <Window type="TaharezLook/GroupBox" name="StaticGroup" >
                 <Property name="Area" value="{{0.0173979,0},{0.018319,0},{0.986007,0},{0.404881,0}}" />
                 <Property name="Text" value="Improve Sword" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
 
 
-<Window name="Slot1" type="Vanilla/StaticImage">
-                    <Property name="Area" value="{{0.032217,0},{0.0565401,0},{0.42415,0},{0.938917,0}}" />
-                <Window name="Image" type="Vanilla/StaticImage">
-                    <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}" />
-                    <Property name="MousePassThroughEnabled" value="True" />
-                    <Property name="Image" value="spritesheet_tiles/RockSword" />
+                <Window name="Result1" type="Vanilla/StaticImage">
+                    <Property name="Area" value="{{0,10},{0,10},{0,90},{0,90}}" />
+                    <Window name="Image" type="Vanilla/StaticImage">
+                        <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}" />
+                        <Property name="MousePassThroughEnabled" value="True" />
+                        <Property name="Image" value="spritesheet_tiles/RockSword" />
+                    </Window>
+                    <Window name="Quant" type="Vanilla/StaticText" value = "0">
+                        <Property name="Position" value="{{0.53,0},{0.60,0}}" />
+                        <Property name="Size" value="{{0.47,0},{0.40,0}}" />
+                        <Property name="Text" value= "1" />
+                    </Window>
                 </Window>
 
-                <Window name="Quant" type="Vanilla/StaticText" value = "0">
-                    <Property name="Position" value="{{0.53,0},{0.60,0}}" />
-                    <Property name="Size" value="{{0.47,0},{0.40,0}}" />
-                    <Property name="Text" value= "1" />
-                </Window>
-    </Window>
-
-                <Window type="TaharezLook/StaticText" name="lblVertFormatting" >
-                    <Property name="Area" value="{{0.630188,0},{0.066344,0},{0.780188,0},{0.183333,0}}" />
-                    <Property name="Text" value="Vert. formatting" />
-                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
-                    <Property name="FrameEnabled" value="False" />
-                    <Property name="BackgroundEnabled" value="False" />
-                </Window>
-                <Window type="TaharezLook/RadioButton" name="VertBottom" >
-                    <Property name="Area" value="{{0.630188,0},{0.395294,0},{0.780188,0},{0.512283,0}}" />
-                    <Property name="Text" value="Bottom aligned" />
-                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
-                </Window>
-                <Window type="TaharezLook/Checkbox" name="Wrap" >
-                    <Property name="Area" value="{{0.821951,0},{0.358591,0},{0.962843,0},{0.47558,0}}" />
-                    <Property name="Text" value="Word wrap" />
-                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
-                    <Property name="Selected" value="True" />
-                </Window>
-    <Window type="TaharezLook/StaticText" name="lblHorzFormatting" >
-
-                    <Property name="Area" value="{{0.435194,0},{0.0565401,0},{0.585194,0},{0.938917,0}}" />
+                <Window type="TaharezLook/StaticText" name="lblHorzFormatting" >
+                    <Property name="Area" value="{{0,95},{0.0565401,0},{0,110},{0.938917,0}}" />
                     <Property name="Text" value="=" />
-                <Property name="Font" value="GreatVibes-42" />
+                    <Property name="Font" value="GreatVibes-42" />
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                     <Property name="FrameEnabled" value="False" />
                     <Property name="BackgroundEnabled" value="False" />
-        
                 </Window>
+
+                <Window name="Item1" type="Vanilla/StaticImage">
+                    <Property name="Area" value="{{0,115},{0,25},{0,175},{0,85}}" />
+                    <Window name="Image" type="Vanilla/StaticImage">
+                        <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}" />
+                        <Property name="MousePassThroughEnabled" value="True" />
+                        <Property name="Image" value="spritesheet_tiles/RockSword" />
+                    </Window>
+                    <Window name="Quant" type="Vanilla/StaticText" value = "0">
+                        <Property name="Position" value="{{0.53,0},{0.60,0}}" />
+                        <Property name="Size" value="{{0.47,0},{0.40,0}}" />
+                        <Property name="Text" value= "1" />
+                    </Window>
+                </Window>
+
+                <Window type="TaharezLook/StaticText" name="lblHorzFormatting+" >
+                    <Property name="Area" value="{{0,180},{0.0565401,0},{0,185},{0.938917,0}}" />
+                    <Property name="Text" value="+" />
+                    <Property name="Font" value="GreatVibes-42" />
+                    <Property name="FrameEnabled" value="False" />
+                    <Property name="BackgroundEnabled" value="False" />
+                </Window>
+
+                <Window name="Item2" type="Vanilla/StaticImage">
+                    <Property name="Area" value="{{0,190},{0,25},{0,250},{0,85}}" />
+                    <Window name="Image" type="Vanilla/StaticImage">
+                        <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}" />
+                        <Property name="MousePassThroughEnabled" value="True" />
+                        <Property name="Image" value="spritesheet_tiles/RockSword" />
+                    </Window>
+                    <Window name="Quant" type="Vanilla/StaticText" value = "0">
+                        <Property name="Position" value="{{0.53,0},{0.60,0}}" />
+                        <Property name="Size" value="{{0.47,0},{0.40,0}}" />
+                        <Property name="Text" value= "1" />
+                    </Window>
+                </Window>
+
+                <Window name="Button1" type="TaharezLook/Button">
+                    <Property name="Text" value="Craft" />
+                    <Property name="Area" value="{{0,270},{0.3,0},{0,320},{0.6,0}}" />
+                </Window>
+
     </Window>
             <Window type="TaharezLook/GroupBox" name="SingleLineGroup" >
                 <Property name="Area" value="{{0.0184568,0},{0.415308,0},{0.984039,0},{0.570098,0}}" />

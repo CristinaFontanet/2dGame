@@ -2,10 +2,6 @@
 #include <GL/glut.h>
 #include "Game.h"
 
-
-
-
-
 void Game::init()
 {
 	bPlay = true;

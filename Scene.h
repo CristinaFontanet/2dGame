@@ -16,7 +16,6 @@
 // Scene contains all the entities of our game.
 // It is responsible for updating and render them.
 
-
 class Scene {
 
 public:
@@ -36,7 +35,6 @@ public:
 private:
 	void initShaders();
 
-
 private:
 	TileMap *map;
 	MainPlayer *mainPlayer;
@@ -49,8 +47,6 @@ private:
 	glm::vec2 playerPos;
 	glm::mat4 projection;
 	float offsetXCamera, offsetYCamera;
-	bool showingMenu;
-
 
 };
 

@@ -76,6 +76,13 @@ void Scene::init()
 	enemy->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
 	enemy->setTileMap(map);
 	enemy->setTarget(mainPlayer);
+	
+	
+	ogre1 = new EnOgre();
+	ogre1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	ogre1->setPosition(glm::vec2((10+INIT_PLAYER_X_TILES)* map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
+	ogre1->setTileMap(map);
+	ogre1->setTarget(mainPlayer);
 
 	pony = new Enemy();
 	pony->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
@@ -95,6 +102,7 @@ void Scene::update(int deltaTime)
 		player->update(deltaTime);
 		enemy->update(deltaTime);
 		pony->update(deltaTime);
+		ogre1->update(deltaTime);
 		mainPlayer->update(deltaTime);
 		float incy, incx = 0;
 		incy = playerPos[1] - mainPlayer->getPlayerPosition()[1];
@@ -119,8 +127,9 @@ void Scene::render()
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
 	map->render();
 	enemy->render();
-	mainPlayer->render();
 	pony->render();
+	ogre1->render();
+	mainPlayer->render();
 	m_gui.draw();
 }
 

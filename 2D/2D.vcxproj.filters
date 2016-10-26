@@ -57,7 +57,7 @@
     <ClCompile Include="..\Enemy.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="..\Warrior.cpp">
+    <ClCompile Include="..\Ogre.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
   </ItemGroup>
@@ -107,7 +107,7 @@
     <ClInclude Include="..\Enemy.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="..\Warrior.h">
+    <ClInclude Include="..\Ogre.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>

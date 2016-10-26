@@ -9,6 +9,7 @@
 #include "P_boss.h"
 #include "MainPlayer.h"
 #include "Enemy.h"
+#include "Ogre.h"
 #include "GUI.h"
 #include <CEGUI/CEGUI.h>
 #include <CEGUI/RendererModules/OpenGL/GL3Renderer.h>
@@ -40,6 +41,7 @@ private:
 private:
 	TileMap *map;
 	MainPlayer *mainPlayer;
+	EnOgre *ogre1;
 	Enemy *enemy;
 	Enemy *pony;
 	P_conillet *player;

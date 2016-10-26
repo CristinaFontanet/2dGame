@@ -1,5 +1,5 @@
-#ifndef _ENEMY_INCLUDE
-#define _ENEMY_INCLUDE
+#ifndef _ENOGRE_INCLUDE
+#define _ENOGRE_INCLUDE
 
 #include <vector>
 #include "TileMap.h"
@@ -9,7 +9,7 @@
 
 using namespace std;
 
-class Warrior {
+class EnOgre {
 public:
 
 	enum enemyState {
@@ -40,9 +40,8 @@ private:
 	glm::ivec2 tileMapDispl, posEnemy;
 	bool bLeft;
 	bool bJumping;
+	bool attacking;
 	int jumpAngle, startY;
-
-
 };
 
 

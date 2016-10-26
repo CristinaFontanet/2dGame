@@ -159,7 +159,7 @@ void MainPlayer::equipItem(int num) {
 }
 
 bool MainPlayer::isAttacking() {
-	cout << "SpriteStateBool: " << spriteState << endl;
+	//cout << "SpriteStateBool: " << spriteState << endl;
 	return spriteState == ATTACKING;
 }
 

@@ -36,26 +36,23 @@ static void specialDownCallback(int key, int x, int y)
 }
 
 // If a special key is released this callback is called
-
 static void specialUpCallback(int key, int x, int y)
 {
 	Game::instance().specialKeyReleased(key);
 }
 
 // Same for changes in mouse cursor position
-
 static void motionCallback(int x, int y)
 {
 	Game::instance().mouseMove(x, y);
 }
 
 // Same for mouse button presses or releases
-
 static void mouseCallback(int button, int state, int x, int y) {
 	if(state == GLUT_DOWN)
-		Game::instance().mousePress(button,x,y);
+		Game::instance().mousePress(x,y);
 	else if(state == GLUT_UP)
-		Game::instance().mouseRelease(button,x,y);
+		Game::instance().mouseRelease( x,y);
 }
 
 static void mouseMove(int x, int y)

@@ -89,15 +89,13 @@ void Scene::init()
 	pony->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
 	pony->setTileMap(map);
 	pony->setTarget(mainPlayer);
-
-	showingMenu = false;
 	currentTime = 0.0f;
 }
 
 void Scene::update(int deltaTime)
 {
 	//no cal fer update del mapa xq aquest no te animacions ni res 
-	if(!showingMenu) {		//PAUSA si s'esta mostrant el menu
+	if(!m_gui.isMenuShowing()) {		//PAUSA si s'esta mostrant el menu
 		currentTime += deltaTime;
 		player->update(deltaTime);
 		enemy->update(deltaTime);
@@ -134,13 +132,12 @@ void Scene::render()
 }
 
 void Scene::showMenu() {
-	showingMenu = !showingMenu;
-	m_gui.setShowMenu(showingMenu);
+	m_gui.setShowMenu(!m_gui.isMenuShowing());
 }
 
-void Scene::mouseClicked(int button, int x, int y) {
-		if (!showingMenu)mainPlayer->mouseClick(x, y);
-		else m_gui.mouseClick(x, y);
+void Scene::mouseClicked(int x, int y) {
+	if (!m_gui.isMenuShowing())mainPlayer->mouseClick(x, y);
+	else m_gui.mouseClick(x, y);
 }
 
 void Scene::initShaders()
@@ -175,7 +172,7 @@ void Scene::initShaders()
 
 
 void Scene::selectItem(int num) {
-	if (!showingMenu) mainPlayer->equipItem(num);
+	if (!m_gui.isMenuShowing()) mainPlayer->equipItem(num);
 }
 
 std::pair<float, float> Scene::getOffsetCamera() {

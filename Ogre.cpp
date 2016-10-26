@@ -90,7 +90,6 @@ void EnOgre::update(int deltaTime) {
 	//si estamos en progreso de atacar hacemos daño en nujestra area
 	if (attacking) {
 		if (sprite->getCurrentNumKeyFrame() == 2) {
-			cout << sprite->animation() << endl;
 			attacking = false;
 			if (bLeft) sprite->changeAnimation(STAND_LEFT);
 			else sprite->changeAnimation(STAND_LEFT);

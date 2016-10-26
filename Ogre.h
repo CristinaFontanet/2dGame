@@ -44,5 +44,4 @@ private:
 	int jumpAngle, startY;
 };
 
-
 #endif

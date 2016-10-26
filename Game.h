@@ -4,9 +4,7 @@
 
 #include "Scene.h"
 #include "fmod.hpp"
-
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 480
+#include "Constants.h"
 
 
 // Game is a singleton (a class with a single instance) that represents our whole application
@@ -36,8 +34,8 @@ public:
 	void specialKeyPressed(int key);
 	void specialKeyReleased(int key);
 	void mouseMove(int x, int y);
-	void mousePress(int button, int x, int y);
-	void mouseRelease(int button, int x, int y);
+	void mousePress(int x, int y);
+	void mouseRelease(int x, int y);
 	
 	bool getKey(int key) const;
 	bool getSpecialKey(int key) const;

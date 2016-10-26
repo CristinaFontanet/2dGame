@@ -76,6 +76,8 @@ private:
 	int lastXclick, lastYclick;
 	Item* equipedItem; 
 	vector<Item> inventory;
+
+	vector<pair<Item*, vector<pair<Item*, int>>*>> getUpgradableItems();
 };
 
 

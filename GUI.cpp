@@ -2,13 +2,13 @@
 #include <string>
 #include <iostream>
 #include <vector>
-
-//#include <SDL/SDL_timer.h>
+#include "Constants.h"
 
 CEGUI::OpenGL3Renderer* Bengine::GUI::m_renderer = nullptr;
 
 void Bengine::GUI::init(const std::string& resourceDirectory) {
 	showMenu = false;
+	showCrafting = false;
     // Check if the renderer and system were not already initialized
     if (m_renderer == nullptr) {
         m_renderer = &CEGUI::OpenGL3Renderer::bootstrapSystem();
@@ -54,65 +54,9 @@ void Bengine::GUI::init(const std::string& resourceDirectory) {
 
 	createInventory();
 	createLives();
-	men_context_lives = &System::getSingleton().createGUIContext(m_renderer->getDefaultRenderTarget());
-	Window* menuWin = WindowManager::getSingleton().loadLayoutFromFile("menu.layout");
-	men_context_lives->setRootWindow(menuWin);
-	//menuWin->setMousePassThroughEnabled(true); // this is important!
-	//menuWin->subscribeEvent(Window::EventMouseClick, Event::Subscriber(&FirstWindowSample::evClicked, this));
-	pushButton = (PushButton*)menuWin->getChild("Button1");
-	pushButton->setText("Hey! Come here!");
-	pushButton2 = (PushButton*)menuWin->getChild("Button2");
-	pushButton2->setText("Hey! Come here!");
-	pushButton2->subscribeEvent(PushButton::EventMouseButtonDown, Event::Subscriber(&Bengine::GUI::onPushButtonClicked, this));
-	pushButton->subscribeEvent(PushButton::EventMouseButtonDown, Event::Subscriber(&Bengine::GUI::onPushButtonClicked, this));
-//	pushButton->subscribeEvent(PushButton::EventMouseEnters, Event::Subscriber(&Bengine::GUI::onMouseEnters, this));
-	//pushButton->subscribeEvent(PushButton::EventMouseLeaves, Event::Subscriber(&Bengine::GUI::onMouseLeaves, this));
-}
-
-bool  Bengine::GUI::onPushButtonClicked(const CEGUI::EventArgs &e)
-{
-	// Our button has been clicked!
-	//CEGUI::PushButton * pushButton = static_cast<CEGUI::PushButton*>(CEGUI::WindowManager::getSingleton().getWindow("Button1"));
-//	pushButton->setText("We got clicked!");
-/*	const CEGUI::WindowEventArgs& wea =
-        static_cast<const CEGUI::WindowEventArgs&>(e);
-
-    wea.window->setText( "Why you click me?" ); */
-
-	const CEGUI::MouseEventArgs& we =
-		static_cast<const CEGUI::MouseEventArgs&>(e);
-
-	CEGUI::String senderID = we.window->getName();
-	string aux = senderID.c_str();
-	if (senderID == "Button1")
-	{
-		pushButton->setText("We got clicked!");
-		// code for dealing with a "TheButton"
-	}
-	else if (senderID == "Button2")
-	{
-		pushButton2->setText("We got clicked!");
-		// code for dealing with a "TheButton"
-	}
-
-	return true;
-}
-
-bool  Bengine::GUI::onMouseEnters(const CEGUI::EventArgs &e)
-{
-	// Mouse has entered the button. (Hover)
-	//CEGUI::PushButton * pushButton = static_cast<CEGUI::PushButton*>(CEGUI::WindowManager::getSingleton().getWindow("Button1"));
-	pushButton->setText("Now click!");
-	return true;
-}
-
-bool  Bengine::GUI::onMouseLeaves(const CEGUI::EventArgs &e)
-{
-	// Mouse has left the button.
-	//CEGUI::PushButton * pushButton = static_cast<CEGUI::PushButton*>(CEGUI::WindowManager::getSingleton().getWindow("Button1"));
-	// Back to its original state!
-	pushButton->setText("Hey! Come here!");
-	return true;
+	createMenu();
+	createCraftWindow();
+	
 }
 
 void Bengine::GUI::destroy() {
@@ -124,44 +68,62 @@ void Bengine::GUI::draw() {
     m_renderer->beginRendering();
     m_context_inv->draw();
 	m_context_lives->draw();
-	if(showMenu)men_context_lives->draw();
+	if(showMenu)m_context_menu->draw();
+	if (showCrafting)m_context_craft->draw();
     m_renderer->endRendering();
     glDisable(GL_SCISSOR_TEST);
-}
-
-void Bengine::GUI::setShowMenu(bool show) {
-	showMenu = show;
-}
-
-void Bengine::GUI::mouseClick( int x, int y) {
-	//CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseButtonDown(CEGUI::LeftButton);
-	men_context_lives->injectMouseButtonDown(CEGUI::LeftButton);
-}
-
-void Bengine::GUI::setMouseCursor(const std::string& imageFile) {
-    m_context_inv->getMouseCursor().setDefaultImage(imageFile);
-	m_context_lives->getMouseCursor().setDefaultImage(imageFile);
-}
-
-void Bengine::GUI::showMouseCursor() {
-    m_context_inv->getMouseCursor().show();
-	m_context_lives->getMouseCursor().show();
-}
-
-void Bengine::GUI::hideMouseCursor() {
-    m_context_inv->getMouseCursor().hide();
-	m_context_lives->getMouseCursor().hide();
 }
 
 void Bengine::GUI::loadScheme(const std::string& schemeFile) {
 	CEGUI::SchemeManager::getSingleton().createFromFile(schemeFile);
 }
 
+void Bengine::GUI::setFont(const std::string& fontFile) {
+    CEGUI::FontManager::getSingleton().createFromFile(fontFile + ".font");
+    m_context_inv->setDefaultFont(fontFile);
+	m_context_lives->setDefaultFont(fontFile);
+}
+
+/** MOUSE **/
+
+void Bengine::GUI::mouseClick(int x, int y) {
+	//x: 313 y: 121
+	if (showMenu) {
+		if (x > x0 && x < x1) {
+			if (y > b1yt && y < b1yb) onMenu1Click();
+			else if (y > b2yt && y < b2yb) onMenuCraftClick();
+			else if (y > b3yt && y < b3yb) onMenuExitClick();
+			else if (y > b4yt && y < b4yb) onMenuCancelClick();
+		}
+	}
+}
+
+void Bengine::GUI::setMouseCursor(const std::string& imageFile) {
+	m_context_inv->getMouseCursor().setDefaultImage(imageFile);
+	m_context_lives->getMouseCursor().setDefaultImage(imageFile);
+}
+
+void Bengine::GUI::showMouseCursor() {
+	m_context_inv->getMouseCursor().show();
+	m_context_lives->getMouseCursor().show();
+}
+
+void Bengine::GUI::hideMouseCursor() {
+	m_context_inv->getMouseCursor().hide();
+	m_context_lives->getMouseCursor().hide();
+}
+
+/** INVENTORY **/
+
+CEGUI::Window* Bengine::GUI::getInventoryWindow() {
+	return inventoryWindow;
+}
+
 void Bengine::GUI::createInventory() {
 	if (inventoryWindow == nullptr) {
 		inventoryWindow = WindowManager::getSingleton().loadLayoutFromFile("inventory2.layout");
 		m_context_inv->setRootWindow(inventoryWindow);
-		
+
 		Window* sl1 = inventoryWindow->getChild("Slot1");
 		if (sl1 != nullptr) {
 			Window* img = sl1->getChild("Image");
@@ -175,22 +137,85 @@ void Bengine::GUI::createInventory() {
 	}
 }
 
+/** LIVES **/
+
+CEGUI::Window* Bengine::GUI::getLivesWindow() {
+	return livesWindow;
+}
 void Bengine::GUI::createLives() {
 	livesWindow = WindowManager::getSingleton().loadLayoutFromFile("lives.layout");
 	m_context_lives->setRootWindow(livesWindow);
 }
 
-CEGUI::Window* Bengine::GUI::getInventoryWindow() {
-	return inventoryWindow;
+/** MENU **/
+
+void  Bengine::GUI::onMenu1Click() {
+	pushButton->setText("Button 1 clicked");
 }
 
-CEGUI::Window* Bengine::GUI::getLivesWindow() {
-	return livesWindow;
+void  Bengine::GUI::onMenuCraftClick() {
+	pushButton2->setText("Button 2 clicked");
+	showCrafting = true;
 }
 
-
-void Bengine::GUI::setFont(const std::string& fontFile) {
-    CEGUI::FontManager::getSingleton().createFromFile(fontFile + ".font");
-    m_context_inv->setDefaultFont(fontFile);
-	m_context_lives->setDefaultFont(fontFile);
+void  Bengine::GUI::onMenuExitClick() {
+	//pushButton3->setText("Button 3 clicked");
+	exit(0);
 }
+
+void  Bengine::GUI::onMenuCancelClick() {
+	//pushButton4->setText("Button 4 clicked");
+	showMenu = false;
+}
+
+void Bengine::GUI::setShowMenu(bool show) {
+	showMenu = show;
+}
+
+bool Bengine::GUI::isMenuShowing() {
+	return showMenu;
+}
+
+CEGUI::GUIContext*  Bengine::GUI::getMenuContext() {
+	return m_context_menu;
+}
+
+void Bengine::GUI::createMenu() {
+	m_context_menu = &System::getSingleton().createGUIContext(m_renderer->getDefaultRenderTarget());
+	Window* menuWin = WindowManager::getSingleton().loadLayoutFromFile("menu.layout");
+	menuWin->setMousePassThroughEnabled(true); // this is important!
+	m_context_menu->setRootWindow(menuWin);
+	pushButton = (PushButton*)menuWin->getChild("Button1");
+	pushButton2 = (PushButton*)menuWin->getChild("Button2");
+	pushButton3 = (PushButton*)menuWin->getChild("Button3");
+	pushButton4 = (PushButton*)menuWin->getChild("Button4");
+
+	x0 = 0.35*SCREEN_WIDTH;
+	x1 = 0.65*SCREEN_WIDTH;
+
+	b1yt = 0.2*SCREEN_HEIGHT;
+	b1yb = 0.3*SCREEN_HEIGHT;
+
+	b2yt = 0.35*SCREEN_HEIGHT;
+	b2yb = 0.45*SCREEN_HEIGHT;
+
+	b3yt = 0.5*SCREEN_HEIGHT;
+	b3yb = 0.6*SCREEN_HEIGHT;
+
+	b4yt = 0.65*SCREEN_HEIGHT;
+	b4yb = 0.75*SCREEN_HEIGHT;
+}
+
+/** Crafting **/
+
+void Bengine::GUI::createCraftWindow() {
+	m_context_craft = &System::getSingleton().createGUIContext(m_renderer->getDefaultRenderTarget());
+	craftWindow = WindowManager::getSingleton().loadLayoutFromFile("crafting2.layout");
+	craftWindow->setMousePassThroughEnabled(true); // this is important!
+	m_context_craft->setRootWindow(craftWindow);
+}
+
+void Bengine::GUI::setCraftElements(vector<vector<Item>> *itemsToImprove) {
+	
+}
+

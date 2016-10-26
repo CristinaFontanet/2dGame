@@ -17,7 +17,6 @@
 // Scene contains all the entities of our game.
 // It is responsible for updating and render them.
 
-
 class Scene {
 
 public:
@@ -27,7 +26,7 @@ public:
 	void init();
 	void update(int deltaTime);
 	void render();
-	void mouseClicked(int button, int x, int y);
+	void mouseClicked(int x, int y);
 	void background();
 	void selectItem(int num);
 	void showMenu();
@@ -36,7 +35,6 @@ public:
 
 private:
 	void initShaders();
-
 
 private:
 	TileMap *map;
@@ -51,8 +49,6 @@ private:
 	glm::vec2 playerPos;
 	glm::mat4 projection;
 	float offsetXCamera, offsetYCamera;
-	bool showingMenu;
-
 
 };
 

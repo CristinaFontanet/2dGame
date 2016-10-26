@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout version="4" >
+    <Window type="DefaultWindow" name="Root" >
+        <Property name="Area" value="{{0.05,0},{0.15,0},{0.95,0},{1,0}}" />
+        <Property name="MaxSize" value="{{1,0},{1,0}}" />
+        <Property name="InheritsAlpha" value="False" />
+        <Window type="Vanilla/FrameWindow" name="CraftingWind" >
+            <Property name="Area" value="{{0.0191444,-4},{0.0367866,0},{0.989488,-4},{0.901572,0}}" />
+            <Property name="Text" value="Crafting" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+
+            <Window type="TaharezLook/GroupBox" name="StaticGroup" >
+                <Property name="Area" value="{{0.0173979,0},{0.018319,0},{0.986007,0},{0.404881,0}}" />
+                <Property name="Text" value="Improve Sword" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+
+
+                <Window name="Result1" type="Vanilla/StaticImage">
+                    <Property name="Area" value="{{0,10},{0,10},{0,90},{0,90}}" />
+                    <Window name="Image" type="Vanilla/StaticImage">
+                        <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}" />
+                        <Property name="MousePassThroughEnabled" value="True" />
+                        <Property name="Image" value="spritesheet_tiles/RockSword" />
+                    </Window>
+                    <Window name="Quant" type="Vanilla/StaticText" value = "0">
+                        <Property name="Position" value="{{0.53,0},{0.60,0}}" />
+                        <Property name="Size" value="{{0.47,0},{0.40,0}}" />
+                        <Property name="Text" value= "1" />
+                    </Window>
+                </Window>
+
+                <Window type="Vanilla/StaticImage" name="lblHorzFormatting" >
+                    <Property name="Area" value="{{0,95},{0,50},{0,111},{0,76}}" />
+                    <Property name="Image" value="spritesheet_tiles/EqualWhite" />
+                    <Property name="FrameEnabled" value="False" />
+                    <Property name="BackgroundEnabled" value="False" />
+                </Window>
+
+                <Window name="Item1" type="Vanilla/StaticImage">
+                    <Property name="Area" value="{{0,115},{0,25},{0,175},{0,85}}" />
+                    <Window name="Image" type="Vanilla/StaticImage">
+                        <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}" />
+                        <Property name="MousePassThroughEnabled" value="True" />
+                        <Property name="Image" value="spritesheet_tiles/RockSword" />
+                    </Window>
+                    <Window name="Quant" type="Vanilla/StaticText" value = "0">
+                        <Property name="Position" value="{{0.53,0},{0.60,0}}" />
+                        <Property name="Size" value="{{0.47,0},{0.40,0}}" />
+                        <Property name="Text" value= "1" />
+                    </Window>
+                </Window>
+
+                <Window type="Vanilla/StaticImage" name="lblHorzFormatting+" >
+                    <Property name="Area" value="{{0,180},{0,50},{0,185},{0,76}}" />
+                    <Property name="Image" value="spritesheet_tiles/SumWhite" />
+                    <Property name="FrameEnabled" value="False" />
+                    <Property name="BackgroundEnabled" value="False" />
+                </Window>
+
+                <Window name="Item2" type="Vanilla/StaticImage">
+                    <Property name="Area" value="{{0,190},{0,25},{0,250},{0,85}}" />
+                    <Window name="Image" type="Vanilla/StaticImage">
+                        <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}" />
+                        <Property name="MousePassThroughEnabled" value="True" />
+                        <Property name="Image" value="spritesheet_tiles/RockSword" />
+                    </Window>
+                    <Window name="Quant" type="Vanilla/StaticText" value = "0">
+                        <Property name="Position" value="{{0.53,0},{0.60,0}}" />
+                        <Property name="Size" value="{{0.47,0},{0.40,0}}" />
+                        <Property name="Text" value= "1" />
+                    </Window>
+                </Window>
+
+                <Window name="Button1" type="TaharezLook/Button">
+                    <Property name="Text" value="Craft" />
+                    <Property name="Area" value="{{0,270},{0.3,0},{0,320},{0.6,0}}" />
+                </Window>
+
+    </Window>
+            <Window type="TaharezLook/GroupBox" name="SingleLineGroup" >
+                <Property name="Area" value="{{0.0184568,0},{0.415308,0},{0.984039,0},{0.570098,0}}" />
+                <Property name="Text" value="Single line editing" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Window type="TaharezLook/Editbox" name="editName" >
+                    <Property name="Area" value="{{0.032217,0},{0.497488,0},{0.282217,0},{0.917243,0}}" />
+                    <Property name="Text" value="Your name" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                </Window>
+                <Window type="TaharezLook/Editbox" name="editPasswd" >
+                    <Property name="Area" value="{{0.386344,0},{0.497488,0},{0.576599,0},{0.917243,0}}" />
+                    <Property name="Text" value="Secret" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                </Window>
+                <Window type="TaharezLook/StaticText" name="lblAge" >
+                    <Property name="Area" value="{{0.309388,0},{0.115043,0},{0.361665,0},{0.534798,0}}" />
+                    <Property name="Text" value="Age:" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                    <Property name="AlwaysOnTop" value="True" />
+                    <Property name="FrameEnabled" value="False" />
+                    <Property name="BackgroundEnabled" value="False" />
+                    <Property name="HorzScrollPageSize" value="61" />
+                    <Property name="VertScrollPageSize" value="27" />
+                    <Property name="HorzScrollDocumentSize" value="29" />
+                    <Property name="VertScrollDocumentSize" value="13.6796" />
+                </Window>
+                <Window type="TaharezLook/StaticText" name="lblPassword" >
+                    <Property name="Area" value="{{0.386344,0},{0.115043,0},{0.576599,0},{0.534798,0}}" />
+                    <Property name="Text" value="Password:" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                    <Property name="AlwaysOnTop" value="True" />
+                    <Property name="FrameEnabled" value="False" />
+                    <Property name="BackgroundEnabled" value="False" />
+                    <Property name="HorzScrollPageSize" value="223" />
+                    <Property name="VertScrollPageSize" value="27" />
+                    <Property name="HorzScrollDocumentSize" value="70" />
+                    <Property name="VertScrollDocumentSize" value="13.6796" />
+                </Window>
+                <Window type="TaharezLook/StaticText" name="lblName" >
+                    <Property name="Area" value="{{0.032217,0},{0.115043,0},{0.282217,0},{0.534798,0}}" />
+                    <Property name="Text" value="Name:" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                    <Property name="AlwaysOnTop" value="True" />
+                    <Property name="FrameEnabled" value="False" />
+                    <Property name="BackgroundEnabled" value="False" />
+                    <Property name="HorzScrollPageSize" value="294" />
+                    <Property name="VertScrollPageSize" value="27" />
+                    <Property name="HorzScrollDocumentSize" value="40" />
+                    <Property name="VertScrollDocumentSize" value="13.6796" />
+                </Window>
+                <Window type="TaharezLook/Editbox" name="editAge" >
+                    <Property name="Area" value="{{0.309388,0},{0.497488,0},{0.361665,0},{0.917243,0}}" />
+                    <Property name="Text" value="18" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                </Window>
+            </Window>
+            <Window type="TaharezLook/GroupBox" name="MultiLineGroup" >
+                <Property name="Area" value="{{0.018457,0},{0.583793,0},{0.984039,0},{0.932058,0}}" />
+                <Property name="Text" value="Multi line editing" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Window type="TaharezLook/MultiLineEditbox" name="editMulti" >
+                    <Property name="Area" value="{{0.032217,0},{0.0684321,0},{0.579514,0},{0.910619,12}}" />
+                    <Property name="Text" >
+</Property>
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                </Window>
+                <Window type="TaharezLook/Checkbox" name="forceScroll" >
+                    <Property name="Area" value="{{0.589235,0},{0.383349,0},{0.83639,0},{0.533435,0}}" />
+                    <Property name="Text" value="Force vertical scrollbar" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                </Window>
+            </Window>
+        </Window>
+    </Window>
+</GUILayout>

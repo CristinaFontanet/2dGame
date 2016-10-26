@@ -291,8 +291,20 @@ void MainPlayer::setUpInventory(CEGUI::Window* inventoryWindow) {
 	inventory[4] = Item(MATERIAL, COAL, 0, 0, inventoryWindow);
 	inventory[5] = Item(MATERIAL, GOLD, 0, 0, inventoryWindow);
 	inventory[6] = Item(MATERIAL, DIAMOND, 0, 0, inventoryWindow);
+	vector<pair<Item*, int>> evolutionTuskSword = vector<pair<Item*, int>>(2);
+	evolutionTuskSword[0] = make_pair(&inventory[1],1);
+	evolutionTuskSword[1] = make_pair(&inventory[5],10);
+	inventory[1].setEvolveItemsNeeded(&evolutionTuskSword);
+
 	equipedItem = &inventory[0];
 	equipedItem->setSelected(true);
+}
+
+vector<pair<Item*, vector<pair<Item*, int>>*>> MainPlayer::getUpgradableItems() {
+	vector<pair<Item*, vector<pair<Item*, int>>*>> items = vector<pair<Item*, vector<pair<Item*, int>>*>>(2);
+	items[0] = make_pair(&inventory[1], inventory[1].getEvolveItemsNeeded());
+	//TODO: afegir campana
+	return items;
 }
 
 void MainPlayer::materialDigged(int material) {

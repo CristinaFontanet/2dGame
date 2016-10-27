@@ -1,5 +1,5 @@
-#ifndef _ENOGRE_INCLUDE
-#define _ENOGRE_INCLUDE
+#ifndef _BOSS_INCLUDE
+#define _BOSS_INCLUDE
 
 #include <vector>
 #include "TileMap.h"
@@ -9,7 +9,7 @@
 
 using namespace std;
 
-class EnOgre {
+class Boss {
 public:
 
 	enum enemyState {
@@ -27,7 +27,7 @@ public:
 
 	void update(int deltaTime);
 
-	bool reciveDmg(int dmg, glm::ivec2 dmgAt);
+	void reciveDmg(int dmg, glm::ivec2 dmgAt);
 
 private:
 

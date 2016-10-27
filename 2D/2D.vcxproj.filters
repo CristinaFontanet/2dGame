@@ -60,7 +60,11 @@
     <ClCompile Include="..\Ogre.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
+<<<<<<< HEAD
+    <ClCompile Include="..\Boss.cpp">
+=======
     <ClCompile Include="..\MenuGUI.cpp">
+>>>>>>> 4c4cf785328f4feb379643b3799e85043cd1fddc
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
   </ItemGroup>
@@ -116,7 +120,11 @@
     <ClInclude Include="..\Constants.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+<<<<<<< HEAD
+    <ClInclude Include="..\Boss.h">
+=======
     <ClInclude Include="..\MenuGUI.h">
+>>>>>>> 4c4cf785328f4feb379643b3799e85043cd1fddc
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>

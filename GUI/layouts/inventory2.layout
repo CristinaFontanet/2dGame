@@ -15,7 +15,7 @@
 
                 <Window name="Quant" type="Vanilla/StaticText" value = "0">
                     <Property name="Position" value="{{0.53,0},{0.60,0}}" />
-                    <Property name="Size" value="{{0.47,0},{0.40,0}}" />
+                    <Property name="Size" value="{{0.47,0},{0.45,0}}" />
                     <Property name="Text" value= "0" />
                 </Window>
         </Window>
@@ -34,7 +34,7 @@
                 </Window>
                 <Window name="Quant" type="Vanilla/StaticText" value = "0">
                     <Property name="Position" value="{{0.53,0},{0.60,0}}" />
-                    <Property name="Size" value="{{0.47,0},{0.40,0}}" />
+                    <Property name="Size" value="{{0.47,0},{0.45,0}}" />
                     <Property name="Text" value= "0" />
                 </Window>
         </Window>
@@ -52,7 +52,7 @@
                 </Window>
                 <Window name="Quant" type="Vanilla/StaticText" value = "0">
                     <Property name="Position" value="{{0.53,0},{0.60,0}}" />
-                    <Property name="Size" value="{{0.47,0},{0.40,0}}" />
+                    <Property name="Size" value="{{0.47,0},{0.45,0}}" />
                     <Property name="Text" value= "0" />
                 </Window>
         </Window>
@@ -70,7 +70,7 @@
                 </Window>
                 <Window name="Quant" type="Vanilla/StaticText" value = "0">
                     <Property name="Position" value="{{0.53,0},{0.60,0}}" />
-                    <Property name="Size" value="{{0.47,0},{0.40,0}}" />
+                    <Property name="Size" value="{{0.47,0},{0.45,0}}" />
                     <Property name="Text" value= "0" />
                 </Window>
         </Window>
@@ -89,7 +89,7 @@
                 </Window>
                 <Window name="Quant" type="Vanilla/StaticText" value = "0">
                     <Property name="Position" value="{{0.53,0},{0.60,0}}" />
-                    <Property name="Size" value="{{0.47,0},{0.40,0}}" />
+                    <Property name="Size" value="{{0.47,0},{0.45,0}}" />
                     <Property name="Text" value= "0" />
                 </Window>
         </Window>
@@ -108,7 +108,7 @@
                 </Window>
                 <Window name="Quant" type="Vanilla/StaticText" value = "0">
                     <Property name="Position" value="{{0.53,0},{0.60,0}}" />
-                    <Property name="Size" value="{{0.47,0},{0.40,0}}" />
+                    <Property name="Size" value="{{0.47,0},{0.45,0}}" />
                     <Property name="Text" value= "0" />
                 </Window>
         </Window>
@@ -127,7 +127,7 @@
                 </Window>
                 <Window name="Quant" type="Vanilla/StaticText" value = "0">
                     <Property name="Position" value="{{0.53,0},{0.60,0}}" />
-                    <Property name="Size" value="{{0.47,0},{0.40,0}}" />
+                    <Property name="Size" value="{{0.47,0},{0.45,0}}" />
                     <Property name="Text" value= "0" />
                 </Window>
         </Window>

@@ -51,73 +51,78 @@ Item::Item(int typeP, int elementP, int dmgP, int initialAmount, CEGUI::Window* 
 	setWindowProperties();
 }
 
-void Item::setWindowProperties() {
-	if (windInventory != nullptr) {
-		string slot, material;
-		switch (type) {
-		case PICKAXE:
-			slot = "Slot1";
-			switch (element) {
-			case WOOD:
-				material = "PickaxeWood";
-				break;
-			case ROCK:
-				material = "PickaxeRock";
-				break;
-			default:
-				material = "";
-				break;
-			}
+string Item::getMaterialString() {
+	string material;
+	switch (type) {
+	case PICKAXE:
+		slot = "Slot1";
+		switch (element) {
+		case WOOD:
+			material = "PickaxeWood";
 			break;
-		case SWORD:
-			slot = "Slot2";
-			switch (element) {
-			case TUSK:
-				material = "TuskSword";
-				break;
-			case ROCK:
-				material = "RockSword";
-				break;
-			case GOLD:
-				material = "GoldSword";
-				break;
-			}
-			break;
-		case MATERIAL:
-			switch (element) {
-			case TUSK:
-				slot = "Slot3";
-				material = "Tusk";
-				break;
-			case WOOD:
-				slot = "Slot3";
-				material = "Wood";
-				break;
-			case ROCK:
-				slot = "Slot4";
-				material = "Rock";
-				break;
-			case COAL:
-				slot = "Slot5";
-				material = "Coal";
-				break;
-			case GOLD:
-				slot = "Slot6";
-				material = "Gold";
-				break;
-			case DIAMOND:
-				slot = "Slot7";
-				material = "Diamont";
-				break;
-			default:
-				material = "";
-				break;
-			}
+		case ROCK:
+			material = "PickaxeRock";
 			break;
 		default:
-			slot = "";
+			material = "";
 			break;
 		}
+		break;
+	case SWORD:
+		slot = "Slot2";
+		switch (element) {
+		case TUSK:
+			material = "TuskSword";
+			break;
+		case ROCK:
+			material = "RockSword";
+			break;
+		case GOLD:
+			material = "GoldSword";
+			break;
+		}
+		break;
+	case MATERIAL:
+		switch (element) {
+		case TUSK:
+			slot = "Slot3";
+			material = "Tusk";
+			break;
+		case WOOD:
+			slot = "Slot3";
+			material = "Wood";
+			break;
+		case ROCK:
+			slot = "Slot4";
+			material = "Rock";
+			break;
+		case COAL:
+			slot = "Slot5";
+			material = "Coal";
+			break;
+		case GOLD:
+			slot = "Slot6";
+			material = "Gold";
+			break;
+		case DIAMOND:
+			slot = "Slot7";
+			material = "Diamont";
+			break;
+		default:
+			material = "";
+			break;
+		}
+		break;
+	default:
+		slot = "";
+		break;
+	}
+	return material;
+}
+
+void Item::setWindowProperties() {
+	if (windInventory != nullptr) {
+		string material = getMaterialString();
 		if (slot.size() > 0 && material.size() > 0) {
 			CEGUI::Window* sl1 = windInventory->getChild(slot);
 			if (sl1 != nullptr) {

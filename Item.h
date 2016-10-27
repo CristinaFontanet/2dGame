@@ -26,6 +26,7 @@ public:
 	void setAmount(int newAmount);
 	void reduceAmount();
 	int getAmount();
+	string getMaterialString();
 	void addItem();
 	void setSelected(bool select);
 	void setWindowProperties();
@@ -43,6 +44,7 @@ private:
 	CEGUI::Window* windImageSelected;
 	CEGUI::Window* windAmount;
 	CEGUI::Window* windInventory;
+	string slot;
 
 	struct evolveItem {
 		int type;

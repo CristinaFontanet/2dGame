@@ -35,6 +35,9 @@ namespace Bengine {
 		CEGUI::Window* Bengine::GUI::getLivesWindow();
 		CEGUI::GUIContext* getMenuContext();
 
+
+		void setCraftElements(vector<pair<Item*, vector<pair<Item*, int>>*>> *itemsToImprove);
+
     private:
 		void createInventory();
 		void createLives();
@@ -70,6 +73,5 @@ namespace Bengine {
 		bool showCrafting;
 		CEGUI::GUIContext* m_context_craft = nullptr;
 		Window* craftWindow;
-		void setCraftElements(vector<vector<Item>> *itemsToImprove);
     };
 }

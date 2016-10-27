@@ -215,7 +215,32 @@ void Bengine::GUI::createCraftWindow() {
 	m_context_craft->setRootWindow(craftWindow);
 }
 
-void Bengine::GUI::setCraftElements(vector<vector<Item>> *itemsToImprove) {
-	
+void Bengine::GUI::setCraftElements(vector<pair<Item*, vector<pair<Item*, int>>*>>* itemsToImprove) {
+	int siz = itemsToImprove->size();
+	Item* result1 = itemsToImprove->at(0).first;
+	vector<pair<Item*, int>>* elementsNeeded = itemsToImprove->at(0).second;
+
+	Window* subWind = craftWindow->getChild("CraftingWind");
+	Window* groupBox1 = subWind->getChild("StaticGroup");
+	Window* res1 = groupBox1->getChild("Result1");
+		Window* img1 = res1->getChild("Image");
+		img1->setProperty("Image", "spritesheet_tiles/"+result1->getMaterialString());
+		Window* num1 = res1->getChild("Quant");
+		num1->setProperty("Text", "1");
+		//Correcte fins aqui
+	pair<Item*, int> it1= elementsNeeded->at(0);
+	Window* itn1 = groupBox1->getChild("ItemNeeded1");
+		Window* img2 = itn1->getChild("Image");
+		img2->setProperty("Image", "spritesheet_tiles/" + it1.first->getMaterialString());
+		Window* num2 = itn1->getChild("Quant");
+		num2->setProperty("Text", to_string(it1.second));
+
+	pair<Item*, int> it2 = elementsNeeded->at(1);
+	Window* itn2 = groupBox1->getChild("ItemNeeded2");
+
+		Window* img3 = itn2->getChild("Image");
+		img3->setProperty("Image", "spritesheet_tiles/" + it2.first->getMaterialString());
+		Window* num3 = itn2->getChild("Quant");
+		num3->setProperty("Text", to_string(it2.second));
 }
 

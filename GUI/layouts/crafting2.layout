@@ -37,7 +37,7 @@
                     <Property name="BackgroundEnabled" value="False" />
                 </Window>
 
-                <Window name="Item1" type="Vanilla/StaticImage">
+                <Window name="ItemNeeded1" type="Vanilla/StaticImage">
                     <Property name="Area" value="{{0,115},{0,25},{0,175},{0,85}}" />
                     <Window name="Image" type="Vanilla/StaticImage">
                         <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}" />
@@ -58,7 +58,7 @@
                     <Property name="BackgroundEnabled" value="False" />
                 </Window>
 
-                <Window name="Item2" type="Vanilla/StaticImage">
+                <Window name="ItemNeeded2" type="Vanilla/StaticImage">
                     <Property name="Area" value="{{0,190},{0,25},{0,250},{0,85}}" />
                     <Window name="Image" type="Vanilla/StaticImage">
                         <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}" />

@@ -21,28 +21,17 @@ namespace Bengine {
         void setMouseCursor(const std::string& imageFile);
         void showMouseCursor();
         void hideMouseCursor();
-		void mouseClick(int x, int y);
-		void setShowMenu(bool show);
-
-		void setLives(int numLives);
         void setFont(const std::string& fontFile);
 		void loadScheme(const std::string& schemeFile);
         // Getters
-		bool isMenuShowing();
         static CEGUI::OpenGL3Renderer* getRenderer() { return m_renderer; }
         const CEGUI::GUIContext* getContext() { return m_context_inv; }
 		CEGUI::Window* Bengine::GUI::getInventoryWindow();
 		CEGUI::Window* Bengine::GUI::getLivesWindow();
-		CEGUI::GUIContext* getMenuContext();
-
-
-		void setCraftElements(vector<pair<Item*, vector<pair<Item*, int>>*>> *itemsToImprove);
 
     private:
 		void createInventory();
 		void createLives();
-		void createCraftWindow();
-		void createMenu();
         static CEGUI::OpenGL3Renderer* m_renderer;
         CEGUI::GUIContext* m_context_inv = nullptr;
 		CEGUI::GUIContext* m_context_lives = nullptr;
@@ -57,21 +46,5 @@ namespace Bengine {
 		Window* windHeart3;
 		vector<Window*> lives;
 
-		/** Menu*/
-		int b1yt, b1yb, b2yt, b2yb, b3yt, b3yb, b4yt, b4yb, x0, x1;
-		bool showMenu;
-		PushButton* pushButton;
-		PushButton* pushButton2;
-		PushButton* pushButton3;
-		PushButton* pushButton4;
-		void  onMenu1Click();
-		void  onMenuCraftClick();
-		void  onMenuExitClick();
-		void  onMenuCancelClick();
-
-		/** Crafting*/
-		bool showCrafting;
-		CEGUI::GUIContext* m_context_craft = nullptr;
-		Window* craftWindow;
     };
 }

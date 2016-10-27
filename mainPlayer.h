@@ -28,6 +28,8 @@ public:
 	void configSounds();
 	void mouseClick(int x, int y);
 	void equipItem(int num);
+	Item* getSword();
+	Item* getRock();
 	//vector de Item obtingut, vector de Items necessaris,quantitat
 	vector<pair<Item*, vector<pair<Item*, int>>*>>* getUpgradableItems();
 

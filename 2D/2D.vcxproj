@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="..\Boss.cpp" />
     <ClCompile Include="..\Enemy.cpp" />
+    <ClCompile Include="..\MenuGUI.cpp" />
     <ClCompile Include="..\Ogre.cpp" />
     <ClCompile Include="..\Game.cpp" />
     <ClCompile Include="..\GUI.cpp" />
@@ -33,6 +34,7 @@
     <ClInclude Include="..\Boss.h" />
     <ClInclude Include="..\Constants.h" />
     <ClInclude Include="..\Enemy.h" />
+    <ClInclude Include="..\MenuGUI.h" />
     <ClInclude Include="..\Ogre.h" />
     <ClInclude Include="..\Game.h" />
     <ClInclude Include="..\GUI.h" />

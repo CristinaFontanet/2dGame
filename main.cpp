@@ -81,6 +81,10 @@ static void idleCallback()
 	}
 }
 
+void resize(int width, int height) {
+	// we ignore the params and do:
+	glutReshapeWindow(SCREEN_WIDTH, SCREEN_HEIGHT);
+}
 
 int main(int argc, char **argv)
 {
@@ -89,8 +93,8 @@ int main(int argc, char **argv)
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
 	glutInitWindowPosition(100, 100);
 	glutInitWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-
-	glutCreateWindow(argv[0]);
+	glutCreateWindow(argv[0] );
+	glutReshapeFunc(resize);
 	glutDisplayFunc(drawCallback);
 	glutIdleFunc(idleCallback);
 	glutKeyboardFunc(keyboardDownCallback);

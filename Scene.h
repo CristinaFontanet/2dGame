@@ -10,6 +10,7 @@
 #include "Enemy.h"
 #include "Ogre.h"
 #include "GUI.h"
+#include "MenuGUI.h"
 #include <CEGUI/CEGUI.h>
 #include <CEGUI/RendererModules/OpenGL/GL3Renderer.h>
 
@@ -31,7 +32,6 @@ public:
 	void selectItem(int num);
 	void showMenu();
 	std::pair<float, float> getOffsetCamera();
-	Bengine::GUI m_gui;
 
 private:
 	void initShaders();
@@ -42,6 +42,7 @@ private:
 	EnOgre *ogre1;
 	Enemy *enemy;
 	Enemy *pony;
+	bool showingMenu;
 	P_conillet *player;
 	P_boss *boss;
 	ShaderProgram texProgram;
@@ -51,6 +52,8 @@ private:
 	glm::mat4 projection;
 	float offsetXCamera, offsetYCamera;
 	vector<EnOgre*> ogres;
+	Bengine::GUI m_gui;
+	MenuGUI menu_gui;
 };
 
 

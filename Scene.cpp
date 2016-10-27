@@ -77,7 +77,7 @@ void Scene::init()
 	projection = glm::translate(projection, glm::vec3(offsetXCamera, offsetYCamera, 0.f));
 	auto aux = mainPlayer->getUpgradableItems();
 	aux->size();
-	m_gui.setCraftElements(aux);
+	menu_gui.init("../GUI", mainPlayer,m_gui.getRenderer());
 
 	enemy = new Enemy();
 	enemy->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
@@ -103,7 +103,7 @@ void Scene::init()
 void Scene::update(int deltaTime)
 {
 	//no cal fer update del mapa xq aquest no te animacions ni res 
-	if(!m_gui.isMenuShowing()) {		//PAUSA si s'esta mostrant el menu
+	if(!menu_gui.isMenuShowing()) {		//PAUSA si s'esta mostrant el menu
 		currentTime += deltaTime;
 		player->update(deltaTime);
 		enemy->update(deltaTime);
@@ -137,15 +137,16 @@ void Scene::render()
 	ogre1->render();
 	mainPlayer->render();
 	m_gui.draw();
+	menu_gui.draw();
 }
 
 void Scene::showMenu() {
-	m_gui.setShowMenu(!m_gui.isMenuShowing());
+	menu_gui.showMenuClicked();
 }
 
 void Scene::mouseClicked(int x, int y) {
-	if (!m_gui.isMenuShowing())mainPlayer->mouseClick(x, y);
-	else m_gui.mouseClick(x, y);
+	if (!menu_gui.isMenuShowing())mainPlayer->mouseClick(x, y);
+	else menu_gui.mouseClick(x, y);
 }
 
 void Scene::initShaders()
@@ -180,7 +181,7 @@ void Scene::initShaders()
 
 
 void Scene::selectItem(int num) {
-	if (!m_gui.isMenuShowing()) mainPlayer->equipItem(num);
+	if (!menu_gui.isMenuShowing()) mainPlayer->equipItem(num);
 }
 
 std::pair<float, float> Scene::getOffsetCamera() {

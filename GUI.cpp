@@ -7,8 +7,7 @@
 CEGUI::OpenGL3Renderer* Bengine::GUI::m_renderer = nullptr;
 
 void Bengine::GUI::init(const std::string& resourceDirectory) {
-	showMenu = false;
-	showCrafting = false;
+
     // Check if the renderer and system were not already initialized
     if (m_renderer == nullptr) {
         m_renderer = &CEGUI::OpenGL3Renderer::bootstrapSystem();
@@ -53,10 +52,7 @@ void Bengine::GUI::init(const std::string& resourceDirectory) {
 	setMouseCursor("TaharezLook/MouseArrow");
 
 	createInventory();
-	createLives();
-	createMenu();
-	createCraftWindow();
-	
+	createLives();	
 }
 
 void Bengine::GUI::destroy() {
@@ -68,8 +64,6 @@ void Bengine::GUI::draw() {
     m_renderer->beginRendering();
     m_context_inv->draw();
 	m_context_lives->draw();
-	if(showMenu)m_context_menu->draw();
-	if (showCrafting)m_context_craft->draw();
     m_renderer->endRendering();
     glDisable(GL_SCISSOR_TEST);
 }
@@ -85,18 +79,6 @@ void Bengine::GUI::setFont(const std::string& fontFile) {
 }
 
 /** MOUSE **/
-
-void Bengine::GUI::mouseClick(int x, int y) {
-	//x: 313 y: 121
-	if (showMenu) {
-		if (x > x0 && x < x1) {
-			if (y > b1yt && y < b1yb) onMenu1Click();
-			else if (y > b2yt && y < b2yb) onMenuCraftClick();
-			else if (y > b3yt && y < b3yb) onMenuExitClick();
-			else if (y > b4yt && y < b4yb) onMenuCancelClick();
-		}
-	}
-}
 
 void Bengine::GUI::setMouseCursor(const std::string& imageFile) {
 	m_context_inv->getMouseCursor().setDefaultImage(imageFile);
@@ -146,101 +128,3 @@ void Bengine::GUI::createLives() {
 	livesWindow = WindowManager::getSingleton().loadLayoutFromFile("lives.layout");
 	m_context_lives->setRootWindow(livesWindow);
 }
-
-/** MENU **/
-
-void  Bengine::GUI::onMenu1Click() {
-	pushButton->setText("Button 1 clicked");
-}
-
-void  Bengine::GUI::onMenuCraftClick() {
-	pushButton2->setText("Button 2 clicked");
-	showCrafting = true;
-}
-
-void  Bengine::GUI::onMenuExitClick() {
-	//pushButton3->setText("Button 3 clicked");
-	exit(0);
-}
-
-void  Bengine::GUI::onMenuCancelClick() {
-	//pushButton4->setText("Button 4 clicked");
-	showMenu = false;
-}
-
-void Bengine::GUI::setShowMenu(bool show) {
-	showMenu = show;
-}
-
-bool Bengine::GUI::isMenuShowing() {
-	return showMenu;
-}
-
-CEGUI::GUIContext*  Bengine::GUI::getMenuContext() {
-	return m_context_menu;
-}
-
-void Bengine::GUI::createMenu() {
-	m_context_menu = &System::getSingleton().createGUIContext(m_renderer->getDefaultRenderTarget());
-	Window* menuWin = WindowManager::getSingleton().loadLayoutFromFile("menu.layout");
-	menuWin->setMousePassThroughEnabled(true); // this is important!
-	m_context_menu->setRootWindow(menuWin);
-	pushButton = (PushButton*)menuWin->getChild("Button1");
-	pushButton2 = (PushButton*)menuWin->getChild("Button2");
-	pushButton3 = (PushButton*)menuWin->getChild("Button3");
-	pushButton4 = (PushButton*)menuWin->getChild("Button4");
-
-	x0 = 0.35*SCREEN_WIDTH;
-	x1 = 0.65*SCREEN_WIDTH;
-
-	b1yt = 0.2*SCREEN_HEIGHT;
-	b1yb = 0.3*SCREEN_HEIGHT;
-
-	b2yt = 0.35*SCREEN_HEIGHT;
-	b2yb = 0.45*SCREEN_HEIGHT;
-
-	b3yt = 0.5*SCREEN_HEIGHT;
-	b3yb = 0.6*SCREEN_HEIGHT;
-
-	b4yt = 0.65*SCREEN_HEIGHT;
-	b4yb = 0.75*SCREEN_HEIGHT;
-}
-
-/** Crafting **/
-
-void Bengine::GUI::createCraftWindow() {
-	m_context_craft = &System::getSingleton().createGUIContext(m_renderer->getDefaultRenderTarget());
-	craftWindow = WindowManager::getSingleton().loadLayoutFromFile("crafting2.layout");
-	craftWindow->setMousePassThroughEnabled(true); // this is important!
-	m_context_craft->setRootWindow(craftWindow);
-}
-
-void Bengine::GUI::setCraftElements(vector<pair<Item*, vector<pair<Item*, int>>*>>* itemsToImprove) {
-	int siz = itemsToImprove->size();
-	Item* result1 = itemsToImprove->at(0).first;
-	vector<pair<Item*, int>>* elementsNeeded = itemsToImprove->at(0).second;
-
-	Window* subWind = craftWindow->getChild("CraftingWind");
-	Window* groupBox1 = subWind->getChild("StaticGroup");
-	Window* res1 = groupBox1->getChild("Result1");
-		Window* img1 = res1->getChild("Image");
-		img1->setProperty("Image", "spritesheet_tiles/"+result1->getMaterialString());
-		Window* num1 = res1->getChild("Quant");
-		num1->setProperty("Text", "1");
-		//Correcte fins aqui
-	pair<Item*, int> it1= elementsNeeded->at(0);
-	Window* itn1 = groupBox1->getChild("ItemNeeded1");
-		Window* img2 = itn1->getChild("Image");
-		img2->setProperty("Image", "spritesheet_tiles/" + it1.first->getMaterialString());
-		Window* num2 = itn1->getChild("Quant");
-		num2->setProperty("Text", to_string(it1.second));
-
-	pair<Item*, int> it2 = elementsNeeded->at(1);
-	Window* itn2 = groupBox1->getChild("ItemNeeded2");
-
-		Window* img3 = itn2->getChild("Image");
-		img3->setProperty("Image", "spritesheet_tiles/" + it2.first->getMaterialString());
-		Window* num3 = itn2->getChild("Quant");
-		num3->setProperty("Text", to_string(it2.second));
-}
-

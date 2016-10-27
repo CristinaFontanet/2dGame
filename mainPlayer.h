@@ -49,13 +49,16 @@ private:
 	bool isAttacking();
 	bool bJumping;
 	bool bLeft;
+	bool bDamage;
 	glm::ivec2 tileMapDispl, posPlayer;
 	int jumpAngle, startY;
 	int live;
 	Texture spritesheet;
 	Texture spritesheetAtac;
+	Texture spritesheetInvincible;
 	Sprite *sprite;
 	Sprite *spriteAtac;
+	Sprite *spriteInvincible;
 	TileMap *map;
 	int spriteState;
 	CEGUI::Window* windHeart1;

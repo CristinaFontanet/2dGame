@@ -24,6 +24,7 @@ enum SpriteMoves {
 void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram, CEGUI::Window* inventoryWindow, CEGUI::Window* livesWindiowP) {
 	live = 100;
 	animationInProgress = false;
+	bDamage = false;
 	setUpInventory(inventoryWindow);
 	setUpLives(livesWindiowP);
 	heightProp = 1.f / 32.f;
@@ -112,7 +113,22 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widht * 6, height));
 	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widht * 7, height));
 	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widht * 8, height));
-
+////////////////////////////////////////////////////////////////////////////
+	spritesheetInvincible.loadFromFile("images/Especials_2.png", TEXTURE_PIXEL_FORMAT_RGBA);
+	spriteInvincible = Sprite::createSprite(glm::ivec2(64, 64), glm::vec2(widhtProp * 4, heightProp * 4), &spritesheet, &shaderProgram);
+	spriteInvincible->setNumberAnimations(1);
+	spriteInvincible->setAnimationSpeed(0, ANIMATION_SPEED);
+	spriteInvincible->addKeyframe(0, glm::vec2(widht * 6, 0.f));
+	spriteInvincible->addKeyframe(0, glm::vec2(widht * 6, 0.f));
+	spriteInvincible->addKeyframe(0, glm::vec2(widht * 6, 0.f));
+	spriteInvincible->addKeyframe(0, glm::vec2(widht * 6, 0.f));
+	spriteInvincible->addKeyframe(0, glm::vec2(widht * 6, 0.f));
+	spriteInvincible->addKeyframe(0, glm::vec2(widht * 6, 0.f));
+	spriteInvincible->addKeyframe(0, glm::vec2(widht * 6, 0.f));
+	spriteInvincible->addKeyframe(0, glm::vec2(widht * 6, 0.f));
+	spriteInvincible->addKeyframe(0, glm::vec2(widht * 6, 0.f));
+	
+	
 	spritesheetAtac.loadFromFile("images/main_atac.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	widhtProp = 1.0 / 48.f;
 	heightProp = 1.0 / 10.f;
@@ -182,14 +198,17 @@ void MainPlayer::mouseClick(int x, int y) {
 }
 
 void MainPlayer::update(int deltaTime) {
-	switch (spriteState) {
-	case ATTACKING:
-		spriteAtac->update(deltaTime);
-		break;
-	default:
-		sprite->update(deltaTime);
-		break;
+	spriteInvincible->update(deltaTime);
+	spriteAtac->update(deltaTime);
+	sprite->update(deltaTime);
+	if (bDamage) {
+	//	spriteInvincible->changeAnimation(INVINCIBLE);
+		int i = spriteInvincible->getCurrentNumKeyFrame();
+		if (spriteInvincible->getCurrentNumKeyFrame() == 8) {
+			bDamage = false;
+		}
 	}
+
 	if (isDiggingBottom() || isDiggingLateral()) {
 		if (isDiggingLateral()) {
 			if (sprite->getCurrentNumKeyFrame() == 8) {
@@ -285,7 +304,7 @@ void MainPlayer::update(int deltaTime) {
 void MainPlayer::setUpInventory(CEGUI::Window* inventoryWindow) {
 	inventory = vector<Item>(20);
 	inventory[0] = Item(PICKAXE, WOOD, 1, 1, inventoryWindow);
-	inventory[1] = Item(SWORD, TUSK, 1, 1, inventoryWindow);
+	inventory[1] = Item(SWORD, TUSK, 3, 1, inventoryWindow);
 	inventory[2] = Item(MATERIAL, TUSK, 0, 0, inventoryWindow);
 	inventory[3] = Item(MATERIAL, ROCK, 0, 0, inventoryWindow);
 	inventory[4] = Item(MATERIAL, COAL, 0, 0, inventoryWindow);
@@ -334,13 +353,18 @@ void MainPlayer::spriteStandLeft() {
 }
 
 void MainPlayer::render() {
-	switch (spriteState) {
-	case ATTACKING:
-		spriteAtac->render();
-		break;
-	default:
-		sprite->render();
-		break;
+	if (bDamage && spriteInvincible->getCurrentNumKeyFrame() % 2 == 0) {
+		spriteInvincible->render();
+	}
+	else {
+		switch (spriteState) {
+		case ATTACKING:
+			spriteAtac->render();
+			break;
+		default:
+			sprite->render();
+			break;
+		}
 	}
 }
 
@@ -437,13 +461,17 @@ void MainPlayer::putMaterial() {
 
 void MainPlayer::reciveDMG(int dmg) {
 	//afegir if animacio de "mal" no fer dmg
-	live -= dmg;
-	if (live < 0) live = 100;
-	setLives(live);
+	if (!bDamage) {
+		bDamage = true;
+		spriteInvincible->changeAnimation(0);
+		live -= dmg;
+		if (live < 0) live = 100;
+		setLives(live);
 
-	system->playSound(dmgSound, 0, true, &playerChannel);
-	playerChannel->setPaused(false);
-	cout <<"Remaining: "<< live << endl;
+		system->playSound(dmgSound, 0, true, &playerChannel);
+		playerChannel->setPaused(false);
+		cout << "Remaining: " << live << endl;
+	}
 }
 
 void MainPlayer::configSounds() {

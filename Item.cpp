@@ -25,12 +25,12 @@ bool Item::improveSword() {
 		switch (element) {
 		case TUSK:										//TODO: canviar dmg
 			element = ROCK;
-			dmg = 20;
+			dmg = 4;
 			setWindowProperties();
 			break;
 		case ROCK:
 			element = GOLD;
-			dmg = 30;
+			dmg = 5;
 			setWindowProperties();
 			break;
 		case GOLD:

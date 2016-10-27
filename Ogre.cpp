@@ -19,6 +19,7 @@ void EnOgre::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram) {
 	heightProp = 1.f / 2.f;
 	widhtProp = 1.f / 6.f;
 	double yoffset = 1.f / 32.f;
+	live = 10;
 	bLeft = true;
 	bJumping = false;
 	attacking = false;
@@ -100,7 +101,7 @@ void EnOgre::update(int deltaTime) {
 				for (int y = -1; y < 2; ++y) {
 					int xDmgOgre = tileXEnemy - x;
 					int yDmgOgre = tileYEnemy + y;
-					if (tileXPlayer == xDmgOgre && tileYPlayer == tileYEnemy) player->reciveDMG(2);
+					if (tileXPlayer == xDmgOgre && tileYPlayer == yDmgOgre) player->reciveDMG(2);
 				}
 			}
 		}
@@ -109,7 +110,7 @@ void EnOgre::update(int deltaTime) {
 				for (int y = -1; y < 2; ++y) {
 					int xDmgOgre = tileXEnemy + x;
 					int yDmgOgre = tileYEnemy + y;
-					if (tileXPlayer == xDmgOgre && tileYPlayer == tileYEnemy) player->reciveDMG(2);
+					if (tileXPlayer == xDmgOgre && tileYPlayer == yDmgOgre) player->reciveDMG(2);
 				}
 			}
 		}
@@ -127,6 +128,7 @@ void EnOgre::update(int deltaTime) {
 				if (sprite->animation() != MOVE_LEFT) sprite->changeAnimation(MOVE_LEFT);
 				posEnemy.x -= 2;
 			}
+			else  sprite->changeAnimation(STAND_LEFT);
 		}
 		else {
 			bLeft = false;
@@ -134,6 +136,7 @@ void EnOgre::update(int deltaTime) {
 				if (sprite->animation() != MOVE_RIGHT) sprite->changeAnimation(MOVE_RIGHT);
 				posEnemy.x += 2;
 			}
+			else sprite->changeAnimation(STAND_RIGHT);
 		}
 	}
 	else {
@@ -170,4 +173,35 @@ void EnOgre::update(int deltaTime) {
 bool EnOgre::nextBool(double probability)
 {
 	return rand() <  probability * ((double)RAND_MAX + 1.0);
+}
+
+void EnOgre::reciveDmg(int dmg , glm::ivec2 dmgAt) {
+	int spriteWidth = 64;
+	int tileSize = map->getTileSize();
+	int dmgX = dmgAt.x / tileSize;
+	int dmgY = dmgAt.y / tileSize;
+	int tileXEnemy = posEnemy.x / tileSize;
+	int tileYEnemy = posEnemy.y / tileSize;
+	bool playerInRange = (abs(tileXEnemy - dmgX) < 5);
+	if (playerInRange) {
+		if (bLeft) {
+			for (int x = 0; x < 2; ++x) {
+				for (int y = -1; y < 2; ++y) {
+					int xEn = tileXEnemy - x;
+					int yEn = tileYEnemy + y;
+					if (dmgX == xEn && dmgY == yEn) live-=dmg;
+				}
+			}
+		}
+		else {
+			for (int x = 0; x < 2; ++x) {
+				for (int y = -1; y < 2; ++y) {
+					int xEn = tileXEnemy + x;
+					int yEn = tileYEnemy + y;
+					if (dmgX == xEn && dmgY == yEn) live-=dmg;
+				}
+			}
+
+		}
+	}
 }

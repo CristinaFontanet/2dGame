@@ -225,3 +225,10 @@ void  Scene::background(){
 
 }
 
+
+void Scene::dmgEnnemys(int dmg, glm::ivec2 dmgAt ) {
+	for each (EnOgre * ogre in ogres) {
+		ogre->reciveDmg(dmg,dmgAt);
+	}
+}
+

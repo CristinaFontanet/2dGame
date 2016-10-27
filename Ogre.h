@@ -27,9 +27,12 @@ public:
 
 	void update(int deltaTime);
 
+	void reciveDmg(int dmg, glm::ivec2 dmgAt);
+
 private:
 
 	bool nextBool(double probability);
+
 
 	Texture spritesheet;
 	Sprite *sprite;
@@ -42,6 +45,7 @@ private:
 	bool bJumping;
 	bool attacking;
 	int jumpAngle, startY;
+	int live;
 };
 
 #endif

@@ -27,6 +27,7 @@ public:
 	void render();
 	void mouseClicked(int x, int y);
 	void background();
+	void dmgEnnemys(int dmg, glm::ivec2 dmgAt);
 	void selectItem(int num);
 	void showMenu();
 	std::pair<float, float> getOffsetCamera();
@@ -49,7 +50,7 @@ private:
 	glm::vec2 playerPos;
 	glm::mat4 projection;
 	float offsetXCamera, offsetYCamera;
-
+	vector<EnOgre*> ogres;
 };
 
 

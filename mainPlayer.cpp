@@ -304,19 +304,22 @@ void MainPlayer::update(int deltaTime) {
 void MainPlayer::setUpInventory(CEGUI::Window* inventoryWindow) {
 	inventory = vector<Item>(20);
 	inventory[0] = Item(PICKAXE, WOOD, 1, 1, inventoryWindow);
-	inventory[1] = Item(SWORD, TUSK, 3, 1, inventoryWindow);
+	inventory[1] = Item(SWORD, GOLD, 3, 1, inventoryWindow);
 	inventory[2] = Item(MATERIAL, TUSK, 0, 0, inventoryWindow);
 	inventory[3] = Item(MATERIAL, ROCK, 0, 0, inventoryWindow);
 	inventory[4] = Item(MATERIAL, COAL, 0, 0, inventoryWindow);
 	inventory[5] = Item(MATERIAL, GOLD, 0, 0, inventoryWindow);
 	inventory[6] = Item(MATERIAL, DIAMOND, 0, 0, inventoryWindow);
-	evolutionTuskSword = vector<pair<Item*, int>>(2);
-	evolutionTuskSword[0] = make_pair(&inventory[1],1);
-	evolutionTuskSword[1] = make_pair(&inventory[5],10);
-	inventory[1].setEvolveItemsNeeded(&evolutionTuskSword);
 
 	equipedItem = &inventory[0];
 	equipedItem->setSelected(true);
+}
+
+Item* MainPlayer::getSword() {
+	return &inventory[1];
+}
+Item* MainPlayer::getRock() {
+	return &inventory[3];
 }
 
 vector<pair<Item*, vector<pair<Item*, int>>*>>* MainPlayer::getUpgradableItems() {

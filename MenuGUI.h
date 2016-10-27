@@ -31,7 +31,7 @@ class MenuGUI {
 		CEGUI::GUIContext* getMenuContext();
 
 
-		void setCraftElements(vector<pair<Item*, vector<pair<Item*, int>>*>> *itemsToImprove);
+		void MenuGUI::setCraftSword();
 
     private:
 		void createCraftWindow();
@@ -39,7 +39,7 @@ class MenuGUI {
         static CEGUI::OpenGL3Renderer* m_renderer;
 		CEGUI::GUIContext* m_context_menu = nullptr;
 		CEGUI::Window* m_root_menu = nullptr;
-
+		MainPlayer* mainPlayer;
 		/** Menu*/
 		int b1yt, b1yb, b2yt, b2yb, b3yt, b3yb, b4yt, b4yb, x0, x1;
 		bool showMenu;
@@ -56,4 +56,10 @@ class MenuGUI {
 		bool showCrafting;
 		CEGUI::GUIContext* m_context_craft = nullptr;
 		Window* craftWindow;
+		Window* res1Img1;
+		Window* res1Num1;
+		Window* res1Itm1Img;
+		Window* res1Itm1Num;
+		Window* res1Itm2Img;
+		Window* res1Itm2Num;
 };

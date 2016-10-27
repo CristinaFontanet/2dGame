@@ -6,8 +6,9 @@
 
 CEGUI::OpenGL3Renderer* MenuGUI::m_renderer = nullptr;
 
-void MenuGUI::init(const std::string& resourceDirectory, MainPlayer* mainPlayer, CEGUI::OpenGL3Renderer* rend) {
+void MenuGUI::init(const std::string& resourceDirectory, MainPlayer* mPlayer, CEGUI::OpenGL3Renderer* rend) {
 	showCrafting = false;
+	mainPlayer = mPlayer;
     // Check if the renderer and system were not already initialized
 	m_renderer = rend;
     if (m_renderer == nullptr) {
@@ -116,7 +117,6 @@ void  MenuGUI::onMenu1Click() {
 }
 
 void  MenuGUI::onMenuCraftClick() {
-	pushButton2->setText("Button 2 clicked");
 	showCrafting = true;
 }
 
@@ -169,34 +169,43 @@ void MenuGUI::createCraftWindow() {
 	craftWindow = WindowManager::getSingleton().loadLayoutFromFile("crafting2.layout");
 	craftWindow->setMousePassThroughEnabled(true); // this is important!
 	m_context_craft->setRootWindow(craftWindow);
-}
-
-void MenuGUI::setCraftElements(vector<pair<Item*, vector<pair<Item*, int>>*>>* itemsToImprove) {
-	int siz = itemsToImprove->size();
-	Item* result1 = itemsToImprove->at(0).first;
-	vector<pair<Item*, int>>* elementsNeeded = itemsToImprove->at(0).second;
 
 	Window* subWind = craftWindow->getChild("CraftingWind");
 	Window* groupBox1 = subWind->getChild("StaticGroup");
 	Window* res1 = groupBox1->getChild("Result1");
-		Window* img1 = res1->getChild("Image");
-		img1->setProperty("Image", "spritesheet_tiles/"+result1->getMaterialString());
-		Window* num1 = res1->getChild("Quant");
-		num1->setProperty("Text", "1");
-		//Correcte fins aqui
-	pair<Item*, int> it1= elementsNeeded->at(0);
-	Window* itn1 = groupBox1->getChild("ItemNeeded1");
-		Window* img2 = itn1->getChild("Image");
-		img2->setProperty("Image", "spritesheet_tiles/" + it1.first->getMaterialString());
-		Window* num2 = itn1->getChild("Quant");
-		num2->setProperty("Text", to_string(it1.second));
-
-	pair<Item*, int> it2 = elementsNeeded->at(1);
+	res1Img1 = res1->getChild("Image");
+	res1Num1 = res1->getChild("Quant");
+	Window* res1Itm1 = groupBox1->getChild("ItemNeeded1");
+	res1Itm1Img = res1Itm1->getChild("Image");
+	res1Itm1Num = res1Itm1->getChild("Quant");
 	Window* itn2 = groupBox1->getChild("ItemNeeded2");
+	res1Itm2Img = itn2->getChild("Image");
+	res1Itm2Num = itn2->getChild("Quant");
 
-		Window* img3 = itn2->getChild("Image");
-		img3->setProperty("Image", "spritesheet_tiles/" + it2.first->getMaterialString());
-		Window* num3 = itn2->getChild("Quant");
-		num3->setProperty("Text", to_string(it2.second));
+	setCraftSword();
+}
+
+void MenuGUI::setCraftSword() {
+	Item *currentSword = mainPlayer->getSword();
+	res1Num1->setProperty("Text", "1");
+	switch (currentSword->element) {
+	case TUSK:
+		res1Img1->setProperty("Image", "spritesheet_tiles/RockSword");
+		res1Itm1Img->setProperty("Image", "spritesheet_tiles/TuskSword");
+		res1Itm1Num->setProperty("Text", "1");
+		res1Itm2Img->setProperty("Image", "spritesheet_tiles/Rock");
+		res1Itm2Num->setProperty("Text", "20");
+		break;
+	case ROCK:
+		res1Img1->setProperty("Image", "spritesheet_tiles/GoldSword");
+		res1Itm1Img->setProperty("Image", "spritesheet_tiles/RockSword");
+		res1Itm1Num->setProperty("Text", "1");
+		res1Itm2Img->setProperty("Image", "spritesheet_tiles/Gold");
+		res1Itm2Num->setProperty("Text", "30");
+		break;
+	case GOLD:
+		break;
+	}
+
 }
 

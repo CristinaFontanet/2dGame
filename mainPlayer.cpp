@@ -114,7 +114,7 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widht * 7, height));
 	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widht * 8, height));
 ////////////////////////////////////////////////////////////////////////////
-	spritesheetInvincible.loadFromFile("images/Especials_2.png", TEXTURE_PIXEL_FORMAT_RGBA);
+	spritesheetInvincible.loadFromFile("images/Especials_1.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	spriteInvincible = Sprite::createSprite(glm::ivec2(64, 64), glm::vec2(widhtProp * 4, heightProp * 4), &spritesheet, &shaderProgram);
 	spriteInvincible->setNumberAnimations(1);
 	spriteInvincible->setAnimationSpeed(0, ANIMATION_SPEED);

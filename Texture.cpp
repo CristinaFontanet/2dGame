@@ -3,7 +3,7 @@
 
 
 using namespace std;
-
+using namespace TextureC;
 
 Texture::Texture()
 {

@@ -205,16 +205,16 @@ void  Scene::background(){
 	backgroundTexture.use();
 
 	glBegin(GL_QUADS);
-		glTexCoord2f(0, 1);
+		glTexCoord2f(0+0.05, 1);
 		glVertex3f(0.0f, float(SCREEN_HEIGHT-1), 0.f);
 
-		glTexCoord2f(1, 1);
+		glTexCoord2f(1-0.05, 1);
 		glVertex3f(float(SCREEN_WIDTH-1),float(SCREEN_HEIGHT-1), 0.f);
 
-		glTexCoord2f(1, 0);
+		glTexCoord2f(1-0.05, 0);
 		glVertex3f(float(SCREEN_WIDTH-1),0.f, 0.f);
 
-		glTexCoord2f(0, 0);
+		glTexCoord2f(0+0.05, 0);
 		glVertex3f(0.0f, 0.f, 0.f);
 	glEnd();
 	//end draw background quad 

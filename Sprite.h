@@ -12,15 +12,15 @@
 // This class is derived from code seen earlier in TexturedQuad but it is also
 // able to manage animations stored as a spritesheet. 
 
-
+using namespace TextureC;
 class Sprite
 {
 
 public:
 	// Textured quads can only be created inside an OpenGL context
-	static Sprite *createSprite(const glm::vec2 &quadSize, const glm::vec2 &sizeInSpritesheet, Texture *spritesheet, ShaderProgram *program);
+	static Sprite *createSprite(const glm::vec2 &quadSize, const glm::vec2 &sizeInSpritesheet, TextureC::Texture *spritesheet, ShaderProgram *program);
 
-	Sprite(const glm::vec2 &quadSize, const glm::vec2 &sizeInSpritesheet, Texture *spritesheet, ShaderProgram *program);
+	Sprite(const glm::vec2 &quadSize, const glm::vec2 &sizeInSpritesheet, TextureC::Texture *spritesheet, ShaderProgram *program);
 
 	void update(int deltaTime);
 	void render() const;
@@ -39,7 +39,7 @@ public:
 
 private:
 	glm::vec2 quadSize2;
-	Texture *texture;
+	TextureC::Texture *texture;
 	ShaderProgram *shaderProgram;
 	GLuint vao;
 	GLuint vbo;

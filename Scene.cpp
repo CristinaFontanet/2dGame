@@ -44,6 +44,11 @@ Scene::~Scene()
 void Scene::init()
 {
 	initShaders();
+	backgroundTexture.loadFromFile("images/background.png", TEXTURE_PIXEL_FORMAT_RGBA);
+	backgroundTexture.setWrapS(GL_CLAMP_TO_EDGE);
+	backgroundTexture.setWrapT(GL_CLAMP_TO_EDGE);
+	backgroundTexture.setMinFilter(GL_NEAREST);
+	backgroundTexture.setMagFilter(GL_NEAREST);
 	map = TileMap::createTileMap("levels/levelTerraria300.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
 	player = new P_conillet();
 	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
@@ -196,14 +201,20 @@ void  Scene::background(){
 	glPushMatrix();
 	glLoadIdentity();
 	// Draw your quad here in screen coordinates
+
+	backgroundTexture.use();
+
 	glBegin(GL_QUADS);
-		glColor3f(1,0,0);
+		glTexCoord2f(0, 1);
 		glVertex3f(0.0f, float(SCREEN_HEIGHT-1), 0.f);
-		glColor3f(0, 1, 0);
+
+		glTexCoord2f(1, 1);
 		glVertex3f(float(SCREEN_WIDTH-1),float(SCREEN_HEIGHT-1), 0.f);
-		glColor3f(1, 0, 0);
+
+		glTexCoord2f(1, 0);
 		glVertex3f(float(SCREEN_WIDTH-1),0.f, 0.f);
-		glColor3f(1, 0, 0);
+
+		glTexCoord2f(0, 0);
 		glVertex3f(0.0f, 0.f, 0.f);
 	glEnd();
 	//end draw background quad 

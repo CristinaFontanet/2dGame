@@ -1,7 +1,6 @@
 #ifndef _SCENE_INCLUDE
 #define _SCENE_INCLUDE
 
-
 #include <glm/glm.hpp>
 #include "ShaderProgram.h"
 #include "TileMap.h"
@@ -16,7 +15,7 @@
 
 // Scene contains all the entities of our game.
 // It is responsible for updating and render them.
-
+using namespace TextureC;
 class Scene {
 
 public:
@@ -46,6 +45,7 @@ private:
 	P_boss *boss;
 	ShaderProgram texProgram;
 	float currentTime;
+	TextureC::Texture backgroundTexture;
 	glm::vec2 playerPos;
 	glm::mat4 projection;
 	float offsetXCamera, offsetYCamera;

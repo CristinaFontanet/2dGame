@@ -15,12 +15,11 @@ enum PixelFormat {TEXTURE_PIXEL_FORMAT_RGB, TEXTURE_PIXEL_FORMAT_RGBA};
 // The texture class loads images an passes them to OpenGL
 // storing the returned id so that it may be applied to any drawn primitives
 
-namespace TextureC {
-	class Texture
+	class OwnTexture
 	{
 
 	public:
-		Texture();
+		OwnTexture();
 
 		bool loadFromFile(const string &filename, PixelFormat format);
 		void loadFromGlyphBuffer(unsigned char *buffer, int width, int height);
@@ -45,7 +44,6 @@ namespace TextureC {
 		GLint wrapS, wrapT, minFilter, magFilter;
 
 	};
-}
 
 #endif // _TEXTURE_INCLUDE
 

@@ -53,8 +53,15 @@ void MenuGUI::init(const std::string& resourceDirectory, MainPlayer* mPlayer, CE
 
 	setMouseCursor("TaharezLook/MouseArrow");
 
+	// Select which font you want to use
+	if (!text.init("fonts/OpenSans-Regular.ttf"))
+		//if(!text.init("fonts/OpenSans-Bold.ttf"))
+		//if(!text.init("fonts/DroidSerif.ttf"))
+		cout << "Could not load font!!!" << endl;
+
 	createMenu();
 	createCraftWindow();
+
 }
 
 void MenuGUI::destroy() {
@@ -65,6 +72,12 @@ void MenuGUI::draw() {
     m_renderer->beginRendering();
 	if(showMenu) m_context_menu->draw();
 	if (showCrafting) m_context_craft->draw();
+
+	//Text
+	string marcador = "Rebots: " + std::to_string(1);
+	text.render(marcador, glm::vec2(SCREEN_WIDTH / 2, 35), 32, glm::vec4(1, 1, 1, 1));
+	text.render("Clica b per fer desaparèixer el text", glm::vec2(10, SCREEN_HEIGHT - 20), 32, glm::vec4(0, 0.56, 0, 1));
+
     m_renderer->endRendering();
     glDisable(GL_SCISSOR_TEST);
 }

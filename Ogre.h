@@ -34,7 +34,7 @@ private:
 	bool nextBool(double probability);
 
 
-	Texture spritesheet;
+	OwnTexture spritesheet;
 	Sprite *sprite;
 	TileMap *map;
 	MainPlayer *player;

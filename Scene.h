@@ -16,7 +16,6 @@
 
 // Scene contains all the entities of our game.
 // It is responsible for updating and render them.
-using namespace TextureC;
 class Scene {
 
 public:
@@ -47,7 +46,7 @@ private:
 	P_boss *boss;
 	ShaderProgram texProgram;
 	float currentTime;
-	TextureC::Texture backgroundTexture;
+	OwnTexture backgroundTexture;
 	glm::vec2 playerPos;
 	glm::mat4 projection;
 	float offsetXCamera, offsetYCamera;

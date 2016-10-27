@@ -8,6 +8,7 @@
 #include <CEGUI/InputEvent.h>
 #include <glm/glm.hpp>
 #include "mainPlayer.h"
+#include "Text.h"
 using namespace CEGUI;
 
 #define NUM_ROCKS_NEEDED 2
@@ -72,4 +73,6 @@ class MenuGUI {
 		bool craftSword();
 		void updateItemsCrafting();
 		bool enoughtRocks;
+		/** Message*/
+		Text text;
 };

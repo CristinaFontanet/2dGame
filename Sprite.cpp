@@ -4,7 +4,7 @@
 #include "Sprite.h"
 
 
-Sprite *Sprite::createSprite(const glm::vec2 &quadSize, const glm::vec2 &sizeInSpritesheet, Texture *spritesheet, ShaderProgram *program)
+Sprite *Sprite::createSprite(const glm::vec2 &quadSize, const glm::vec2 &sizeInSpritesheet, OwnTexture *spritesheet, ShaderProgram *program)
 {
 	Sprite *quad = new Sprite(quadSize, sizeInSpritesheet, spritesheet, program);
 
@@ -22,7 +22,7 @@ float vertices[24] = { 0.f, 0.f, 0.f, 0.f,
 	
 }
 
-Sprite::Sprite(const glm::vec2 &quadSize, const glm::vec2 &sizeInSpritesheet, Texture *spritesheet, ShaderProgram *program)
+Sprite::Sprite(const glm::vec2 &quadSize, const glm::vec2 &sizeInSpritesheet, OwnTexture *spritesheet, ShaderProgram *program)
 {
 	scale = glm::vec3(1.f, 1.f, 1.f);
 	float vertic[24] = {0.f, 0.f, 0.f, 0.f, 

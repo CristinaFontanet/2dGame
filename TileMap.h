@@ -5,7 +5,7 @@
 #include <glm/glm.hpp>
 #include <vector>
 #include <iostream>
-#include "Texture.h"
+#include "OwnTexture.h"
 #include "ShaderProgram.h"
 
 using namespace std;
@@ -73,7 +73,7 @@ private:
 	GLint posLocation, texCoordLocation;
 	glm::ivec2 position, mapSize, tilesheetSize;
 	int tileSize, blockSize;
-	TextureC::Texture tilesheet;
+	OwnTexture tilesheet;
 	glm::vec2 tileTexSize;
 	pair<int,int> *map;
 	vector<int> materials;

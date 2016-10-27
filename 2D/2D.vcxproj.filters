@@ -16,8 +16,10 @@
     <ClCompile Include="..\Shader.cpp" />
     <ClCompile Include="..\ShaderProgram.cpp" />
     <ClCompile Include="..\Sprite.cpp" />
-    <ClCompile Include="..\Texture.cpp" />
     <ClCompile Include="..\TileMap.cpp" />
+    <ClCompile Include="..\Text.cpp" />
+    <ClCompile Include="..\TexturedQuad.cpp" />
+    <ClCompile Include="..\OwnTexture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\libs\glm\glm\detail\_vectorize.hpp" />
@@ -36,9 +38,11 @@
     <ClInclude Include="..\Shader.h" />
     <ClInclude Include="..\ShaderProgram.h" />
     <ClInclude Include="..\Sprite.h" />
-    <ClInclude Include="..\Texture.h" />
     <ClInclude Include="..\TileMap.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="..\Text.h" />
+    <ClInclude Include="..\TexturedQuad.h" />
+    <ClInclude Include="..\OwnTexture.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2D.rc" />

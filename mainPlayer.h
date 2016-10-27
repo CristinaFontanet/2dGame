@@ -8,12 +8,14 @@
 #include "TileMap.h"
 #include "Item.h"
 #include "fmod.hpp"
+#include "Text.h"
 
 using namespace std;
 
 class MainPlayer {
 
 public:
+	Text t;
 	void init(const glm::ivec2 & tileMapPos, ShaderProgram & shaderProgram, CEGUI::Window * inventoryWindow, CEGUI::Window * livesWindow);
 	void update(int deltaTime);
 	void render();
@@ -56,9 +58,9 @@ private:
 	glm::ivec2 tileMapDispl, posPlayer;
 	int jumpAngle, startY;
 	int live;
-	Texture spritesheet;
-	Texture spritesheetAtac;
-	Texture spritesheetInvincible;
+	OwnTexture spritesheet;
+	OwnTexture spritesheetAtac;
+	OwnTexture spritesheetInvincible;
 	Sprite *sprite;
 	Sprite *spriteAtac;
 	Sprite *spriteInvincible;

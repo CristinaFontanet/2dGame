@@ -1,136 +1,46 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Archivos de código fuente">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Archivos de encabezado">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Archivos de recursos">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
+    <ClCompile Include="..\Boss.cpp" />
+    <ClCompile Include="..\Enemy.cpp" />
+    <ClCompile Include="..\MenuGUI.cpp" />
+    <ClCompile Include="..\Ogre.cpp" />
+    <ClCompile Include="..\Game.cpp" />
+    <ClCompile Include="..\GUI.cpp" />
+    <ClCompile Include="..\Item.cpp" />
+    <ClCompile Include="..\main.cpp" />
+    <ClCompile Include="..\mainPlayer.cpp" />
+    <ClCompile Include="..\P_boss.cpp" />
+    <ClCompile Include="..\P_conillet.cpp" />
+    <ClCompile Include="..\Scene.cpp" />
+    <ClCompile Include="..\Shader.cpp" />
+    <ClCompile Include="..\ShaderProgram.cpp" />
+    <ClCompile Include="..\Sprite.cpp" />
+    <ClCompile Include="..\Texture.cpp" />
+    <ClCompile Include="..\TileMap.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Game.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\main.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Scene.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Shader.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ShaderProgram.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Texture.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\TileMap.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Sprite.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\P_conillet.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\P_boss.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\mainPlayer.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\GUI.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Item.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Enemy.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Ogre.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-<<<<<<< HEAD
-    <ClCompile Include="..\Boss.cpp">
-=======
-    <ClCompile Include="..\MenuGUI.cpp">
->>>>>>> 4c4cf785328f4feb379643b3799e85043cd1fddc
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
+    <ClInclude Include="..\..\..\libs\glm\glm\detail\_vectorize.hpp" />
+    <ClInclude Include="..\Boss.h" />
+    <ClInclude Include="..\Constants.h" />
+    <ClInclude Include="..\Enemy.h" />
+    <ClInclude Include="..\MenuGUI.h" />
+    <ClInclude Include="..\Ogre.h" />
+    <ClInclude Include="..\Game.h" />
+    <ClInclude Include="..\GUI.h" />
+    <ClInclude Include="..\Item.h" />
+    <ClInclude Include="..\mainPlayer.h" />
+    <ClInclude Include="..\P_boss.h" />
+    <ClInclude Include="..\P_conillet.h" />
+    <ClInclude Include="..\Scene.h" />
+    <ClInclude Include="..\Shader.h" />
+    <ClInclude Include="..\ShaderProgram.h" />
+    <ClInclude Include="..\Sprite.h" />
+    <ClInclude Include="..\Texture.h" />
+    <ClInclude Include="..\TileMap.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Game.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Scene.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Shader.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ShaderProgram.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Texture.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\TileMap.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Sprite.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\libs\glm\glm\detail\_vectorize.hpp">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\P_conillet.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\P_boss.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\mainPlayer.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\GUI.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Item.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Enemy.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Ogre.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Constants.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-<<<<<<< HEAD
-    <ClInclude Include="..\Boss.h">
-=======
-    <ClInclude Include="..\MenuGUI.h">
->>>>>>> 4c4cf785328f4feb379643b3799e85043cd1fddc
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="2D.rc">
-      <Filter>Archivos de recursos</Filter>
-    </ResourceCompile>
+    <ResourceCompile Include="2D.rc" />
   </ItemGroup>
 </Project>

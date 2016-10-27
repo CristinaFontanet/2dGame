@@ -82,7 +82,10 @@ void MenuGUI::setFont(const std::string& fontFile) {
 void MenuGUI::mouseClick(int x, int y) {
 	//x: 313 y: 121
 	if (showMenu) {
-		if (x > x0 && x < x1) {
+		if (showCrafting) {
+			if(x>c1x0 && x<c1x1 && y>c1y0 && y<c1y1) craftSword();
+		}
+		else if (x > x0 && x < x1) {
 			if (y > b1yt && y < b1yb) onMenu1Click();
 			else if (y > b2yt && y < b2yb) onMenuCraftClick();
 			else if (y > b3yt && y < b3yb) onMenuExitClick();
@@ -116,9 +119,6 @@ void  MenuGUI::onMenu1Click() {
 	pushButton->setText("Button 1 clicked");
 }
 
-void  MenuGUI::onMenuCraftClick() {
-	showCrafting = true;
-}
 
 void  MenuGUI::onMenuExitClick() {
 	exit(0);
@@ -164,6 +164,11 @@ void MenuGUI::createMenu() {
 
 /** Crafting **/
 
+void  MenuGUI::onMenuCraftClick() {
+	showCrafting = true;
+	updateItemsCrafting();
+}
+
 void MenuGUI::createCraftWindow() {
 	m_context_craft = &System::getSingleton().createGUIContext(m_renderer->getDefaultRenderTarget());
 	craftWindow = WindowManager::getSingleton().loadLayoutFromFile("crafting2.layout");
@@ -174,15 +179,28 @@ void MenuGUI::createCraftWindow() {
 	Window* groupBox1 = subWind->getChild("StaticGroup");
 	Window* res1 = groupBox1->getChild("Result1");
 	res1Img1 = res1->getChild("Image");
+	res1ImgS1 = res1->getChild("ImageS");
 	res1Num1 = res1->getChild("Quant");
 	Window* res1Itm1 = groupBox1->getChild("ItemNeeded1");
 	res1Itm1Img = res1Itm1->getChild("Image");
+	res1Itm1SImg = res1Itm1->getChild("ImageS");
 	res1Itm1Num = res1Itm1->getChild("Quant");
 	Window* itn2 = groupBox1->getChild("ItemNeeded2");
 	res1Itm2Img = itn2->getChild("Image");
+	res1Itm2SImg = itn2->getChild("ImageS");
 	res1Itm2Num = itn2->getChild("Quant");
 
 	setCraftSword();
+	c1x0 = 516;
+	c1x1 = 596;
+	c1y0 = 214;
+	c1y1 = 238;
+}
+
+bool MenuGUI::craftSword() {
+	if(enoughtRocks) cout << "YESS" << endl;
+	else cout << "NOO" << endl;
+	return true;
 }
 
 void MenuGUI::setCraftSword() {
@@ -191,17 +209,20 @@ void MenuGUI::setCraftSword() {
 	switch (currentSword->element) {
 	case TUSK:
 		res1Img1->setProperty("Image", "spritesheet_tiles/RockSword");
+		res1ImgS1->setProperty("Image", "spritesheet_tiles/RockSword");
 		res1Itm1Img->setProperty("Image", "spritesheet_tiles/TuskSword");
+		res1Itm1SImg->setProperty("Image", "spritesheet_tiles/TuskSword");
 		res1Itm1Num->setProperty("Text", "1");
 		res1Itm2Img->setProperty("Image", "spritesheet_tiles/Rock");
-		res1Itm2Num->setProperty("Text", "20");
+		res1Itm2SImg->setProperty("Image", "spritesheet_tiles/Rock");
+		res1Itm2Num->setProperty("Text", to_string(NUM_ROCKS_NEEDED));
 		break;
 	case ROCK:
 		res1Img1->setProperty("Image", "spritesheet_tiles/GoldSword");
 		res1Itm1Img->setProperty("Image", "spritesheet_tiles/RockSword");
 		res1Itm1Num->setProperty("Text", "1");
 		res1Itm2Img->setProperty("Image", "spritesheet_tiles/Gold");
-		res1Itm2Num->setProperty("Text", "30");
+		res1Itm2Num->setProperty("Text", to_string(NUM_GOLD_NEEDED_SWORD));
 		break;
 	case GOLD:
 		break;
@@ -209,3 +230,33 @@ void MenuGUI::setCraftSword() {
 
 }
 
+void MenuGUI::updateItemsCrafting() {
+	Item *currentSword = mainPlayer->getSword();
+	res1Itm1SImg->setVisible(true);
+	switch (currentSword->element) {
+	case TUSK:
+		if (mainPlayer->getRock()->getAmount() >= NUM_ROCKS_NEEDED) {
+			res1Itm2SImg->setVisible(true);
+			enoughtRocks = true;
+			res1ImgS1->setVisible(true);
+		}
+		else {
+			res1Itm2SImg->setVisible(false);
+			enoughtRocks = false;
+		}
+		break;
+	case ROCK:
+		if (mainPlayer->getGold()->getAmount() >= NUM_GOLD_NEEDED_SWORD) {
+			res1Itm2SImg->setVisible(true);
+			enoughtRocks = true;
+			res1ImgS1->setVisible(true);
+		}
+		else {
+			res1Itm2SImg->setVisible(false);
+			enoughtRocks = false;
+		}
+		break;
+	case GOLD:
+		break;
+	}
+}

@@ -317,8 +317,13 @@ void MainPlayer::setUpInventory(CEGUI::Window* inventoryWindow) {
 Item* MainPlayer::getSword() {
 	return &inventory[1];
 }
+
 Item* MainPlayer::getRock() {
 	return &inventory[3];
+}
+
+Item* MainPlayer::getGold() {
+	return &inventory[5];
 }
 
 vector<pair<Item*, vector<pair<Item*, int>>*>>* MainPlayer::getUpgradableItems() {

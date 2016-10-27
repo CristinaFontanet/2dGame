@@ -75,99 +75,101 @@ void EnOgre::setTarget(MainPlayer *target){
 
 void EnOgre::render()
 {
-	sprite->render();
+	if(live > 0) sprite->render();
 }
 
 void EnOgre::update(int deltaTime) {
-	sprite->update(deltaTime);
-	int spriteWidth = 64;
-	int tileSize = map->getTileSize();
-	int tileXPlayer = player->getPlayerPosition().x/tileSize;
-	int tileYPlayer = player->getPlayerPosition().y/tileSize;
-	int tileXEnemy = posEnemy.x/tileSize;
-	int tileYEnemy = posEnemy.y/tileSize;
-	bool playerInRange = (abs(tileXEnemy - tileXPlayer) < 5);
-	
-	//si estamos en progreso de atacar hacemos daño en nujestra area
-	if (attacking) {
-		if (sprite->getCurrentNumKeyFrame() == 2) {
-			attacking = false;
-			if (bLeft) sprite->changeAnimation(STAND_LEFT);
-			else sprite->changeAnimation(STAND_LEFT);
-		}
-		
-		if (bLeft) {
-			for (int x = 0; x < 2; ++x) {
-				for (int y = -1; y < 2; ++y) {
-					int xDmgOgre = tileXEnemy - x;
-					int yDmgOgre = tileYEnemy + y;
-					if (tileXPlayer == xDmgOgre && tileYPlayer == yDmgOgre) player->reciveDMG(2);
+	if (live > 0) {
+		sprite->update(deltaTime);
+		int spriteWidth = 64;
+		int tileSize = map->getTileSize();
+		int tileXPlayer = player->getPlayerPosition().x / tileSize;
+		int tileYPlayer = player->getPlayerPosition().y / tileSize;
+		int tileXEnemy = posEnemy.x / tileSize;
+		int tileYEnemy = posEnemy.y / tileSize;
+		bool playerInRange = (abs(tileXEnemy - tileXPlayer) < 5);
+
+		//si estamos en progreso de atacar hacemos daño en nujestra area
+		if (attacking) {
+			if (sprite->getCurrentNumKeyFrame() == 2) {
+				attacking = false;
+				if (bLeft) sprite->changeAnimation(STAND_LEFT);
+				else sprite->changeAnimation(STAND_LEFT);
+			}
+
+			if (bLeft) {
+				for (int x = 0; x < 2; ++x) {
+					for (int y = -1; y < 2; ++y) {
+						int xDmgOgre = tileXEnemy - x;
+						int yDmgOgre = tileYEnemy + y;
+						if (tileXPlayer == xDmgOgre && tileYPlayer == yDmgOgre) player->reciveDMG(5);
+					}
 				}
+			}
+			else {
+				for (int x = 0; x < 2; ++x) {
+					for (int y = -1; y < 2; ++y) {
+						int xDmgOgre = tileXEnemy + x;
+						int yDmgOgre = tileYEnemy + y;
+						if (tileXPlayer == xDmgOgre && tileYPlayer == yDmgOgre) player->reciveDMG(5);
+					}
+				}
+			}
+		}
+		else if (playerInRange) {
+			int xDist = tileXPlayer - tileXEnemy;
+			if ((abs(xDist) < 1) || (!bLeft && abs(xDist) < 2)) {
+				attacking = true;
+				if (bLeft) sprite->changeAnimation(ATTACKING_RIGHT);
+				else sprite->changeAnimation(ATTACKING_LEFT);
+			}
+			else if (xDist < 0) {
+				bLeft = true;
+				if (!map->collisionMoveLeft(posEnemy, glm::ivec2(spriteWidth, 64))) {
+					if (sprite->animation() != MOVE_LEFT) sprite->changeAnimation(MOVE_LEFT);
+					posEnemy.x -= 2;
+				}
+				else  sprite->changeAnimation(STAND_LEFT);
+			}
+			else {
+				bLeft = false;
+				if (!map->collisionMoveRight(posEnemy, glm::ivec2(spriteWidth, 64))) {
+					if (sprite->animation() != MOVE_RIGHT) sprite->changeAnimation(MOVE_RIGHT);
+					posEnemy.x += 2;
+				}
+				else sprite->changeAnimation(STAND_RIGHT);
 			}
 		}
 		else {
-			for (int x = 0; x < 2; ++x) {
-				for (int y = -1; y < 2; ++y) {
-					int xDmgOgre = tileXEnemy + x;
-					int yDmgOgre = tileYEnemy + y;
-					if (tileXPlayer == xDmgOgre && tileYPlayer == yDmgOgre) player->reciveDMG(2);
-				}
-			}
-		}
-	}
-	else if (playerInRange) {
-		int xDist = tileXPlayer - tileXEnemy;
-		if ((abs(xDist) < 1)|| (!bLeft && abs(xDist) < 2)){
-			attacking = true;
-			if(bLeft) sprite->changeAnimation(ATTACKING_RIGHT);
-			else sprite->changeAnimation(ATTACKING_LEFT);
-		}
-		else if (xDist < 0 ) {
-			bLeft = true;
-			if (!map->collisionMoveLeft(posEnemy, glm::ivec2(spriteWidth, 64))) {
+			if (bLeft && !map->collisionMoveLeft(posEnemy, glm::ivec2(spriteWidth, 64))) { //Moure esquerra
+				bLeft = true;
 				if (sprite->animation() != MOVE_LEFT) sprite->changeAnimation(MOVE_LEFT);
 				posEnemy.x -= 2;
 			}
-			else  sprite->changeAnimation(STAND_LEFT);
-		}
-		else {
-			bLeft = false;
-			if (!map->collisionMoveRight(posEnemy, glm::ivec2(spriteWidth, 64))) {
-				if (sprite->animation() != MOVE_RIGHT) sprite->changeAnimation(MOVE_RIGHT);
-				posEnemy.x += 2;
-			}
-			else sprite->changeAnimation(STAND_RIGHT);
-		}
-	}
-	else {
-		if (bLeft && !map->collisionMoveLeft(posEnemy, glm::ivec2(spriteWidth, 64))) { //Moure esquerra
-			bLeft = true;
-			if (sprite->animation() != MOVE_LEFT) sprite->changeAnimation(MOVE_LEFT);
-			posEnemy.x -= 2;
-		}
-		else {
-			if (bLeft) {
-				bLeft = false;
-			}
 			else {
-				if (sprite->animation() != MOVE_RIGHT) sprite->changeAnimation(MOVE_RIGHT);
-				posEnemy.x += 2;
-				if (map->collisionMoveRight(posEnemy, glm::ivec2(spriteWidth, 64)) && !bJumping) { 	//si hi ha colisio, ens parem
-					posEnemy.x -= 2;
-					bLeft = true;
-					if (sprite->animation() != MOVE_LEFT) sprite->changeAnimation(MOVE_LEFT);
+				if (bLeft) {
+					bLeft = false;
+				}
+				else {
+					if (sprite->animation() != MOVE_RIGHT) sprite->changeAnimation(MOVE_RIGHT);
+					posEnemy.x += 2;
+					if (map->collisionMoveRight(posEnemy, glm::ivec2(spriteWidth, 64)) && !bJumping) { 	//si hi ha colisio, ens parem
+						posEnemy.x -= 2;
+						bLeft = true;
+						if (sprite->animation() != MOVE_LEFT) sprite->changeAnimation(MOVE_LEFT);
+					}
 				}
 			}
 		}
+
+		glm::ivec2 spritePos = posEnemy;
+
+		if (!map->collisionMoveDown(spritePos + 5, glm::ivec2(spriteWidth, 64), &posEnemy.y, bLeft, 0)) {
+			posEnemy.y += 2;
+		}
+
+		sprite->setPosition(glm::vec2(float(tileMapDispl.x + posEnemy.x), float(tileMapDispl.y + posEnemy.y)));
 	}
-
-	glm::ivec2 spritePos = posEnemy;
-
-	if(!map->collisionMoveDown(spritePos + 5, glm::ivec2(spriteWidth, 64), &posEnemy.y, bLeft, 0)){
-		posEnemy.y += 2;
-	}
-
-	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posEnemy.x), float(tileMapDispl.y + posEnemy.y)));
 }
 
 bool EnOgre::nextBool(double probability)
@@ -175,7 +177,7 @@ bool EnOgre::nextBool(double probability)
 	return rand() <  probability * ((double)RAND_MAX + 1.0);
 }
 
-void EnOgre::reciveDmg(int dmg , glm::ivec2 dmgAt) {
+bool EnOgre::reciveDmg(int dmg , glm::ivec2 dmgAt) {
 	int spriteWidth = 64;
 	int tileSize = map->getTileSize();
 	int dmgX = dmgAt.x / tileSize;
@@ -189,7 +191,10 @@ void EnOgre::reciveDmg(int dmg , glm::ivec2 dmgAt) {
 				for (int y = -1; y < 2; ++y) {
 					int xEn = tileXEnemy - x;
 					int yEn = tileYEnemy + y;
-					if (dmgX == xEn && dmgY == yEn) live-=dmg;
+					if (dmgX == xEn && dmgY == yEn) {
+						live -= dmg;
+						return true;
+					}
 				}
 			}
 		}
@@ -198,10 +203,14 @@ void EnOgre::reciveDmg(int dmg , glm::ivec2 dmgAt) {
 				for (int y = -1; y < 2; ++y) {
 					int xEn = tileXEnemy + x;
 					int yEn = tileYEnemy + y;
-					if (dmgX == xEn && dmgY == yEn) live-=dmg;
+					if (dmgX == xEn && dmgY == yEn) {
+						live -= dmg;
+						return true;
+					}
 				}
 			}
 
 		}
 	}
+	return false;
 }

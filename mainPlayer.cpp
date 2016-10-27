@@ -175,7 +175,6 @@ void MainPlayer::equipItem(int num) {
 }
 
 bool MainPlayer::isAttacking() {
-	//cout << "SpriteStateBool: " << spriteState << endl;
 	return spriteState == ATTACKING;
 }
 
@@ -422,8 +421,28 @@ void MainPlayer::attackAnimation() {
 	if (!animationInProgress) {
 		animationInProgress = true;
 		spriteState = ATTACKING;
-		if (bLeft && spriteAtac->animation() != ATTACK_LEFT) spriteAtac->changeAnimation(ATTACK_LEFT);
-		else if (!bLeft && spriteAtac->animation() != ATTACK_RIGHT) spriteAtac->changeAnimation(ATTACK_RIGHT);
+		glm::ivec2 auxPos = posPlayer;
+		if (bLeft && spriteAtac->animation() != ATTACK_LEFT) {
+			spriteAtac->changeAnimation(ATTACK_LEFT);
+			for (int x = 0; x < 64; x += 32) {
+				for (int y = -64; y < 64; y += 32) {
+					auxPos.x = posPlayer.x - x;
+					auxPos.y = posPlayer.y + y;
+					if(Game::instance().dmgEnnemys(equipedItem->dmg, auxPos)) break;
+				}
+			}
+
+		}
+		else if (!bLeft && spriteAtac->animation() != ATTACK_RIGHT) {
+			spriteAtac->changeAnimation(ATTACK_RIGHT);
+			for (int x = 0; x < 64; x += 32) {
+				for (int y = -32; y < 32; y += 32) {
+					auxPos.x = posPlayer.x + x;
+					auxPos.y = posPlayer.y + y;
+					if (Game::instance().dmgEnnemys(equipedItem->dmg, auxPos)) break;
+				}
+			}
+		}
 	}
 	else {
 		int i;

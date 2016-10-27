@@ -92,6 +92,8 @@ void Scene::init()
 	ogre1->setTileMap(map);
 	ogre1->setTarget(mainPlayer);
 
+	ogres.push_back(ogre1);
+
 	pony = new Enemy();
 	pony->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 	pony->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
@@ -226,9 +228,11 @@ void  Scene::background(){
 }
 
 
-void Scene::dmgEnnemys(int dmg, glm::ivec2 dmgAt ) {
+bool Scene::dmgEnnemys(int dmg, glm::ivec2 dmgAt ) {
+	bool damaged = false;
 	for each (EnOgre * ogre in ogres) {
-		ogre->reciveDmg(dmg,dmgAt);
+		if(ogre->reciveDmg(dmg,dmgAt)) damaged = true ;
 	}
+	return damaged;
 }
 

@@ -27,7 +27,7 @@ public:
 	void render();
 	void mouseClicked(int x, int y);
 	void background();
-	void dmgEnnemys(int dmg, glm::ivec2 dmgAt);
+	bool dmgEnnemys(int dmg, glm::ivec2 dmgAt);
 	void selectItem(int num);
 	void showMenu();
 	std::pair<float, float> getOffsetCamera();

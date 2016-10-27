@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Boss.cpp" />
     <ClCompile Include="..\Enemy.cpp" />
     <ClCompile Include="..\Ogre.cpp" />
     <ClCompile Include="..\Game.cpp" />
@@ -29,6 +30,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\libs\glm\glm\detail\_vectorize.hpp" />
+    <ClInclude Include="..\Boss.h" />
     <ClInclude Include="..\Constants.h" />
     <ClInclude Include="..\Enemy.h" />
     <ClInclude Include="..\Ogre.h" />

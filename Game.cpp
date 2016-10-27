@@ -111,6 +111,10 @@ void Game::loopSound() {
 	channel1->setPaused(false);
 }
 
+bool Game::dmgEnnemys(int dmg, glm::ivec2 dmgAt) {
+	return scene.dmgEnnemys(dmg, dmgAt);
+}
+
 FMOD::System* Game::getSoundSystem() {
 	return system;
 }

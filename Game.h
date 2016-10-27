@@ -48,6 +48,8 @@ public:
 
 	void loopSound();
 
+	bool dmgEnnemys(int dmg, glm::ivec2 dmgAt);
+
 	FMOD::System* getSoundSystem();
 
 private:

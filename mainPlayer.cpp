@@ -18,7 +18,10 @@
 #define ATTACKLEFTOFFSITE 32
 
 enum SpriteMoves {
-	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT, ARM1_LEFT,ARM1_LEFT_BOT, ARM1_RIGHT, ARM1_RIGHT_BOT, ATTACK_LEFT, ATTACK_RIGHT, QUIET
+	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT, ARM1_LEFT,ARM1_LEFT_BOT, ARM1_RIGHT, ARM1_RIGHT_BOT
+};
+enum AttackSprites {
+	ATTACK_LEFT, ATTACK_RIGHT, QUIET
 };
 
 void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram, CEGUI::Window* inventoryWindow, CEGUI::Window* livesWindiowP) {
@@ -127,7 +130,6 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	spriteInvincible->addKeyframe(0, glm::vec2(widht * 6, 0.f));
 	spriteInvincible->addKeyframe(0, glm::vec2(widht * 6, 0.f));
 	spriteInvincible->addKeyframe(0, glm::vec2(widht * 6, 0.f));
-	
 	
 	spritesheetAtac.loadFromFile("images/main_atac.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	widhtProp = 1.0 / 48.f;
@@ -326,13 +328,6 @@ Item* MainPlayer::getGold() {
 	return &inventory[5];
 }
 
-vector<pair<Item*, vector<pair<Item*, int>>*>>* MainPlayer::getUpgradableItems() {
-	items = vector<pair<Item*, vector<pair<Item*, int>>*>>(2);
-	items[0] = make_pair(&inventory[1], inventory[1].getEvolveItemsNeeded());
-	//TODO: afegir campana
-	return &items;
-}
-
 void MainPlayer::materialDigged(int material) {
 	switch (material) {
 	case TUSK:
@@ -433,7 +428,7 @@ void MainPlayer::attackAnimation() {
 		if (bLeft && spriteAtac->animation() != ATTACK_LEFT) {
 			spriteAtac->changeAnimation(ATTACK_LEFT);
 			for (int x = 0; x < 64; x += 32) {
-				for (int y = -64; y < 64; y += 32) {
+				for (int y = -32; y < 32; y += 32) {
 					auxPos.x = posPlayer.x - x;
 					auxPos.y = posPlayer.y + y;
 					if(Game::instance().dmgEnnemys(equipedItem->dmg, auxPos)) break;

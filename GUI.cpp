@@ -106,16 +106,6 @@ void Bengine::GUI::createInventory() {
 		inventoryWindow = WindowManager::getSingleton().loadLayoutFromFile("inventory2.layout");
 		m_context_inv->setRootWindow(inventoryWindow);
 
-		Window* sl1 = inventoryWindow->getChild("Slot1");
-		if (sl1 != nullptr) {
-			Window* img = sl1->getChild("Image");
-			img->setProperty("Image", "spritesheet_tiles/Fusta");
-			Window* img2 = sl1->getChild("ImageS");
-			img2->setVisible(true);
-			img->setVisible(false);
-			Window* quant = sl1->getChild("Quant");
-			quant->setProperty("Text", "99");
-		}
 	}
 }
 

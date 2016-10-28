@@ -193,6 +193,7 @@ bool EnOgre::reciveDmg(int dmg , glm::ivec2 dmgAt) {
 					int yEn = tileYEnemy + y;
 					if (dmgX == xEn && dmgY == yEn) {
 						live -= dmg;
+						cout << "He rebut " << endl;
 						return true;
 					}
 				}
@@ -205,6 +206,7 @@ bool EnOgre::reciveDmg(int dmg , glm::ivec2 dmgAt) {
 					int yEn = tileYEnemy + y;
 					if (dmgX == xEn && dmgY == yEn) {
 						live -= dmg;
+						cout << "He rebut " << endl;
 						return true;
 					}
 				}

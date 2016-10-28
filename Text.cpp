@@ -5,6 +5,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "Text.h"
 #include "OwnTexture.h"
+#include "Constants.h"
 
 
 #define ATLAS_FONT_SIZE 64
@@ -58,7 +59,7 @@ bool Text::init(const char *filename)
 	if(floor(float(textureSize) / maxCharWidth) * floor(float(textureSize) / maxCharHeight) < (128 - 32))
 		return false;
 	createTextureAtlas();
-	initShaders();
+	//initShaders();
 	
 	glm::vec2 geom[2] = {glm::vec2(0.0f, 0.0f), glm::vec2(1.0f, 1.0f)};
 	glm::vec2 texCoords[2] = {glm::vec2(0.0f, 0.0f), glm::vec2(1.0f, 1.0f)};
@@ -93,7 +94,8 @@ void Text::render(char c, const glm::vec2 &pixel, int size, const glm::vec4 &col
 	glEnable(GL_BLEND);
 	program.use();
 	glGetIntegerv(GL_VIEWPORT, vp);
-	projection = glm::ortho(0.f, float(vp[2] - 1), float(vp[3] - 1), 0.f);
+	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
+	//projection = glm::ortho(0.f, float(vp[2] - 1), float(vp[3] - 1), 0.f);
 	program.setUniformMatrix4f("projection", projection);
 	program.setUniform4f("color", color.r, color.g, color.b, color.a);
 	modelview = glm::mat4(1.0f);

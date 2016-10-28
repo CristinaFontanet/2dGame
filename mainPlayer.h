@@ -33,8 +33,6 @@ public:
 	Item* getSword();
 	Item* getRock();
 	Item* getGold();
-	//vector de Item obtingut, vector de Items necessaris,quantitat
-	vector<pair<Item*, vector<pair<Item*, int>>*>>* getUpgradableItems();
 
 	enum playerState {
 		WALKING, WEAPON1, WEAPON2, BYPET

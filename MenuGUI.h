@@ -13,6 +13,7 @@ using namespace CEGUI;
 
 #define NUM_ROCKS_NEEDED 2
 #define NUM_GOLD_NEEDED_SWORD 2
+#define NUM_DIAMOND_NEEDED_SWORD 2
 
 class MenuGUI {
     public:

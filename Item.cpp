@@ -30,6 +30,9 @@ bool Item::improveSword() {
 			setWindowProperties();
 			break;
 		case GOLD:
+			element = DIAMOND;
+			dmg = 6;
+			setWindowProperties();
 			return false;
 			break;
 		}
@@ -76,6 +79,9 @@ string Item::getMaterialString() {
 		case GOLD:
 			material = "GoldSword";
 			break;
+		case DIAMOND:
+			material = "DiamondSword";
+			break;
 		}
 		break;
 	case MATERIAL:
@@ -102,7 +108,7 @@ string Item::getMaterialString() {
 			break;
 		case DIAMOND:
 			slot = "Slot7";
-			material = "Diamont";
+			material = "Diamond";
 			break;
 		default:
 			material = "";
@@ -130,6 +136,7 @@ void Item::setWindowProperties() {
 				windImage->setVisible(true);
 				windAmount = sl1->getChild("Quant");
 				windAmount->setProperty("Text", to_string(amount));
+				//windAmount->setProperty("HorzFormatting", "HorzCentred");
 			}
 		}
 	}

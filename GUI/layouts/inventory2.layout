@@ -3,7 +3,7 @@
     <Window type="DefaultWindow" name="root" >
         <Window name="Slot1" type="Vanilla/StaticImage">
             <Property name="Position" value="{{0,10},{0,5}}" />
-            <Property name="Size" value="{{0,40},{0,40}}" />
+            <Property name="Size" value="{{0,50},{0,50}}" />
                 <Window name="Image" type="Vanilla/StaticImage">
                     <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}" />
                     <Property name="MousePassThroughEnabled" value="True" />
@@ -14,15 +14,15 @@
                 </Window>
 
                 <Window name="Quant" type="Vanilla/StaticText" value = "0">
-                    <Property name="Position" value="{{0.53,0},{0.60,0}}" />
-                    <Property name="Size" value="{{0.47,0},{0.45,0}}" />
+                    <Property name="Position" value="{{0.50,0},{0.545,0}}" />
+                    <Property name="Size" value="{{0.50,0},{0.45,0}}" />
                     <Property name="Text" value= "0" />
                 </Window>
         </Window>
 
         <Window name="Slot2" type="Vanilla/StaticImage">
-                <Property name="Position" value="{{0,60},{0,05}}" />
-                <Property name="Size" value="{{0,40},{0,40}}" />
+                <Property name="Position" value="{{0,70},{0,05}}" />
+                <Property name="Size" value="{{0,50},{0,50}}" />
                 <Window name="Image" type="Vanilla/StaticImage">
                     <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}" />
                     <Property name="MousePassThroughEnabled" value="True" />
@@ -33,14 +33,14 @@
                     <Property name="Visible" value="False"/>
                 </Window>
                 <Window name="Quant" type="Vanilla/StaticText" value = "0">
-                    <Property name="Position" value="{{0.53,0},{0.60,0}}" />
-                    <Property name="Size" value="{{0.47,0},{0.45,0}}" />
+                    <Property name="Position" value="{{0.50,0},{0.545,0}}" />
+                    <Property name="Size" value="{{0.50,0},{0.45,0}}" />
                     <Property name="Text" value= "0" />
                 </Window>
         </Window>
         <Window name="Slot3" type="Vanilla/StaticImage">
-                <Property name="Position" value="{{0,110},{0,05}}" />
-                <Property name="Size" value="{{0,40},{0,40}}" />
+                <Property name="Position" value="{{0,130},{0,05}}" />
+                <Property name="Size" value="{{0,50},{0,50}}" />
                 <Window name="Image" type="Vanilla/StaticImage">
                     <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}" />
                     <Property name="MousePassThroughEnabled" value="True" />
@@ -51,14 +51,14 @@
                     <Property name="Visible" value="False"/>
                 </Window>
                 <Window name="Quant" type="Vanilla/StaticText" value = "0">
-                    <Property name="Position" value="{{0.53,0},{0.60,0}}" />
-                    <Property name="Size" value="{{0.47,0},{0.45,0}}" />
+                    <Property name="Position" value="{{0.50,0},{0.545,0}}" />
+                    <Property name="Size" value="{{0.50,0},{0.45,0}}" />
                     <Property name="Text" value= "0" />
                 </Window>
         </Window>
         <Window name="Slot4" type="Vanilla/StaticImage">
-                <Property name="Position" value="{{0,160},{0,05}}" />
-                <Property name="Size" value="{{0,40},{0,40}}" />
+                <Property name="Position" value="{{0,190},{0,05}}" />
+                <Property name="Size" value="{{0,50},{0,50}}" />
                 <Window name="Image" type="Vanilla/StaticImage">
                     <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}" />
                     <Property name="MousePassThroughEnabled" value="True" />
@@ -69,14 +69,14 @@
                     <Property name="Visible" value="False"/>
                 </Window>
                 <Window name="Quant" type="Vanilla/StaticText" value = "0">
-                    <Property name="Position" value="{{0.53,0},{0.60,0}}" />
-                    <Property name="Size" value="{{0.47,0},{0.45,0}}" />
+                    <Property name="Position" value="{{0.50,0},{0.545,0}}" />
+                    <Property name="Size" value="{{0.50,0},{0.45,0}}" />
                     <Property name="Text" value= "0" />
                 </Window>
         </Window>
         <Window name="Slot5" type="Vanilla/StaticImage">
-                <Property name="Position" value="{{0,210},{0,05}}" />
-                <Property name="Size" value="{{0,40},{0,40}}" />
+                <Property name="Position" value="{{0,250},{0,05}}" />
+                <Property name="Size" value="{{0,50},{0,50}}" />
                 <Property name="Color" value="{{0,40},{0,40}}" />
                 <Window name="Image" type="Vanilla/StaticImage">
                     <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}" />
@@ -88,14 +88,14 @@
                     <Property name="Visible" value="False"/>
                 </Window>
                 <Window name="Quant" type="Vanilla/StaticText" value = "0">
-                    <Property name="Position" value="{{0.53,0},{0.60,0}}" />
-                    <Property name="Size" value="{{0.47,0},{0.45,0}}" />
+                    <Property name="Position" value="{{0.50,0},{0.545,0}}" />
+                    <Property name="Size" value="{{0.50,0},{0.45,0}}" />
                     <Property name="Text" value= "0" />
                 </Window>
         </Window>
         <Window name="Slot6" type="Vanilla/StaticImage">
-                <Property name="Position" value="{{0,260},{0,05}}" />
-                <Property name="Size" value="{{0,40},{0,40}}" />
+                <Property name="Position" value="{{0,310},{0,05}}" />
+                <Property name="Size" value="{{0,50},{0,50}}" />
                 <Property name="Color" value="{{0,40},{0,40}}" />
                 <Window name="Image" type="Vanilla/StaticImage">
                     <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}" />
@@ -107,15 +107,16 @@
                     <Property name="Visible" value="False"/>
                 </Window>
                 <Window name="Quant" type="Vanilla/StaticText" value = "0">
-                    <Property name="Position" value="{{0.53,0},{0.60,0}}" />
-                    <Property name="Size" value="{{0.47,0},{0.45,0}}" />
+                    <Property name="Position" value="{{0.50,0},{0.545,0}}" />
+                    <Property name="Size" value="{{0.50,0},{0.45,0}}" />
                     <Property name="Text" value= "0" />
                 </Window>
         </Window>
         <Window name="Slot7" type="Vanilla/StaticImage">
-                <Property name="Position" value="{{0,310},{0,05}}" />
-                <Property name="Size" value="{{0,40},{0,40}}" />
+                <Property name="Position" value="{{0,370},{0,05}}" />
+                <Property name="Size" value="{{0,50},{0,50}}" />
                 <Property name="Color" value="{{0,40},{0,40}}" />
+                <Property name="HorzFormatting" value="HorzCentred" />
                 <Window name="Image" type="Vanilla/StaticImage">
                     <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}" />
                     <Property name="MousePassThroughEnabled" value="True" />
@@ -126,8 +127,9 @@
                     <Property name="Visible" value="False"/>
                 </Window>
                 <Window name="Quant" type="Vanilla/StaticText" value = "0">
-                    <Property name="Position" value="{{0.53,0},{0.60,0}}" />
-                    <Property name="Size" value="{{0.47,0},{0.45,0}}" />
+                    <Property name="Position" value="{{0.50,0},{0.545,0}}" />
+                    <Property name="HorzFormatting" value="HorzCentred" />
+                    <Property name="Size" value="{{0.50,0},{0.45,0}}" />
                     <Property name="Text" value= "0" />
                 </Window>
         </Window>

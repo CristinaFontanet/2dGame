@@ -320,6 +320,10 @@ Item* MainPlayer::getSword() {
 	return &inventory[1];
 }
 
+Item* MainPlayer::getDiamond() {
+	return &inventory[6];
+}
+
 Item* MainPlayer::getRock() {
 	return &inventory[3];
 }

@@ -33,6 +33,7 @@ public:
 	Item* getSword();
 	Item* getRock();
 	Item* getGold();
+	Item* getDiamond();
 
 	enum playerState {
 		WALKING, WEAPON1, WEAPON2, BYPET

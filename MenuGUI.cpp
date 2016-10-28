@@ -227,6 +227,7 @@ void MenuGUI::setCraftSword() {
 		res1Itm2Img->setProperty("Image", "spritesheet_tiles/Rock");
 		res1Itm2SImg->setProperty("Image", "spritesheet_tiles/Rock");
 		res1Itm2Num->setProperty("Text", to_string(NUM_ROCKS_NEEDED));
+
 		break;
 	case ROCK:
 		res1Img1->setProperty("Image", "spritesheet_tiles/GoldSword");
@@ -239,6 +240,16 @@ void MenuGUI::setCraftSword() {
 		res1Itm2Num->setProperty("Text", to_string(NUM_GOLD_NEEDED_SWORD));
 		break;
 	case GOLD:
+		res1Img1->setProperty("Image", "spritesheet_tiles/DiamondSword");
+		res1ImgS1->setProperty("Image", "spritesheet_tiles/DiamondSword");
+		res1Itm1Img->setProperty("Image", "spritesheet_tiles/GoldSword");
+		res1Itm1SImg->setProperty("Image", "spritesheet_tiles/GoldSword");
+		res1Itm1Num->setProperty("Text", "1");
+		res1Itm2Img->setProperty("Image", "spritesheet_tiles/Diamond");
+		res1Itm2SImg->setProperty("Image", "spritesheet_tiles/Diamond");
+		res1Itm2Num->setProperty("Text", to_string(NUM_DIAMOND_NEEDED_SWORD));
+		break;
+	case DIAMOND:
 		res1Img1->setProperty("Image", "spritesheet_tiles/OK");
 		res1Itm1Img->setProperty("Image", "spritesheet_tiles/OK");
 		res1Itm2Img->setProperty("Image", "spritesheet_tiles/OK");
@@ -279,6 +290,18 @@ void MenuGUI::updateItemsCrafting() {
 		}
 		break;
 	case GOLD:
+		if (mainPlayer->getDiamond()->getAmount() >= NUM_DIAMOND_NEEDED_SWORD) {
+			res1Itm2SImg->setVisible(true);
+			enoughtRocks = true;
+			res1ImgS1->setVisible(true);
+		}
+		else {
+			res1Itm2SImg->setVisible(false);
+			res1ImgS1->setVisible(false);
+			enoughtRocks = false;
+		}
+		break;
+	case DIAMOND:
 		res1Itm2SImg->setVisible(false);
 		res1Itm1SImg->setVisible(false);
 		res1ImgS1->setVisible(false);

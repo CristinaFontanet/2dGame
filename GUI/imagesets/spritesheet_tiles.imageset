@@ -5,7 +5,7 @@
     <Image height="128" name="Tusk" width="128" xPos="260" yPos="1690" />
     <Image height="128" name="Coal" width="128" xPos="260" yPos="130" />
     <Image height="128" name="Gold" width="128" xPos="130" yPos="1430" />
-    <Image height="128" name="Diamont" width="128" xPos="260" yPos="0" />
+    <Image height="128" name="Diamond" width="128" xPos="260" yPos="0" />
     <Image height="128" name="PickaxeWood" width="128" xPos="780" yPos="390" />
     <Image height="128" name="PickaxeRock" width="128" xPos="780" yPos="520" />
     <Image height="128" name="PickaxeDiamond" width="128" xPos="780" yPos="650" />
@@ -18,5 +18,6 @@
     <Image height="16" name="EqualWhite" width="16" xPos="780" yPos="1170" />
     <Image height="16" name="SumWhite" width="16" xPos="780" yPos="1186" />
     <Image height="16" name="OK" width="16" xPos="780" yPos="1202" />
+    <Image height="128" name="DiamondSword" width="128" xPos="780" yPos="1300" />
     <!-- iconos: http://www.flaticon.es/icono-gratis/igual_225147 -->
 </Imageset>

@@ -473,7 +473,7 @@ void MainPlayer::digAnimation() {
 void MainPlayer::putMaterial() {
 	if (equipedItem->getAmount() > 0) {
 		if (map->addMaterial(lastXclick, lastYclick, posPlayer.x, posPlayer.y + spriteWidth / 2, equipedItem->element, RANGE * 2)) {
-			equipedItem->reduceAmount();
+			equipedItem->reduceAmount(1);
 		}
 	}
 	else {

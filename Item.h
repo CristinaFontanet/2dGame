@@ -24,7 +24,7 @@ public:
 	Item();
 
 	void setAmount(int newAmount);
-	void reduceAmount();
+	void reduceAmount(int num);
 	int getAmount();
 	string getMaterialString();
 	void addItem();

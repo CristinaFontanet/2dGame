@@ -66,8 +66,6 @@ void MenuGUI::draw() {
     m_renderer->beginRendering();
 	if(showMenu) m_context_menu->draw();
 	if (showCrafting) m_context_craft->draw();
-
-	
     m_renderer->endRendering();
     glDisable(GL_SCISSOR_TEST);
 }
@@ -203,7 +201,10 @@ void MenuGUI::createCraftWindow() {
 bool MenuGUI::craftSword() {
 	if (enoughtRocks) {
 		//TODO: So guai
-		//mainPlayer->getSword()->
+		mainPlayer->getSword()->improveSword();
+		mainPlayer->getRock()->reduceAmount(NUM_ROCKS_NEEDED);
+		setCraftSword();
+		updateItemsCrafting();
 		cout << "YESS" << endl;
 	}
 	else {
@@ -229,9 +230,12 @@ void MenuGUI::setCraftSword() {
 		break;
 	case ROCK:
 		res1Img1->setProperty("Image", "spritesheet_tiles/GoldSword");
+		res1ImgS1->setProperty("Image", "spritesheet_tiles/GoldSword");
 		res1Itm1Img->setProperty("Image", "spritesheet_tiles/RockSword");
+		res1Itm1SImg->setProperty("Image", "spritesheet_tiles/RockSword");
 		res1Itm1Num->setProperty("Text", "1");
 		res1Itm2Img->setProperty("Image", "spritesheet_tiles/Gold");
+		res1Itm2SImg->setProperty("Image", "spritesheet_tiles/Gold");
 		res1Itm2Num->setProperty("Text", to_string(NUM_GOLD_NEEDED_SWORD));
 		break;
 	case GOLD:
@@ -252,6 +256,7 @@ void MenuGUI::updateItemsCrafting() {
 		}
 		else {
 			res1Itm2SImg->setVisible(false);
+			res1ImgS1->setVisible(false);
 			enoughtRocks = false;
 		}
 		break;
@@ -263,6 +268,7 @@ void MenuGUI::updateItemsCrafting() {
 		}
 		else {
 			res1Itm2SImg->setVisible(false);
+			res1ImgS1->setVisible(false);
 			enoughtRocks = false;
 		}
 		break;

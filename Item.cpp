@@ -15,10 +15,6 @@ vector<pair<Item*, int>>* Item::getEvolveItemsNeeded() {
 	return evolveItems;
 }
 
-void  Item::setEvolveItemsNeeded(vector<pair<Item*, int>> *items) {
-	evolveItems = items;
-}
-
 //Pre: te els materials i es resten
 bool Item::improveSword() {
 	if (type == SWORD) {
@@ -147,8 +143,8 @@ int Item::getAmount() {
 	return amount;
 }
 
-void Item::reduceAmount() {
-	amount -= 1;
+void Item::reduceAmount(int num) {
+	amount -= num;
 	if (windAmount != nullptr)
 		windAmount->setProperty("Text", to_string(amount));
 }

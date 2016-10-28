@@ -239,6 +239,12 @@ void MenuGUI::setCraftSword() {
 		res1Itm2Num->setProperty("Text", to_string(NUM_GOLD_NEEDED_SWORD));
 		break;
 	case GOLD:
+		res1Img1->setProperty("Image", "spritesheet_tiles/OK");
+		res1Itm1Img->setProperty("Image", "spritesheet_tiles/OK");
+		res1Itm2Img->setProperty("Image", "spritesheet_tiles/OK");
+		res1Num1->setProperty("Text", " "+ to_string(0));
+		res1Itm1Num->setProperty("Text", " " + to_string(0));
+		res1Itm2Num->setProperty("Text", " " + to_string(0));
 		break;
 	}
 
@@ -273,6 +279,10 @@ void MenuGUI::updateItemsCrafting() {
 		}
 		break;
 	case GOLD:
+		res1Itm2SImg->setVisible(false);
+		res1Itm1SImg->setVisible(false);
+		res1ImgS1->setVisible(false);
+		enoughtRocks = false;
 		break;
 	}
 }

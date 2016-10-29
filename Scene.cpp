@@ -115,7 +115,7 @@ void Scene::update(int deltaTime)
 		player->update(deltaTime);
 		enemy->update(deltaTime);
 		pony->update(deltaTime);
-		ogre1->update(deltaTime);
+		updateOgres(deltaTime);
 		mainPlayer->update(deltaTime);
 		float incy, incx = 0;
 		incy = playerPos[1] - mainPlayer->getPlayerPosition()[1];
@@ -141,7 +141,7 @@ void Scene::render()
 	map->render();
 	enemy->render();
 	pony->render();
-	ogre1->render();
+	renderOgres();
 	mainPlayer->render();
 	m_gui.draw();
 	menu_gui.draw();
@@ -151,6 +151,26 @@ void Scene::render()
 	text.render(marcador, glm::vec2(glutGet(GLUT_WINDOW_HEIGHT)/2, glutGet(GLUT_WINDOW_WIDTH)/ 2), 200, glm::vec4(1, 1, 1, 1));
 	text.render("Clica b per fer desaparèixer el text", glm::vec2(200, 200), 32, glm::vec4(0, 0.56, 0, 1));
 
+}
+
+void Scene::renderOgres() {
+	if (ogres.size() > 0 ) {
+		for each(EnOgre * ogre in ogres) {
+			ogre->render();
+		}
+	}
+}
+
+void Scene::updateOgres(int deltaTime) {
+	int inSize = ogres.size();
+	if (ogres.size() >= 1) {
+		for each(EnOgre * ogre in ogres) {
+			ogre->update(deltaTime);
+		}
+		if (ogresToDelete.size() > 0) for each(EnOgre* ogreDelete in ogresToDelete) updateArrayOgres(ogreDelete);
+		vector<EnOgre*> auxOg;
+		ogresToDelete = auxOg;
+	}
 }
 
 void Scene::showMenu() {
@@ -248,3 +268,16 @@ bool Scene::dmgEnnemys(int dmg, glm::ivec2 dmgAt ) {
 	return damaged;
 }
 
+void Scene::killOgre(EnOgre * ogre) {
+	ogresToDelete.push_back(ogre);
+}
+
+void Scene::updateArrayOgres(EnOgre * ogre) {
+	if (ogres.size() > 0) {
+		vector<EnOgre*> auxOg;
+		for each(EnOgre * og in ogres) {
+			if (og != ogre) auxOg.push_back(og);
+		}
+		ogres = auxOg;
+	}
+}

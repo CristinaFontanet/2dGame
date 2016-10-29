@@ -27,6 +27,10 @@ public:
 
 	void update(int deltaTime);
 
+	void followAndAttckPlayer();
+
+	void fase2();
+
 	void reciveDmg(int dmg, glm::ivec2 dmgAt);
 
 private:

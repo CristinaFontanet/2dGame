@@ -19,7 +19,7 @@ void Boss::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram) {
 	heightProp = 1.f / 2.f;
 	widhtProp = 1.f / 6.f;
 	double yoffset = 1.f / 32.f;
-	live = 10;
+	live = 100;
 	bLeft = true;
 	bJumping = false;
 	attacking = false;
@@ -79,96 +79,151 @@ void Boss::render()
 }
 
 void Boss::update(int deltaTime) {
-	sprite->update(deltaTime);
+	if (live > 0) {
+		sprite->update(deltaTime);
+		int spriteWidth = 64;
+		int tileSize = map->getTileSize();
+		int tileXPlayer = player->getPlayerPosition().x / tileSize;
+		int tileYPlayer = player->getPlayerPosition().y / tileSize;
+		int tileXEnemy = posEnemy.x / tileSize;
+		int tileYEnemy = posEnemy.y / tileSize;
+		bool playerInRange = (abs(tileXEnemy - tileXPlayer) < 5);
+
+		//si estamos en progreso de atacar hacemos daño en nujestra area
+		
+		// dmgd 1  fase 2
+		if(live < 60){} 
+		// dmgd 2 Fase final
+		else if (live < 30) {
+			if (attacking) {
+				if (sprite->getCurrentNumKeyFrame() == 2) {
+					attacking = false;
+					if (bLeft) sprite->changeAnimation(STAND_LEFT);
+					else sprite->changeAnimation(STAND_LEFT);
+				}
+
+				if (bLeft) {
+					for (int x = 0; x < 2; ++x) {
+						for (int y = -1; y < 2; ++y) {
+							int xDmgOgre = tileXEnemy - x;
+							int yDmgOgre = tileYEnemy + y;
+							if (tileXPlayer == xDmgOgre && tileYPlayer == yDmgOgre) player->reciveDMG(5);
+						}
+					}
+				}
+				else {
+					for (int x = 0; x < 2; ++x) {
+						for (int y = -1; y < 2; ++y) {
+							int xDmgOgre = tileXEnemy + x;
+							int yDmgOgre = tileYEnemy + y;
+							if (tileXPlayer == xDmgOgre && tileYPlayer == yDmgOgre) player->reciveDMG(5);
+						}
+					}
+				}
+			}
+		} 
+		// fase general solo te persigue y ataca si esta cerca
+		else { 
+			if (attacking) {
+				if (sprite->getCurrentNumKeyFrame() == 2) {
+					attacking = false;
+					if (bLeft) sprite->changeAnimation(STAND_LEFT);
+					else sprite->changeAnimation(STAND_LEFT);
+				}
+
+				if (bLeft) {
+					for (int x = 0; x < 2; ++x) {
+						for (int y = -1; y < 2; ++y) {
+							int xDmgOgre = tileXEnemy - x;
+							int yDmgOgre = tileYEnemy + y;
+							if (tileXPlayer == xDmgOgre && tileYPlayer == yDmgOgre) player->reciveDMG(5);
+						}
+					}
+				}
+				else {
+					for (int x = 0; x < 2; ++x) {
+						for (int y = -1; y < 2; ++y) {
+							int xDmgOgre = tileXEnemy + x;
+							int yDmgOgre = tileYEnemy + y;
+							if (tileXPlayer == xDmgOgre && tileYPlayer == yDmgOgre) player->reciveDMG(5);
+						}
+					}
+				}
+			}
+			else if (playerInRange) followAndAttckPlayer();
+		}  
+		
+		glm::ivec2 spritePos = posEnemy;
+		if (!map->collisionMoveDown(spritePos + 5, glm::ivec2(spriteWidth, 64), &posEnemy.y, bLeft, 0)) {
+			posEnemy.y += 2;
+		}
+		sprite->setPosition(glm::vec2(float(tileMapDispl.x + posEnemy.x), float(tileMapDispl.y + posEnemy.y)));
+	}
+}
+
+
+void Boss::followAndAttckPlayer() {
 	int spriteWidth = 64;
 	int tileSize = map->getTileSize();
-	int tileXPlayer = player->getPlayerPosition().x/tileSize;
-	int tileYPlayer = player->getPlayerPosition().y/tileSize;
-	int tileXEnemy = posEnemy.x/tileSize;
-	int tileYEnemy = posEnemy.y/tileSize;
-	bool playerInRange = (abs(tileXEnemy - tileXPlayer) < 5);
-	
-	//si estamos en progreso de atacar hacemos daño en nujestra area
-	if (attacking) {
-		if (sprite->getCurrentNumKeyFrame() == 2) {
-			attacking = false;
-			if (bLeft) sprite->changeAnimation(STAND_LEFT);
-			else sprite->changeAnimation(STAND_LEFT);
-		}
-		
-		if (bLeft) {
-			for (int x = 0; x < 2; ++x) {
-				for (int y = -1; y < 2; ++y) {
-					int xDmgOgre = tileXEnemy - x;
-					int yDmgOgre = tileYEnemy + y;
-					if (tileXPlayer == xDmgOgre && tileYPlayer == yDmgOgre) player->reciveDMG(5);
-				}
-			}
-		}
-		else {
-			for (int x = 0; x < 2; ++x) {
-				for (int y = -1; y < 2; ++y) {
-					int xDmgOgre = tileXEnemy + x;
-					int yDmgOgre = tileYEnemy + y;
-					if (tileXPlayer == xDmgOgre && tileYPlayer == yDmgOgre) player->reciveDMG(5);
-				}
-			}
-		}
+	int tileXPlayer = player->getPlayerPosition().x / tileSize;
+	int tileYPlayer = player->getPlayerPosition().y / tileSize;
+	int tileXEnemy = posEnemy.x / tileSize;
+	int tileYEnemy = posEnemy.y / tileSize;
+	int xDist = tileXPlayer - tileXEnemy;
+	if ((abs(xDist) < 1) || (!bLeft && abs(xDist) < 2)) {
+		attacking = true;
+		if (bLeft) sprite->changeAnimation(ATTACKING_RIGHT);
+		else sprite->changeAnimation(ATTACKING_LEFT);
 	}
-	else if (playerInRange) {
-		int xDist = tileXPlayer - tileXEnemy;
-		if ((abs(xDist) < 1)|| (!bLeft && abs(xDist) < 2)){
-			attacking = true;
-			if(bLeft) sprite->changeAnimation(ATTACKING_RIGHT);
-			else sprite->changeAnimation(ATTACKING_LEFT);
-		}
-		else if (xDist < 0 ) {
-			bLeft = true;
-			if (!map->collisionMoveLeft(posEnemy, glm::ivec2(spriteWidth, 64))) {
-				if (sprite->animation() != MOVE_LEFT) sprite->changeAnimation(MOVE_LEFT);
-				posEnemy.x -= 2;
-			}
-			else  sprite->changeAnimation(STAND_LEFT);
-		}
-		else {
-			bLeft = false;
-			if (!map->collisionMoveRight(posEnemy, glm::ivec2(spriteWidth, 64))) {
-				if (sprite->animation() != MOVE_RIGHT) sprite->changeAnimation(MOVE_RIGHT);
-				posEnemy.x += 2;
-			}
-			else sprite->changeAnimation(STAND_RIGHT);
-		}
-	}
-	else {
-		if (bLeft && !map->collisionMoveLeft(posEnemy, glm::ivec2(spriteWidth, 64))) { //Moure esquerra
-			bLeft = true;
+	else if (xDist < 0) {
+		bLeft = true;
+		if (!map->collisionMoveLeft(posEnemy, glm::ivec2(spriteWidth, 64))) {
 			if (sprite->animation() != MOVE_LEFT) sprite->changeAnimation(MOVE_LEFT);
 			posEnemy.x -= 2;
 		}
-		else {
-			if (bLeft) {
-				bLeft = false;
-			}
-			else {
-				if (sprite->animation() != MOVE_RIGHT) sprite->changeAnimation(MOVE_RIGHT);
-				posEnemy.x += 2;
-				if (map->collisionMoveRight(posEnemy, glm::ivec2(spriteWidth, 64)) && !bJumping) { 	//si hi ha colisio, ens parem
-					posEnemy.x -= 2;
-					bLeft = true;
-					if (sprite->animation() != MOVE_LEFT) sprite->changeAnimation(MOVE_LEFT);
-				}
-			}
+		else  sprite->changeAnimation(STAND_LEFT);
+	}
+	else {
+		bLeft = false;
+		if (!map->collisionMoveRight(posEnemy, glm::ivec2(spriteWidth, 64))) {
+			if (sprite->animation() != MOVE_RIGHT) sprite->changeAnimation(MOVE_RIGHT);
+			posEnemy.x += 2;
 		}
+		else sprite->changeAnimation(STAND_RIGHT);
 	}
-
-	glm::ivec2 spritePos = posEnemy;
-
-	if(!map->collisionMoveDown(spritePos + 5, glm::ivec2(spriteWidth, 64), &posEnemy.y, bLeft, 0)){
-		posEnemy.y += 2;
-	}
-
-	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posEnemy.x), float(tileMapDispl.y + posEnemy.y)));
 }
+
+void Boss::fase2() {
+	int spriteWidth = 64;
+	int tileSize = map->getTileSize();
+	int tileXPlayer = player->getPlayerPosition().x / tileSize;
+	int tileYPlayer = player->getPlayerPosition().y / tileSize;
+	int tileXEnemy = posEnemy.x / tileSize;
+	int tileYEnemy = posEnemy.y / tileSize;
+	int xDist = tileXPlayer - tileXEnemy;
+	if ((abs(xDist) < 1) || (!bLeft && abs(xDist) < 2)) {
+		attacking = true;
+		if (bLeft) sprite->changeAnimation(ATTACKING_RIGHT);
+		else sprite->changeAnimation(ATTACKING_LEFT);
+	}
+	else if (xDist < 0) {
+		bLeft = true;
+		if (!map->collisionMoveLeft(posEnemy, glm::ivec2(spriteWidth, 64))) {
+			if (sprite->animation() != MOVE_LEFT) sprite->changeAnimation(MOVE_LEFT);
+			posEnemy.x -= 2;
+		}
+		else  sprite->changeAnimation(STAND_LEFT);
+	}
+	else {
+		bLeft = false;
+		if (!map->collisionMoveRight(posEnemy, glm::ivec2(spriteWidth, 64))) {
+			if (sprite->animation() != MOVE_RIGHT) sprite->changeAnimation(MOVE_RIGHT);
+			posEnemy.x += 2;
+		}
+		else sprite->changeAnimation(STAND_RIGHT);
+	}
+}
+
 
 bool Boss::nextBool(double probability)
 {

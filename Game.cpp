@@ -119,3 +119,7 @@ bool Game::dmgEnnemys(int dmg, glm::ivec2 dmgAt) {
 FMOD::System* Game::getSoundSystem() {
 	return system;
 }
+
+void Game::killOgre(EnOgre* ogre) {
+	scene.killOgre(ogre);
+}

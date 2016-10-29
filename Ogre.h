@@ -44,6 +44,7 @@ private:
 	bool bLeft;
 	bool bJumping;
 	bool attacking;
+	bool curative;
 	int jumpAngle, startY;
 	int live;
 };

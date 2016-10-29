@@ -23,6 +23,8 @@ void EnOgre::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram) {
 	bLeft = true;
 	bJumping = false;
 	attacking = false;
+	//curative = nextBool(0.3);
+	curative = false;
 	spritesheet.loadFromFile("images/ogre.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	sprite = Sprite::createSprite(glm::ivec2(64, 64), glm::vec2(widhtProp, heightProp), &spritesheet, &shaderProgram);
 	sprite->setNumberAnimations(8);
@@ -169,6 +171,12 @@ void EnOgre::update(int deltaTime) {
 		}
 
 		sprite->setPosition(glm::vec2(float(tileMapDispl.x + posEnemy.x), float(tileMapDispl.y + posEnemy.y)));
+	}
+	else if (curative) {
+
+	}
+	else {
+		Game::instance().killOgre(this);
 	}
 }
 

@@ -26,14 +26,19 @@ public:
 	void init();
 	void update(int deltaTime);
 	void render();
+	void renderOgres();
+	void updateOgres(int deltaTime);
 	void mouseClicked(int x, int y);
 	void background();
 	bool dmgEnnemys(int dmg, glm::ivec2 dmgAt);
+	void killOgre(EnOgre * ogre);
+	void updateArrayOgres(EnOgre * ogre);
 	void selectItem(int num);
 	void showMenu();
 	std::pair<float, float> getOffsetCamera();
 
 private:
+	void updateOgres(EnOgre * ogre);
 	void initShaders();
 
 private:
@@ -55,6 +60,7 @@ private:
 	Bengine::GUI m_gui;
 	MenuGUI menu_gui;
 	Text text;
+	vector<EnOgre*> ogresToDelete;
 };
 
 

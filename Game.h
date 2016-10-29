@@ -52,6 +52,9 @@ public:
 
 	FMOD::System* getSoundSystem();
 
+	void killOgre(EnOgre * ogre);
+
+
 private:
 	FMOD::System *system;
 	int mouseX, mouseY;

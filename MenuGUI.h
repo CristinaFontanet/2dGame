@@ -17,6 +17,7 @@ using namespace CEGUI;
 #define NUM_ROCKS_NEEDED_PEAK 2
 #define NUM_GOLD_NEEDED_PEAK 2
 #define NUM_DIAMOND_NEEDED_PEAK 2
+#define NUM_GOLD_NEEDED_BELL 2
 
 class MenuGUI {
     public:
@@ -62,6 +63,7 @@ class MenuGUI {
 		/** Crafting*/
 		int c1x0, c1x1, c1y0, c1y1;
 		int c2y0, c2y1;
+		int c3y0, c3y1;
 		bool showCrafting;
 		CEGUI::GUIContext* m_context_craft = nullptr;
 		Window* craftWindow;
@@ -83,15 +85,29 @@ class MenuGUI {
 		Window* res2Itm2Img;
 		Window* res2Itm2SImg;
 		Window* res2Itm2Num;
+
+		Window* res3Img1;
+		Window* res3ImgS1;
+		Window* res3Num1;
+		Window* res3Itm1Img;
+		Window* res3Itm1SImg;
+		Window* res3Itm1Num;
+		Window* res3Itm2Img;
+		Window* res3Itm2SImg;
+		Window* res3Itm2Num;
 		bool craftSword();
 		bool craftPeak();
+		bool craftBell();
 
 		void setCraftSword();
 		void setCraftPeak();
+		void setCraftBell();
 		void updateItemsCrafting();
 		void updateItemsSword();
 		void updateItemsPeak();
+		void updateItemsBell();
 		bool enoughtRocksSword;
 		bool enoughtRocksPeak;
+		bool enoughtGoldBell;
 	
 };

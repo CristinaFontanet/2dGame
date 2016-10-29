@@ -88,6 +88,7 @@ void MenuGUI::mouseClick(int x, int y) {
 			if (x > c1x0 && x < c1x1) {
 				if (y > c1y0 && y < c1y1) craftSword();
 				else if (y > c2y0 && y < c2y1)craftPeak();
+				else if (y > c3y0 && y < c3y1) craftBell();
 			}
 		}
 		else if (x > x0 && x < x1) {
@@ -198,8 +199,8 @@ void MenuGUI::createCraftWindow() {
 	setCraftSword();
 	c1x0 = 516;
 	c1x1 = 596;
-	c1y0 = 133;
-	c1y1 = 153;
+	c1y0 = 147;
+	c1y1 = 168;
 
 	Window* groupBox2 = subWind->getChild("StaticGroup2");
 	Window* res2 = groupBox2->getChild("Result1");
@@ -217,6 +218,23 @@ void MenuGUI::createCraftWindow() {
 	setCraftPeak();
 	c2y0 = 291;
 	c2y1 = 313;
+
+	Window* groupBox3 = subWind->getChild("StaticGroup3");
+	Window* res3 = groupBox3->getChild("Result1");
+	res3Img1 = res3->getChild("Image");
+	res3ImgS1 = res3->getChild("ImageS");
+	res3Num1 = res3->getChild("Quant");
+	Window* res3Itm1 = groupBox3->getChild("ItemNeeded1");
+	res3Itm1Img = res3Itm1->getChild("Image");
+	res3Itm1SImg = res3Itm1->getChild("ImageS");
+	res3Itm1Num = res3Itm1->getChild("Quant");
+	Window* itn4 = groupBox3->getChild("ItemNeeded2");
+	res3Itm2Img = itn4->getChild("Image");
+	res3Itm2SImg = itn4->getChild("ImageS");
+	res3Itm2Num = itn4->getChild("Quant");
+	setCraftBell();
+	c3y0 = 454;
+	c3y1 = 474;
 }
 
 bool MenuGUI::craftSword() {
@@ -241,6 +259,22 @@ bool MenuGUI::craftPeak() {
 		mainPlayer->getPeak()->improvePeak();
 		mainPlayer->getRock()->reduceAmount(NUM_ROCKS_NEEDED_PEAK);
 		setCraftPeak();
+		updateItemsCrafting();
+		cout << "YESS" << endl;
+	}
+	else {
+		//TODO: so error
+		cout << "NOO" << endl;
+	}
+	return true;
+}
+
+bool MenuGUI::craftBell() {
+	if (enoughtGoldBell) {
+		//TODO: So guai
+		mainPlayer->getBell()->addItem();
+		mainPlayer->getGold()->reduceAmount(NUM_GOLD_NEEDED_BELL);
+		setCraftBell();
 		updateItemsCrafting();
 		cout << "YESS" << endl;
 	}
@@ -334,9 +368,33 @@ void MenuGUI::setCraftPeak() {
 
 }
 
+void MenuGUI::setCraftBell() {
+	Item *currentBell = mainPlayer->getBell();
+	res3Num1->setProperty("Text", "1");
+	if (currentBell->getAmount() == 0) {
+		res3Img1->setProperty("Image", "spritesheet_tiles/Bell");
+		res3ImgS1->setProperty("Image", "spritesheet_tiles/Bell");
+		res3Itm1Img->setProperty("Image", "spritesheet_tiles/DiamondSword");
+		res3Itm1SImg->setProperty("Image", "spritesheet_tiles/DiamondSword");
+		res3Itm1Num->setProperty("Text", "1");
+		res3Itm2Img->setProperty("Image", "spritesheet_tiles/Gold");
+		res3Itm2SImg->setProperty("Image", "spritesheet_tiles/Gold");
+		res3Itm2Num->setProperty("Text", to_string(NUM_GOLD_NEEDED_BELL));
+	}
+	else {
+		res3Img1->setProperty("Image", "spritesheet_tiles/OK");
+		res3Itm1Img->setProperty("Image", "spritesheet_tiles/OK");
+		res3Itm2Img->setProperty("Image", "spritesheet_tiles/OK");
+		res3Num1->setProperty("Text", " " + to_string(0));
+		res3Itm1Num->setProperty("Text", " " + to_string(0));
+		res3Itm2Num->setProperty("Text", " " + to_string(0));
+	}
+}
+
 void MenuGUI::updateItemsCrafting() {
 	updateItemsSword();
 	updateItemsPeak();
+	updateItemsBell();
 }
 
 void MenuGUI::updateItemsSword() {
@@ -422,5 +480,28 @@ void MenuGUI::updateItemsPeak() {
 		res2ImgS1->setVisible(false);
 		enoughtRocksPeak = false;
 		break;
+	}
+}
+
+void MenuGUI::updateItemsBell() {
+	Item *currentBell = mainPlayer->getBell();
+	res3Itm1SImg->setVisible(true);
+	if (currentBell->getAmount() == 0) {
+		if (mainPlayer->getGold()->getAmount() >= NUM_GOLD_NEEDED_BELL) {
+			res3Itm2SImg->setVisible(true);
+			enoughtGoldBell = true;
+			res3ImgS1->setVisible(true);
+		}
+		else {
+			res3Itm2SImg->setVisible(false);
+			res3ImgS1->setVisible(false);
+			enoughtGoldBell = false;
+		}
+	}
+	else {
+		res3Itm2SImg->setVisible(false);
+		res3Itm1SImg->setVisible(false);
+		res3ImgS1->setVisible(false);
+		enoughtGoldBell = false;
 	}
 }

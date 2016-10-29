@@ -75,13 +75,11 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	sprite->addKeyframe(ARM1_LEFT_BOT, glm::vec2(widht * 3, height));
 	sprite->addKeyframe(ARM1_LEFT_BOT, glm::vec2(widht * 4, height));
 	sprite->addKeyframe(ARM1_LEFT_BOT, glm::vec2(widht * 5, height));
-	sprite->addKeyframe(ARM1_LEFT_BOT, glm::vec2(widht * 6, height));
 	sprite->addKeyframe(ARM1_LEFT_BOT, glm::vec2(widht * 7, height));
 	sprite->addKeyframe(ARM1_LEFT_BOT, glm::vec2(widht * 8, height));
-	sprite->addKeyframe(ARM1_LEFT_BOT, glm::vec2(widht * 9, height));
-	sprite->addKeyframe(ARM1_LEFT_BOT, glm::vec2(widht * 10, height));
+	sprite->addKeyframe(ARM1_LEFT_BOT, glm::vec2(widht * 8, height));
 
-	sprite->setAnimationSpeed(ARM1_LEFT, ANIMATION_SPEED*1.5);
+	sprite->setAnimationSpeed(ARM1_LEFT, ANIMATION_SPEED);
 	sprite->addKeyframe(ARM1_LEFT, glm::vec2(0.f, height));
 	sprite->addKeyframe(ARM1_LEFT, glm::vec2(widht, height));
 	sprite->addKeyframe(ARM1_LEFT, glm::vec2(widht * 2, height));
@@ -89,33 +87,29 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	sprite->addKeyframe(ARM1_LEFT, glm::vec2(widht * 4, height));
 	sprite->addKeyframe(ARM1_LEFT, glm::vec2(widht * 5, height));
 	sprite->addKeyframe(ARM1_LEFT, glm::vec2(widht * 6, height));
-	sprite->addKeyframe(ARM1_LEFT, glm::vec2(widht * 7, height));
-	sprite->addKeyframe(ARM1_LEFT, glm::vec2(widht * 8, height));
+	sprite->addKeyframe(ARM1_LEFT, glm::vec2(widht * 6, height));
 
 	height = 12 * heightProp;
 	sprite->setAnimationSpeed(ARM1_RIGHT_BOT, ANIMATION_SPEED*1.5);
-	sprite->addKeyframe(ARM1_RIGHT_BOT, glm::vec2(0.f, height));
-	sprite->addKeyframe(ARM1_RIGHT_BOT, glm::vec2(widht, height));
-	sprite->addKeyframe(ARM1_RIGHT_BOT, glm::vec2(widht * 2, height));
-	sprite->addKeyframe(ARM1_RIGHT_BOT, glm::vec2(widht * 3, height));
-	sprite->addKeyframe(ARM1_RIGHT_BOT, glm::vec2(widht * 4, height));
-	sprite->addKeyframe(ARM1_RIGHT_BOT, glm::vec2(widht * 5, height));
-	sprite->addKeyframe(ARM1_RIGHT_BOT, glm::vec2(widht * 6, height));
-	sprite->addKeyframe(ARM1_RIGHT_BOT, glm::vec2(widht * 7, height));
 	sprite->addKeyframe(ARM1_RIGHT_BOT, glm::vec2(widht * 8, height));
-	sprite->addKeyframe(ARM1_RIGHT_BOT, glm::vec2(widht * 9, height));
-	sprite->addKeyframe(ARM1_RIGHT_BOT, glm::vec2(widht * 10, height));
+	sprite->addKeyframe(ARM1_RIGHT_BOT, glm::vec2(widht * 7, height));
+	sprite->addKeyframe(ARM1_RIGHT_BOT, glm::vec2(widht * 6, height));
+	sprite->addKeyframe(ARM1_RIGHT_BOT, glm::vec2(widht * 5, height));
+	sprite->addKeyframe(ARM1_RIGHT_BOT, glm::vec2(widht * 4, height));
+	sprite->addKeyframe(ARM1_RIGHT_BOT, glm::vec2(widht * 3, height));
+	sprite->addKeyframe(ARM1_RIGHT_BOT, glm::vec2(widht, height));
+	sprite->addKeyframe(ARM1_RIGHT_BOT, glm::vec2(0.f, height));
+	sprite->addKeyframe(ARM1_RIGHT_BOT, glm::vec2(0.f, height));
 
 	sprite->setAnimationSpeed(ARM1_RIGHT, ANIMATION_SPEED*1.5);
-	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(0.f, height));
-	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widht, height));
-	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widht * 2, height));
-	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widht * 3, height));
-	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widht * 4, height));
-	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widht * 5, height));
-	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widht * 6, height));
-	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widht * 7, height));
 	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widht * 8, height));
+	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widht * 7, height));
+	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widht * 6, height));
+	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widht * 5, height));
+	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widht * 4, height));
+	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widht * 3, height));
+	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widht * 2, height));
+	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widht * 2, height));
 
 	height = heightProp * 6*4;
 	sprite->setAnimationSpeed(BELL_LEFT, ANIMATION_SPEED);
@@ -165,6 +159,7 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	spriteAtac->addKeyframe(ATTACK_LEFT, glm::vec2(widht, 0.f));
 	spriteAtac->addKeyframe(ATTACK_LEFT, glm::vec2(0.f, 0.f));
 	spriteAtac->addKeyframe(ATTACK_LEFT, glm::vec2(widht * 7, 0.f));
+	spriteAtac->addKeyframe(ATTACK_LEFT, glm::vec2(widht * 7, 0.f));
 
 	height = heightProp * 5;
 	spriteAtac->setAnimationSpeed(ATTACK_RIGHT, ANIMATION_SPEED);
@@ -175,6 +170,7 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	spriteAtac->addKeyframe(ATTACK_RIGHT, glm::vec2(widht * 4, height));
 	spriteAtac->addKeyframe(ATTACK_RIGHT, glm::vec2(widht * 5, height));
 	spriteAtac->addKeyframe(ATTACK_RIGHT, glm::vec2(widht * 6, height));
+	spriteAtac->addKeyframe(ATTACK_RIGHT, glm::vec2(widht * 7, height));
 	spriteAtac->addKeyframe(ATTACK_RIGHT, glm::vec2(widht * 7, height));
 
 	spriteAtac->setAnimationSpeed(QUIET, ANIMATION_SPEED);
@@ -247,7 +243,7 @@ void MainPlayer::update(int deltaTime) {
 
 	if (isDiggingBottom() || isDiggingLateral()) {
 		if (isDiggingLateral()) {
-			if (sprite->getCurrentNumKeyFrame() == 8) {
+			if (sprite->getCurrentNumKeyFrame() == 7) {
 				if (sprite->animation() == ARM1_LEFT)sprite->changeAnimation(STAND_LEFT);
 				else sprite->changeAnimation(STAND_RIGHT);
 				int material = map->dig(lastXclick, lastYclick, posPlayer.x, posPlayer.y + spriteWidth / 2, RANGE,equipedItem->dmg);
@@ -256,7 +252,7 @@ void MainPlayer::update(int deltaTime) {
 			}
 		}
 		else if (isDiggingBottom()) {
-			if (sprite->getCurrentNumKeyFrame() == 10) {
+			if (sprite->getCurrentNumKeyFrame() == 8) {
 				if (sprite->animation() == ARM1_LEFT_BOT)sprite->changeAnimation(STAND_LEFT);
 				else sprite->changeAnimation(STAND_RIGHT);
 				int material = map->dig(lastXclick, lastYclick, posPlayer.x, posPlayer.y + spriteWidth / 2, RANGE, equipedItem->dmg);
@@ -265,7 +261,7 @@ void MainPlayer::update(int deltaTime) {
 			}
 		}
 	} 
-	else if (isAttacking() && spriteAtac->getCurrentNumKeyFrame() == 7) {
+	else if (isAttacking() && spriteAtac->getCurrentNumKeyFrame() == 8) {
 		spriteState = NORMAL;
 		spriteAtac->changeAnimation(QUIET);
 		if (bLeft)sprite->changeAnimation(STAND_LEFT);

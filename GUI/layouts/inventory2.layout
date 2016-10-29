@@ -133,5 +133,26 @@
                     <Property name="Text" value= "0" />
                 </Window>
         </Window>
+        <Window name="Slot8" type="Vanilla/StaticImage">
+                <Property name="Position" value="{{0,430},{0,05}}" />
+                <Property name="Size" value="{{0,50},{0,50}}" />
+                <Property name="Color" value="{{0,40},{0,40}}" />
+                <Property name="HorzFormatting" value="HorzCentred" />
+                <Window name="Image" type="Vanilla/StaticImage">
+                    <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}" />
+                    <Property name="MousePassThroughEnabled" value="True" />
+                </Window>
+                <Window name="ImageS" type="OgreTray/StaticImage">
+                    <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}" />
+                    <Property name="MousePassThroughEnabled" value="True" />
+                    <Property name="Visible" value="False"/>
+                </Window>
+                <Window name="Quant" type="Vanilla/StaticText" value = "0">
+                    <Property name="Position" value="{{0.50,0},{0.545,0}}" />
+                    <Property name="HorzFormatting" value="HorzCentred" />
+                    <Property name="Size" value="{{0.50,0},{0.45,0}}" />
+                    <Property name="Text" value= "0" />
+                </Window>
+        </Window>
     </Window>
 </GUILayout>

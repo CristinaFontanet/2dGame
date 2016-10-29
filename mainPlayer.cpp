@@ -18,7 +18,7 @@
 #define ATTACKLEFTOFFSITE 32
 
 enum SpriteMoves {
-	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT, ARM1_LEFT,ARM1_LEFT_BOT, ARM1_RIGHT, ARM1_RIGHT_BOT
+	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT, ARM1_LEFT,ARM1_LEFT_BOT, ARM1_RIGHT, ARM1_RIGHT_BOT, BELL_LEFT,BELL_RIGHT
 };
 enum AttackSprites {
 	ATTACK_LEFT, ATTACK_RIGHT, QUIET
@@ -116,6 +116,25 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widht * 6, height));
 	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widht * 7, height));
 	sprite->addKeyframe(ARM1_RIGHT, glm::vec2(widht * 8, height));
+
+	height = heightProp * 6*4;
+	sprite->setAnimationSpeed(BELL_LEFT, ANIMATION_SPEED);
+	sprite->addKeyframe(BELL_LEFT, glm::vec2(0.f, height));
+	sprite->addKeyframe(BELL_LEFT, glm::vec2(widht, height));
+	sprite->addKeyframe(BELL_LEFT, glm::vec2(0.f, height));
+	sprite->addKeyframe(BELL_LEFT, glm::vec2(widht, height));
+	sprite->addKeyframe(BELL_LEFT, glm::vec2(0.f, height));
+	sprite->addKeyframe(BELL_LEFT, glm::vec2(widht, height));
+
+	height = heightProp * 7*4;
+	sprite->setAnimationSpeed(BELL_RIGHT, ANIMATION_SPEED);
+	sprite->addKeyframe(BELL_RIGHT, glm::vec2(0.f, height));
+	sprite->addKeyframe(BELL_RIGHT, glm::vec2(widht, height));
+	sprite->addKeyframe(BELL_RIGHT, glm::vec2(0.f, height));
+	sprite->addKeyframe(BELL_RIGHT, glm::vec2(widht, height));
+	sprite->addKeyframe(BELL_RIGHT, glm::vec2(0.f, height));
+	sprite->addKeyframe(BELL_RIGHT, glm::vec2(widht, height));
+
 ////////////////////////////////////////////////////////////////////////////
 	spritesheetInvincible.loadFromFile("images/Especials_1.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	spriteInvincible = Sprite::createSprite(glm::ivec2(64, 64), glm::vec2(widhtProp * 4, heightProp * 4), &spritesheet, &shaderProgram);
@@ -180,6 +199,12 @@ bool MainPlayer::isAttacking() {
 	return spriteState == ATTACKING;
 }
 
+
+bool MainPlayer::isBellAnimationInProgress() {
+	if (sprite->animation() == BELL_LEFT || sprite->animation() == BELL_RIGHT) return true;
+	else return false;
+}
+
 bool MainPlayer::isDiggingLateral() {
 	if (sprite->animation() == ARM1_LEFT || sprite->animation() == ARM1_RIGHT ) return true;
 	else return false;
@@ -196,7 +221,9 @@ void MainPlayer::mouseClick(int x, int y) {
 	if (equipedItem->type == PICKAXE) digAnimation();
 	if (equipedItem->type == SWORD) attackAnimation();
 	if (equipedItem->type == MATERIAL) putMaterial();
+	if (equipedItem->type == BELL && getBell()->amount > 0) bellAnimation();
 }
+
 
 void MainPlayer::update(int deltaTime) {
 	spriteInvincible->update(deltaTime);
@@ -207,6 +234,14 @@ void MainPlayer::update(int deltaTime) {
 		int i = spriteInvincible->getCurrentNumKeyFrame();
 		if (spriteInvincible->getCurrentNumKeyFrame() == 8) {
 			bDamage = false;
+		}
+	}
+
+	if (isBellAnimationInProgress()) {
+		if (sprite->getCurrentNumKeyFrame() == 5) {
+			if (sprite->animation() == BELL_LEFT) sprite->changeAnimation(BELL_LEFT);
+			else sprite->changeAnimation(BELL_RIGHT);
+			animationInProgress = false;
 		}
 	}
 
@@ -311,6 +346,7 @@ void MainPlayer::setUpInventory(CEGUI::Window* inventoryWindow) {
 	inventory[4] = Item(MATERIAL, COAL, 0, 0, inventoryWindow);
 	inventory[5] = Item(MATERIAL, GOLD, 0, 0, inventoryWindow);
 	inventory[6] = Item(MATERIAL, DIAMOND, 0, 0, inventoryWindow);
+	inventory[7] = Item(BELL, 0, 0, 1, inventoryWindow);
 
 	equipedItem = &inventory[0];
 	equipedItem->setSelected(true);
@@ -319,6 +355,11 @@ void MainPlayer::setUpInventory(CEGUI::Window* inventoryWindow) {
 Item* MainPlayer::getSword() {
 	return &inventory[1];
 }
+
+Item* MainPlayer::getBell() {
+	return &inventory[7];
+}
+
 Item* MainPlayer::getPeak() {
 	return &inventory[0];
 }
@@ -458,7 +499,16 @@ void MainPlayer::attackAnimation() {
 	}
 
 }
+void MainPlayer::bellAnimation() {
+	spriteWidth = 64;
+	animationInProgress = true;
 
+	if (posPlayer.x > lastXclick && sprite->animation() != BELL_LEFT) sprite->changeAnimation(BELL_LEFT);
+	else if (posPlayer.x < lastXclick && sprite->animation() != BELL_RIGHT) sprite->changeAnimation(BELL_RIGHT);
+	//TODO: so campana
+//	system->playSound(digSound, 0, true, &playerChannel);
+	playerChannel->setPaused(false);
+}
 
 void MainPlayer::digAnimation() {
 	spriteWidth = 64;

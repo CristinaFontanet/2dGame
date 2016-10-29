@@ -26,6 +26,7 @@ public:
 	void digAnimation();
 	void attackAnimation();
 	void putMaterial();
+	void bellAnimation();
 	void reciveDMG(int dmg);
 	void configSounds();
 	void mouseClick(int x, int y);
@@ -35,6 +36,7 @@ public:
 	Item* getRock();
 	Item* getGold();
 	Item* getDiamond();
+	Item* getBell();
 
 	enum playerState {
 		WALKING, WEAPON1, WEAPON2, BYPET
@@ -52,6 +54,7 @@ private:
 	bool isDiggingLateral();
 	bool isDiggingBottom();
 	bool isAttacking();
+	bool isBellAnimationInProgress();
 	bool bJumping;
 	bool bLeft;
 	bool bDamage;

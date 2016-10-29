@@ -37,6 +37,7 @@ void Game::keyPressed(int key)
 	if (key == '5') scene.selectItem(4);
 	if (key == '6') scene.selectItem(5);
 	if (key == '7') scene.selectItem(6);
+	if (key == '8') scene.selectItem(7);
 	if (key == 'M' || key == 'm') scene.showMenu();
 	keys[key] = true;
 }

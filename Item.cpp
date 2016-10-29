@@ -140,6 +140,10 @@ string Item::getMaterialString() {
 			break;
 		}
 		break;
+	case BELL:
+		slot = "Slot8";
+		material = "Bell";
+		break;
 	default:
 		slot = "";
 		break;

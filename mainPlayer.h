@@ -31,6 +31,7 @@ public:
 	void mouseClick(int x, int y);
 	void equipItem(int num);
 	Item* getSword();
+	Item* getPeak();
 	Item* getRock();
 	Item* getGold();
 	Item* getDiamond();

@@ -23,17 +23,39 @@ bool Item::improveSword() {
 			element = ROCK;
 			dmg = 4;
 			setWindowProperties();
+			return true;
 			break;
 		case ROCK:
 			element = GOLD;
 			dmg = 5;
 			setWindowProperties();
+			return true;
 			break;
 		case GOLD:
 			element = DIAMOND;
 			dmg = 6;
 			setWindowProperties();
-			return false;
+			return true;
+			break;
+		}
+	}
+	return false;
+}
+
+bool Item::improvePeak() {
+	if (type == PICKAXE) {
+		switch (element) {
+		case WOOD:										//TODO: canviar dmg
+			element = ROCK;
+			dmg = 4;
+			setWindowProperties();
+			return true;
+			break;
+		case ROCK:
+			element = DIAMOND;
+			dmg = 5;
+			setWindowProperties();
+			return true;
 			break;
 		}
 	}
@@ -61,6 +83,9 @@ string Item::getMaterialString() {
 			break;
 		case ROCK:
 			material = "PickaxeRock";
+			break;
+		case DIAMOND:
+			material = "PickaxeDiamond";
 			break;
 		default:
 			material = "";

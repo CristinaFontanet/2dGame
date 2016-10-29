@@ -84,7 +84,11 @@ void MenuGUI::mouseClick(int x, int y) {
 	//x: 313 y: 121
 	if (showMenu) {
 		if (showCrafting) {
-			if(x>c1x0 && x<c1x1 && y>c1y0 && y<c1y1) craftSword();
+			cout << "x: " << x << ", y: " << y << endl;
+			if (x > c1x0 && x < c1x1) {
+				if (y > c1y0 && y < c1y1) craftSword();
+				else if (y > c2y0 && y < c2y1)craftPeak();
+			}
 		}
 		else if (x > x0 && x < x1) {
 			if (y > b1yt && y < b1yb) onMenu1Click();
@@ -194,16 +198,49 @@ void MenuGUI::createCraftWindow() {
 	setCraftSword();
 	c1x0 = 516;
 	c1x1 = 596;
-	c1y0 = 214;
-	c1y1 = 238;
+	c1y0 = 133;
+	c1y1 = 153;
+
+	Window* groupBox2 = subWind->getChild("StaticGroup2");
+	Window* res2 = groupBox2->getChild("Result1");
+	res2Img1 = res2->getChild("Image");
+	res2ImgS1 = res2->getChild("ImageS");
+	res2Num1 = res2->getChild("Quant");
+	Window* res2Itm1 = groupBox2->getChild("ItemNeeded1");
+	res2Itm1Img = res2Itm1->getChild("Image");
+	res2Itm1SImg = res2Itm1->getChild("ImageS");
+	res2Itm1Num = res2Itm1->getChild("Quant");
+	Window* itn3 = groupBox2->getChild("ItemNeeded2");
+	res2Itm2Img = itn3->getChild("Image");
+	res2Itm2SImg = itn3->getChild("ImageS");
+	res2Itm2Num = itn3->getChild("Quant");
+	setCraftPeak();
+	c2y0 = 291;
+	c2y1 = 313;
 }
 
 bool MenuGUI::craftSword() {
-	if (enoughtRocks) {
+	if (enoughtRocksSword) {
 		//TODO: So guai
 		mainPlayer->getSword()->improveSword();
-		mainPlayer->getRock()->reduceAmount(NUM_ROCKS_NEEDED);
+		mainPlayer->getRock()->reduceAmount(NUM_ROCKS_NEEDED_SWORD);
 		setCraftSword();
+		updateItemsCrafting();
+		cout << "YESS" << endl;
+	}
+	else {
+		//TODO: so error
+		cout << "NOO" << endl;
+	}
+	return true;
+}
+
+bool MenuGUI::craftPeak() {
+	if (enoughtRocksPeak) {
+		//TODO: So guai
+		mainPlayer->getPeak()->improvePeak();
+		mainPlayer->getRock()->reduceAmount(NUM_ROCKS_NEEDED_PEAK);
+		setCraftPeak();
 		updateItemsCrafting();
 		cout << "YESS" << endl;
 	}
@@ -226,7 +263,7 @@ void MenuGUI::setCraftSword() {
 		res1Itm1Num->setProperty("Text", "1");
 		res1Itm2Img->setProperty("Image", "spritesheet_tiles/Rock");
 		res1Itm2SImg->setProperty("Image", "spritesheet_tiles/Rock");
-		res1Itm2Num->setProperty("Text", to_string(NUM_ROCKS_NEEDED));
+		res1Itm2Num->setProperty("Text", to_string(NUM_ROCKS_NEEDED_SWORD));
 
 		break;
 	case ROCK:
@@ -258,54 +295,132 @@ void MenuGUI::setCraftSword() {
 		res1Itm2Num->setProperty("Text", " " + to_string(0));
 		break;
 	}
+}
+
+void MenuGUI::setCraftPeak() {
+	Item *currentPeak = mainPlayer->getPeak();
+	res2Num1->setProperty("Text", "1");
+	switch (currentPeak->element) {
+	case WOOD:
+		res2Img1->setProperty("Image", "spritesheet_tiles/PickaxeRock");
+		res2ImgS1->setProperty("Image", "spritesheet_tiles/PickaxeRock");
+		res2Itm1Img->setProperty("Image", "spritesheet_tiles/PickaxeWood");
+		res2Itm1SImg->setProperty("Image", "spritesheet_tiles/PickaxeWood");
+		res2Itm1Num->setProperty("Text", "1");
+		res2Itm2Img->setProperty("Image", "spritesheet_tiles/Rock");
+		res2Itm2SImg->setProperty("Image", "spritesheet_tiles/Rock");
+		res2Itm2Num->setProperty("Text", to_string(NUM_ROCKS_NEEDED_PEAK));
+
+		break;
+	case ROCK:
+		res2Img1->setProperty("Image", "spritesheet_tiles/PickaxeDiamond");
+		res2ImgS1->setProperty("Image", "spritesheet_tiles/PickaxeDiamond");
+		res2Itm1Img->setProperty("Image", "spritesheet_tiles/PickaxeRock");
+		res2Itm1SImg->setProperty("Image", "spritesheet_tiles/PickaxeRock");
+		res2Itm1Num->setProperty("Text", "1");
+		res2Itm2Img->setProperty("Image", "spritesheet_tiles/Diamond");
+		res2Itm2SImg->setProperty("Image", "spritesheet_tiles/Diamond");
+		res2Itm2Num->setProperty("Text", to_string(NUM_GOLD_NEEDED_PEAK));
+		break;
+	case DIAMOND:
+		res2Img1->setProperty("Image", "spritesheet_tiles/OK");
+		res2Itm1Img->setProperty("Image", "spritesheet_tiles/OK");
+		res2Itm2Img->setProperty("Image", "spritesheet_tiles/OK");
+		res2Num1->setProperty("Text", " " + to_string(0));
+		res2Itm1Num->setProperty("Text", " " + to_string(0));
+		res2Itm2Num->setProperty("Text", " " + to_string(0));
+		break;
+	}
 
 }
 
 void MenuGUI::updateItemsCrafting() {
+	updateItemsSword();
+	updateItemsPeak();
+}
+
+void MenuGUI::updateItemsSword() {
 	Item *currentSword = mainPlayer->getSword();
 	res1Itm1SImg->setVisible(true);
 	switch (currentSword->element) {
 	case TUSK:
-		if (mainPlayer->getRock()->getAmount() >= NUM_ROCKS_NEEDED) {
+		if (mainPlayer->getRock()->getAmount() >= NUM_ROCKS_NEEDED_SWORD) {
 			res1Itm2SImg->setVisible(true);
-			enoughtRocks = true;
+			enoughtRocksSword = true;
 			res1ImgS1->setVisible(true);
 		}
 		else {
 			res1Itm2SImg->setVisible(false);
 			res1ImgS1->setVisible(false);
-			enoughtRocks = false;
+			enoughtRocksSword = false;
 		}
 		break;
 	case ROCK:
 		if (mainPlayer->getGold()->getAmount() >= NUM_GOLD_NEEDED_SWORD) {
 			res1Itm2SImg->setVisible(true);
-			enoughtRocks = true;
+			enoughtRocksSword = true;
 			res1ImgS1->setVisible(true);
 		}
 		else {
 			res1Itm2SImg->setVisible(false);
 			res1ImgS1->setVisible(false);
-			enoughtRocks = false;
+			enoughtRocksSword = false;
 		}
 		break;
 	case GOLD:
 		if (mainPlayer->getDiamond()->getAmount() >= NUM_DIAMOND_NEEDED_SWORD) {
 			res1Itm2SImg->setVisible(true);
-			enoughtRocks = true;
+			enoughtRocksSword = true;
 			res1ImgS1->setVisible(true);
 		}
 		else {
 			res1Itm2SImg->setVisible(false);
 			res1ImgS1->setVisible(false);
-			enoughtRocks = false;
+			enoughtRocksSword = false;
 		}
 		break;
 	case DIAMOND:
 		res1Itm2SImg->setVisible(false);
 		res1Itm1SImg->setVisible(false);
 		res1ImgS1->setVisible(false);
-		enoughtRocks = false;
+		enoughtRocksSword = false;
+		break;
+	}
+}
+
+void MenuGUI::updateItemsPeak() {
+	Item *currentPeak = mainPlayer->getPeak();
+	res2Itm1SImg->setVisible(true);
+	switch (currentPeak->element) {
+	case WOOD:
+		if (mainPlayer->getRock()->getAmount() >= NUM_ROCKS_NEEDED_PEAK) {
+			res2Itm2SImg->setVisible(true);
+			enoughtRocksPeak = true;
+			res2ImgS1->setVisible(true);
+		}
+		else {
+			res2Itm2SImg->setVisible(false);
+			res2ImgS1->setVisible(false);
+			enoughtRocksPeak = false;
+		}
+		break;
+	case ROCK:
+		if (mainPlayer->getGold()->getAmount() >= NUM_GOLD_NEEDED_SWORD) {
+			res2Itm2SImg->setVisible(true);
+			enoughtRocksPeak = true;
+			res2ImgS1->setVisible(true);
+		}
+		else {
+			res2Itm2SImg->setVisible(false);
+			res2ImgS1->setVisible(false);
+			enoughtRocksPeak = false;
+		}
+		break;
+	case DIAMOND:
+		res2Itm2SImg->setVisible(false);
+		res2Itm1SImg->setVisible(false);
+		res2ImgS1->setVisible(false);
+		enoughtRocksPeak = false;
 		break;
 	}
 }

@@ -319,7 +319,9 @@ void MainPlayer::setUpInventory(CEGUI::Window* inventoryWindow) {
 Item* MainPlayer::getSword() {
 	return &inventory[1];
 }
-
+Item* MainPlayer::getPeak() {
+	return &inventory[0];
+}
 Item* MainPlayer::getDiamond() {
 	return &inventory[6];
 }

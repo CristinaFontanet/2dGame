@@ -6,7 +6,7 @@
         <Property name="MaxSize" value="{{1,0},{1,0}}" />
         <Property name="InheritsAlpha" value="False" />
         <Window type="Vanilla/FrameWindow" name="CraftingWind" >
-            <Property name="Area" value="{{0.0191444,-4},{0.0067866,0},{0.989488,-4},{0.901572,0}}" />
+            <Property name="Area" value="{{0.0191444,-4},{0.0367866,0},{0.989488,-4},{0.901572,0}}" />
             <Property name="Text" value="Crafting" />
             <Property name="MaxSize" value="{{1,0},{1,0}}" />
 

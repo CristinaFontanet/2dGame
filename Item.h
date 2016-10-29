@@ -31,6 +31,7 @@ public:
 	void setSelected(bool select);
 	void setWindowProperties();
 	bool improveSword();
+	bool improvePeak();
 	vector<pair<Item*, int>>* getEvolveItemsNeeded();
 	void setEvolveItemsNeeded(vector<pair<Item*, int>>*);
 	int type;

@@ -104,23 +104,23 @@ bool TileMap::loadLevel(const string &levelFile)
 					break;
 				case 37: //piedra 1
 					map[j*mapSize.x + i].first = 43;
-					map[j*mapSize.x + i].second = 2;
+					map[j*mapSize.x + i].second = 3;
 					break;
 				case 4:	//piedra 2
 					map[j*mapSize.x + i].first = 5;
-					map[j*mapSize.x + i].second = 2;
+					map[j*mapSize.x + i].second = 3;
 					break;
 				case 16: //carbon
 					map[j*mapSize.x + i].first = 19;
-					map[j*mapSize.x + i].second = 3;
+					map[j*mapSize.x + i].second = 2;
 					break;
 				case 78: //oro
 					map[j*mapSize.x + i].first = 90;
-					map[j*mapSize.x + i].second = 4;
+					map[j*mapSize.x + i].second = 5;
 					break;
 				case 99: //diam
 					map[j*mapSize.x + i].first = 114;
-					map[j*mapSize.x + i].second = 6;
+					map[j*mapSize.x + i].second = 7;
 					break;
 				case 94: //FIn
 					map[j*mapSize.x + i].first = 108;

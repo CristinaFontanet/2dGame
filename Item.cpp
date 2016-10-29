@@ -44,10 +44,10 @@ bool Item::improveSword() {
 
 bool Item::improvePeak() {
 	if (type == PICKAXE) {
-		switch (element) {
+		switch (element) {	//WOOD: 1, ROCK = 2; DIAMOND = 5
 		case WOOD:										//TODO: canviar dmg
 			element = ROCK;
-			dmg = 4;
+			dmg = 2;
 			setWindowProperties();
 			return true;
 			break;

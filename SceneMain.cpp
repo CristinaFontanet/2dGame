@@ -28,20 +28,16 @@ SceneMain::SceneMain() {
 	pony = NULL;
 }
 
-SceneMain::~SceneMain()
-{
-	if(map != NULL)
-		delete map;
-//	if(player != NULL)	delete player;
+SceneMain::~SceneMain() {
+	Scene::~Scene();
 	if (boss != NULL)
 		delete boss;
-	if (mainPlayer != NULL) delete mainPlayer;
 	if (enemy != NULL) delete enemy;
 	if (pony != NULL) delete pony;
 }
 
 void SceneMain::init() {
-	Scene::init("images / background.png", "levels/levelTerraria300.txt");
+	Scene::init("images/background.png", "levels/levelTerraria300.txt");
 
 /*	player = new P_conillet();
 	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
@@ -77,44 +73,21 @@ void SceneMain::init() {
 	pony->setTarget(mainPlayer);
 }
 
-void SceneMain::update(int deltaTime)
-{
+void SceneMain::update(int deltaTime) {
+	Scene::update(deltaTime);
 	//no cal fer update del mapa xq aquest no te animacions ni res 
 	if(!menu_gui.isMenuShowing()) {		//PAUSA si s'esta mostrant el menu
-		currentTime += deltaTime;
-		//player->update(deltaTime);
 		enemy->update(deltaTime);
 		pony->update(deltaTime);
 		updateOgres(deltaTime);
-		mainPlayer->update(deltaTime);
-		float incy, incx = 0;
-		incy = playerPos[1] - mainPlayer->getPlayerPosition()[1];
-		offsetYCamera += incy;
-		if ((((playerPos[0]) - (SCREEN_WIDTH / 2)) >= 0) && (playerPos[0] < ((32 * 300) - (SCREEN_WIDTH / 2)))) {
-			incx = playerPos[0] - mainPlayer->getPlayerPosition()[0];
-			offsetXCamera += incx;
-		}
-		projection = glm::translate(projection, glm::vec3(incx, incy, 0.f));
-		playerPos = mainPlayer->getPlayerPosition();
 	}
 }
 
-void SceneMain::render()
-{
-	glm::mat4 modelview;
-	texProgram.use();
-	texProgram.setUniformMatrix4f("projection", projection);
-	texProgram.setUniform4f("color", 1.0f, 1.0f, 1.0f, 1.0f);
-	texProgram.setUniformMatrix4f("modelview", modelview);
-	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
-	map->render();
+void SceneMain::render() {
+	Scene::render();
 	enemy->render();
 	pony->render();
 	renderOgres();
-	mainPlayer->render();
-	m_gui.draw();
-	menu_gui.draw();
-
 }
 
 void SceneMain::renderOgres() {
@@ -136,58 +109,6 @@ void SceneMain::updateOgres(int deltaTime) {
 		ogresToDelete = auxOg;
 	}
 }
-
-void SceneMain::showMenu() {
-	menu_gui.showMenuClicked();
-}
-
-
-void SceneMain::selectItem(int num) {
-	if (!menu_gui.isMenuShowing()) mainPlayer->equipItem(num);
-}
-
-std::pair<float, float> SceneMain::getOffsetCamera() {
-	pair <float, float> offset;
-	offset.first = -1 * offsetXCamera;
-	offset.second = -1 * offsetYCamera;
-	return offset;
-}
-
-void  SceneMain::background(){
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	glLoadIdentity();
-	//glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f)
-	gluOrtho2D(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
-
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	glLoadIdentity();
-	// Draw your quad here in screen coordinates
-
-	backgroundTexture.use();
-
-	glBegin(GL_QUADS);
-		glTexCoord2f(0+0.05, 1);
-		glVertex3f(0.0f, float(SCREEN_HEIGHT-1), 0.f);
-
-		glTexCoord2f(1-0.05, 1);
-		glVertex3f(float(SCREEN_WIDTH-1),float(SCREEN_HEIGHT-1), 0.f);
-
-		glTexCoord2f(1-0.05, 0);
-		glVertex3f(float(SCREEN_WIDTH-1),0.f, 0.f);
-
-		glTexCoord2f(0+0.05, 0);
-		glVertex3f(0.0f, 0.f, 0.f);
-	glEnd();
-	//end draw background quad 
-	glMatrixMode(GL_PROJECTION);
-	glPopMatrix();
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
-
-}
-
 
 bool SceneMain::dmgEnnemys(int dmg, glm::ivec2 dmgAt ) {
 	bool damaged = false;

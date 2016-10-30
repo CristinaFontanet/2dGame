@@ -8,6 +8,7 @@ CEGUI::OpenGL3Renderer* MenuGUI::m_renderer = nullptr;
 
 void MenuGUI::init(const std::string& resourceDirectory, MainPlayer* mPlayer, CEGUI::OpenGL3Renderer* rend) {
 	showCrafting = false;
+	showMenu = false;
 	mainPlayer = mPlayer;
     // Check if the renderer and system were not already initialized
 	m_renderer = rend;

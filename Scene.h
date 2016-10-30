@@ -22,30 +22,23 @@ public:
 	Scene();
 	~Scene();
 	virtual void init() = 0;
-	void init(string background,string level);
-
-	virtual void update(int deltaTime);
 	virtual void render();
-	virtual void renderOgres();
-	void updateOgres(int deltaTime);
-	void mouseClicked(int x, int y);
+	virtual void update(int deltaTime);
+	void init(string background,string level);
+	void initShaders();
 	void background();
-	bool dmgEnnemys(int dmg, glm::ivec2 dmgAt);
-	void killOgre(EnOgre * ogre);
-	void updateArrayOgres(EnOgre * ogre);
-	void selectItem(int num);
+	void mouseClicked(int x, int y);
 	void showMenu();
 	std::pair<float, float> getOffsetCamera();
+	void selectItem(int num);
 
-	void updateOgres(EnOgre * ogre);
-	void initShaders();
+
+	virtual bool dmgEnnemys(int dmg, glm::ivec2 dmgAt) = 0;
+	virtual void killOgre(EnOgre * ogre)=0;
 
 protected:
 	TileMap *map;
 	MainPlayer *mainPlayer;
-	EnOgre *ogre1;
-	Enemy *enemy;
-	Enemy *pony;
 	bool showingMenu;
 	P_conillet *player;
 	P_boss *boss;
@@ -55,10 +48,8 @@ protected:
 	glm::vec2 playerPos;
 	glm::mat4 projection;
 	float offsetXCamera, offsetYCamera;
-	vector<EnOgre*> ogres;
 	Bengine::GUI m_gui;
 	MenuGUI menu_gui;
-	vector<EnOgre*> ogresToDelete;
 };
 
 #endif // _SCENE_INCLUDE

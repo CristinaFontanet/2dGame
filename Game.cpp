@@ -9,6 +9,7 @@ void Game::init()
 	loopSound();
 	sceneMain = SceneMain();
 	scene = &sceneMain;
+//	scene = new SceneMain();
 	scene->init();
 }
 

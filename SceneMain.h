@@ -24,19 +24,16 @@ public:
 	~SceneMain();
 
 	void init();
-	void update(int deltaTime);
 	void render();
+	void update(int deltaTime);
+
+
 	void renderOgres();
 
 	void updateOgres(int deltaTime);
-	void mouseClicked(int x, int y);
-	void background();
 	bool dmgEnnemys(int dmg, glm::ivec2 dmgAt);
 	void killOgre(EnOgre * ogre);
 	void updateArrayOgres(EnOgre * ogre);
-	void selectItem(int num);
-	void showMenu();
-	std::pair<float, float> getOffsetCamera();
 
 	void updateOgres(EnOgre * ogre);
 
@@ -44,8 +41,6 @@ protected:
 	EnOgre *ogre1;
 	Enemy *enemy;
 	Enemy *pony;
-	//P_conillet *player;
-	P_boss *boss;
 	vector<EnOgre*> ogres;
 	vector<EnOgre*> ogresToDelete;
 

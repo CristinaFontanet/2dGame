@@ -24,8 +24,6 @@ Scene::Scene() {
 	player = NULL;
 	boss = NULL;
 	mainPlayer = NULL;
-	enemy = NULL;
-	pony = NULL;
 }
 
 Scene::~Scene()
@@ -37,8 +35,6 @@ Scene::~Scene()
 	if (boss != NULL)
 		delete boss;
 	if (mainPlayer != NULL) delete mainPlayer;
-	if (enemy != NULL) delete enemy;
-	if (pony != NULL) delete pony;
 }
 
 void Scene::init(string background, string level) {
@@ -68,15 +64,10 @@ void Scene::init(string background, string level) {
 	currentTime = 0.0f;
 }
 
-void Scene::update(int deltaTime)
-{
+void Scene::update(int deltaTime) {
 	//no cal fer update del mapa xq aquest no te animacions ni res 
 	if(!menu_gui.isMenuShowing()) {		//PAUSA si s'esta mostrant el menu
 		currentTime += deltaTime;
-		player->update(deltaTime);
-		enemy->update(deltaTime);
-		pony->update(deltaTime);
-		updateOgres(deltaTime);
 		mainPlayer->update(deltaTime);
 		float incy, incx = 0;
 		incy = playerPos[1] - mainPlayer->getPlayerPosition()[1];
@@ -90,8 +81,7 @@ void Scene::update(int deltaTime)
 	}
 }
 
-void Scene::render()
-{
+void Scene::render() {
 	glm::mat4 modelview;
 	texProgram.use();
 	texProgram.setUniformMatrix4f("projection", projection);
@@ -99,33 +89,10 @@ void Scene::render()
 	texProgram.setUniformMatrix4f("modelview", modelview);
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
 	map->render();
-	enemy->render();
-	pony->render();
-	renderOgres();
 	mainPlayer->render();
 	m_gui.draw();
 	menu_gui.draw();
 
-}
-
-void Scene::renderOgres() {
-	if (ogres.size() > 0 ) {
-		for each(EnOgre * ogre in ogres) {
-			ogre->render();
-		}
-	}
-}
-
-void Scene::updateOgres(int deltaTime) {
-	int inSize = ogres.size();
-	if (ogres.size() >= 1) {
-		for each(EnOgre * ogre in ogres) {
-			ogre->update(deltaTime);
-		}
-		if (ogresToDelete.size() > 0) for each(EnOgre* ogreDelete in ogresToDelete) updateArrayOgres(ogreDelete);
-		vector<EnOgre*> auxOg;
-		ogresToDelete = auxOg;
-	}
 }
 
 void Scene::showMenu() {
@@ -212,27 +179,4 @@ void  Scene::background(){
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();
 
-}
-
-
-bool Scene::dmgEnnemys(int dmg, glm::ivec2 dmgAt ) {
-	bool damaged = false;
-	for each (EnOgre * ogre in ogres) {
-		if(ogre->reciveDmg(dmg,dmgAt)) damaged = true ;
-	}
-	return damaged;
-}
-
-void Scene::killOgre(EnOgre * ogre) {
-	ogresToDelete.push_back(ogre);
-}
-
-void Scene::updateArrayOgres(EnOgre * ogre) {
-	if (ogres.size() > 0) {
-		vector<EnOgre*> auxOg;
-		for each(EnOgre * og in ogres) {
-			if (og != ogre) auxOg.push_back(og);
-		}
-		ogres = auxOg;
-	}
 }

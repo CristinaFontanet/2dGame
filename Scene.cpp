@@ -10,19 +10,8 @@
 #include <CEGUI\RendererModules\OpenGL\GL3Renderer.h>
 #include <GL/glut.h>
 
-
-#define SCREEN_X 0
-#define SCREEN_Y 0
-
-#define INIT_PLAYER_X_TILES 8
-#define INIT_PLAYER_Y_TILES 107
-#define INIT_BOSS_X_TILES 7
-#define INIT_BOSS_Y_TILES 8
-
 Scene::Scene() {
 	map = NULL;
-	player = NULL;
-	boss = NULL;
 	mainPlayer = NULL;
 }
 
@@ -30,10 +19,6 @@ Scene::~Scene()
 {
 	if(map != NULL)
 		delete map;
-	if(player != NULL)
-		delete player;
-	if (boss != NULL)
-		delete boss;
 	if (mainPlayer != NULL) delete mainPlayer;
 }
 
@@ -44,7 +29,9 @@ void Scene::init(string background, string level) {
 	backgroundTexture.setWrapT(GL_CLAMP_TO_EDGE);
 	backgroundTexture.setMinFilter(GL_NEAREST);
 	backgroundTexture.setMagFilter(GL_NEAREST);
+	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 	map = TileMap::createTileMap(level, glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
+
 	//GUI
 	m_gui.init("../GUI");
 	Window* inventoryWindow = m_gui.getInventoryWindow();
@@ -57,6 +44,7 @@ void Scene::init(string background, string level) {
 	playerPos = mainPlayer->getPlayerPosition();
 	offsetXCamera = SCREEN_HEIGHT / 2 - playerPos[0];
 	offsetYCamera = SCREEN_WIDTH / 2 - playerPos[1] * 1.025;
+
 	projection = glm::translate(projection, glm::vec3(offsetXCamera, offsetYCamera, 0.f));
 
 	menu_gui.init("../GUI", mainPlayer,m_gui.getRenderer());
@@ -66,7 +54,7 @@ void Scene::init(string background, string level) {
 
 void Scene::update(int deltaTime) {
 	//no cal fer update del mapa xq aquest no te animacions ni res 
-	if(!menu_gui.isMenuShowing()) {		//PAUSA si s'esta mostrant el menu
+	if (!menu_gui.isMenuShowing()) {		//PAUSA si s'esta mostrant el menu
 		currentTime += deltaTime;
 		mainPlayer->update(deltaTime);
 		float incy, incx = 0;

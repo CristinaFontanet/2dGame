@@ -10,19 +10,9 @@
 #include <CEGUI\RendererModules\OpenGL\GL3Renderer.h>
 #include <GL/glut.h>
 
-
-#define SCREEN_X 0
-#define SCREEN_Y 0
-
-#define INIT_PLAYER_X_TILES 8
-#define INIT_PLAYER_Y_TILES 107
-#define INIT_BOSS_X_TILES 7
-#define INIT_BOSS_Y_TILES 8
-
 SceneMain::SceneMain() {
 	map = NULL;
 //	player = NULL;
-	boss = NULL;
 	mainPlayer = NULL;
 	enemy = NULL;
 	pony = NULL;
@@ -30,8 +20,6 @@ SceneMain::SceneMain() {
 
 SceneMain::~SceneMain() {
 	Scene::~Scene();
-	if (boss != NULL)
-		delete boss;
 	if (enemy != NULL) delete enemy;
 	if (pony != NULL) delete pony;
 }

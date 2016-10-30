@@ -1,18 +1,6 @@
 #ifndef _SCENE_MAIN_INCLUDE
 #define _SCENE_MAIN_INCLUDE
 
-#include <glm/glm.hpp>
-#include "ShaderProgram.h"
-#include "TileMap.h"
-#include "P_conillet.h"
-#include "P_boss.h"
-#include "MainPlayer.h"
-#include "Enemy.h"
-#include "Ogre.h"
-#include "GUI.h"
-#include "MenuGUI.h"
-#include <CEGUI/CEGUI.h>
-#include <CEGUI/RendererModules/OpenGL/GL3Renderer.h>
 #include "Scene.h"
 
 // Scene contains all the entities of our game.
@@ -37,7 +25,6 @@ public:
 
 	void updateOgres(EnOgre * ogre);
 
-protected:
 	EnOgre *ogre1;
 	Enemy *enemy;
 	Enemy *pony;

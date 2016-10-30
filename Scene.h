@@ -14,6 +14,13 @@
 #include <CEGUI/CEGUI.h>
 #include <CEGUI/RendererModules/OpenGL/GL3Renderer.h>
 
+#define SCREEN_X 0
+#define SCREEN_Y 0
+
+#define INIT_PLAYER_X_TILES 8
+#define INIT_PLAYER_Y_TILES 107
+#define INIT_BOSS_X_TILES 7
+#define INIT_BOSS_Y_TILES 8
 // Scene contains all the entities of our game.
 // It is responsible for updating and render them.
 class Scene {
@@ -36,12 +43,9 @@ public:
 	virtual bool dmgEnnemys(int dmg, glm::ivec2 dmgAt) = 0;
 	virtual void killOgre(EnOgre * ogre)=0;
 
-protected:
 	TileMap *map;
 	MainPlayer *mainPlayer;
 	bool showingMenu;
-	P_conillet *player;
-	P_boss *boss;
 	ShaderProgram texProgram;
 	float currentTime;
 	OwnTexture backgroundTexture;

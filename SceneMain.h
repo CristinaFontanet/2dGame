@@ -24,7 +24,7 @@ public:
 	void updateArrayOgres(EnOgre * ogre);
 
 	void updateOgres(EnOgre * ogre);
-
+protected:
 	EnOgre *ogre1;
 	Enemy *enemy;
 	Enemy *pony;

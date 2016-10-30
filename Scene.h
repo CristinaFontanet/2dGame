@@ -31,6 +31,7 @@ public:
 	virtual void init() = 0;
 	virtual void render();
 	virtual void update(int deltaTime);
+
 	void init(string background,string level);
 	void initShaders();
 	void background();
@@ -42,7 +43,7 @@ public:
 
 	virtual bool dmgEnnemys(int dmg, glm::ivec2 dmgAt) = 0;
 	virtual void killOgre(EnOgre * ogre)=0;
-
+protected:
 	TileMap *map;
 	MainPlayer *mainPlayer;
 	bool showingMenu;

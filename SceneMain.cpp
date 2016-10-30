@@ -73,9 +73,10 @@ void SceneMain::update(int deltaTime) {
 
 void SceneMain::render() {
 	Scene::render();
-	enemy->render();
-	pony->render();
-	renderOgres();
+
+//	enemy->render(); //linia blanca
+//	pony->render();	//linia blanca
+//	renderOgres();	//linia negre
 }
 
 void SceneMain::renderOgres() {

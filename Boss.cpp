@@ -177,8 +177,8 @@ void Boss::update(int deltaTime) {
 		//si estamos en progreso de atacar hacemos daño en nujestra area
 		
 
-		if (live < 150) fase3();
-		else if (live < 60) {
+		if (live < 40) fase3();
+		else if (live < 70) {
 			if (attacking) {
 				if (sprite->getCurrentNumKeyFrame() == 3) {
 					attacking = false;
@@ -404,7 +404,7 @@ void Boss::reciveDmg(int dmg , glm::ivec2 dmgAt) {
 	int tileXEnemy = posSpriteEnemy.x / tileSize;
 	int tileYEnemy = posSpriteEnemy.y / tileSize;
 	bool playerInRange = (abs(tileXEnemy - dmgX) < 5);
-	if (playerInRange) {
+	if (playerInRange && sprite->animation() != BALL) {
 		if (bLeft) {
 			for (int x = 0; x < 2; ++x) {
 				for (int y = -1; y < 2; ++y) {
@@ -425,4 +425,5 @@ void Boss::reciveDmg(int dmg , glm::ivec2 dmgAt) {
 
 		}
 	}
+	cout << "Boss liv" << live << endl;
 }

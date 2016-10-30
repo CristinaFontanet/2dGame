@@ -272,6 +272,7 @@ bool Scene::dmgEnnemys(int dmg, glm::ivec2 dmgAt ) {
 	for each (EnOgre * ogre in ogres) {
 		if(ogre->reciveDmg(dmg,dmgAt)) damaged = true ;
 	}
+	boss->reciveDmg(dmg, dmgAt);
 	return damaged;
 }
 

@@ -69,6 +69,11 @@ void Scene::update(int deltaTime) {
 	}
 }
 
+void Scene::renderGUI() {
+	m_gui.draw();
+	menu_gui.draw();
+}
+
 void Scene::render() {
 	glm::mat4 modelview;
 	texProgram.use();
@@ -78,8 +83,6 @@ void Scene::render() {
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
 	map->render();
 	mainPlayer->render();
-	m_gui.draw();
-	menu_gui.draw();
 
 }
 

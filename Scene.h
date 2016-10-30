@@ -40,10 +40,10 @@ public:
 	std::pair<float, float> getOffsetCamera();
 	void selectItem(int num);
 
-
-	virtual bool dmgEnnemys(int dmg, glm::ivec2 dmgAt) = 0;
-	virtual void killOgre(EnOgre * ogre)=0;
 protected:
+	virtual bool dmgEnnemys(int dmg, glm::ivec2 dmgAt) = 0;
+	virtual void killOgre(EnOgre * ogre) = 0;
+	void renderGUI();
 	TileMap *map;
 	MainPlayer *mainPlayer;
 	bool showingMenu;

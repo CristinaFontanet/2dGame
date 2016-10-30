@@ -9,13 +9,13 @@ void Game::init()
 	loopSound();
 	//sceneMain = SceneMain();
 //	scene = &sceneMain;
-	scene = new SceneMain();
-	scene->init();
+	scene =  SceneMain();
+	scene.init();
 }
 
 bool Game::update(int deltaTime)
 {
-	scene->update(deltaTime);
+	scene.update(deltaTime);
 	
 	return bPlay;
 }
@@ -24,24 +24,24 @@ void Game::render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	scene->background();
-	scene->render();
+	scene.background();
+	scene.render();
 }
 
 void Game::keyPressed(int key)
 {
 	pressedKey = key;
 	if(key == 27) // Escape code
-		scene->showMenu();
-	if (key == '1') scene->selectItem(0);
-	if (key =='2') scene->selectItem(1);
-	if (key == '3') scene->selectItem(2);
-	if (key == '4') scene->selectItem(3);
-	if (key == '5') scene->selectItem(4);
-	if (key == '6') scene->selectItem(5);
-	if (key == '7') scene->selectItem(6);
-	if (key == '8') scene->selectItem(7);
-	if (key == 'M' || key == 'm') scene->showMenu();
+		scene.showMenu();
+	if (key == '1') scene.selectItem(0);
+	if (key =='2') scene.selectItem(1);
+	if (key == '3') scene.selectItem(2);
+	if (key == '4') scene.selectItem(3);
+	if (key == '5') scene.selectItem(4);
+	if (key == '6') scene.selectItem(5);
+	if (key == '7') scene.selectItem(6);
+	if (key == '8') scene.selectItem(7);
+	if (key == 'M' || key == 'm') scene.showMenu();
 	keys[key] = true;
 }
 
@@ -70,7 +70,7 @@ void Game::mousePress(int x, int y)
 {
 	mouseX = x;
 	mouseY = y;
-	scene->mouseClicked(x, y);
+	scene.mouseClicked(x, y);
 }
 
 void Game::mouseRelease(int x, int y)
@@ -97,7 +97,7 @@ std::pair<int,int> Game::getMousePosition() {
 }
 
 std::pair<float, float> Game::getOffsetCamera() {
-	return scene->getOffsetCamera();
+	return scene.getOffsetCamera();
 }
 
 int Game::getPressedKey() {
@@ -116,7 +116,7 @@ void Game::loopSound() {
 }
 
 bool Game::dmgEnnemys(int dmg, glm::ivec2 dmgAt) {
-	return scene->dmgEnnemys(dmg, dmgAt);
+	return scene.dmgEnnemys(dmg, dmgAt);
 }
 
 FMOD::System* Game::getSoundSystem() {
@@ -124,5 +124,5 @@ FMOD::System* Game::getSoundSystem() {
 }
 
 void Game::killOgre(EnOgre* ogre) {
-	scene->killOgre(ogre);
+	scene.killOgre(ogre);
 }

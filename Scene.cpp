@@ -54,11 +54,8 @@ void Scene::init()
 	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
 	player->setTileMap(map);
-	//boss
-	boss = new P_boss();
-	boss->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
-	boss->setPosition(glm::vec2(INIT_BOSS_X_TILES * map->getTileSize(), INIT_BOSS_Y_TILES * map->getTileSize()));
-	boss->setTileMap(map);
+	
+
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 
 	//GUI
@@ -98,7 +95,15 @@ void Scene::init()
 	pony->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
 	pony->setTileMap(map);
 	pony->setTarget(mainPlayer);
+	//boss
+	boss = new Boss();
+	boss->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	boss->setPosition(glm::vec2((10 + INIT_PLAYER_X_TILES) * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
+	boss->setTileMap(map);
+	boss->setTarget(mainPlayer);
+
 	currentTime = 0.0f;
+
 
 	// Select which font you want to use
 	if (!text.init("fonts/OpenSans-Regular.ttf"))
@@ -115,7 +120,8 @@ void Scene::update(int deltaTime)
 		player->update(deltaTime);
 		enemy->update(deltaTime);
 		pony->update(deltaTime);
-		updateOgres(deltaTime);
+		//updateOgres(deltaTime);
+		boss->update(deltaTime);
 		mainPlayer->update(deltaTime);
 		float incy, incx = 0;
 		incy = playerPos[1] - mainPlayer->getPlayerPosition()[1];
@@ -141,7 +147,8 @@ void Scene::render()
 	map->render();
 	enemy->render();
 	pony->render();
-	renderOgres();
+	//renderOgres();
+	boss->render();
 	mainPlayer->render();
 	m_gui.draw();
 	menu_gui.draw();

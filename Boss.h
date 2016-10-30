@@ -31,6 +31,8 @@ public:
 
 	void fase2();
 
+	void fase3();
+
 	void reciveDmg(int dmg, glm::ivec2 dmgAt);
 
 private:
@@ -44,12 +46,13 @@ private:
 	MainPlayer *player;
 	double heightProp;
 	double widhtProp;
-	glm::ivec2 tileMapDispl, posEnemy;
+	glm::ivec2 tileMapDispl, posSpriteEnemy, posEnemy;
 	bool bLeft;
 	bool bJumping;
 	bool attacking;
 	int jumpAngle, startY;
 	int live;
+	int fase,numAtF2;
 };
 
 #endif

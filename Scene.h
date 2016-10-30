@@ -9,6 +9,7 @@
 #include "MainPlayer.h"
 #include "Enemy.h"
 #include "Ogre.h"
+#include "Boss.h"
 #include "GUI.h"
 #include "MenuGUI.h"
 #include <CEGUI/CEGUI.h>
@@ -49,7 +50,7 @@ private:
 	Enemy *pony;
 	bool showingMenu;
 	P_conillet *player;
-	P_boss *boss;
+	Boss *boss;
 	ShaderProgram texProgram;
 	float currentTime;
 	OwnTexture backgroundTexture;

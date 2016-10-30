@@ -29,6 +29,8 @@ void Scene::init(string background, string level) {
 	backgroundTexture.setWrapT(GL_CLAMP_TO_EDGE);
 	backgroundTexture.setMinFilter(GL_NEAREST);
 	backgroundTexture.setMagFilter(GL_NEAREST);
+
+	map = TileMap::createTileMap("levels/levelTerraria300.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 	map = TileMap::createTileMap(level, glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
 
@@ -50,12 +52,24 @@ void Scene::init(string background, string level) {
 	menu_gui.init("../GUI", mainPlayer,m_gui.getRenderer());
 
 	currentTime = 0.0f;
+
+	//boss
+	boss = new Boss();
+	boss->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	boss->setPosition(glm::vec2((10 + INIT_PLAYER_X_TILES) * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
+	boss->setTileMap(map);
+	boss->setTarget(mainPlayer);
+
+	currentTime = 0.0f;
+
 }
 
 void Scene::update(int deltaTime) {
 	//no cal fer update del mapa xq aquest no te animacions ni res 
 	if (!menu_gui.isMenuShowing()) {		//PAUSA si s'esta mostrant el menu
 		currentTime += deltaTime;
+
+		boss->update(deltaTime);
 		mainPlayer->update(deltaTime);
 		float incy, incx = 0;
 		incy = playerPos[1] - mainPlayer->getPlayerPosition()[1];
@@ -82,6 +96,8 @@ void Scene::render() {
 	texProgram.setUniformMatrix4f("modelview", modelview);
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
 	map->render();
+
+	boss->render();
 	mainPlayer->render();
 
 }

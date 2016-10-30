@@ -9,6 +9,7 @@
 #include "MainPlayer.h"
 #include "Enemy.h"
 #include "Ogre.h"
+#include "Boss.h"
 #include "GUI.h"
 #include "MenuGUI.h"
 #include <CEGUI/CEGUI.h>
@@ -47,6 +48,8 @@ protected:
 	TileMap *map;
 	MainPlayer *mainPlayer;
 	bool showingMenu;
+
+	Boss *boss;
 	ShaderProgram texProgram;
 	float currentTime;
 	OwnTexture backgroundTexture;

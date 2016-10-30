@@ -102,11 +102,8 @@ CEGUI::Window* Bengine::GUI::getInventoryWindow() {
 }
 
 void Bengine::GUI::createInventory() {
-	if (inventoryWindow == nullptr) {
 		inventoryWindow = WindowManager::getSingleton().loadLayoutFromFile("inventory2.layout");
 		m_context_inv->setRootWindow(inventoryWindow);
-
-	}
 }
 
 /** LIVES **/

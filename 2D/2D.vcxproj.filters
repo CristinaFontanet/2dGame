@@ -17,8 +17,6 @@
     <ClCompile Include="..\ShaderProgram.cpp" />
     <ClCompile Include="..\Sprite.cpp" />
     <ClCompile Include="..\TileMap.cpp" />
-    <ClCompile Include="..\Text.cpp" />
-    <ClCompile Include="..\TexturedQuad.cpp" />
     <ClCompile Include="..\OwnTexture.cpp" />
     <ClCompile Include="..\SceneMain.cpp" />
   </ItemGroup>
@@ -41,8 +39,6 @@
     <ClInclude Include="..\Sprite.h" />
     <ClInclude Include="..\TileMap.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="..\Text.h" />
-    <ClInclude Include="..\TexturedQuad.h" />
     <ClInclude Include="..\OwnTexture.h" />
     <ClInclude Include="..\SceneMain.h" />
   </ItemGroup>

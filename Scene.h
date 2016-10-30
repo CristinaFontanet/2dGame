@@ -13,7 +13,6 @@
 #include "MenuGUI.h"
 #include <CEGUI/CEGUI.h>
 #include <CEGUI/RendererModules/OpenGL/GL3Renderer.h>
-#include "Text.h"
 
 // Scene contains all the entities of our game.
 // It is responsible for updating and render them.
@@ -59,10 +58,8 @@ protected:
 	vector<EnOgre*> ogres;
 	Bengine::GUI m_gui;
 	MenuGUI menu_gui;
-	Text text;
 	vector<EnOgre*> ogresToDelete;
 };
-
 
 #endif // _SCENE_INCLUDE
 

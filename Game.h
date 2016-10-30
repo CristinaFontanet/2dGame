@@ -60,6 +60,7 @@ private:
 	FMOD::System *system;
 	int mouseX, mouseY;
 	bool bPlay;                       // Continue to play game?
+	SceneMain sceneMain;
 	Scene* scene;                      // Scene to render
 	bool keys[256], specialKeys[256]; // Store key states so that 
 	int pressedKey;                                 // we can have access at any time

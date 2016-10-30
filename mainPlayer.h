@@ -8,14 +8,12 @@
 #include "TileMap.h"
 #include "Item.h"
 #include "fmod.hpp"
-#include "Text.h"
 
 using namespace std;
 
 class MainPlayer {
 
 public:
-	Text t;
 	void init(const glm::ivec2 & tileMapPos, ShaderProgram & shaderProgram, CEGUI::Window * inventoryWindow, CEGUI::Window * livesWindow);
 	void update(int deltaTime);
 	void render();

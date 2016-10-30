@@ -13,7 +13,6 @@
 #include "MenuGUI.h"
 #include <CEGUI/CEGUI.h>
 #include <CEGUI/RendererModules/OpenGL/GL3Renderer.h>
-#include "Text.h"
 #include "Scene.h"
 
 // Scene contains all the entities of our game.
@@ -24,10 +23,10 @@ public:
 	SceneMain();
 	~SceneMain();
 
-	virtual void init();
-	virtual void update(int deltaTime);
-	virtual void render();
-	virtual void renderOgres();
+	void init();
+	void update(int deltaTime);
+	void render();
+	void renderOgres();
 
 	void updateOgres(int deltaTime);
 	void mouseClicked(int x, int y);
@@ -48,11 +47,9 @@ protected:
 	//P_conillet *player;
 	P_boss *boss;
 	vector<EnOgre*> ogres;
-	Text text;
 	vector<EnOgre*> ogresToDelete;
 
 };
-
 
 #endif // _SCENE_INCLUDE
 

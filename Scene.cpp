@@ -66,12 +66,6 @@ void Scene::init(string background, string level) {
 	menu_gui.init("../GUI", mainPlayer,m_gui.getRenderer());
 
 	currentTime = 0.0f;
-
-	// Select which font you want to use
-	if (!text.init("fonts/OpenSans-Regular.ttf"))
-		//if(!text.init("fonts/OpenSans-Bold.ttf"))
-		//if(!text.init("fonts/DroidSerif.ttf"))
-		cout << "Could not load font!!!" << endl;
 }
 
 void Scene::update(int deltaTime)
@@ -99,7 +93,6 @@ void Scene::update(int deltaTime)
 void Scene::render()
 {
 	glm::mat4 modelview;
-	text.render("Clica b per fer desaparèixer el text", glm::vec2(200, 200), 32, glm::vec4(0, 0.56, 0, 1));
 	texProgram.use();
 	texProgram.setUniformMatrix4f("projection", projection);
 	texProgram.setUniform4f("color", 1.0f, 1.0f, 1.0f, 1.0f);
@@ -112,11 +105,6 @@ void Scene::render()
 	mainPlayer->render();
 	m_gui.draw();
 	menu_gui.draw();
-
-	//Text
-	string marcador = "Rebots: " + std::to_string(1);
-	text.render(marcador, glm::vec2(glutGet(GLUT_WINDOW_HEIGHT)/2, glutGet(GLUT_WINDOW_WIDTH)/ 2), 200, glm::vec4(1, 1, 1, 1));
-	text.render("Clica b per fer desaparèixer el text", glm::vec2(200, 200), 32, glm::vec4(0, 0.56, 0, 1));
 
 }
 

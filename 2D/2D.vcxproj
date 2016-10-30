@@ -23,6 +23,7 @@
     <ClCompile Include="..\P_boss.cpp" />
     <ClCompile Include="..\P_conillet.cpp" />
     <ClCompile Include="..\Scene.cpp" />
+    <ClCompile Include="..\SceneMain.cpp" />
     <ClCompile Include="..\Shader.cpp" />
     <ClCompile Include="..\ShaderProgram.cpp" />
     <ClCompile Include="..\Sprite.cpp" />
@@ -45,6 +46,7 @@
     <ClInclude Include="..\P_boss.h" />
     <ClInclude Include="..\P_conillet.h" />
     <ClInclude Include="..\Scene.h" />
+    <ClInclude Include="..\SceneMain.h" />
     <ClInclude Include="..\Shader.h" />
     <ClInclude Include="..\ShaderProgram.h" />
     <ClInclude Include="..\Sprite.h" />

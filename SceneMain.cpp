@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include <glm/gtc/matrix_transform.hpp>
-#include "Scene.h"
+#include "SceneMain.h"
 #include "Game.h"
 #include <CEGUI/CEGUI.h>
 #include <CEGUI/Window.h>
@@ -19,21 +19,20 @@
 #define INIT_BOSS_X_TILES 7
 #define INIT_BOSS_Y_TILES 8
 
-Scene::Scene() {
+SceneMain::SceneMain() {
 	map = NULL;
-	player = NULL;
+//	player = NULL;
 	boss = NULL;
 	mainPlayer = NULL;
 	enemy = NULL;
 	pony = NULL;
 }
 
-Scene::~Scene()
+SceneMain::~SceneMain()
 {
 	if(map != NULL)
 		delete map;
-	if(player != NULL)
-		delete player;
+//	if(player != NULL)	delete player;
 	if (boss != NULL)
 		delete boss;
 	if (mainPlayer != NULL) delete mainPlayer;
@@ -41,45 +40,49 @@ Scene::~Scene()
 	if (pony != NULL) delete pony;
 }
 
-void Scene::init(string background, string level) {
-	initShaders();
-	backgroundTexture.loadFromFile(background, TEXTURE_PIXEL_FORMAT_RGBA);
-	backgroundTexture.setWrapS(GL_CLAMP_TO_EDGE);
-	backgroundTexture.setWrapT(GL_CLAMP_TO_EDGE);
-	backgroundTexture.setMinFilter(GL_NEAREST);
-	backgroundTexture.setMagFilter(GL_NEAREST);
-	map = TileMap::createTileMap(level, glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
-	//GUI
-	m_gui.init("../GUI");
-	Window* inventoryWindow = m_gui.getInventoryWindow();
-	Window* livesWindow = m_gui.getLivesWindow();
-	//Main Player
-	mainPlayer = new MainPlayer();
-	mainPlayer->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, inventoryWindow,livesWindow);
-	mainPlayer->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
-	mainPlayer->setTileMap(map);
-	playerPos = mainPlayer->getPlayerPosition();
-	offsetXCamera = SCREEN_HEIGHT / 2 - playerPos[0];
-	offsetYCamera = SCREEN_WIDTH / 2 - playerPos[1] * 1.025;
-	projection = glm::translate(projection, glm::vec3(offsetXCamera, offsetYCamera, 0.f));
+void SceneMain::init() {
+	Scene::init("images / background.png", "levels/levelTerraria300.txt");
 
-	menu_gui.init("../GUI", mainPlayer,m_gui.getRenderer());
+/*	player = new P_conillet();
+	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
+	player->setTileMap(map);
+	//boss
+	boss = new P_boss();
+	boss->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	boss->setPosition(glm::vec2(INIT_BOSS_X_TILES * map->getTileSize(), INIT_BOSS_Y_TILES * map->getTileSize()));
+	boss->setTileMap(map);
+	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
+*/
 
-	currentTime = 0.0f;
+	enemy = new Enemy();
+	enemy->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	enemy->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
+	enemy->setTileMap(map);
+	enemy->setTarget(mainPlayer);
+	
+	
+	ogre1 = new EnOgre();
+	ogre1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	ogre1->setPosition(glm::vec2((10+INIT_PLAYER_X_TILES)* map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
+	ogre1->setTileMap(map);
+	ogre1->setTarget(mainPlayer);
 
-	// Select which font you want to use
-	if (!text.init("fonts/OpenSans-Regular.ttf"))
-		//if(!text.init("fonts/OpenSans-Bold.ttf"))
-		//if(!text.init("fonts/DroidSerif.ttf"))
-		cout << "Could not load font!!!" << endl;
+	ogres.push_back(ogre1);
+
+	pony = new Enemy();
+	pony->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	pony->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
+	pony->setTileMap(map);
+	pony->setTarget(mainPlayer);
 }
 
-void Scene::update(int deltaTime)
+void SceneMain::update(int deltaTime)
 {
 	//no cal fer update del mapa xq aquest no te animacions ni res 
 	if(!menu_gui.isMenuShowing()) {		//PAUSA si s'esta mostrant el menu
 		currentTime += deltaTime;
-		player->update(deltaTime);
+		//player->update(deltaTime);
 		enemy->update(deltaTime);
 		pony->update(deltaTime);
 		updateOgres(deltaTime);
@@ -96,7 +99,7 @@ void Scene::update(int deltaTime)
 	}
 }
 
-void Scene::render()
+void SceneMain::render()
 {
 	glm::mat4 modelview;
 	text.render("Clica b per fer desaparèixer el text", glm::vec2(200, 200), 32, glm::vec4(0, 0.56, 0, 1));
@@ -120,7 +123,7 @@ void Scene::render()
 
 }
 
-void Scene::renderOgres() {
+void SceneMain::renderOgres() {
 	if (ogres.size() > 0 ) {
 		for each(EnOgre * ogre in ogres) {
 			ogre->render();
@@ -128,7 +131,7 @@ void Scene::renderOgres() {
 	}
 }
 
-void Scene::updateOgres(int deltaTime) {
+void SceneMain::updateOgres(int deltaTime) {
 	int inSize = ogres.size();
 	if (ogres.size() >= 1) {
 		for each(EnOgre * ogre in ogres) {
@@ -140,58 +143,23 @@ void Scene::updateOgres(int deltaTime) {
 	}
 }
 
-void Scene::showMenu() {
+void SceneMain::showMenu() {
 	menu_gui.showMenuClicked();
 }
 
-void Scene::mouseClicked(int x, int y) {
-	if (!menu_gui.isMenuShowing())mainPlayer->mouseClick(x, y);
-	else menu_gui.mouseClick(x, y);
-}
 
-void Scene::initShaders()
-{
-	Shader vShader, fShader;
-
-	vShader.initFromFile(VERTEX_SHADER, "shaders/texture.vert");
-	if(!vShader.isCompiled())
-	{
-		cout << "Vertex Shader Error" << endl;
-		cout << "" << vShader.log() << endl << endl;
-	}
-	fShader.initFromFile(FRAGMENT_SHADER, "shaders/texture.frag");
-	if(!fShader.isCompiled())
-	{
-		cout << "Fragment Shader Error" << endl;
-		cout << "" << fShader.log() << endl << endl;
-	}
-	texProgram.init();
-	texProgram.addShader(vShader);
-	texProgram.addShader(fShader);
-	texProgram.link();
-	if(!texProgram.isLinked())
-	{
-		cout << "Shader Linking Error" << endl;
-		cout << "" << texProgram.log() << endl << endl;
-	}
-	texProgram.bindFragmentOutput("outColor");
-	vShader.free();
-	fShader.free();
-}
-
-
-void Scene::selectItem(int num) {
+void SceneMain::selectItem(int num) {
 	if (!menu_gui.isMenuShowing()) mainPlayer->equipItem(num);
 }
 
-std::pair<float, float> Scene::getOffsetCamera() {
+std::pair<float, float> SceneMain::getOffsetCamera() {
 	pair <float, float> offset;
 	offset.first = -1 * offsetXCamera;
 	offset.second = -1 * offsetYCamera;
 	return offset;
 }
 
-void  Scene::background(){
+void  SceneMain::background(){
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
@@ -227,7 +195,7 @@ void  Scene::background(){
 }
 
 
-bool Scene::dmgEnnemys(int dmg, glm::ivec2 dmgAt ) {
+bool SceneMain::dmgEnnemys(int dmg, glm::ivec2 dmgAt ) {
 	bool damaged = false;
 	for each (EnOgre * ogre in ogres) {
 		if(ogre->reciveDmg(dmg,dmgAt)) damaged = true ;
@@ -235,11 +203,11 @@ bool Scene::dmgEnnemys(int dmg, glm::ivec2 dmgAt ) {
 	return damaged;
 }
 
-void Scene::killOgre(EnOgre * ogre) {
+void SceneMain::killOgre(EnOgre * ogre) {
 	ogresToDelete.push_back(ogre);
 }
 
-void Scene::updateArrayOgres(EnOgre * ogre) {
+void SceneMain::updateArrayOgres(EnOgre * ogre) {
 	if (ogres.size() > 0) {
 		vector<EnOgre*> auxOg;
 		for each(EnOgre * og in ogres) {

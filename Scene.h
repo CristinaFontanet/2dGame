@@ -22,11 +22,12 @@ class Scene {
 public:
 	Scene();
 	~Scene();
+	virtual void init() = 0;
+	void init(string background,string level);
 
-	void init();
-	void update(int deltaTime);
-	void render();
-	void renderOgres();
+	virtual void update(int deltaTime);
+	virtual void render();
+	virtual void renderOgres();
 	void updateOgres(int deltaTime);
 	void mouseClicked(int x, int y);
 	void background();
@@ -37,11 +38,10 @@ public:
 	void showMenu();
 	std::pair<float, float> getOffsetCamera();
 
-private:
 	void updateOgres(EnOgre * ogre);
 	void initShaders();
 
-private:
+protected:
 	TileMap *map;
 	MainPlayer *mainPlayer;
 	EnOgre *ogre1;

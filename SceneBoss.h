@@ -13,7 +13,7 @@ public:
 	SceneBoss();
 	~SceneBoss();
 
-	void init();
+	void init(MainPlayer* mPlayer);
 	void render();
 	void update(int deltaTime);
 

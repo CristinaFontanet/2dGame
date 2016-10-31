@@ -486,7 +486,6 @@ void MenuGUI::updateItemsPeak() {
 
 void MenuGUI::updateItemsBell() {
 	Item *currentBell = mainPlayer->getBell();
-	
 	if (currentBell->getAmount() == 0) {
 		if (mainPlayer->getSword()->element == DIAMOND) {
 			res3Itm1SImg->setVisible(true);
@@ -499,13 +498,14 @@ void MenuGUI::updateItemsBell() {
 		if (mainPlayer->getGold()->getAmount() >= NUM_GOLD_NEEDED_BELL) {
 			res3Itm2SImg->setVisible(true);
 			enoughtGoldBell = true;
-			res3ImgS1->setVisible(true);
 		}
 		else {
 			res3Itm2SImg->setVisible(false);
-			res3ImgS1->setVisible(false);
 			enoughtGoldBell = false;
 		}
+
+		if (enoughtGoldBell && correctSword)res3ImgS1->setVisible(true);
+		else res3ImgS1->setVisible(false);
 	}
 	else {
 		res3Itm2SImg->setVisible(false);

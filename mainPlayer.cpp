@@ -235,9 +235,10 @@ void MainPlayer::update(int deltaTime) {
 
 	if (isBellAnimationInProgress()) {
 		if (sprite->getCurrentNumKeyFrame() == 5) {
-			if (sprite->animation() == BELL_LEFT) sprite->changeAnimation(BELL_LEFT);
-			else sprite->changeAnimation(BELL_RIGHT);
+			if (sprite->animation() == BELL_LEFT) sprite->changeAnimation(STAND_LEFT);
+			else sprite->changeAnimation(STAND_RIGHT);
 			animationInProgress = false;
+			Game::instance().proceedToBoss();
 		}
 	}
 
@@ -332,9 +333,22 @@ void MainPlayer::update(int deltaTime) {
 	if(bLeft) spriteAtac->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x-ATTACKLEFTOFFSITE), float(tileMapDispl.y + posPlayer.y)));
 	else spriteAtac->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 }
+int MainPlayer::getAmountItem(int i) {
+	return inventory[i].getAmount();
+}
+
+
+void MainPlayer::combineInventory(MainPlayer* mPlayer) {
+	for (int i = 0; i < inventory.size(); ++i) {
+		inventory[i].setAmount(mPlayer->getAmountItem(i));
+	}
+	getSword()->setElement(mPlayer->getSword()->getElement());
+	getPeak()->setElement(mPlayer->getPeak()->getElement());
+}
+
 
 void MainPlayer::setUpInventory(CEGUI::Window* inventoryWindow) {
-	inventory = vector<Item>(20);
+	inventory = vector<Item>(10);
 	inventory[0] = Item(PICKAXE, WOOD, 1, 1, inventoryWindow);
 	inventory[1] = Item(SWORD, TUSK, 3, 1, inventoryWindow);
 	inventory[2] = Item(MATERIAL, TUSK, 0, 0, inventoryWindow);
@@ -342,7 +356,7 @@ void MainPlayer::setUpInventory(CEGUI::Window* inventoryWindow) {
 	inventory[4] = Item(MATERIAL, COAL, 0, 0, inventoryWindow);
 	inventory[5] = Item(MATERIAL, GOLD, 0, 0, inventoryWindow);
 	inventory[6] = Item(MATERIAL, DIAMOND, 0, 0, inventoryWindow);
-	inventory[7] = Item(BELL, 0, 0, 0, inventoryWindow);
+	inventory[7] = Item(BELL, 0, 0,1, inventoryWindow);
 
 	equipedItem = &inventory[0];
 	equipedItem->setSelected(true);

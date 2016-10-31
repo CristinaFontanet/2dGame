@@ -179,6 +179,10 @@ int Item::getAmount() {
 	return amount;
 }
 
+int Item::getElement() {
+	return element;
+}
+
 void Item::reduceAmount(int num) {
 	amount -= num;
 	if (windAmount != nullptr)
@@ -196,6 +200,11 @@ void Item::setAmount(int newAmount) {
 	if (windAmount != nullptr)
 		windAmount->setProperty("Text", to_string(amount));
 	
+}
+
+void Item::setElement(int elem) {
+	element = elem;
+	setWindowProperties();
 }
 
 void Item::setSelected(bool select) {

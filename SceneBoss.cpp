@@ -12,11 +12,13 @@ SceneBoss::~SceneBoss() {
 	if (boss != NULL) delete boss;
 }
 
-void SceneBoss::init() {
+
+
+void SceneBoss::init(MainPlayer* mPlayer) {
 	playerXtiles = 1;
 	playerYtiles = 20;
 	Scene::init("images/background.png", "levels/Castillo.txt",  glm::vec2(playerXtiles , playerYtiles) );
-
+	Scene::combinePlayer(mPlayer);
 	//boss
 	boss = new Boss();
 	boss->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);

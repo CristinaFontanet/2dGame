@@ -29,7 +29,7 @@ public:
 	Scene();
 	~Scene();
 	void init(string background, string level, glm::vec2 initPosPlayer);
-	virtual void init() = 0;
+	virtual void init() {};
 	virtual void render();
 	virtual void update(int deltaTime);
 
@@ -39,9 +39,11 @@ public:
 	void showMenu();
 	std::pair<float, float> getOffsetCamera();
 	void selectItem(int num);
+	MainPlayer* getMainPlayer();
 
 	virtual bool dmgEnnemys(int dmg, glm::ivec2 dmgAt) = 0;
 	virtual void killOgre(EnOgre * ogre) {};
+	void combinePlayer(MainPlayer* mPlayer);
 protected:
 	void renderGUI();
 	TileMap *map;

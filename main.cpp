@@ -66,8 +66,7 @@ static void drawCallback()
 	glutSwapBuffers();
 }
 
-static void idleCallback()
-{
+static void idleCallback() {
 	int currentTime = glutGet(GLUT_ELAPSED_TIME);
 	int deltaTime = currentTime - prevTime;
 	

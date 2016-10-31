@@ -8,10 +8,18 @@ void Game::init()
 	glClearColor(0.27f, 0.53f, 0.71f, 1.0f);
 	loopSound();
 	sceneMain = SceneMain();
-	//sceneBoss = SceneBoss();
+	sceneBoss = SceneBoss();
 //	sceneTutorial = SceneTutorial();
 	scene = &sceneMain;
 	scene->init();
+}
+
+void Game::proceedToBoss() {
+	if (scene == &sceneMain) {
+		sceneBoss.init(scene->getMainPlayer());
+		scene = &sceneBoss;
+	//	scene->init();
+	}
 }
 
 bool Game::update(int deltaTime)

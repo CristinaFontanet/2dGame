@@ -12,7 +12,6 @@
 
 SceneMain::SceneMain() {
 	map = NULL;
-//	player = NULL;
 	mainPlayer = NULL;
 	enemy = NULL;
 	pony = NULL;

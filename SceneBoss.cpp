@@ -29,6 +29,7 @@ void SceneBoss::init(MainPlayer* mPlayer) {
 	boss->setPosition(glm::vec2((145) * map->getTileSize(), 35 * map->getTileSize()));
 	boss->setTileMap(map);
 	boss->setTarget(mainPlayer);
+	mainPlayer->setJumpMod(2);
 
 	createOgres();
 }
@@ -41,6 +42,7 @@ void SceneBoss::update(int deltaTime) {
 		map->addMaterial(123*tileSize,35*tileSize,playerPos[0],playerPos[1],LIM,100);
 		map->addMaterial(123 * tileSize, 34 * tileSize, playerPos[0], playerPos[1], LIM, 100);
 		map->addMaterial(123 * tileSize, 33 * tileSize, playerPos[0], playerPos[1], LIM, 100);
+		mainPlayer->setJumpMod(3);
 	}
 
 	//no cal fer update del mapa xq aquest no te animacions ni res 

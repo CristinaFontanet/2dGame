@@ -27,6 +27,7 @@ public:
 	void bellAnimation();
 	void reciveDMG(int dmg);
 	void configSounds();
+	void setJumpMod(int mod);
 	void mouseClick(int x, int y);
 	void equipItem(int num);
 	void combineInventory(MainPlayer* mPlayer);
@@ -91,6 +92,7 @@ private:
 	vector<Item> inventory;
 	vector<pair<Item*, vector<pair<Item*, int>>*>> items;
 	vector<pair<Item*, int>> evolutionTuskSword;
+	int jumpMod;
 
 };
 

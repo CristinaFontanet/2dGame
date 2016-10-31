@@ -22,7 +22,7 @@ void Boss::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram) {
 	double yoffset = 1.f / 32.f;
 	fase = 1;
 	numAtF2 = 0;
-	live = 100;
+	live = 50;
 	bLeft = true;
 	bJumping = false;
 	attacking = false;
@@ -69,7 +69,7 @@ void Boss::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram) {
 	sprite->addKeyframe(TAIL_LEFT, glm::vec2(widhtProp * 3, heightProp * 1));
 	sprite->addKeyframe(TAIL_LEFT, glm::vec2(widhtProp * 2, heightProp * 1));
 
-	sprite->setAnimationSpeed(TAIL_RIGHT, ANIMATION_SPEED / 2);
+	sprite->setAnimationSpeed(TAIL_RIGHT, ANIMATION_SPEED / 4);
 	sprite->addKeyframe(TAIL_RIGHT, glm::vec2(widhtProp * 0, heightProp * 3));
 	sprite->addKeyframe(TAIL_RIGHT, glm::vec2(widhtProp * 1, heightProp * 3));
 	sprite->addKeyframe(TAIL_RIGHT, glm::vec2(widhtProp * 1, heightProp * 3));
@@ -78,7 +78,7 @@ void Boss::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram) {
 
 
 	
-	sprite->setAnimationSpeed(EXH_LEFT, ANIMATION_SPEED/2);
+	sprite->setAnimationSpeed(EXH_LEFT, ANIMATION_SPEED/4);
 	sprite->addKeyframe(EXH_LEFT, glm::vec2(0.f, 0.f));
 	sprite->addKeyframe(EXH_LEFT, glm::vec2(widhtProp * 1, 0.f));
 	sprite->addKeyframe(EXH_LEFT, glm::vec2(0.f, 0.f));
@@ -177,8 +177,8 @@ void Boss::update(int deltaTime) {
 		//si estamos en progreso de atacar hacemos daño en nujestra area
 		
 
-		if (live < 40) fase3();
-		else if (live < 70) {
+		if (live < 20) fase3();
+		else if (live < 35) {
 			if (attacking) {
 				if (sprite->getCurrentNumKeyFrame() == 3) {
 					attacking = false;
@@ -367,14 +367,14 @@ void Boss::fase3() {
 	else {
 		if (bLeft) {
 			bLeft = false;
-			if (nextBool(0.4)) sprite->changeAnimation(EXH_RIGHT);
+			if (nextBool(0.7)) sprite->changeAnimation(EXH_RIGHT);
 		}
 		else {
 			posSpriteEnemy.x += 2;
 			if (map->collisionMoveRight(posSpriteEnemy, glm::ivec2(spriteWidth, 64))) { 	//si hi ha colisio, ens parem
 				posSpriteEnemy.x -= 2;
 				bLeft = true;
-				if (nextBool(0.4)) sprite->changeAnimation(EXH_LEFT);
+				if (nextBool(0.7)) sprite->changeAnimation(EXH_LEFT);
 			}
 		}
 	}
@@ -404,7 +404,7 @@ void Boss::reciveDmg(int dmg , glm::ivec2 dmgAt) {
 	int tileXEnemy = posSpriteEnemy.x / tileSize;
 	int tileYEnemy = posSpriteEnemy.y / tileSize;
 	bool playerInRange = (abs(tileXEnemy - dmgX) < 5);
-	if (playerInRange && sprite->animation() != BALL) {
+	if (playerInRange && sprite->animation() != BALL && sprite->animation() != START_SECOND_LEFT && sprite->animation() != START_SECOND_RIGHT) {
 		if (bLeft) {
 			for (int x = 0; x < 2; ++x) {
 				for (int y = -1; y < 2; ++y) {
@@ -425,7 +425,7 @@ void Boss::reciveDmg(int dmg , glm::ivec2 dmgAt) {
 
 		}
 	}
-	cout << "Boss liv" << live << endl;
+	cout << "Boss liv :" << live << endl;
 }
 
 bool Boss::alive() {

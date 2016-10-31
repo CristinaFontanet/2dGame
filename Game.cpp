@@ -8,7 +8,7 @@ void Game::init()
 	glClearColor(0.27f, 0.53f, 0.71f, 1.0f);
 	loopSound();
 	sceneMain = SceneMain();
-	//sceneMain = SceneMain();
+//	sceneBoss = SceneBoss();
 //	sceneTutorial = SceneTutorial();
 	scene = &sceneMain;
 	scene->init();

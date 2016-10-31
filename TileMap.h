@@ -56,6 +56,8 @@ public:
 
 	vector<glm::vec2> getEnemiesPos();
 
+	glm::vec2 getMapSize();
+
 	void addVertices(int material,int x, int y);
 
 	void deleteVertices(int x, int y);
@@ -68,6 +70,7 @@ public:
 private:
 	bool loadLevel(const string &levelFile);
 	void prepareArrays(const glm::vec2 &minCoords, ShaderProgram &program);
+
 
 private:
 	GLuint vao;

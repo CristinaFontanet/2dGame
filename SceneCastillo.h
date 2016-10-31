@@ -3,7 +3,7 @@
 
 #include "Scene.h"
 #define INIT_PLAYER_X_TILES 1
-#define INIT_PLAYER_Y_TILES 20
+#define INIT_PLAYER_Y_TILES 15
 
 // Scene contains all the entities of our game.
 // It is responsible for updating and render them.

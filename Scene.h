@@ -18,8 +18,7 @@
 #define SCREEN_X 0
 #define SCREEN_Y 0
 
-#define INIT_PLAYER_X_TILES 8
-#define INIT_PLAYER_Y_TILES 107
+
 #define INIT_BOSS_X_TILES 7
 #define INIT_BOSS_Y_TILES 8
 // Scene contains all the entities of our game.
@@ -29,11 +28,11 @@ class Scene {
 public:
 	Scene();
 	~Scene();
+	void init(string background, string level, glm::vec2 initPosPlayer);
 	virtual void init() = 0;
 	virtual void render();
 	virtual void update(int deltaTime);
 
-	void init(string background,string level);
 	void initShaders();
 	void background();
 	void mouseClicked(int x, int y);
@@ -48,7 +47,8 @@ protected:
 	TileMap *map;
 	MainPlayer *mainPlayer;
 	bool showingMenu;
-
+	int minXOffset, minYOffset,tileSize;
+	glm::vec2 mapSize;
 	Boss *boss;
 	ShaderProgram texProgram;
 	float currentTime;

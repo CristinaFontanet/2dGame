@@ -22,7 +22,7 @@ Scene::~Scene()
 	if (mainPlayer != NULL) delete mainPlayer;
 }
 
-void Scene::init(string background, string level) {
+void Scene::init(string background, string level, glm::vec2 initPosPlayer) {
 	initShaders();
 	backgroundTexture.loadFromFile(background, TEXTURE_PIXEL_FORMAT_RGBA);
 	backgroundTexture.setWrapS(GL_CLAMP_TO_EDGE);
@@ -30,7 +30,6 @@ void Scene::init(string background, string level) {
 	backgroundTexture.setMinFilter(GL_NEAREST);
 	backgroundTexture.setMagFilter(GL_NEAREST);
 
-	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 	map = TileMap::createTileMap(level, glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
 
 	//GUI
@@ -40,16 +39,22 @@ void Scene::init(string background, string level) {
 	//Main Player
 	mainPlayer = new MainPlayer();
 	mainPlayer->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, inventoryWindow,livesWindow);
-	mainPlayer->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
+	mainPlayer->setPosition(glm::vec2(initPosPlayer.x * map->getTileSize(), initPosPlayer.y * map->getTileSize()));
 	mainPlayer->setTileMap(map);
 	playerPos = mainPlayer->getPlayerPosition();
-	offsetXCamera = SCREEN_HEIGHT / 2 - playerPos[0];
-	offsetYCamera = SCREEN_WIDTH / 2 - playerPos[1] * 1.025;
+	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
+	tileSize = map->getTileSize();
+	mapSize = map->getMapSize();
+	minXOffset = 1+(SCREEN_WIDTH / tileSize) / 2;
+	minYOffset = (SCREEN_HEIGHT / tileSize) / 2;
 
+	if (initPosPlayer.x < minXOffset) offsetXCamera = 0 * -tileSize;
+	else if (initPosPlayer.x > (mapSize.x-minXOffset)) offsetXCamera = (mapSize.x - minXOffset*2) * -tileSize;
+	else offsetXCamera = (initPosPlayer.x - minXOffset) * -tileSize;
+	offsetYCamera = SCREEN_WIDTH / 2 - playerPos[1] * 1.025;
 	projection = glm::translate(projection, glm::vec3(offsetXCamera, offsetYCamera, 0.f));
 
 	menu_gui.init("../GUI", mainPlayer,m_gui.getRenderer());
-
 	currentTime = 0.0f;
 
 	//boss
@@ -73,7 +78,8 @@ void Scene::update(int deltaTime) {
 		float incy, incx = 0;
 		incy = playerPos[1] - mainPlayer->getPlayerPosition()[1];
 		offsetYCamera += incy;
-		if ((((playerPos[0]) - (SCREEN_WIDTH / 2)) >= 0) && (playerPos[0] < ((32 * 300) - (SCREEN_WIDTH / 2)))) {
+
+		if ((((playerPos[0]) - (SCREEN_WIDTH / 2)) >= 0) && (playerPos[0] < ((tileSize * mapSize.x) - (SCREEN_WIDTH / 2)))) {
 			incx = playerPos[0] - mainPlayer->getPlayerPosition()[0];
 			offsetXCamera += incx;
 		}

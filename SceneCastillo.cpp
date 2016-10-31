@@ -25,7 +25,19 @@ SceneMain::~SceneMain() {
 }
 
 void SceneMain::init() {
-	Scene::init("images/background.png", "levels/castillo.txt",glm::vec2 (INIT_PLAYER_X_TILES, INIT_PLAYER_Y_TILES));
+	Scene::init("images/castillo.png", "levels/castillo.txt",glm::vec2 (INIT_PLAYER_X_TILES, INIT_PLAYER_Y_TILES));
+
+/*	player = new P_conillet();
+	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
+	player->setTileMap(map);
+	//boss
+	boss = new P_boss();
+	boss->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	boss->setPosition(glm::vec2(INIT_BOSS_X_TILES * map->getTileSize(), INIT_BOSS_Y_TILES * map->getTileSize()));
+	boss->setTileMap(map);
+	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
+*/
 
 	enemy = new Enemy();
 	enemy->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);

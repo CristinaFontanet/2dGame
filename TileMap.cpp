@@ -91,7 +91,7 @@ bool TileMap::loadLevel(const string &levelFile)
 					map[j*mapSize.x + i].second= 0;
 					break;
 				case 0: //ogre
-					posEnemies.push_back(glm::vec2(i, j-10)); // aseguramos que caigan del cielo y no se queden atascados 
+					posEnemies.push_back(glm::vec2(i, j-2)); // aseguramos que caigan del cielo y no se queden atascados 
 					break;
 				case 5:	//tierra con cesped
 					map[j*mapSize.x + i].first = 6;
@@ -127,7 +127,7 @@ bool TileMap::loadLevel(const string &levelFile)
 					break;
 				case 94: //FIn
 					map[j*mapSize.x + i].first = 108;
-					map[j*mapSize.x + i].second = -1;
+					map[j*mapSize.x + i].second = INT16_MAX;
 					break;
 			}
 		}
@@ -376,4 +376,8 @@ int  TileMap::getTileSize() {
 
 vector<glm::vec2> TileMap::getEnemiesPos() {
 	return posEnemies;
+}
+
+glm::vec2 TileMap::getMapSize() {
+	return mapSize;
 }

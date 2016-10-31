@@ -427,3 +427,7 @@ void Boss::reciveDmg(int dmg , glm::ivec2 dmgAt) {
 	}
 	cout << "Boss liv" << live << endl;
 }
+
+bool Boss::alive() {
+	return live > 0;
+}

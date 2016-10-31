@@ -35,6 +35,8 @@ public:
 
 	void reciveDmg(int dmg, glm::ivec2 dmgAt);
 
+	bool alive();
+
 private:
 
 	bool nextBool(double probability);

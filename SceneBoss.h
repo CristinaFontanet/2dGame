@@ -25,7 +25,7 @@ public:
 	void updateOgres(int deltaTime);
 
 protected:
-	
+	bool bossStart;
 	Boss* boss;
 	int playerXtiles, playerYtiles;
 	vector<EnOgre*> ogresToDelete;

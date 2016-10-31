@@ -1,5 +1,7 @@
 
 #include "SceneBoss.h"
+#include <glm/gtc/matrix_transform.hpp>
+
 
 SceneBoss::SceneBoss() {
 	map = NULL;
@@ -17,6 +19,7 @@ void SceneBoss::init() {
 	playerYtiles = 30;
 	Scene::init("images/castillo.png", "levels/Castillo.txt",  glm::vec2(playerXtiles , playerYtiles) );
 
+	bossStart = false;
 	//boss
 	boss = new Boss();
 	boss->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
@@ -29,17 +32,33 @@ void SceneBoss::init() {
 
 void SceneBoss::update(int deltaTime) {
 	Scene::update(deltaTime);
+	if (playerPos[0] / tileSize >= 130 && !bossStart) {
+		bossStart = true;
+		map->addMaterial(123 * tileSize, 36 * tileSize, playerPos[0], playerPos[1], LIM, 100);
+		map->addMaterial(123*tileSize,35*tileSize,playerPos[0],playerPos[1],LIM,100);
+		map->addMaterial(123 * tileSize, 34 * tileSize, playerPos[0], playerPos[1], LIM, 100);
+		map->addMaterial(123 * tileSize, 33 * tileSize, playerPos[0], playerPos[1], LIM, 100);
+	}
+
 	//no cal fer update del mapa xq aquest no te animacions ni res 
 	if(!menu_gui.isMenuShowing()) {		//PAUSA si s'esta mostrant el menu
 		updateOgres(deltaTime);
-		boss->update(deltaTime);
+		if (bossStart) {
+			boss->update(deltaTime);
+			projection = glm::ortho(0.f, float(800 - 1), float(600 - 1), 0.f);
+			projection = glm::translate(projection, glm::vec3(124 * -tileSize , -680, 0.f));
+			if (!boss->alive()) {
+				projection = glm::ortho(0.f, float(800 - 1), float(600 - 1), 0.f);
+				projection = glm::translate(projection, glm::vec3(124 * -tileSize, -200, 0.f));
+			}
+		}
 	}
 }
 
 void SceneBoss::render() {
 	Scene::render();
 	renderOgres();
-	boss->render(); 
+	if(bossStart)boss->render(); 
 	Scene::renderGUI();	//IMPORTAAANT, despres de tots els renders
 }
 

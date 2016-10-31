@@ -4,8 +4,6 @@
 #include <glm/glm.hpp>
 #include "ShaderProgram.h"
 #include "TileMap.h"
-#include "P_conillet.h"
-#include "P_boss.h"
 #include "MainPlayer.h"
 #include "Enemy.h"
 #include "Ogre.h"
@@ -14,6 +12,7 @@
 #include "MenuGUI.h"
 #include <CEGUI/CEGUI.h>
 #include <CEGUI/RendererModules/OpenGL/GL3Renderer.h>
+#include "AlertGUI.h"
 
 #define SCREEN_X 0
 #define SCREEN_Y 0
@@ -32,6 +31,8 @@ public:
 	virtual void init() {};
 	virtual void render();
 	virtual void update(int deltaTime);
+	virtual void alertYesClicked();
+	virtual void alertNoClicked();
 
 	void initShaders();
 	void background();
@@ -40,6 +41,7 @@ public:
 	std::pair<float, float> getOffsetCamera();
 	void selectItem(int num);
 	MainPlayer* getMainPlayer();
+	void showAlert(string text);
 
 	virtual bool dmgEnnemys(int dmg, glm::ivec2 dmgAt) = 0;
 	virtual void killOgre(EnOgre * ogre) {};
@@ -60,6 +62,10 @@ protected:
 	float offsetXCamera, offsetYCamera;
 	Bengine::GUI m_gui;
 	MenuGUI menu_gui;
+
+	bool showingAlert;
+	AlertGUI al;
+
 };
 
 #endif // _SCENE_INCLUDE

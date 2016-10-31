@@ -39,7 +39,9 @@ public:
 	void mouseMove(int x, int y);
 	void mousePress(int x, int y);
 	void mouseRelease(int x, int y);
-	
+	void alertYesClicked();
+	void alertNoClicked();
+
 	bool getKey(int key) const;
 	bool getSpecialKey(int key) const;
 
@@ -68,6 +70,7 @@ private:
 	Scene* scene;                      // Scene to render
 	bool keys[256], specialKeys[256]; // Store key states so that 
 	int pressedKey;                                 // we can have access at any time
+
 };
 
 

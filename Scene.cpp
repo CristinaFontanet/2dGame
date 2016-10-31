@@ -23,6 +23,7 @@ Scene::~Scene()
 }
 
 void Scene::init(string background, string level, glm::vec2 initPosPlayer) {
+	showingAlert = false;
 	initShaders();
 	backgroundTexture.loadFromFile(background, TEXTURE_PIXEL_FORMAT_RGBA);
 	backgroundTexture.setWrapS(GL_CLAMP_TO_EDGE);
@@ -61,7 +62,7 @@ void Scene::init(string background, string level, glm::vec2 initPosPlayer) {
 
 void Scene::update(int deltaTime) {
 	//no cal fer update del mapa xq aquest no te animacions ni res 
-	if (!menu_gui.isMenuShowing()) {		//PAUSA si s'esta mostrant el menu
+	if (!menu_gui.isMenuShowing() && !showingAlert) {		//PAUSA si s'esta mostrant el menu
 		currentTime += deltaTime;
 
 		mainPlayer->update(deltaTime);
@@ -81,26 +82,45 @@ void Scene::update(int deltaTime) {
 void Scene::renderGUI() {
 	m_gui.draw();
 	menu_gui.draw();
+	if (showingAlert) al.draw();
 }
 
 void Scene::render() {
-	glm::mat4 modelview;
-	texProgram.use();
-	texProgram.setUniformMatrix4f("projection", projection);
-	texProgram.setUniform4f("color", 1.0f, 1.0f, 1.0f, 1.0f);
-	texProgram.setUniformMatrix4f("modelview", modelview);
-	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
-	map->render();
+		glm::mat4 modelview;
+		texProgram.use();
+		texProgram.setUniformMatrix4f("projection", projection);
+		texProgram.setUniform4f("color", 1.0f, 1.0f, 1.0f, 1.0f);
+		texProgram.setUniformMatrix4f("modelview", modelview);
+		texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
+		map->render();
 
-	mainPlayer->render();
+		mainPlayer->render();
 }
 
 void Scene::showMenu() {
 	menu_gui.showMenuClicked();
 }
 
+
+void Scene::alertYesClicked() {
+	std::cout << "YESS" << std::endl;
+	showingAlert = false;
+}
+
+void Scene::alertNoClicked() {
+	std::cout << "Noo" << std::endl;
+	showingAlert = false;
+}
+
 void Scene::mouseClicked(int x, int y) {
-	if (!menu_gui.isMenuShowing())mainPlayer->mouseClick(x, y);
+	if (showingAlert) {
+		std::cout << "x: " << x << ", y:" << y << std::endl;
+		if (y > 280 && y < 315) {
+			if (x > 224 && x < 340) Game::instance().alertYesClicked();
+			else if(x > 374 && x <495) Game::instance().alertNoClicked();
+		}
+	}
+	else if (!menu_gui.isMenuShowing())mainPlayer->mouseClick(x, y);
 	else menu_gui.mouseClick(x, y);
 }
 
@@ -144,6 +164,11 @@ std::pair<float, float> Scene::getOffsetCamera() {
 	offset.first = -1 * offsetXCamera;
 	offset.second = -1 * offsetYCamera;
 	return offset;
+}
+
+void Scene::showAlert(string text) {
+	al.init("../GUI", MenuGUI::instance().getRenderer(), text);
+	showingAlert = true;
 }
 
 void  Scene::background(){

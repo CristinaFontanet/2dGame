@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\AlertGUI.cpp" />
     <ClCompile Include="..\Boss.cpp" />
     <ClCompile Include="..\Enemy.cpp" />
     <ClCompile Include="..\MenuGUI.cpp" />
@@ -20,8 +21,6 @@
     <ClCompile Include="..\Item.cpp" />
     <ClCompile Include="..\main.cpp" />
     <ClCompile Include="..\mainPlayer.cpp" />
-    <ClCompile Include="..\P_boss.cpp" />
-    <ClCompile Include="..\P_conillet.cpp" />
     <ClCompile Include="..\Scene.cpp" />
     <ClCompile Include="..\SceneBoss.cpp" />
     <ClCompile Include="..\SceneMain.cpp" />
@@ -34,6 +33,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\libs\glm\glm\detail\_vectorize.hpp" />
+    <ClInclude Include="..\AlertGUI.h" />
     <ClInclude Include="..\Boss.h" />
     <ClInclude Include="..\Constants.h" />
     <ClInclude Include="..\Enemy.h" />
@@ -43,8 +43,6 @@
     <ClInclude Include="..\GUI.h" />
     <ClInclude Include="..\Item.h" />
     <ClInclude Include="..\mainPlayer.h" />
-    <ClInclude Include="..\P_boss.h" />
-    <ClInclude Include="..\P_conillet.h" />
     <ClInclude Include="..\Scene.h" />
     <ClInclude Include="..\SceneBoss.h" />
     <ClInclude Include="..\SceneMain.h" />

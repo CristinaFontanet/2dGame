@@ -10,8 +10,6 @@
     <ClCompile Include="..\Item.cpp" />
     <ClCompile Include="..\main.cpp" />
     <ClCompile Include="..\mainPlayer.cpp" />
-    <ClCompile Include="..\P_boss.cpp" />
-    <ClCompile Include="..\P_conillet.cpp" />
     <ClCompile Include="..\Scene.cpp" />
     <ClCompile Include="..\Shader.cpp" />
     <ClCompile Include="..\ShaderProgram.cpp" />
@@ -21,6 +19,7 @@
     <ClCompile Include="..\SceneMain.cpp" />
     <ClCompile Include="..\SceneTutorial.cpp" />
     <ClCompile Include="..\SceneBoss.cpp" />
+    <ClCompile Include="..\AlertGUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\libs\glm\glm\detail\_vectorize.hpp" />
@@ -33,8 +32,6 @@
     <ClInclude Include="..\GUI.h" />
     <ClInclude Include="..\Item.h" />
     <ClInclude Include="..\mainPlayer.h" />
-    <ClInclude Include="..\P_boss.h" />
-    <ClInclude Include="..\P_conillet.h" />
     <ClInclude Include="..\Scene.h" />
     <ClInclude Include="..\Shader.h" />
     <ClInclude Include="..\ShaderProgram.h" />
@@ -45,6 +42,7 @@
     <ClInclude Include="..\SceneMain.h" />
     <ClInclude Include="..\SceneTutorial.h" />
     <ClInclude Include="..\SceneBoss.h" />
+    <ClInclude Include="..\AlertGUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2D.rc" />

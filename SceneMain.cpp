@@ -48,7 +48,7 @@ void SceneMain::init() {
 void SceneMain::update(int deltaTime) {
 	Scene::update(deltaTime);
 	//no cal fer update del mapa xq aquest no te animacions ni res 
-	if(!menu_gui.isMenuShowing()) {		//PAUSA si s'esta mostrant el menu
+	if(!menu_gui.isMenuShowing() && !showingAlert) {		//PAUSA si s'esta mostrant el menu
 		enemy->update(deltaTime);
 		pony->update(deltaTime);
 		updateOgres(deltaTime);

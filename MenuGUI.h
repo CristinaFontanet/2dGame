@@ -21,6 +21,11 @@ using namespace CEGUI;
 
 class MenuGUI {
     public:
+		static MenuGUI &instance() {
+			static MenuGUI G;
+
+			return G;
+		}
         void init(const std::string& resourceDirectory, MainPlayer* mainPlayer, CEGUI::OpenGL3Renderer* rend);
         void destroy();
 

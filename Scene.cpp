@@ -30,7 +30,6 @@ void Scene::init(string background, string level) {
 	backgroundTexture.setMinFilter(GL_NEAREST);
 	backgroundTexture.setMagFilter(GL_NEAREST);
 
-	map = TileMap::createTileMap("levels/levelTerraria300.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 	map = TileMap::createTileMap(level, glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
 

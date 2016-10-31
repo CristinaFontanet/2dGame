@@ -32,6 +32,7 @@ protected:
 	vector<EnOgre*> ogresToDelete;
 	vector<glm::vec2> posOgres;
 
+	Boss *boss;
 };
 
 #endif // _SCENE_INCLUDE

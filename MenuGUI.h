@@ -109,5 +109,6 @@ class MenuGUI {
 		bool enoughtRocksSword;
 		bool enoughtRocksPeak;
 		bool enoughtGoldBell;
+		bool correctSword;
 	
 };

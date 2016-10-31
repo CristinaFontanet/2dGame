@@ -271,7 +271,7 @@ bool MenuGUI::craftPeak() {
 }
 
 bool MenuGUI::craftBell() {
-	if (enoughtGoldBell) {
+	if (enoughtGoldBell && correctSword) {
 		//TODO: So guai
 		mainPlayer->getBell()->addItem();
 		mainPlayer->getGold()->reduceAmount(NUM_GOLD_NEEDED_BELL);
@@ -486,8 +486,16 @@ void MenuGUI::updateItemsPeak() {
 
 void MenuGUI::updateItemsBell() {
 	Item *currentBell = mainPlayer->getBell();
-	res3Itm1SImg->setVisible(true);
+	
 	if (currentBell->getAmount() == 0) {
+		if (mainPlayer->getSword()->element == DIAMOND) {
+			res3Itm1SImg->setVisible(true);
+			correctSword = true;
+		}
+		else {
+			correctSword = false;
+			res3Itm1SImg->setVisible(false);
+		}
 		if (mainPlayer->getGold()->getAmount() >= NUM_GOLD_NEEDED_BELL) {
 			res3Itm2SImg->setVisible(true);
 			enoughtGoldBell = true;

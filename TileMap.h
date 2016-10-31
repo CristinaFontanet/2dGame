@@ -54,6 +54,8 @@ public:
 
 	int getTileSize();
 
+	vector<glm::vec2> getEnemiesPos();
+
 	void addVertices(int material,int x, int y);
 
 	void deleteVertices(int x, int y);
@@ -81,6 +83,7 @@ private:
 	ShaderProgram programR;
 	int ntilesVBO;
 	vector<float> vertices;
+	vector<glm::vec2> posEnemies;
 };
 
 #endif // _TILE_MAP_INCLUDE

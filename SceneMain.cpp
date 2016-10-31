@@ -44,21 +44,14 @@ void SceneMain::init() {
 	enemy->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
 	enemy->setTileMap(map);
 	enemy->setTarget(mainPlayer);
-	
-	
-	ogre1 = new EnOgre();
-	ogre1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
-	ogre1->setPosition(glm::vec2((10+INIT_PLAYER_X_TILES)* map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
-	ogre1->setTileMap(map);
-	ogre1->setTarget(mainPlayer);
-
-	ogres.push_back(ogre1);
 
 	pony = new Enemy();
 	pony->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 	pony->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
 	pony->setTileMap(map);
 	pony->setTarget(mainPlayer);
+
+	createOgres();
 }
 
 void SceneMain::update(int deltaTime) {
@@ -122,4 +115,19 @@ void SceneMain::updateArrayOgres(EnOgre * ogre) {
 		}
 		ogres = auxOg;
 	}
+}
+
+void SceneMain::createOgres() {
+	posOgres = map->getEnemiesPos();
+	if (posOgres.size() > 0) {
+		for each (glm::vec2 pos in posOgres) {
+			ogre1 = new EnOgre();
+			ogre1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+			ogre1->setPosition(glm::vec2((pos.x)* map->getTileSize(), pos.y * map->getTileSize()));
+			ogre1->setTileMap(map);
+			ogre1->setTarget(mainPlayer);
+			ogres.push_back(ogre1);
+		}
+	}
+	
 }

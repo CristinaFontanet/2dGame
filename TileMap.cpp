@@ -90,6 +90,9 @@ bool TileMap::loadLevel(const string &levelFile)
 					map[j*mapSize.x + i].first= 0;
 					map[j*mapSize.x + i].second= 0;
 					break;
+				case 0: //ogre
+					posEnemies.push_back(glm::vec2(i, j-10)); // aseguramos que caigan del cielo y no se queden atascados 
+					break;
 				case 5:	//tierra con cesped
 					map[j*mapSize.x + i].first = 6;
 					map[j*mapSize.x + i].second = 1;
@@ -366,6 +369,11 @@ void TileMap::actualizarVBO() {
 	texCoordLocation = programR.bindVertexAttribute("texCoord", 2, 4 * sizeof(float), (void *)(2 * sizeof(float)));
 	render();
 }
+
 int  TileMap::getTileSize() {
 	return tileSize;
+}
+
+vector<glm::vec2> TileMap::getEnemiesPos() {
+	return posEnemies;
 }

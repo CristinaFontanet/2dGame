@@ -22,14 +22,15 @@ public:
 	bool dmgEnnemys(int dmg, glm::ivec2 dmgAt);
 	void killOgre(EnOgre * ogre);
 	void updateArrayOgres(EnOgre * ogre);
-
 	void updateOgres(EnOgre * ogre);
 protected:
+	void createOgres();
 	EnOgre *ogre1;
 	Enemy *enemy;
 	Enemy *pony;
 	vector<EnOgre*> ogres;
 	vector<EnOgre*> ogresToDelete;
+	vector<glm::vec2> posOgres;
 
 };
 

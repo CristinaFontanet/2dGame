@@ -14,10 +14,13 @@ SceneBoss::~SceneBoss() {
 	if (boss != NULL) delete boss;
 }
 
-void SceneBoss::init() {
+
+
+void SceneBoss::init(MainPlayer* mPlayer) {
 	playerXtiles = 1;
 	playerYtiles = 30;
 	Scene::init("images/castillo.png", "levels/Castillo.txt",  glm::vec2(playerXtiles , playerYtiles) );
+	Scene::combinePlayer(mPlayer);
 
 	bossStart = false;
 	//boss

@@ -26,15 +26,17 @@ public:
 
 	void setAmount(int newAmount);
 	void reduceAmount(int num);
-	int getAmount();
 	string getMaterialString();
 	void addItem();
 	void setSelected(bool select);
 	void setWindowProperties();
+	void setElement(int element);
 	bool improveSword();
 	bool improvePeak();
 	vector<pair<Item*, int>>* getEvolveItemsNeeded();
 	void setEvolveItemsNeeded(vector<pair<Item*, int>>*);
+	int getAmount();
+	int getElement();
 	int type;
 	int element;
 	int dmg;
@@ -42,10 +44,10 @@ public:
 
 private:
 	vector<pair<Item*,int>> *evolveItems;
-	CEGUI::Window* windImage;
-	CEGUI::Window* windImageSelected;
-	CEGUI::Window* windAmount;
-	CEGUI::Window* windInventory;
+	CEGUI::Window* windImage = nullptr;
+	CEGUI::Window* windImageSelected = nullptr;
+	CEGUI::Window* windAmount = nullptr;
+	CEGUI::Window* windInventory = nullptr;
 	string slot;
 
 	struct evolveItem {

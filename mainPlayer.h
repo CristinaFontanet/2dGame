@@ -30,6 +30,8 @@ public:
 	void setJumpMod(int mod);
 	void mouseClick(int x, int y);
 	void equipItem(int num);
+	void combineInventory(MainPlayer* mPlayer);
+	int getAmountItem(int i);
 	Item* getSword();
 	Item* getPeak();
 	Item* getRock();

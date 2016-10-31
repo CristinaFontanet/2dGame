@@ -180,3 +180,11 @@ void  Scene::background(){
 	glPopMatrix();
 
 }
+
+MainPlayer* Scene::getMainPlayer() {
+	return mainPlayer;
+}
+
+void Scene::combinePlayer(MainPlayer* mPlayer) {
+	mainPlayer->combineInventory(mPlayer);
+}

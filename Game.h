@@ -56,7 +56,7 @@ public:
 	FMOD::System* getSoundSystem();
 
 	void killOgre(EnOgre * ogre);
-
+	void proceedToBoss();
 
 private:
 	FMOD::System *system;

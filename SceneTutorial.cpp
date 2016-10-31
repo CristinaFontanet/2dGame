@@ -15,7 +15,7 @@ SceneTutorial::~SceneTutorial() {
 }
 
 void SceneTutorial::init() {
-	playerXtiles = 1;
+	playerXtiles = 10;
 	playerYtiles = 10;
 	Scene::init("images/background.png", "levels/Tutorial.txt", glm::vec2(playerXtiles , playerYtiles) );
 

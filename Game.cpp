@@ -14,6 +14,14 @@ void Game::init()
 	scene->init();
 }
 
+void Game::proceedToBoss() {
+	if (scene == &sceneMain) {
+		sceneBoss.init(scene->getMainPlayer());
+		scene = &sceneBoss;
+	//	scene->init();
+	}
+}
+
 bool Game::update(int deltaTime)
 {
 	scene->update(deltaTime);

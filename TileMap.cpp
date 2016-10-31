@@ -73,7 +73,7 @@ bool TileMap::loadLevel(const string &levelFile)
 	//map = new int[mapSize.x * mapSize.y];
 	//for(int j=0; j<mapSize.y; j++) {
 	map = new std::pair<int,int> [mapSize.x * mapSize.y];
-	materials = { COAL,DIAMOND,WOOD,TUSK,GOLD,ROCK };
+	materials = { COAL,DIAMOND,WOOD,TUSK,GOLD,ROCK,LIM };
 	for(int j=0; j<mapSize.y; j++)
 	{
 		getline(fin, line);

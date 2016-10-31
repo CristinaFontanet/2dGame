@@ -35,6 +35,8 @@ void SceneTutorial::init() {
 
 void SceneTutorial::update(int deltaTime) {
 	Scene::update(deltaTime);
+
+
 	//no cal fer update del mapa xq aquest no te animacions ni res 
 	if(!menu_gui.isMenuShowing()) {		//PAUSA si s'esta mostrant el menu
 		ogre1->update(deltaTime);

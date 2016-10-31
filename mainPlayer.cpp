@@ -7,7 +7,7 @@
 #include "Game.h"
 
 #define JUMP_ANGLE_STEP 4
-#define JUMP_HEIGHT 90
+#define JUMP_HEIGHT 45
 #define FALL_STEP 4
 #define HEIGHTWALK 64
 #define WIDTHWALK 32
@@ -26,6 +26,7 @@ enum AttackSprites {
 
 void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram, CEGUI::Window* inventoryWindow, CEGUI::Window* livesWindiowP) {
 	live = 100;
+	jumpMod = 1;
 	animationInProgress = false;
 	bDamage = false;
 	setUpInventory(inventoryWindow);
@@ -299,13 +300,13 @@ void MainPlayer::update(int deltaTime) {
 	marg = 0;
 	//POSICIO Y
 	if (bJumping) {
-		jumpAngle += JUMP_ANGLE_STEP;
+		jumpAngle += JUMP_ANGLE_STEP-(0.5*jumpMod);
 		if (jumpAngle == 180) {
 			bJumping = false;
 		}
 		else {
 			int posPlayerIniY = posPlayer.y;
-			posPlayer.y = int(startY - JUMP_HEIGHT * sin(3.14159f * jumpAngle / 180.f));
+			posPlayer.y = int(startY - (JUMP_HEIGHT + (32*jumpMod)) * sin(3.14159f * jumpAngle / 180.f));
 			glm::ivec2 spritePos = posPlayer;
 			//48 = 64/4*3 per l'alçada real del sprite xq no funciona 48????
 			if (map->collisionMoveUp(spritePos, glm::ivec2(spriteWidth,50), &posPlayer.y, bLeft, marg)) {
@@ -553,4 +554,8 @@ void MainPlayer::configSounds() {
 	system->createSound("sounds/punched.wav", FMOD_2D, 0, &dmgSound);
 	system->createSound("sounds/dig.wav", FMOD_2D, 0, &digSound);
 
+}
+
+void MainPlayer::setJumpMod(int mod) {
+	jumpMod = mod;
 }

@@ -18,12 +18,20 @@ public:
 	void update(int deltaTime);
 
 	bool dmgEnnemys(int dmg, glm::ivec2 dmgAt);
-	//void killOgre(EnOgre * ogre);
+	void killOgre(EnOgre * ogre);
+	void updateArrayOgres(EnOgre * ogre);
+	void createOgres();
+	void renderOgres();
+	void updateOgres(int deltaTime);
 
 protected:
 	
 	Boss* boss;
 	int playerXtiles, playerYtiles;
+	vector<EnOgre*> ogresToDelete;
+	vector<glm::vec2> posOgres;
+	EnOgre *ogre1;
+	vector<EnOgre*> ogres;
 };
 
 #endif // _SCENE_INCLUDE

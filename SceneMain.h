@@ -29,9 +29,9 @@ public:
 protected:
 	void createOgres();
 	EnOgre *ogre1;
+	vector<EnOgre*> ogres;
 	Enemy *enemy;
 	Enemy *pony;
-	vector<EnOgre*> ogres;
 	vector<EnOgre*> ogresToDelete;
 	vector<glm::vec2> posOgres;
 

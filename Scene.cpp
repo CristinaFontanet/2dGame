@@ -57,15 +57,6 @@ void Scene::init(string background, string level, glm::vec2 initPosPlayer) {
 	menu_gui.init("../GUI", mainPlayer,m_gui.getRenderer());
 	currentTime = 0.0f;
 
-	//boss
-	boss = new Boss();
-	boss->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
-	boss->setPosition(glm::vec2((10 + INIT_PLAYER_X_TILES) * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
-	boss->setTileMap(map);
-	boss->setTarget(mainPlayer);
-
-	currentTime = 0.0f;
-
 }
 
 void Scene::update(int deltaTime) {
@@ -73,7 +64,6 @@ void Scene::update(int deltaTime) {
 	if (!menu_gui.isMenuShowing()) {		//PAUSA si s'esta mostrant el menu
 		currentTime += deltaTime;
 
-		boss->update(deltaTime);
 		mainPlayer->update(deltaTime);
 		float incy, incx = 0;
 		incy = playerPos[1] - mainPlayer->getPlayerPosition()[1];
@@ -102,9 +92,7 @@ void Scene::render() {
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
 	map->render();
 
-	boss->render();
 	mainPlayer->render();
-
 }
 
 void Scene::showMenu() {

@@ -40,16 +40,16 @@ public:
 	std::pair<float, float> getOffsetCamera();
 	void selectItem(int num);
 
-protected:
 	virtual bool dmgEnnemys(int dmg, glm::ivec2 dmgAt) = 0;
-	virtual void killOgre(EnOgre * ogre) = 0;
+	virtual void killOgre(EnOgre * ogre) {};
+protected:
 	void renderGUI();
 	TileMap *map;
 	MainPlayer *mainPlayer;
 	bool showingMenu;
 	int minXOffset, minYOffset,tileSize;
 	glm::vec2 mapSize;
-	Boss *boss;
+
 	ShaderProgram texProgram;
 	float currentTime;
 	OwnTexture backgroundTexture;

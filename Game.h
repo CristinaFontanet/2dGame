@@ -4,6 +4,8 @@
 
 #include "Scene.h"
 #include "SceneMain.h"
+#include "SceneTutorial.h"
+#include "SceneBoss.h"
 #include "fmod.hpp"
 #include "Constants.h"
 
@@ -61,7 +63,9 @@ private:
 	int mouseX, mouseY;
 	bool bPlay;                       // Continue to play game?
 	SceneMain sceneMain;
-	SceneMain scene;                      // Scene to render
+	SceneTutorial sceneTutorial;
+	SceneBoss sceneBoss;
+	Scene* scene;                      // Scene to render
 	bool keys[256], specialKeys[256]; // Store key states so that 
 	int pressedKey;                                 // we can have access at any time
 };

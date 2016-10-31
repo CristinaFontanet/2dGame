@@ -19,6 +19,8 @@
     <ClCompile Include="..\TileMap.cpp" />
     <ClCompile Include="..\OwnTexture.cpp" />
     <ClCompile Include="..\SceneMain.cpp" />
+    <ClCompile Include="..\SceneTutorial.cpp" />
+    <ClCompile Include="..\SceneBoss.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\libs\glm\glm\detail\_vectorize.hpp" />
@@ -41,6 +43,8 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="..\OwnTexture.h" />
     <ClInclude Include="..\SceneMain.h" />
+    <ClInclude Include="..\SceneTutorial.h" />
+    <ClInclude Include="..\SceneBoss.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2D.rc" />

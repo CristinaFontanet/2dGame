@@ -2,8 +2,9 @@
 #define _SCENE_MAIN_INCLUDE
 
 #include "Scene.h"
-#define INIT_PLAYER_X_TILES 1
-#define INIT_PLAYER_Y_TILES 20
+
+
+
 
 // Scene contains all the entities of our game.
 // It is responsible for updating and render them.
@@ -34,6 +35,7 @@ protected:
 	vector<EnOgre*> ogresToDelete;
 	vector<glm::vec2> posOgres;
 
+	int playerXtiles, playerYtiles;
 };
 
 #endif // _SCENE_INCLUDE

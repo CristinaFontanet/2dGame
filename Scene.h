@@ -43,7 +43,7 @@ public:
 	MainPlayer* getMainPlayer();
 	void showAlert(string text);
 
-	virtual bool dmgEnnemys(int dmg, glm::ivec2 dmgAt) = 0;
+	virtual bool dmgEnnemys(int dmg, glm::ivec2 dmgAt) { return false; };
 	virtual void killOgre(EnOgre * ogre) {};
 	void combinePlayer(MainPlayer* mPlayer);
 protected:

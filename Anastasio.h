@@ -12,7 +12,7 @@ using namespace std;
 class Anastasio {
 public:
 
-	void init(const glm::ivec2 & tileMapPos, ShaderProgram & shaderProgram);
+	void init(const glm::ivec2 & tileMapPos, ShaderProgram & shaderProgram, bool big);
 
 	void setTileMap(TileMap * tileMap);
 
@@ -25,8 +25,7 @@ public:
 	void update(int deltaTime);
 
 private:
-
-
+	bool bigSprite;
 	OwnTexture spritesheet;
 	Sprite *sprite;
 	TileMap *map;
@@ -34,7 +33,6 @@ private:
 	double heightProp;
 	double widhtProp;
 	glm::ivec2 tileMapDispl, posEnemy;
-
 
 };
 

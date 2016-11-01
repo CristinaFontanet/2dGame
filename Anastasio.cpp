@@ -5,53 +5,38 @@
 #include <GL/glew.h>
 #include <GL/glut.h>
 #include "Anastasio.h"
+#include "Constants.h"
 
+
+#define ANIMATION_SPEED 8
+#define SPRITE_SIZE_BIG 512
+#define SPRITE_SIZE_SMALL 128
 
 enum SpriteMoves {
 	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT
 };
 
-void Anastasio::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram) {
-	/*
-	heightProp = 1.f / 16.f;
-	widhtProp = 1.f / 2.f;
-	double yoffset = 1.f / 32.f;
-	spritesheet.loadFromFile("images/unicorn.png", TEXTURE_PIXEL_FORMAT_RGBA);
-	sprite = Sprite::createSprite(glm::ivec2(64, 64), glm::vec2(widhtProp, heightProp), &spritesheet, &shaderProgram);
+void Anastasio::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram, bool big) {
+	bigSprite = big;
+	heightProp = 1.f / 3.f;
+	widhtProp = 1.f / 5.f;
+	spritesheet.loadFromFile("images/Anastasio.png", TEXTURE_PIXEL_FORMAT_RGBA);
+	if (big)  sprite = Sprite::createSprite(glm::ivec2(SPRITE_SIZE_BIG, SPRITE_SIZE_BIG), glm::vec2(widhtProp*3.5, heightProp * 3), &spritesheet, &shaderProgram);
+	else sprite = Sprite::createSprite(glm::ivec2(SPRITE_SIZE_SMALL, SPRITE_SIZE_SMALL), glm::vec2(widhtProp, heightProp), &spritesheet, &shaderProgram);
+
 	sprite->setNumberAnimations(8);
 	sprite->setAnimationSpeed(STAND_LEFT, ANIMATION_SPEED);
-	sprite->addKeyframe(STAND_LEFT, glm::vec2(0.f, 0.f));
-
-	sprite->setAnimationSpeed(STAND_RIGHT, ANIMATION_SPEED);
-	sprite->addKeyframe(STAND_RIGHT, glm::vec2(widhtProp, 0.f));
-
-	sprite->setAnimationSpeed(MOVE_LEFT, ANIMATION_SPEED);
-	sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f, 0.f));
-	sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f, heightProp *1));
-	sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f, heightProp *2));
-	sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f, heightProp *3));
-	sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f, heightProp *4));
-	sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f, heightProp *5));
-	sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f, heightProp * 6));
-	sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f, heightProp * 7));
-	sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f, heightProp * 8));
-
-
-	sprite->setAnimationSpeed(MOVE_RIGHT, ANIMATION_SPEED);
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(widhtProp, 0.f));
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(widhtProp, heightProp * 1));
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(widhtProp, heightProp * 2));
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(widhtProp, heightProp * 3));
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(widhtProp, heightProp * 4));
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(widhtProp, heightProp * 5));
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(widhtProp, heightProp * 6));
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(widhtProp, heightProp * 7));
-	sprite->addKeyframe(MOVE_RIGHT, glm::vec2(widhtProp, heightProp * 8));
-
+	if (big) {
+		sprite->addKeyframe(STAND_LEFT, glm::vec2(widhtProp*1.5f, 0.f));
+	}
+	else {
+		sprite->addKeyframe(STAND_LEFT, glm::vec2(0.f, 0.f));
+	}
 
 	tileMapDispl = tileMapPos;
-	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posEnemy.x), float(tileMapDispl.y + posEnemy.y)));
-	*/
+	sprite->setPosition(glm::vec2(float(SCREEN_WIDTH- SPRITE_SIZE_BIG), float(SCREEN_HEIGHT - SPRITE_SIZE_BIG)));
+	sprite->changeAnimation(STAND_LEFT);
+	
 }
 
 void Anastasio::setTileMap(TileMap *tileMap)
@@ -61,8 +46,13 @@ void Anastasio::setTileMap(TileMap *tileMap)
 
 void Anastasio::setPosition(const glm::vec2 &pos)
 {
-	posEnemy = pos;
-	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posEnemy.x), float(tileMapDispl.y + posEnemy.y)));
+	if (!bigSprite) {
+		posEnemy = pos;    
+		sprite->setPosition(glm::vec2(float(tileMapDispl.x + posEnemy.x), float(tileMapDispl.y + posEnemy.y)));
+	}
+	else {
+		sprite->setPosition(glm::vec2(float(SCREEN_WIDTH - SPRITE_SIZE_BIG), float(SCREEN_HEIGHT - SPRITE_SIZE_BIG)));
+	}
 }
 
 void Anastasio::setTarget(MainPlayer *target){
@@ -76,71 +66,6 @@ void Anastasio::render()
 
 void Anastasio::update(int deltaTime) {
 	sprite->update(deltaTime);
-	/*
-	int spriteWidth = 64;
-	int tileSize = map->getTileSize();
-	int tileXPlayer = player->getPlayerPosition().x/tileSize;
-	int tileYPlayer = player->getPlayerPosition().y/tileSize;
-	int tileXEnemy = posEnemy.x/tileSize;
-	int tileYEnemy = posEnemy.y/tileSize;
-	if (tileXPlayer == tileXEnemy && tileYPlayer == tileYEnemy) player->reciveDMG(1);
-	if (bLeft) tileXEnemy += 1;
-	else tileXEnemy -= 1;
-	if (tileXPlayer == tileXEnemy && tileYPlayer == tileYEnemy) player->reciveDMG(1);
+	if(!bigSprite)	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posEnemy.x), float(tileMapDispl.y + posEnemy.y)));
 
-	if (bLeft && !map->collisionMoveLeft(posEnemy, glm::ivec2(spriteWidth, 64))) { //Moure esquerra
-		bLeft = true;
-		if (sprite->animation() != MOVE_LEFT) sprite->changeAnimation(MOVE_LEFT);
-		posEnemy.x -= 2;
-	}
-	else {
-		if (bLeft) {
-			if (nextBool(0.3)) bLeft = false;
-			else {
-				bJumping = true;
-				jumpAngle = 0;
-				startY = posEnemy.y;
-			}
-		}
-		else {
-			if (sprite->animation() != MOVE_RIGHT) sprite->changeAnimation(MOVE_RIGHT);
-			posEnemy.x += 2;
-			if (map->collisionMoveRight(posEnemy, glm::ivec2(spriteWidth, 64)) && !bJumping) { 	//si hi ha colisio, ens parem
-				if (nextBool(0.3)) {
-					posEnemy.x -= 2;
-					bLeft = true;
-					if (sprite->animation() != MOVE_LEFT) sprite->changeAnimation(MOVE_LEFT);
-				}
-				else {
-					bJumping = true;
-					jumpAngle = 0;
-					startY = posEnemy.y;
-				}
-			}
-		}
-	}
-
-	glm::ivec2 spritePos = posEnemy;
-
-	if (bJumping) {
-		jumpAngle += JUMP_ANGLE_STEP;
-		if (jumpAngle == 180) {
-			bJumping = false;
-		}
-		else {
-			int posPlayerIniY = posEnemy.y;
-			posEnemy.y = int(startY - 96 * sin(3.14159f * jumpAngle / 180.f));
-			if (map->collisionMoveUp(spritePos, glm::ivec2(spriteWidth, 64), &posEnemy.y, bLeft, 0)) {
-				bJumping = false;
-			}
-			if (jumpAngle > 90) {
-				bJumping = !map->collisionMoveDown(spritePos, glm::ivec2(spriteWidth, 64), &posEnemy.y, bLeft, 0);
-			}
-		}
-	}
-	else if(!map->collisionMoveDown(spritePos + 5, glm::ivec2(spriteWidth, 64), &posEnemy.y, bLeft, 0)){
-		posEnemy.y += 2;
-	}
-	*/
-	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posEnemy.x), float(tileMapDispl.y + posEnemy.y)));
 }

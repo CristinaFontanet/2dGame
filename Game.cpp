@@ -19,7 +19,6 @@ void Game::proceedToBoss() {
 		sceneBoss = SceneBoss();
 		sceneBoss.init(scene->getMainPlayer());
 		scene = &sceneBoss;
-	//	scene->init();
 	}
 }
 
@@ -27,8 +26,7 @@ void Game::proceedToGame() {
 	if (scene == &sceneTutorial) {
 		sceneMain = SceneMain();
 		sceneMain.init(scene->getMainPlayer());
-		scene = &sceneBoss;
-		//	scene->init();
+		scene = &sceneMain;
 	}
 }
 

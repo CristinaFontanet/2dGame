@@ -122,7 +122,40 @@ bool Scene::mouseClicked(int x, int y) {
 		return true;
 	}
 	else if (!menu_gui.isMenuShowing()) {
-		std::cout << "x: " << x << ", y:" << y << std::endl;
+		if (y > 5 && y < 55) {
+			if (x > 10 && x < 60) {
+				selectItem(0);
+				return true;
+			}
+			else if (x > 70 && x < 120) {
+				selectItem(1);
+				return true;
+			}
+			else if (x > 130 && x < 180) {
+				selectItem(2);
+				return true;
+			}
+			else if (x > 190 && x < 240) {
+				selectItem(3);
+				return true;
+			}
+			else if (x > 250 && x < 300) {
+				selectItem(4);
+				return true;
+			}
+			else if (x > 310 && x < 360) {
+				selectItem(5);
+				return true;
+			}
+			else if (x > 370 && x < 420) {
+				selectItem(6);
+				return true;
+			}
+			else if (x > 430 && x < 480) {
+				selectItem(7);
+				return true;
+			}
+		}
 		mainPlayer->mouseClick(x, y);
 		return false;
 	}

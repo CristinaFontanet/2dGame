@@ -31,8 +31,8 @@ public:
 	virtual void init() {};
 	virtual void render();
 	virtual void update(int deltaTime);
-	virtual void alertYesClicked();
-	virtual void alertNoClicked();
+	void alertYesClicked();
+	void alertNoClicked();
 
 	void initShaders();
 	void background();

@@ -51,6 +51,7 @@ void Game::keyPressed(int key)
 	if (key == '7') scene->selectItem(6);
 	if (key == '8') scene->selectItem(7);
 	if (key == 'M' || key == 'm') scene->showMenu();
+	if (key == 'N' || key == 'n') scene->showAlert("Heyyy");
 	keys[key] = true;
 }
 
@@ -134,4 +135,13 @@ FMOD::System* Game::getSoundSystem() {
 
 void Game::killOgre(EnOgre* ogre) {
 	scene->killOgre(ogre);
+}
+
+
+void Game::alertYesClicked() {
+	scene->alertYesClicked();
+}
+
+void Game::alertNoClicked() {
+	scene->alertNoClicked();
 }

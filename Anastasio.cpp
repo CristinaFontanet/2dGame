@@ -12,6 +12,8 @@
 #define ANIMATION_SPEED 8
 #define SPRITE_SIZE_BIG 512
 #define SPRITE_SIZE_SMALL 64
+#define SPRITE_READY_HEIGHT 90
+#define SPRITE_READY_WIDHT 140
 
 enum SpriteMoves {
 	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT
@@ -27,14 +29,18 @@ void Anastasio::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram,
 	spritesheet.loadFromFile("images/Anastasio.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	if (bigSprite)  sprite = Sprite::createSprite(glm::ivec2(SPRITE_SIZE_BIG, SPRITE_SIZE_BIG), glm::vec2(widhtProp*8, heightProp *4), &spritesheet, &shaderProgram);
 	else sprite = Sprite::createSprite(glm::ivec2(SPRITE_SIZE_SMALL, SPRITE_SIZE_SMALL), glm::vec2(widhtProp, heightProp), &spritesheet, &shaderProgram);
-
+	spriteReady = Sprite::createSprite(glm::ivec2(SPRITE_READY_WIDHT, SPRITE_READY_HEIGHT), glm::vec2(widhtProp*2.25, heightProp*1.5), &spritesheet, &shaderProgram);
 	sprite->setNumberAnimations(8);
+	spriteReady->setNumberAnimations(8);
 	sprite->setAnimationSpeed(STAND_LEFT, ANIMATION_SPEED);
+	spriteReady->setAnimationSpeed(STAND_LEFT, ANIMATION_SPEED);
 	if (bigSprite) {
 		sprite->addKeyframe(STAND_LEFT, glm::vec2(widhtProp*3.f, 0.f));
 	}
 	else {
 		sprite->addKeyframe(STAND_LEFT, glm::vec2(0.f, 0.f));
+		spriteReady->addKeyframe(STAND_LEFT, glm::vec2(0.f, 2.5*heightProp));
+		spriteReady->changeAnimation(STAND_LEFT);
 	}
 
 	tileMapDispl = tileMapPos;
@@ -53,6 +59,7 @@ void Anastasio::setPosition(const glm::vec2 &pos) {
 	if (!bigSprite) {
 		posEnemy = pos;    
 		sprite->setPosition(glm::vec2(float(posEnemy.x), float(tileMapDispl.y + posEnemy.y)));
+		spriteReady->setPosition(glm::vec2(float(posEnemy.x-(SPRITE_READY_WIDHT-SPRITE_SIZE_SMALL)), float(tileMapDispl.y + posEnemy.y-(SPRITE_READY_HEIGHT- SPRITE_SIZE_SMALL))));
 	}
 	else {
 		sprite->setPosition(glm::vec2(float(SCREEN_WIDTH - SPRITE_SIZE_BIG), float(SCREEN_HEIGHT - SPRITE_SIZE_BIG)));
@@ -64,7 +71,8 @@ void Anastasio::setTarget(MainPlayer *target){
 }
 
 void Anastasio::render() {
-	sprite->render();
+	if (!bigSprite && tutorialEnded) spriteReady->render();
+	else sprite->render();
 	if(showingDialog)dialogGUI.draw();
 }
 

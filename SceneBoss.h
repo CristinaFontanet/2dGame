@@ -14,6 +14,7 @@ public:
 	~SceneBoss();
 
 	void init(MainPlayer* mPlayer);
+	void init();
 	void render();
 	void update(int deltaTime);
 

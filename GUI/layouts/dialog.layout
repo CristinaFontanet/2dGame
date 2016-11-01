@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout version="4" >
+    <Window type="Generic/Image" name="LayoutDialog" >
+        <Property name="Area" value="{{0,0},{0.8,0},{1,0},{1,0}}" />
+        <Property name="Image" value="dialog/Op1" />
+        <Property name="MaxSize" value="{{1,0},{1,0}}" />
+         <Window type="Generic/Label" name="Label" >
+                <Property name="Area" value="{{0.02,0},{0.2,0},{0.9,0},{0.9,0}}" />
+                <Property name="Text" value="I am a label window with a tooltip set. Below is my child window:" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="TooltipText" value="This tooltip will be inherited to children windows" />
+                <Property name="TooltipType" value="Vanilla/Tooltip" />
+                <Property name="HorzFormatting" value="WordWrapLeftAligned" />
+                <Property Name="VertFormatting" Value="VertCentred" />
+                <Property name="NormalTextColour" value="FFFFFFFF" />
+                <Property name="DisabledTextColour" value="FFFFFFFF" />
+        </Window>
+    </Window>
+</GUILayout>

@@ -14,6 +14,7 @@
     <ClCompile Include="..\AlertGUI.cpp" />
     <ClCompile Include="..\Anastasio.cpp" />
     <ClCompile Include="..\Boss.cpp" />
+    <ClCompile Include="..\DialogGUI.cpp" />
     <ClCompile Include="..\Enemy.cpp" />
     <ClCompile Include="..\MenuGUI.cpp" />
     <ClCompile Include="..\Ogre.cpp" />
@@ -38,6 +39,7 @@
     <ClInclude Include="..\Anastasio.h" />
     <ClInclude Include="..\Boss.h" />
     <ClInclude Include="..\Constants.h" />
+    <ClInclude Include="..\DialogGUI.h" />
     <ClInclude Include="..\Enemy.h" />
     <ClInclude Include="..\MenuGUI.h" />
     <ClInclude Include="..\Ogre.h" />
@@ -58,6 +60,9 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2D.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5BE6CA2A-E5A8-40CC-9015-047CE0C78036}</ProjectGuid>

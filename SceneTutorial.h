@@ -16,6 +16,7 @@ public:
 	void init();
 	void render();
 	void update(int deltaTime);
+	bool mouseClicked(int x, int y);
 
 protected:
 

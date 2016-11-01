@@ -19,7 +19,8 @@ void SceneTutorial::init() {
 
 	anastasio = new Anastasio();
 	anastasio->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, false);
-	anastasio->setPosition(glm::vec2(playerXtiles * map->getTileSize(), playerYtiles * map->getTileSize()));
+	glm::vec2 siz = map->getMapSize();
+	anastasio->setPosition(glm::vec2(1370, 384));
 	anastasio->setTileMap(map);
 	anastasio->setTarget(mainPlayer);
 
@@ -27,7 +28,6 @@ void SceneTutorial::init() {
 
 void SceneTutorial::update(int deltaTime) {
 	Scene::update(deltaTime);
-
 
 	//no cal fer update del mapa xq aquest no te animacions ni res 
 	if(!menu_gui.isMenuShowing() && !showingAlert) {		//PAUSA si s'esta mostrant el menu
@@ -41,4 +41,12 @@ void SceneTutorial::render() {
 	anastasio->render();
 
 	Scene::renderGUI();	//IMPORTAAANT, despres de tots els renders
+}
+
+bool SceneTutorial::mouseClicked(int x, int y) {
+	bool used = Scene::mouseClicked(x, y);
+	if (!used) {
+		return anastasio->nextText();
+	}
+	return used;
 }

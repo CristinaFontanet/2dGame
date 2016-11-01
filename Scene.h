@@ -36,7 +36,7 @@ public:
 
 	void initShaders();
 	void background();
-	void mouseClicked(int x, int y);
+	virtual bool mouseClicked(int x, int y);
 	void showMenu();
 	std::pair<float, float> getOffsetCamera();
 	void selectItem(int num);

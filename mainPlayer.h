@@ -38,6 +38,7 @@ public:
 	Item* getGold();
 	Item* getDiamond();
 	Item* getBell();
+	void setTutorialPause(bool pause);
 
 	enum playerState {
 		WALKING, WEAPON1, WEAPON2, BYPET
@@ -93,6 +94,7 @@ private:
 	vector<pair<Item*, vector<pair<Item*, int>>*>> items;
 	vector<pair<Item*, int>> evolutionTuskSword;
 	int jumpMod;
+	bool tutorialPause;
 
 };
 

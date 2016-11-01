@@ -112,16 +112,22 @@ void Scene::alertNoClicked() {
 	showingAlert = false;
 }
 
-void Scene::mouseClicked(int x, int y) {
+bool Scene::mouseClicked(int x, int y) {
 	if (showingAlert) {
-		std::cout << "x: " << x << ", y:" << y << std::endl;
+		//std::cout << "x: " << x << ", y:" << y << std::endl;
 		if (y > 280 && y < 315) {
 			if (x > 224 && x < 340) Game::instance().alertYesClicked();
 			else if(x > 374 && x <495) Game::instance().alertNoClicked();
 		}
+		return true;
 	}
-	else if (!menu_gui.isMenuShowing())mainPlayer->mouseClick(x, y);
+	else if (!menu_gui.isMenuShowing()) {
+		std::cout << "x: " << x << ", y:" << y << std::endl;
+		mainPlayer->mouseClick(x, y);
+		return false;
+	}
 	else menu_gui.mouseClick(x, y);
+	return true;
 }
 
 void Scene::initShaders()

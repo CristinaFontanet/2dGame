@@ -3,9 +3,6 @@
 
 #include "Scene.h"
 
-
-
-
 // Scene contains all the entities of our game.
 // It is responsible for updating and render them.
 class SceneMain: public Scene {
@@ -14,6 +11,7 @@ public:
 	SceneMain();
 	~SceneMain();
 
+	void init(MainPlayer* mPlayer);
 	void init();
 	void render();
 	void update(int deltaTime);

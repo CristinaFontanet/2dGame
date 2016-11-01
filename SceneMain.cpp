@@ -22,6 +22,10 @@ SceneMain::~SceneMain() {
 	if (enemy != NULL) delete enemy;
 	if (pony != NULL) delete pony;
 }
+void SceneMain::init(MainPlayer* mPlayer) {
+	init();
+	Scene::combinePlayer(mPlayer);
+}
 
 void SceneMain::init() {
 	playerXtiles = 1;

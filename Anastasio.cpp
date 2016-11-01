@@ -23,6 +23,7 @@ void Anastasio::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram,
 	bigSprite = big;
 	tutorialEnded = false;
 	showingDialog = false;
+	asking = false;
 	currentText = 0;
 	heightProp = 1.f / 4.f;
 	widhtProp = 1.f / 11.f;
@@ -76,7 +77,7 @@ void Anastasio::render() {
 	if(showingDialog)dialogGUI.draw();
 }
 
-void Anastasio::update(int deltaTime) {
+bool Anastasio::update(int deltaTime) {
 	sprite->update(deltaTime);
 	//if(!bigSprite)	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posEnemy.x), float(tileMapDispl.y + posEnemy.y)));
 	if (!tutorialEnded) {
@@ -85,7 +86,23 @@ void Anastasio::update(int deltaTime) {
 			player->setTutorialPause(true);
 		}
 	}
+	else if (!asking) return playerColision();
+	return false;
 }
+
+bool Anastasio::playerColision() {
+	int tileSize = map->getTileSize();
+	int tileXPlayer = player->getPlayerPosition().x / tileSize;
+	int tileYPlayer = player->getPlayerPosition().y / tileSize;
+	int tileXEnemy = (posEnemy.x - (SPRITE_READY_WIDHT - SPRITE_SIZE_SMALL)) / tileSize;
+	int tileYEnemy = posEnemy.y / tileSize;
+	if (tileXPlayer == tileXEnemy && tileYPlayer == tileYEnemy) {
+		asking = true;
+		return true;
+	}
+	else return false;
+}
+
 
 bool Anastasio::nextText() {
 	currentText++;

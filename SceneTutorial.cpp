@@ -1,5 +1,6 @@
 
 #include "SceneTutorial.h"
+#include "Game.h"
 
 SceneTutorial::SceneTutorial() {
 	map = NULL;
@@ -31,8 +32,22 @@ void SceneTutorial::update(int deltaTime) {
 
 	//no cal fer update del mapa xq aquest no te animacions ni res 
 	if(!menu_gui.isMenuShowing() && !showingAlert) {		//PAUSA si s'esta mostrant el menu
-		anastasio->update(deltaTime);
+		if (anastasio->update(deltaTime)) {
+			showingAlert = true;
+			showAlert("Are you ready to proceed?");
+		}
 	}
+}
+
+void SceneTutorial::alertYesClicked() {
+	std::cout << "YESS" << std::endl;
+	showingAlert = false;
+	Game::instance().proceedToGame();
+}
+
+void SceneTutorial::alertNoClicked() {
+	std::cout << "Noo" << std::endl;
+	showingAlert = false;
 }
 
 void SceneTutorial::render() {

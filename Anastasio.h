@@ -32,9 +32,13 @@ public:
 		TUTORIAL, INSTRUCTIONS, HELP
 	};
 
+	void startInstructions();
+	void showHelp();
+
 private:
 	int anastasioType;
 	OwnTexture spritesheet;
+	OwnTexture bigSpritesheet;
 	Sprite *sprite;
 	Sprite *spriteReady;
 	TileMap *map;
@@ -48,6 +52,8 @@ private:
 	bool showingDialog;
 	bool asking;
 	int currentText;
+	int isHelp;
+
 	string texts[SIZE_TUT] = {"Welcome to WondeRand, you must be the new sacrifice. \n I mean the new HERO! Nice to meet you, my name is Anastasio and I will guide you through this wonderful world.",
 	"First of all you are a noob and noobs don't survive too much and the developers don't stop to send me people like you so your name don't really care until you help us. \n Oh true I haven't told you your mission yet.",
 	"A few days ago some kind of drake without fire transform our lovely unicorns into crazy horses and invade WondeRand with ugly Ogres. \n Please help us HERO, you are the only one that can do it or the only one who decide to play this kind of game.",

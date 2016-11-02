@@ -68,7 +68,7 @@ bool SceneMain::render() {
 		renderOgres();	//linia negre
 	}
 	Scene::renderGUI();	//IMPORTAAANT, despres de tots els renders
-	return b;
+	return true;
 }
 
 void SceneMain::renderOgres() {

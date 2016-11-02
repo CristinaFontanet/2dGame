@@ -28,6 +28,7 @@ public:
 	void gg();
 	void renderOgres();
 	void updateOgres(int deltaTime);
+	bool isBossScene() { return true; }
 
 protected:
 	bool bossStart;

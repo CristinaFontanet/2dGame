@@ -16,7 +16,6 @@ using namespace CEGUI;
 #define NUM_GOLD_NEEDED_SWORD 2
 #define NUM_DIAMOND_NEEDED_SWORD 2
 #define NUM_ROCKS_NEEDED_PEAK 2
-#define NUM_GOLD_NEEDED_PEAK 2
 #define NUM_DIAMOND_NEEDED_PEAK 2
 #define NUM_GOLD_NEEDED_BELL 2
 
@@ -48,6 +47,7 @@ class MenuGUI {
 		CEGUI::GUIContext* getMenuContext();
 
 		bool showAnastasio();
+		void showHelp();
 
 
 

@@ -47,6 +47,8 @@ public:
 	virtual void killOgre(EnOgre * ogre) {};
 	virtual void gg() {};
 	void combinePlayer(MainPlayer* mPlayer);
+	void showAnastasio();
+	virtual bool isBossScene() { return false; }
 protected:
 	virtual void renderGUI();
 	TileMap *map;

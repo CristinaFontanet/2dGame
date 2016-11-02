@@ -7,10 +7,10 @@ void Game::init()
 	bPlay = true;
 	glClearColor(0.27f, 0.53f, 0.71f, 1.0f);
 //	loopSound();
-//	sceneMain = SceneMain();
-//	sceneBoss = SceneBoss();
+	sceneMain = SceneMain();
+	sceneBoss = SceneBoss();
 	sceneTutorial = SceneTutorial();
-	scene = &sceneTutorial;
+	scene = &sceneBoss;
 	scene->init();
 }
 
@@ -37,8 +37,7 @@ bool Game::update(int deltaTime)
 	return bPlay;
 }
 
-void Game::render()
-{
+void Game::render() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	scene->background();

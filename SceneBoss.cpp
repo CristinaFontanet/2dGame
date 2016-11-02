@@ -64,11 +64,13 @@ void SceneBoss::update(int deltaTime) {
 }
 
 bool SceneBoss::render() {
-	Scene::render();
-	renderOgres();
-	if(bossStart)boss->render(); 
+	bool b = Scene::render();
+	if (b) {
+		renderOgres();
+		if (bossStart)boss->render();
+	}
 	Scene::renderGUI();	//IMPORTAAANT, despres de tots els renders
-	return true;
+	return b;
 }
 
 void SceneBoss::renderOgres() {

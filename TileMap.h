@@ -30,6 +30,7 @@ public:
 	#define DIAMOND 114
 	#define LIM 108
 	#define NONE 0
+	#define BELL 76
 	// Tile maps can only be created inside an OpenGL context
 	static TileMap *createTileMap(const string &levelFile, const glm::vec2 &minCoords, ShaderProgram &program);
 

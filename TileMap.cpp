@@ -3,6 +3,7 @@
 #include <sstream>
 #include <vector>
 #include "TileMap.h"
+#include <ctime>
 
 using namespace std;
 
@@ -73,7 +74,7 @@ bool TileMap::loadLevel(const string &levelFile)
 	//map = new int[mapSize.x * mapSize.y];
 	//for(int j=0; j<mapSize.y; j++) {
 	map = new std::pair<int,int> [mapSize.x * mapSize.y];
-	materials = { COAL,DIAMOND,WOOD,TUSK,GOLD,ROCK,LIM };
+	materials = { COAL,DIAMOND,WOOD,TUSK,GOLD,ROCK,LIM, BELL};
 	for(int j=0; j<mapSize.y; j++)
 	{
 		getline(fin, line);
@@ -274,6 +275,7 @@ int TileMap::tileToMaterial(int x, int y) {
 	if (material == 19 ) return COAL;
 	if (material == 90) return GOLD;
 	if (material == 114) return DIAMOND;
+	if (material == BELL) return BELL;
 	return NONE;
 }
 
@@ -399,13 +401,20 @@ void TileMap::createCaveAt(int x, int y) {
 	}
 
 	bellItem = placeBellItem(cellMap);
+	addVertices(BELL, bellItem.x + x, bellItem.y + y);
+	int x2 = x + bellItem.x;
+	int y2 = y + bellItem.y;
+	map[(y2)*mapSize.x +  x2].first = BELL;
+	map[(y2)*mapSize.x +  x2].second = 1;
 
 }
 //generamos una "cueva" de unos 19x50 tiles 
 vector< vector <bool > > TileMap::initCaves(vector< vector <bool > > map) {
+	srand(time(0));
 	for (int x = 0; x < map.size(); x++) {
 		for (int y = 0; y < map[x].size(); y++) {
-			if (nextBool(0.2)) {
+			double r = ((double)rand() / (RAND_MAX));
+			if (r < 0.2) {
 				map[x][y] = true;
 			}
 		}

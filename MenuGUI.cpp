@@ -66,6 +66,7 @@ void MenuGUI::init(const std::string& resourceDirectory, MainPlayer* mPlayer, CE
 	anastasioInstr->setTileMap(tileMap);
 //	anastasioInstr->setPosition(glm::vec2(1370, 384));
 	anastasioInstr->setTarget(mainPlayer);
+	configSounds();
 }
 
 void MenuGUI::destroy() {
@@ -304,15 +305,16 @@ bool MenuGUI::craftSword() {
 			mainPlayer->getDiamond()->reduceAmount(NUM_DIAMOND_NEEDED_SWORD);
 			break;
 		}
-		//TODO: So guai
+		system->playSound(hammerSound, 0, true, &playerChannel);
+		playerChannel->setPaused(false);
 		mainPlayer->getSword()->improveSword();
 		setCraftSword();
 		updateItemsCrafting();
 		cout << "YESS" << endl;
 	}
 	else {
-		//TODO: so error
-		cout << "NOO" << endl;
+		system->playSound(errorSound, 0, true, &playerChannel);
+		playerChannel->setPaused(false);
 	}
 	return true;
 }
@@ -320,7 +322,8 @@ bool MenuGUI::craftSword() {
 bool MenuGUI::craftPeak() {
 	if (enoughtRocksPeak) {
 		enoughtRocksPeak = false;
-		//TODO: So guai
+		system->playSound(hammerSound, 0, true, &playerChannel);
+		playerChannel->setPaused(false);
 		switch (mainPlayer->getPeak()->getElement()) {
 		case WOOD:
 			mainPlayer->getRock()->reduceAmount(NUM_ROCKS_NEEDED_PEAK);
@@ -333,11 +336,10 @@ bool MenuGUI::craftPeak() {
 		
 		setCraftPeak();
 		updateItemsCrafting();
-		cout << "YESS" << endl;
 	}
 	else {
-		//TODO: so error
-		cout << "NOO" << endl;
+		system->playSound(errorSound, 0, true, &playerChannel);	
+		playerChannel->setPaused(false);
 	}
 	return true;
 }
@@ -345,7 +347,8 @@ bool MenuGUI::craftPeak() {
 bool MenuGUI::craftBell() {
 	if (enoughtGoldBell && correctSword) {
 		enoughtGoldBell = false;
-		//TODO: So guai
+		system->playSound(hammerSound, 0, true, &playerChannel);
+		playerChannel->setPaused(false);
 		mainPlayer->getBell()->addItem();
 		mainPlayer->getGold()->reduceAmount(NUM_GOLD_NEEDED_BELL);
 		setCraftBell();
@@ -353,8 +356,8 @@ bool MenuGUI::craftBell() {
 		cout << "YESS" << endl;
 	}
 	else {
-		//TODO: so error
-		cout << "NOO" << endl;
+		system->playSound(errorSound, 0, true, &playerChannel);
+		playerChannel->setPaused(false);
 	}
 	return true;
 }
@@ -586,4 +589,11 @@ void MenuGUI::updateItemsBell() {
 		res3ImgS1->setVisible(false);
 		enoughtGoldBell = false;
 	}
+}
+
+void MenuGUI::configSounds() {
+	system = Game::instance().getSoundSystem();
+	system->createSound("sounds/errorSound.wav", FMOD_2D, 0, &errorSound);
+
+	system->createSound("sounds/hammer.wav", FMOD_2D, 0, &hammerSound);
 }

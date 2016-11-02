@@ -47,6 +47,10 @@ void SceneTutorial::alertYesClicked() {
 void SceneTutorial::alertNoClicked() {
 	std::cout << "Noo" << std::endl;
 	showingAlert = false;
+	glm::vec2 pos = mainPlayer->getPlayerPosition();
+	pos.x -= 64;
+	mainPlayer->setPosition(pos);
+	anastasio->stopAsking();
 }
 
 bool SceneTutorial::render() {

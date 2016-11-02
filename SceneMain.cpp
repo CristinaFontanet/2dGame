@@ -36,13 +36,13 @@ void SceneMain::init() {
 	map->createCaveAt(57,109);
 	enemy = new Enemy();
 	enemy->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
-	enemy->setPosition(glm::vec2(playerXtiles * map->getTileSize(), playerYtiles * map->getTileSize()));
+	enemy->setPosition(glm::vec2((playerXtiles+50) * map->getTileSize(), (playerYtiles-10) * map->getTileSize()));
 	enemy->setTileMap(map);
 	enemy->setTarget(mainPlayer);
 
 	pony = new Enemy();
 	pony->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
-	pony->setPosition(glm::vec2(playerXtiles * map->getTileSize(), playerYtiles * map->getTileSize()));
+	pony->setPosition(glm::vec2((playerXtiles+230) * map->getTileSize(), (playerYtiles-10) * map->getTileSize()));
 	pony->setTileMap(map);
 	pony->setTarget(mainPlayer);
 	

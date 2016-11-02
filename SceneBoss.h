@@ -15,7 +15,7 @@ public:
 
 	void init(MainPlayer* mPlayer);
 	void init();
-	void render();
+	bool render();
 	void update(int deltaTime);
 
 	bool dmgEnnemys(int dmg, glm::ivec2 dmgAt);

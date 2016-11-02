@@ -32,7 +32,6 @@ class DialogGUI {
     private:
         static CEGUI::OpenGL3Renderer* m_renderer;
 		CEGUI::GUIContext* m_context = nullptr;
-		CEGUI::Window* m_root_menu = nullptr;
 		Window* txt;
 
 };

@@ -14,8 +14,6 @@
 #include <CEGUI/RendererModules/OpenGL/GL3Renderer.h>
 #include "AlertGUI.h"
 
-#define SCREEN_X 0
-#define SCREEN_Y 0
 
 
 #define INIT_BOSS_X_TILES 7
@@ -29,7 +27,7 @@ public:
 	~Scene();
 	void init(string background, string level, glm::vec2 initPosPlayer);
 	virtual void init() {};
-	virtual void render();
+	virtual bool render();
 	virtual void update(int deltaTime);
 	virtual void alertYesClicked();
 	virtual void alertNoClicked();
@@ -47,7 +45,7 @@ public:
 	virtual void killOgre(EnOgre * ogre) {};
 	void combinePlayer(MainPlayer* mPlayer);
 protected:
-	void renderGUI();
+	virtual void renderGUI();
 	TileMap *map;
 	MainPlayer *mainPlayer;
 	bool showingMenu;
@@ -66,6 +64,7 @@ protected:
 	bool showingAlert;
 	AlertGUI al;
 
+	Anastasio *anastasioInstr;
 };
 
 #endif // _SCENE_INCLUDE

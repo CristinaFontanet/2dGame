@@ -1,6 +1,7 @@
 
 #include "SceneBoss.h"
 #include <glm/gtc/matrix_transform.hpp>
+#include "Constants.h"
 
 
 SceneBoss::SceneBoss() {
@@ -62,11 +63,12 @@ void SceneBoss::update(int deltaTime) {
 	}
 }
 
-void SceneBoss::render() {
+bool SceneBoss::render() {
 	Scene::render();
 	renderOgres();
 	if(bossStart)boss->render(); 
 	Scene::renderGUI();	//IMPORTAAANT, despres de tots els renders
+	return true;
 }
 
 void SceneBoss::renderOgres() {

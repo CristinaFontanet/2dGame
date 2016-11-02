@@ -8,6 +8,7 @@
 #include <CEGUI/InputEvent.h>
 #include <glm/glm.hpp>
 #include "mainPlayer.h"
+#include "Anastasio.h"
 
 using namespace CEGUI;
 
@@ -26,7 +27,7 @@ class MenuGUI {
 
 			return G;
 		}
-        void init(const std::string& resourceDirectory, MainPlayer* mainPlayer, CEGUI::OpenGL3Renderer* rend);
+        void init(const std::string& resourceDirectory, MainPlayer* mainPlayer, CEGUI::OpenGL3Renderer* rend, ShaderProgram &shaderProgram);
         void destroy();
 
         void draw();
@@ -44,6 +45,8 @@ class MenuGUI {
         static CEGUI::OpenGL3Renderer* getRenderer() { return m_renderer; }
 		CEGUI::GUIContext* getMenuContext();
 
+		bool showAnastasio();
+
 
 
     private:
@@ -60,7 +63,7 @@ class MenuGUI {
 		PushButton* pushButton2;
 		PushButton* pushButton3;
 		PushButton* pushButton4;
-		void  onMenu1Click();
+		void  onMenuInstructionsClick();
 		void  onMenuCraftClick();
 		void  onMenuExitClick();
 		void  onMenuCancelClick();
@@ -115,5 +118,7 @@ class MenuGUI {
 		bool enoughtRocksPeak;
 		bool enoughtGoldBell;
 		bool correctSword;
+
+		bool showingAnastasio;
 	
 };

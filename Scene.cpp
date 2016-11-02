@@ -13,6 +13,7 @@
 Scene::Scene() {
 	map = NULL;
 	mainPlayer = NULL;
+	anastasioInstr = NULL;
 }
 
 Scene::~Scene()
@@ -20,6 +21,7 @@ Scene::~Scene()
 	if(map != NULL)
 		delete map;
 	if (mainPlayer != NULL) delete mainPlayer;
+	if (anastasioInstr != NULL) delete anastasioInstr;
 }
 
 void Scene::init(string background, string level, glm::vec2 initPosPlayer) {
@@ -42,6 +44,17 @@ void Scene::init(string background, string level, glm::vec2 initPosPlayer) {
 	mainPlayer->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, inventoryWindow,livesWindow);
 	mainPlayer->setPosition(glm::vec2(initPosPlayer.x * map->getTileSize(), initPosPlayer.y * map->getTileSize()));
 	mainPlayer->setTileMap(map);
+
+	menu_gui.init("../GUI", mainPlayer, m_gui.getRenderer(), texProgram);
+	//anastasio
+	anastasioInstr = new Anastasio();
+	anastasioInstr->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, Anastasio::AnastasioType::INSTRUCTIONS);
+	//x: 32 // Y : 3428
+	anastasioInstr->setTileMap(map);
+	anastasioInstr->setPosition(glm::vec2(1370, 384));
+	anastasioInstr->setTarget(mainPlayer);
+
+
 	playerPos = mainPlayer->getPlayerPosition();
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 	tileSize = map->getTileSize();
@@ -55,13 +68,13 @@ void Scene::init(string background, string level, glm::vec2 initPosPlayer) {
 	offsetYCamera = SCREEN_WIDTH / 2 - playerPos[1] * 1.025;
 	projection = glm::translate(projection, glm::vec3(offsetXCamera, offsetYCamera, 0.f));
 
-	menu_gui.init("../GUI", mainPlayer,m_gui.getRenderer());
 	currentTime = 0.0f;
 
 }
 
 void Scene::update(int deltaTime) {
 	//no cal fer update del mapa xq aquest no te animacions ni res 
+	anastasioInstr->update(deltaTime);
 	if (!menu_gui.isMenuShowing() && !showingAlert) {		//PAUSA si s'esta mostrant el menu
 		currentTime += deltaTime;
 
@@ -77,15 +90,17 @@ void Scene::update(int deltaTime) {
 		projection = glm::translate(projection, glm::vec3(incx, incy, 0.f));
 		playerPos = mainPlayer->getPlayerPosition();
 	}
+
 }
 
 void Scene::renderGUI() {
+	anastasioInstr->renderGUI();
+	menu_gui.draw();		//Ha de ser el 1r xq te un render a dins
 	m_gui.draw();
-	menu_gui.draw();
 	if (showingAlert) al.draw();
 }
 
-void Scene::render() {
+bool Scene::render() {
 		glm::mat4 modelview;
 		texProgram.use();
 		texProgram.setUniformMatrix4f("projection", projection);
@@ -95,6 +110,13 @@ void Scene::render() {
 		map->render();
 
 		mainPlayer->render();
+
+		if (menu_gui.showAnastasio()) {
+			anastasioInstr->setPosition(glm::vec2(abs(offsetXCamera), abs(offsetYCamera)));
+			anastasioInstr->render();
+			return false;
+		}
+		return true;
 }
 
 void Scene::showMenu() {
@@ -159,6 +181,7 @@ bool Scene::mouseClicked(int x, int y) {
 		mainPlayer->mouseClick(x, y);
 		return false;
 	}
+	else if (menu_gui.showAnastasio()) anastasioInstr->nextText();
 	else menu_gui.mouseClick(x, y);
 	return true;
 }

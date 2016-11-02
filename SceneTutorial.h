@@ -14,7 +14,7 @@ public:
 	~SceneTutorial();
 
 	void init();
-	void render();
+	bool render();
 	void update(int deltaTime);
 	bool mouseClicked(int x, int y);
 	void alertYesClicked();

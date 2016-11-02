@@ -14,7 +14,7 @@ using namespace std;
 class Anastasio {
 public:
 
-	void init(const glm::ivec2 & tileMapPos, ShaderProgram & shaderProgram, bool big);
+	void init(const glm::ivec2 & tileMapPos, ShaderProgram &shaderProgram, int type);
 
 	void setTileMap(TileMap * tileMap);
 
@@ -23,12 +23,17 @@ public:
 	void setTarget(MainPlayer * player);
 
 	void render();
+	void renderGUI();
 
 	bool update(int deltaTime);
 	bool nextText();
 
+	enum AnastasioType {
+		TUTORIAL, INSTRUCTIONS, HELP
+	};
+
 private:
-	bool bigSprite;
+	int anastasioType;
 	OwnTexture spritesheet;
 	Sprite *sprite;
 	Sprite *spriteReady;
@@ -50,7 +55,6 @@ private:
 	"Oh! I allways forget that you can move with WAD or with the arrows, also you can jump with space but if u don't imagine it maybe you are so... \n To end the tutorial remember this, if you die in WondeRand I can revive you. Also I have limited power and I can only do this if u are in WonderRand so be careful. \n		Good luck in your travel!"};
 
 	bool playerColision();
-	void askToContinue();
 };
 
 

@@ -19,8 +19,7 @@ void SceneTutorial::init() {
 	Scene::init("images/background.png", "levels/Tutorial.txt", glm::vec2(playerXtiles , playerYtiles) );
 
 	anastasio = new Anastasio();
-	anastasio->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, false);
-	glm::vec2 siz = map->getMapSize();
+	anastasio->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, Anastasio::AnastasioType::TUTORIAL);
 	anastasio->setPosition(glm::vec2(1370, 384));
 	anastasio->setTileMap(map);
 	anastasio->setTarget(mainPlayer);
@@ -50,12 +49,14 @@ void SceneTutorial::alertNoClicked() {
 	showingAlert = false;
 }
 
-void SceneTutorial::render() {
+bool SceneTutorial::render() {
 	Scene::render();
 
 	anastasio->render();
 
 	Scene::renderGUI();	//IMPORTAAANT, despres de tots els renders
+	anastasio->renderGUI();
+	return true;
 }
 
 bool SceneTutorial::mouseClicked(int x, int y) {

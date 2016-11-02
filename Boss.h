@@ -52,6 +52,7 @@ private:
 	bool bLeft;
 	bool bJumping;
 	bool attacking;
+	bool bFalling;
 	int jumpAngle, startY;
 	int live;
 	int fase,numAtF2;

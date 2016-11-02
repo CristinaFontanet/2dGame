@@ -126,7 +126,7 @@ bool TileMap::loadLevel(const string &levelFile)
 					map[j*mapSize.x + i].second = 7;
 					break;
 				case 94: //FIn
-					map[j*mapSize.x + i].first = 108;
+					map[j*mapSize.x + i].first = 1;
 					map[j*mapSize.x + i].second = INT16_MAX;
 					break;
 			}

@@ -10,7 +10,7 @@ void Game::init()
 	sceneMain = SceneMain();
 //	sceneBoss = SceneBoss();
 	sceneTutorial = SceneTutorial();
-	scene = &sceneMain;
+	scene = &sceneTutorial;
 
 	scene->init();
 }

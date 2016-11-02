@@ -20,8 +20,8 @@ void SceneTutorial::init() {
 
 	anastasio = new Anastasio();
 	anastasio->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, Anastasio::AnastasioType::TUTORIAL);
-	anastasio->setPosition(glm::vec2(1370, 384));
 	anastasio->setTileMap(map);
+	anastasio->setPosition(glm::vec2(1370, 384));
 	anastasio->setTarget(mainPlayer);
 
 }

@@ -33,7 +33,7 @@ void SceneMain::init() {
 
 	Scene::init("images/background.png", "levels/levelTerraria300.txt",glm::vec2 (playerXtiles, playerYtiles));
 
-
+	map->createCaveAt(57,109);
 	enemy = new Enemy();
 	enemy->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 	enemy->setPosition(glm::vec2(playerXtiles * map->getTileSize(), playerYtiles * map->getTileSize()));

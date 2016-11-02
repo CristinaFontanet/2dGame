@@ -59,6 +59,8 @@ public:
 
 	glm::vec2 getMapSize();
 
+	void createCaveAt(int x, int y);
+
 	void addVertices(int material,int x, int y);
 
 	void deleteVertices(int x, int y);
@@ -71,6 +73,12 @@ public:
 private:
 	bool loadLevel(const string &levelFile);
 	void prepareArrays(const glm::vec2 &minCoords, ShaderProgram &program);
+	vector<vector<bool>> initCaves(vector<vector<bool>> map);
+	vector<vector<bool>> caveStep(vector<vector<bool>> oldMap);
+	int vecinosVivos(vector<vector<bool>> map, int x, int y);
+	bool nextBool(double probability);
+	glm::vec2 placeBellItem(vector<vector<bool>> map);
+	
 
 
 private:
@@ -84,6 +92,7 @@ private:
 	pair<int,int> *map;
 	vector<int> materials;
 	glm::vec2 coordR;
+	glm::vec2 bellItem;
 	ShaderProgram programR;
 	int ntilesVBO;
 	vector<float> vertices;

@@ -64,7 +64,6 @@ protected:
 	bool showingAlert;
 	AlertGUI al;
 
-	Anastasio *anastasioInstr;
 };
 
 #endif // _SCENE_INCLUDE

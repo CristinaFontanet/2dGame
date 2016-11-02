@@ -65,7 +65,6 @@ void Anastasio::setPosition(const glm::vec2 &pos) {
 		spriteReady->setPosition(glm::vec2(float(posEnemy.x-(SPRITE_READY_WIDHT-SPRITE_SIZE_SMALL)), float(tileMapDispl.y + posEnemy.y-(SPRITE_READY_HEIGHT- SPRITE_SIZE_SMALL))));
 	}
 	else {
-		//cout << "x:" << pos.x << "; "<< pos.x + SCREEN_WIDTH - SPRITE_SIZE_BIG<<", y: " << pos.y << endl;
 		sprite->setPosition(glm::vec2(float(pos.x+ SCREEN_WIDTH - SPRITE_SIZE_BIG), float(pos.y+ SCREEN_HEIGHT - SPRITE_SIZE_BIG) ));
 	}
 }

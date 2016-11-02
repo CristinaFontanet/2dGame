@@ -3,10 +3,11 @@
 #include <iostream>
 #include <vector>
 #include "Constants.h"
+#include "Game.h"
 
 CEGUI::OpenGL3Renderer* MenuGUI::m_renderer = nullptr;
 
-void MenuGUI::init(const std::string& resourceDirectory, MainPlayer* mPlayer, CEGUI::OpenGL3Renderer* rend, ShaderProgram &shaderProgram) {
+void MenuGUI::init(const std::string& resourceDirectory, MainPlayer* mPlayer, CEGUI::OpenGL3Renderer* rend, ShaderProgram &shaderProgram, TileMap * tileMap) {
 	showCrafting = false;
 	showMenu = false;
 	showingAnastasio = false;
@@ -57,6 +58,14 @@ void MenuGUI::init(const std::string& resourceDirectory, MainPlayer* mPlayer, CE
 
 	createMenu();
 	createCraftWindow();
+
+	//anastasio
+	anastasioInstr = new Anastasio();
+	anastasioInstr->init(glm::ivec2(SCREEN_X, SCREEN_Y), shaderProgram, Anastasio::AnastasioType::INSTRUCTIONS);
+	//x: 32 // Y : 3428
+	anastasioInstr->setTileMap(tileMap);
+//	anastasioInstr->setPosition(glm::vec2(1370, 384));
+	anastasioInstr->setTarget(mainPlayer);
 }
 
 void MenuGUI::destroy() {
@@ -67,6 +76,14 @@ bool MenuGUI::showAnastasio() {
 	return showingAnastasio;
 }
 
+bool MenuGUI::render() {
+	if(showingAnastasio) {
+		anastasioInstr->render();
+		return false;
+	}
+	return true;
+}
+
 void MenuGUI::draw() {
 	if (!showingAnastasio) {
 		m_renderer->beginRendering();
@@ -75,6 +92,7 @@ void MenuGUI::draw() {
 		m_renderer->endRendering();
 		glDisable(GL_SCISSOR_TEST);
 	}
+	else anastasioInstr->renderGUI();
 }
 
 void MenuGUI::loadScheme(const std::string& schemeFile) {
@@ -98,6 +116,7 @@ void MenuGUI::mouseClick(int x, int y) {
 				else if (y > c3y0 && y < c3y1) craftBell();
 			}
 		}
+		else if (showingAnastasio) anastasioInstr->nextText();
 		else if (x > x0 && x < x1) {
 			if (y > b1yt && y < b1yb) onMenuInstructionsClick();
 			else if (y > b2yt && y < b2yb) onMenuCraftClick();
@@ -131,7 +150,9 @@ void MenuGUI::showMenuClicked() {
 
 void  MenuGUI::onMenuInstructionsClick() {
 	showingAnastasio = true;
-	pushButton->setText("Button 1 clicked");
+	std::pair<float, float> off = Game::instance().getOffsetCamera();
+	anastasioInstr->setPosition(glm::vec2(off.first, off.second));
+	//pushButton->setText("Button 1 clicked");
 }
 
 

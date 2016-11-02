@@ -22,15 +22,17 @@ using namespace CEGUI;
 
 class MenuGUI {
     public:
+
 		static MenuGUI &instance() {
 			static MenuGUI G;
 
 			return G;
 		}
-        void init(const std::string& resourceDirectory, MainPlayer* mainPlayer, CEGUI::OpenGL3Renderer* rend, ShaderProgram &shaderProgram);
+        void init(const std::string& resourceDirectory, MainPlayer* mainPlayer, CEGUI::OpenGL3Renderer* rend, ShaderProgram &shaderProgram, TileMap * tileMap);
         void destroy();
 
         void draw();
+		bool render();
 
         void setMouseCursor(const std::string& imageFile);
         void showMouseCursor();
@@ -119,6 +121,7 @@ class MenuGUI {
 		bool enoughtGoldBell;
 		bool correctSword;
 
+		Anastasio *anastasioInstr;
 		bool showingAnastasio;
 	
 };

@@ -123,7 +123,9 @@ bool Anastasio::update(int deltaTime) {
 			player->setTutorialPause(true);
 		}
 	}
-	else if (!asking) return playerColision();
+	else if (!asking) {
+		return playerColision();
+	}
 	return false;
 }
 
@@ -138,6 +140,10 @@ bool Anastasio::playerColision() {
 		return true;
 	}
 	else return false;
+}
+
+void Anastasio::stopAsking() {
+	asking = false;
 }
 
 void Anastasio::showHelp() {

@@ -34,6 +34,7 @@ public:
 
 	void startInstructions();
 	void showHelp();
+	void stopAsking();
 
 private:
 	int anastasioType;

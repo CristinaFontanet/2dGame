@@ -365,7 +365,7 @@ void MainPlayer::setUpInventory(CEGUI::Window* inventoryWindow) {
 	inventory[4] = Item(MATERIAL, COAL, 0, 0, inventoryWindow);
 	inventory[5] = Item(MATERIAL, GOLD, 0, 0, inventoryWindow);
 	inventory[6] = Item(MATERIAL, DIAMOND, 0, 0, inventoryWindow);
-	inventory[7] = Item(BELL, 0, 0,0, inventoryWindow);
+	inventory[7] = Item(BELL, 0, 0,1, inventoryWindow);
 
 	equipedItem = &inventory[0];
 	equipedItem->setSelected(true);

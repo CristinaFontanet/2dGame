@@ -8,7 +8,7 @@ void Game::init()
 	glClearColor(0.27f, 0.53f, 0.71f, 1.0f);
 	loopSound();
 	sceneMain = SceneMain();
-//	sceneBoss = SceneBoss();
+	sceneBoss = SceneBoss();
 	sceneTutorial = SceneTutorial();
 	scene = &sceneMain;
 
@@ -17,7 +17,6 @@ void Game::init()
 
 void Game::proceedToBoss() {
 	if (scene == &sceneMain) {
-		sceneBoss = SceneBoss();
 		sceneBoss.init(scene->getMainPlayer());
 		scene = &sceneBoss;
 	}
@@ -25,7 +24,6 @@ void Game::proceedToBoss() {
 
 void Game::proceedToGame() {
 	if (scene == &sceneTutorial) {
-		sceneMain = SceneMain();
 		sceneMain.init(scene->getMainPlayer());
 		scene = &sceneMain;
 	}

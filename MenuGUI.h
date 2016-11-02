@@ -50,7 +50,7 @@ class MenuGUI {
 		bool showAnastasio();
 		void showHelp();
 
-
+		void showCraftButton(bool b);
 
     private:
 		void createCraftWindow();
@@ -125,9 +125,13 @@ class MenuGUI {
 
 		Anastasio *anastasioInstr;
 		bool showingAnastasio;
+
 		
 		FMOD::System *system;
 		FMOD::Channel   *playerChannel = 0;
 		FMOD::Sound     *errorSound;
 		FMOD::Sound     *hammerSound;
+
+		bool showCraftBut;
+	
 };

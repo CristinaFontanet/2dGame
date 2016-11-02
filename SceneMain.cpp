@@ -47,6 +47,7 @@ void SceneMain::init() {
 	pony->setTarget(mainPlayer);
 	
 	createOgres();
+	menu_gui.showCraftButton(true);
 }
 
 void SceneMain::update(int deltaTime) {

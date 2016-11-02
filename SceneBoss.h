@@ -22,6 +22,10 @@ public:
 	void killOgre(EnOgre * ogre);
 	void updateArrayOgres(EnOgre * ogre);
 	void createOgres();
+	void playerOut();
+	void alertYesClicked();
+	void alertNoClicked();
+	void gg();
 	void renderOgres();
 	void updateOgres(int deltaTime);
 	bool isBossScene() { return true; }

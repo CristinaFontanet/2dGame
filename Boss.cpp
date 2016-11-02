@@ -257,6 +257,7 @@ void Boss::update(int deltaTime) {
 		}
 		sprite->setPosition(glm::vec2(float(tileMapDispl.x + posSpriteEnemy.x - 32), float(tileMapDispl.y + posSpriteEnemy.y - 64)));
 	}
+	else Game::instance().gg();
 }
 
 

@@ -42,6 +42,12 @@ public:
 	void alertYesClicked();
 	void alertNoClicked();
 
+	void playerOut(bool resetPlayer);
+
+	void noHP();
+
+	void gg();
+
 	bool getKey(int key) const;
 	bool getSpecialKey(int key) const;
 

@@ -32,6 +32,8 @@ public:
 	virtual void alertYesClicked();
 	virtual void alertNoClicked();
 
+	virtual void playerOut() {};
+
 	void initShaders();
 	void background();
 	virtual bool mouseClicked(int x, int y);
@@ -43,6 +45,7 @@ public:
 
 	virtual bool dmgEnnemys(int dmg, glm::ivec2 dmgAt) { return false; };
 	virtual void killOgre(EnOgre * ogre) {};
+	virtual void gg() {};
 	void combinePlayer(MainPlayer* mPlayer);
 	void showAnastasio();
 	virtual bool isBossScene() { return false; }

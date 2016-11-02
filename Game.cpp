@@ -153,7 +153,28 @@ void Game::alertYesClicked() {
 void Game::alertNoClicked() {
 	scene->alertNoClicked();
 }
+void Game::playerOut(bool resetPlayer) {
+	if (resetPlayer) {
+		sceneMain = SceneMain();
+		scene = &sceneMain;
+		scene->init();
+	}
+	else {
+		sceneMain = SceneMain();
+		sceneMain.init(scene->getMainPlayer());
+		scene = &sceneMain;
+	}
+}
+
+void Game::noHP() {
+	scene->playerOut();
+}
+
+void Game::gg() {
+	scene->gg();
+}
 
 bool Game::isBossScene() {
 	return scene->isBossScene();
 }
+

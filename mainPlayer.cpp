@@ -487,6 +487,13 @@ void MainPlayer::setLives(int numLives) {
 	}
 }
 
+void MainPlayer::setHealth(int l) {
+	live = l;
+	setLives(live);
+}
+int MainPlayer::getLives() {
+	return live;
+}
 
 void MainPlayer::attackAnimation() {
 	spriteWidth = 64;
@@ -569,7 +576,9 @@ void MainPlayer::reciveDMG(int dmg) {
 
 		system->playSound(dmgSound, 0, true, &playerChannel);
 		playerChannel->setPaused(false);
-		cout << "Remaining: " << live << endl;
+		if (live <= 0) {
+			Game::instance().noHP();
+		}
 	}
 }
 

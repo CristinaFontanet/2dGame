@@ -2,6 +2,7 @@
 #include "SceneBoss.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include "Constants.h"
+#include "Game.h"
 
 
 SceneBoss::SceneBoss() {
@@ -129,4 +130,23 @@ void SceneBoss::createOgres() {
 		}
 	}
 
+}
+
+void SceneBoss::playerOut() {
+	showingAlert = true;
+	showAlert("Do you to try it again?");
+}
+
+void SceneBoss::alertYesClicked() {
+	showingAlert = false;
+	Game::instance().playerOut(true);
+}
+
+void SceneBoss::alertNoClicked() {
+	exit(0);
+}
+
+void SceneBoss::gg() {
+	showingAlert = true;
+	showAlert("You are amazing! You do it! You want to restart the game?");
 }

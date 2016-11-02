@@ -127,3 +127,17 @@ void SceneMain::createOgres() {
 	}
 	
 }
+
+void SceneMain::playerOut() {
+	showingAlert = true;
+	showAlert("Do you want to continue?");
+}
+
+void SceneMain::alertYesClicked() {
+	showingAlert = false;
+	Game::instance().playerOut(false);
+}
+
+void SceneMain::alertNoClicked() {
+	exit(0);
+}

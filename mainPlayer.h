@@ -21,6 +21,8 @@ public:
 	void setPosition(const glm::vec2 &pos);
 	glm::vec2 getPlayerPosition();
 	void setLives(int numLives);
+	void setHealth(int l);
+	int getLives();
 	void digAnimation();
 	void attackAnimation();
 	void putMaterial();

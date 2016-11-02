@@ -24,8 +24,12 @@ public:
 	void killOgre(EnOgre * ogre);
 	void updateArrayOgres(EnOgre * ogre);
 	void updateOgres(EnOgre * ogre);
+	void playerOut();
+	void alertYesClicked();
+	void alertNoClicked();
 protected:
 	void createOgres();
+
 	EnOgre *ogre1;
 	vector<EnOgre*> ogres;
 	Enemy *enemy;

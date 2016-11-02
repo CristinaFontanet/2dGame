@@ -15,6 +15,10 @@ enum SpriteMoves {
 	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT, ATTACKING_RIGHT, ATTACKING_LEFT
 };
 
+enum Fruit {
+	STRAWBERRY, BANNANA, WATERMELON, APPLE
+};
+
 void EnOgre::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram) {
 	heightProp = 1.f / 2.f;
 	widhtProp = 1.f / 6.f;
@@ -23,8 +27,8 @@ void EnOgre::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram) {
 	bLeft = true;
 	bJumping = false;
 	attacking = false;
-	//curative = nextBool(0.3);
-	curative = false;
+	curative = nextBool(0.7);
+
 	spritesheet.loadFromFile("images/ogre.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	sprite = Sprite::createSprite(glm::ivec2(64, 64), glm::vec2(widhtProp, heightProp), &spritesheet, &shaderProgram);
 	sprite->setNumberAnimations(8);
@@ -57,6 +61,17 @@ void EnOgre::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram) {
 
 	tileMapDispl = tileMapPos;
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posEnemy.x), float(tileMapDispl.y + posEnemy.y)));
+	
+	heightProp = 1.f / 3.f;
+	widhtProp = 1.f / 5.f;
+
+	spritesheetFruit.loadFromFile("images/fruit.png", TEXTURE_PIXEL_FORMAT_RGBA);
+	fruitMode = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(widhtProp, heightProp), &spritesheetFruit, &shaderProgram);
+	fruitMode->setNumberAnimations(8);
+	fruitMode->setAnimationSpeed(STRAWBERRY, ANIMATION_SPEED);
+	fruitMode->addKeyframe(STRAWBERRY, glm::vec2(widhtProp * 0, heightProp*0));
+
+	fruitMode->setPosition(glm::vec2(float(tileMapDispl.x + posEnemy.x), float(tileMapDispl.y + posEnemy.y)));
 
 }
 
@@ -78,6 +93,7 @@ void EnOgre::setTarget(MainPlayer *target){
 void EnOgre::render()
 {
 	if(live > 0) sprite->render();
+	else if (curative) fruitMode->render();
 }
 
 void EnOgre::update(int deltaTime) {
@@ -173,7 +189,18 @@ void EnOgre::update(int deltaTime) {
 		sprite->setPosition(glm::vec2(float(tileMapDispl.x + posEnemy.x), float(tileMapDispl.y + posEnemy.y)));
 	}
 	else if (curative) {
-
+		int spriteWidth = 64;
+		int tileSize = map->getTileSize();
+		int tileXPlayer = player->getPlayerPosition().x / tileSize;
+		int tileYPlayer = player->getPlayerPosition().y / tileSize;
+		int tileXEnemy = posEnemy.x / tileSize;
+		int tileYEnemy = -1 + posEnemy.y / tileSize;
+		if(fruitMode->animation() != STRAWBERRY)fruitMode->changeAnimation(STRAWBERRY);
+		fruitMode->setPosition(glm::vec2(float(tileMapDispl.x + posEnemy.x), float(tileMapDispl.y + posEnemy.y)));
+		if (tileXPlayer == tileXEnemy && tileYPlayer == tileYEnemy) {
+			player->heal(12);
+			curative = false;
+		}
 	}
 	else {
 		Game::instance().killOgre(this);

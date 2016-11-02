@@ -26,6 +26,7 @@ public:
 	void putMaterial();
 	void bellAnimation();
 	void reciveDMG(int dmg);
+	void heal(int heal);
 	void configSounds();
 	void setJumpMod(int mod);
 	void mouseClick(int x, int y);

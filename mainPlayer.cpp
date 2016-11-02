@@ -460,24 +460,27 @@ void MainPlayer::setUpLives(CEGUI::Window *livesWindowP) {
 }
 
 void MainPlayer::setLives(int numLives) {
-	if (numLives < 33) {
-		if (numLives == 16) windHeart1->setProperty("Image", "spritesheet_tiles/HeartHalf");
+	if (numLives <= 33) {
+		if (numLives > 16) windHeart1->setProperty("Image", "spritesheet_tiles/HeartFull");
+		else if (numLives <= 16) windHeart1->setProperty("Image", "spritesheet_tiles/HeartHalf");
 		else  windHeart1->setProperty("Image", "spritesheet_tiles/HeartEmpty");
 		windHeart2->setProperty("Image", "spritesheet_tiles/HeartEmpty");
 		windHeart3->setProperty("Image", "spritesheet_tiles/HeartEmpty");
 	}
 	else {
 		windHeart1->setProperty("Image", "spritesheet_tiles/HeartFull");
-		if (numLives < 66) {
-			if (numLives == 50) windHeart2->setProperty("Image", "spritesheet_tiles/HeartHalf");
+		if (numLives <= 66) {
+			if(numLives > 50 ) windHeart2->setProperty("Image", "spritesheet_tiles/HeartFull");
+			else if (numLives <= 50) windHeart2->setProperty("Image", "spritesheet_tiles/HeartHalf");
 			else  windHeart2->setProperty("Image", "spritesheet_tiles/HeartEmpty");
 			windHeart3->setProperty("Image", "spritesheet_tiles/HeartEmpty");
 		}
 		else {
 			windHeart2->setProperty("Image", "spritesheet_tiles/HeartFull");
 			if (numLives < 100) {
-				if (numLives == 83) windHeart3->setProperty("Image", "spritesheet_tiles/HeartHalf");
-				else  windHeart3->setProperty("Image", "spritesheet_tiles/HeartEmpty");
+				if(numLives > 83) windHeart3->setProperty("Image", "spritesheet_tiles/HeartFull");
+				else if (numLives <= 83) windHeart3->setProperty("Image", "spritesheet_tiles/HeartHalf");
+				else windHeart3->setProperty("Image", "spritesheet_tiles/HeartEmpty");
 			}
 			else  windHeart3->setProperty("Image", "spritesheet_tiles/HeartFull");
 		}
@@ -562,13 +565,18 @@ void MainPlayer::reciveDMG(int dmg) {
 		bDamage = true;
 		spriteInvincible->changeAnimation(0);
 		live -= dmg;
-		if (live < 0) live = 100;
 		setLives(live);
 
 		system->playSound(dmgSound, 0, true, &playerChannel);
 		playerChannel->setPaused(false);
 		cout << "Remaining: " << live << endl;
 	}
+}
+
+void MainPlayer::heal(int heal) {
+	live += heal;
+	setLives(live);
+	cout << "Remaining: " << live << endl;
 }
 
 void MainPlayer::configSounds() {

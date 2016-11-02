@@ -293,9 +293,19 @@ void MenuGUI::createCraftWindow() {
 bool MenuGUI::craftSword() {
 	if (enoughtRocksSword) {
 		enoughtRocksSword = false;
+		switch (mainPlayer->getSword()->getElement()) {
+		case TUSK:
+			mainPlayer->getRock()->reduceAmount(NUM_ROCKS_NEEDED_SWORD);
+			break;
+		case ROCK:
+			mainPlayer->getGold()->reduceAmount(NUM_GOLD_NEEDED_SWORD);
+			break;
+		case GOLD:
+			mainPlayer->getDiamond()->reduceAmount(NUM_DIAMOND_NEEDED_SWORD);
+			break;
+		}
 		//TODO: So guai
 		mainPlayer->getSword()->improveSword();
-		mainPlayer->getRock()->reduceAmount(NUM_ROCKS_NEEDED_SWORD);
 		setCraftSword();
 		updateItemsCrafting();
 		cout << "YESS" << endl;
@@ -314,8 +324,10 @@ bool MenuGUI::craftPeak() {
 		switch (mainPlayer->getPeak()->getElement()) {
 		case WOOD:
 			mainPlayer->getRock()->reduceAmount(NUM_ROCKS_NEEDED_PEAK);
+			break;
 		case ROCK:
 			mainPlayer->getDiamond()->reduceAmount(NUM_DIAMOND_NEEDED_PEAK);
+			break;
 		}
 		mainPlayer->getPeak()->improvePeak();
 		
@@ -332,6 +344,7 @@ bool MenuGUI::craftPeak() {
 
 bool MenuGUI::craftBell() {
 	if (enoughtGoldBell && correctSword) {
+		enoughtGoldBell = false;
 		//TODO: So guai
 		mainPlayer->getBell()->addItem();
 		mainPlayer->getGold()->reduceAmount(NUM_GOLD_NEEDED_BELL);

@@ -38,7 +38,7 @@ void Anastasio::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram,
 	if (anastasioType == TUTORIAL) sprite = Sprite::createSprite(glm::ivec2(SPRITE_SIZE_SMALL, SPRITE_SIZE_SMALL), glm::vec2(widhtProp, heightProp), &spritesheet, &shaderProgram);
 	else sprite = Sprite::createSprite(glm::ivec2(SPRITE_SIZE_BIG, SPRITE_SIZE_BIG), glm::vec2(heightProp, heightProp), &bigSpritesheet, &shaderProgram);
 	spriteReady = Sprite::createSprite(glm::ivec2(SPRITE_READY_WIDHT, SPRITE_READY_HEIGHT), glm::vec2(widhtProp*2.25, heightProp*1.5), &spritesheet, &shaderProgram);
-	sprite->setNumberAnimations(8);
+	sprite->setNumberAnimations(18);
 	spriteReady->setNumberAnimations(1);
 	sprite->setAnimationSpeed(STAND_LEFT, ANIMATION_SPEED);
 	spriteReady->setAnimationSpeed(STAND_LEFT, ANIMATION_SPEED);
@@ -61,7 +61,7 @@ void Anastasio::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram,
 		sprite->addKeyframe(HELP2, glm::vec2(heightProp, heightProp*2));//ja pic d
 		sprite->addKeyframe(HELP3, glm::vec2(heightProp*3, heightProp * 2));	//ja esp d
 		sprite->addKeyframe(HELP4, glm::vec2(heightProp, heightProp * 2));	//ja bell
-		sprite->addKeyframe(HELP5, glm::vec2(heightProp, heightProp * 2));	//castell
+		sprite->addKeyframe(HELP5, glm::vec2(0.f, heightProp * 3));	//castell
 		sprite->addKeyframe(INSTR1, glm::vec2(0.f, heightProp));
 		sprite->addKeyframe(INSTR2, glm::vec2(heightProp, heightProp));
 		sprite->addKeyframe(INSTR3, glm::vec2(heightProp * 2, heightProp ));
@@ -143,10 +143,10 @@ bool Anastasio::playerColision() {
 void Anastasio::showHelp() {
 	isHelp = true;
 	if (!Game::instance().isBossScene()) {
-		if (player->getPeak()->getElement() != DIAMOND) {
+		if (player->getPeak()->getElement() == WOOD) {
 			sprite->changeAnimation(HELP1);
 		}
-		else if (player->getSword()->getElement() != SWORD) {
+		else if (player->getSword()->getElement() == TUSK || player->getSword()->getElement() == ROCK) {
 			sprite->changeAnimation(HELP2);
 		}
 		else if (player->getBell()->getAmount() == 0) {

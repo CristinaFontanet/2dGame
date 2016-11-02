@@ -258,3 +258,7 @@ MainPlayer* Scene::getMainPlayer() {
 void Scene::combinePlayer(MainPlayer* mPlayer) {
 	mainPlayer->combineInventory(mPlayer);
 }
+
+void  Scene::showAnastasio() {
+	menu_gui.showHelp();
+}

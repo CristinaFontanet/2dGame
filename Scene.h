@@ -44,6 +44,8 @@ public:
 	virtual bool dmgEnnemys(int dmg, glm::ivec2 dmgAt) { return false; };
 	virtual void killOgre(EnOgre * ogre) {};
 	void combinePlayer(MainPlayer* mPlayer);
+	void showAnastasio();
+	virtual bool isBossScene() { return false; }
 protected:
 	virtual void renderGUI();
 	TileMap *map;

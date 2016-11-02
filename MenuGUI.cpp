@@ -114,15 +114,23 @@ void MenuGUI::mouseClick(int x, int y) {
 				if (y > c1y0 && y < c1y1) craftSword();
 				else if (y > c2y0 && y < c2y1)craftPeak();
 				else if (y > c3y0 && y < c3y1) craftBell();
+				//else showCrafting = false;
+			}
+		//	else showCrafting = false;
+		}
+		else if (showingAnastasio) {
+			if (!anastasioInstr->nextText()) {
+				showingAnastasio = false;
 			}
 		}
-		else if (showingAnastasio) anastasioInstr->nextText();
 		else if (x > x0 && x < x1) {
 			if (y > b1yt && y < b1yb) onMenuInstructionsClick();
 			else if (y > b2yt && y < b2yb) onMenuCraftClick();
 			else if (y > b3yt && y < b3yb) onMenuExitClick();
 			else if (y > b4yt && y < b4yb) onMenuCancelClick();
+			else showMenu = false;
 		}
+		else showMenu = false;
 	}
 }
 
@@ -152,7 +160,22 @@ void  MenuGUI::onMenuInstructionsClick() {
 	showingAnastasio = true;
 	std::pair<float, float> off = Game::instance().getOffsetCamera();
 	anastasioInstr->setPosition(glm::vec2(off.first, off.second));
+	anastasioInstr->startInstructions();
 	//pushButton->setText("Button 1 clicked");
+}
+
+void MenuGUI::showHelp() {
+	if (!showingAnastasio) {
+		showMenu = true;
+		showingAnastasio = true;
+		std::pair<float, float> off = Game::instance().getOffsetCamera();
+		anastasioInstr->setPosition(glm::vec2(off.first, off.second));
+		anastasioInstr->showHelp();
+	}
+	else {
+		showingAnastasio = false;
+		showMenu = false;
+	}
 }
 
 
@@ -269,6 +292,7 @@ void MenuGUI::createCraftWindow() {
 
 bool MenuGUI::craftSword() {
 	if (enoughtRocksSword) {
+		enoughtRocksSword = false;
 		//TODO: So guai
 		mainPlayer->getSword()->improveSword();
 		mainPlayer->getRock()->reduceAmount(NUM_ROCKS_NEEDED_SWORD);
@@ -285,9 +309,16 @@ bool MenuGUI::craftSword() {
 
 bool MenuGUI::craftPeak() {
 	if (enoughtRocksPeak) {
+		enoughtRocksPeak = false;
 		//TODO: So guai
+		switch (mainPlayer->getPeak()->getElement()) {
+		case WOOD:
+			mainPlayer->getRock()->reduceAmount(NUM_ROCKS_NEEDED_PEAK);
+		case ROCK:
+			mainPlayer->getDiamond()->reduceAmount(NUM_DIAMOND_NEEDED_PEAK);
+		}
 		mainPlayer->getPeak()->improvePeak();
-		mainPlayer->getRock()->reduceAmount(NUM_ROCKS_NEEDED_PEAK);
+		
 		setCraftPeak();
 		updateItemsCrafting();
 		cout << "YESS" << endl;
@@ -384,7 +415,7 @@ void MenuGUI::setCraftPeak() {
 		res2Itm1Num->setProperty("Text", "1");
 		res2Itm2Img->setProperty("Image", "spritesheet_tiles/Diamond");
 		res2Itm2SImg->setProperty("Image", "spritesheet_tiles/Diamond");
-		res2Itm2Num->setProperty("Text", to_string(NUM_GOLD_NEEDED_PEAK));
+		res2Itm2Num->setProperty("Text", to_string(NUM_DIAMOND_NEEDED_PEAK));
 		break;
 	case DIAMOND:
 		res2Img1->setProperty("Image", "spritesheet_tiles/OK");
@@ -493,7 +524,7 @@ void MenuGUI::updateItemsPeak() {
 		}
 		break;
 	case ROCK:
-		if (mainPlayer->getGold()->getAmount() >= NUM_GOLD_NEEDED_SWORD) {
+		if (mainPlayer->getDiamond()->getAmount() >= NUM_DIAMOND_NEEDED_PEAK) {
 			res2Itm2SImg->setVisible(true);
 			enoughtRocksPeak = true;
 			res2ImgS1->setVisible(true);

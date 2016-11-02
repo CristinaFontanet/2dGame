@@ -60,6 +60,7 @@ public:
 	void killOgre(EnOgre * ogre);
 	void proceedToBoss();
 	void proceedToGame();
+	bool isBossScene();
 
 private:
 	FMOD::System *system;

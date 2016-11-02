@@ -10,7 +10,7 @@ void Game::init()
 	sceneMain = SceneMain();
 //	sceneBoss = SceneBoss();
 	sceneTutorial = SceneTutorial();
-	scene = &sceneTutorial;
+	scene = &sceneMain;
 
 	scene->init();
 }
@@ -59,7 +59,7 @@ void Game::keyPressed(int key)
 	if (key == '7') scene->selectItem(6);
 	if (key == '8') scene->selectItem(7);
 	if (key == 'M' || key == 'm') scene->showMenu();
-	if (key == 'N' || key == 'n') scene->showAlert("Heyyy");
+	if (key == 'L' || key == 'l') scene->showAnastasio();
 	keys[key] = true;
 }
 
@@ -152,4 +152,8 @@ void Game::alertYesClicked() {
 
 void Game::alertNoClicked() {
 	scene->alertNoClicked();
+}
+
+bool Game::isBossScene() {
+	return scene->isBossScene();
 }

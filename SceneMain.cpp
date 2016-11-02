@@ -22,6 +22,10 @@ SceneMain::~SceneMain() {
 	if (enemy != NULL) delete enemy;
 	if (pony != NULL) delete pony;
 }
+void SceneMain::init(MainPlayer* mPlayer) {
+	init();
+	Scene::combinePlayer(mPlayer);
+}
 
 void SceneMain::init() {
 	playerXtiles = 1;
@@ -53,16 +57,18 @@ void SceneMain::update(int deltaTime) {
 		pony->update(deltaTime);
 		updateOgres(deltaTime);
 	}
+
 }
 
-void SceneMain::render() {
-	Scene::render();
-
-	enemy->render(); //linia blanca
-	pony->render();	//linia blanca
-	renderOgres();	//linia negre
-
+bool SceneMain::render() {
+	bool b = Scene::render();
+	if (b) {
+		enemy->render(); //linia blanca
+		pony->render();	//linia blanca
+		renderOgres();	//linia negre
+	}
 	Scene::renderGUI();	//IMPORTAAANT, despres de tots els renders
+	return b;
 }
 
 void SceneMain::renderOgres() {

@@ -14,8 +14,6 @@
 #include <CEGUI/RendererModules/OpenGL/GL3Renderer.h>
 #include "AlertGUI.h"
 
-#define SCREEN_X 0
-#define SCREEN_Y 0
 
 
 #define INIT_BOSS_X_TILES 7
@@ -29,14 +27,14 @@ public:
 	~Scene();
 	void init(string background, string level, glm::vec2 initPosPlayer);
 	virtual void init() {};
-	virtual void render();
+	virtual bool render();
 	virtual void update(int deltaTime);
-	void alertYesClicked();
-	void alertNoClicked();
+	virtual void alertYesClicked();
+	virtual void alertNoClicked();
 
 	void initShaders();
 	void background();
-	void mouseClicked(int x, int y);
+	virtual bool mouseClicked(int x, int y);
 	void showMenu();
 	std::pair<float, float> getOffsetCamera();
 	void selectItem(int num);
@@ -47,7 +45,7 @@ public:
 	virtual void killOgre(EnOgre * ogre) {};
 	void combinePlayer(MainPlayer* mPlayer);
 protected:
-	void renderGUI();
+	virtual void renderGUI();
 	TileMap *map;
 	MainPlayer *mainPlayer;
 	bool showingMenu;

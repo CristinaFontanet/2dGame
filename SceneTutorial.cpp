@@ -1,5 +1,6 @@
 
 #include "SceneTutorial.h"
+#include "Game.h"
 
 SceneTutorial::SceneTutorial() {
 	map = NULL;
@@ -18,8 +19,8 @@ void SceneTutorial::init() {
 	Scene::init("images/background.png", "levels/Tutorial.txt", glm::vec2(playerXtiles , playerYtiles) );
 
 	anastasio = new Anastasio();
-	anastasio->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, false);
-	anastasio->setPosition(glm::vec2(playerXtiles * map->getTileSize(), playerYtiles * map->getTileSize()));
+	anastasio->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, Anastasio::AnastasioType::TUTORIAL);
+	anastasio->setPosition(glm::vec2(1370, 384));
 	anastasio->setTileMap(map);
 	anastasio->setTarget(mainPlayer);
 
@@ -28,17 +29,40 @@ void SceneTutorial::init() {
 void SceneTutorial::update(int deltaTime) {
 	Scene::update(deltaTime);
 
-
 	//no cal fer update del mapa xq aquest no te animacions ni res 
 	if(!menu_gui.isMenuShowing() && !showingAlert) {		//PAUSA si s'esta mostrant el menu
-		anastasio->update(deltaTime);
+		if (anastasio->update(deltaTime)) {
+			showingAlert = true;
+			showAlert("Are you ready to proceed?");
+		}
 	}
 }
 
-void SceneTutorial::render() {
+void SceneTutorial::alertYesClicked() {
+	std::cout << "YESS" << std::endl;
+	showingAlert = false;
+	Game::instance().proceedToGame();
+}
+
+void SceneTutorial::alertNoClicked() {
+	std::cout << "Noo" << std::endl;
+	showingAlert = false;
+}
+
+bool SceneTutorial::render() {
 	Scene::render();
 
 	anastasio->render();
 
 	Scene::renderGUI();	//IMPORTAAANT, despres de tots els renders
+	anastasio->renderGUI();
+	return true;
+}
+
+bool SceneTutorial::mouseClicked(int x, int y) {
+	bool used = Scene::mouseClicked(x, y);
+	if (!used) {
+		return anastasio->nextText();
+	}
+	return used;
 }

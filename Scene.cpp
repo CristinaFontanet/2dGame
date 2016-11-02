@@ -17,8 +17,7 @@ Scene::Scene() {
 
 Scene::~Scene()
 {
-	if(map != NULL)
-		delete map;
+	if(map != NULL) delete map;
 	if (mainPlayer != NULL) delete mainPlayer;
 }
 
@@ -42,6 +41,11 @@ void Scene::init(string background, string level, glm::vec2 initPosPlayer) {
 	mainPlayer->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, inventoryWindow,livesWindow);
 	mainPlayer->setPosition(glm::vec2(initPosPlayer.x * map->getTileSize(), initPosPlayer.y * map->getTileSize()));
 	mainPlayer->setTileMap(map);
+
+	menu_gui.init("../GUI", mainPlayer, m_gui.getRenderer(), texProgram,map);
+	
+
+
 	playerPos = mainPlayer->getPlayerPosition();
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 	tileSize = map->getTileSize();
@@ -54,14 +58,13 @@ void Scene::init(string background, string level, glm::vec2 initPosPlayer) {
 	else offsetXCamera = (initPosPlayer.x - minXOffset) * -tileSize;
 	offsetYCamera = SCREEN_WIDTH / 2 - playerPos[1] * 1.025;
 	projection = glm::translate(projection, glm::vec3(offsetXCamera, offsetYCamera, 0.f));
-
-	menu_gui.init("../GUI", mainPlayer,m_gui.getRenderer());
 	currentTime = 0.0f;
 
 }
 
 void Scene::update(int deltaTime) {
 	//no cal fer update del mapa xq aquest no te animacions ni res 
+	//anastasioInstr->update(deltaTime);
 	if (!menu_gui.isMenuShowing() && !showingAlert) {		//PAUSA si s'esta mostrant el menu
 		currentTime += deltaTime;
 
@@ -77,15 +80,16 @@ void Scene::update(int deltaTime) {
 		projection = glm::translate(projection, glm::vec3(incx, incy, 0.f));
 		playerPos = mainPlayer->getPlayerPosition();
 	}
+
 }
 
 void Scene::renderGUI() {
+	menu_gui.draw();		//Ha de ser el 1r xq te un render a dins
 	m_gui.draw();
-	menu_gui.draw();
 	if (showingAlert) al.draw();
 }
 
-void Scene::render() {
+bool Scene::render() {
 		glm::mat4 modelview;
 		texProgram.use();
 		texProgram.setUniformMatrix4f("projection", projection);
@@ -95,6 +99,8 @@ void Scene::render() {
 		map->render();
 
 		mainPlayer->render();
+
+		return menu_gui.render();
 }
 
 void Scene::showMenu() {
@@ -112,16 +118,55 @@ void Scene::alertNoClicked() {
 	showingAlert = false;
 }
 
-void Scene::mouseClicked(int x, int y) {
+bool Scene::mouseClicked(int x, int y) {
 	if (showingAlert) {
-		std::cout << "x: " << x << ", y:" << y << std::endl;
+		//std::cout << "x: " << x << ", y:" << y << std::endl;
 		if (y > 280 && y < 315) {
 			if (x > 224 && x < 340) Game::instance().alertYesClicked();
 			else if(x > 374 && x <495) Game::instance().alertNoClicked();
 		}
+		return true;
 	}
-	else if (!menu_gui.isMenuShowing())mainPlayer->mouseClick(x, y);
+	else if (!menu_gui.isMenuShowing()) {
+		if (y > 5 && y < 55) {
+			if (x > 10 && x < 60) {
+				selectItem(0);
+				return true;
+			}
+			else if (x > 70 && x < 120) {
+				selectItem(1);
+				return true;
+			}
+			else if (x > 130 && x < 180) {
+				selectItem(2);
+				return true;
+			}
+			else if (x > 190 && x < 240) {
+				selectItem(3);
+				return true;
+			}
+			else if (x > 250 && x < 300) {
+				selectItem(4);
+				return true;
+			}
+			else if (x > 310 && x < 360) {
+				selectItem(5);
+				return true;
+			}
+			else if (x > 370 && x < 420) {
+				selectItem(6);
+				return true;
+			}
+			else if (x > 430 && x < 480) {
+				selectItem(7);
+				return true;
+			}
+		}
+		mainPlayer->mouseClick(x, y);
+		return false;
+	}
 	else menu_gui.mouseClick(x, y);
+	return true;
 }
 
 void Scene::initShaders()

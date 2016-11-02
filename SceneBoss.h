@@ -14,7 +14,8 @@ public:
 	~SceneBoss();
 
 	void init(MainPlayer* mPlayer);
-	void render();
+	void init();
+	bool render();
 	void update(int deltaTime);
 
 	bool dmgEnnemys(int dmg, glm::ivec2 dmgAt);

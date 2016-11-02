@@ -3,12 +3,14 @@
 #include <iostream>
 #include <vector>
 #include "Constants.h"
+#include "Game.h"
 
 CEGUI::OpenGL3Renderer* MenuGUI::m_renderer = nullptr;
 
-void MenuGUI::init(const std::string& resourceDirectory, MainPlayer* mPlayer, CEGUI::OpenGL3Renderer* rend) {
+void MenuGUI::init(const std::string& resourceDirectory, MainPlayer* mPlayer, CEGUI::OpenGL3Renderer* rend, ShaderProgram &shaderProgram, TileMap * tileMap) {
 	showCrafting = false;
 	showMenu = false;
+	showingAnastasio = false;
 	mainPlayer = mPlayer;
     // Check if the renderer and system were not already initialized
 	m_renderer = rend;
@@ -57,18 +59,40 @@ void MenuGUI::init(const std::string& resourceDirectory, MainPlayer* mPlayer, CE
 	createMenu();
 	createCraftWindow();
 
+	//anastasio
+	anastasioInstr = new Anastasio();
+	anastasioInstr->init(glm::ivec2(SCREEN_X, SCREEN_Y), shaderProgram, Anastasio::AnastasioType::INSTRUCTIONS);
+	//x: 32 // Y : 3428
+	anastasioInstr->setTileMap(tileMap);
+//	anastasioInstr->setPosition(glm::vec2(1370, 384));
+	anastasioInstr->setTarget(mainPlayer);
 }
 
 void MenuGUI::destroy() {
     CEGUI::System::getSingleton().destroyGUIContext(*m_context_menu);
 }
 
+bool MenuGUI::showAnastasio() {
+	return showingAnastasio;
+}
+
+bool MenuGUI::render() {
+	if(showingAnastasio) {
+		anastasioInstr->render();
+		return false;
+	}
+	return true;
+}
+
 void MenuGUI::draw() {
-    m_renderer->beginRendering();
-	if(showMenu) m_context_menu->draw();
-	if (showCrafting) m_context_craft->draw();
-    m_renderer->endRendering();
-    glDisable(GL_SCISSOR_TEST);
+	if (!showingAnastasio) {
+		m_renderer->beginRendering();
+		if (showMenu) m_context_menu->draw();
+		if (showCrafting) m_context_craft->draw();
+		m_renderer->endRendering();
+		glDisable(GL_SCISSOR_TEST);
+	}
+	else anastasioInstr->renderGUI();
 }
 
 void MenuGUI::loadScheme(const std::string& schemeFile) {
@@ -92,8 +116,9 @@ void MenuGUI::mouseClick(int x, int y) {
 				else if (y > c3y0 && y < c3y1) craftBell();
 			}
 		}
+		else if (showingAnastasio) anastasioInstr->nextText();
 		else if (x > x0 && x < x1) {
-			if (y > b1yt && y < b1yb) onMenu1Click();
+			if (y > b1yt && y < b1yb) onMenuInstructionsClick();
 			else if (y > b2yt && y < b2yb) onMenuCraftClick();
 			else if (y > b3yt && y < b3yb) onMenuExitClick();
 			else if (y > b4yt && y < b4yb) onMenuCancelClick();
@@ -116,14 +141,18 @@ void MenuGUI::hideMouseCursor() {
 /** MENU **/
 void MenuGUI::showMenuClicked() {
 	if (showMenu) {
-		if (showCrafting) showCrafting = false;
+		if (showingAnastasio) showingAnastasio = false;
+		else if (showCrafting) showCrafting = false;
 		else showMenu = false;
 	}
 	else showMenu = true;
 }
 
-void  MenuGUI::onMenu1Click() {
-	pushButton->setText("Button 1 clicked");
+void  MenuGUI::onMenuInstructionsClick() {
+	showingAnastasio = true;
+	std::pair<float, float> off = Game::instance().getOffsetCamera();
+	anastasioInstr->setPosition(glm::vec2(off.first, off.second));
+	//pushButton->setText("Button 1 clicked");
 }
 
 

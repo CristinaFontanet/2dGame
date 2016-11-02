@@ -59,6 +59,7 @@ public:
 
 	void killOgre(EnOgre * ogre);
 	void proceedToBoss();
+	void proceedToGame();
 
 private:
 	FMOD::System *system;

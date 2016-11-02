@@ -11,14 +11,23 @@ void Game::init()
 //	sceneBoss = SceneBoss();
 	sceneTutorial = SceneTutorial();
 	scene = &sceneMain;
+
 	scene->init();
 }
 
 void Game::proceedToBoss() {
 	if (scene == &sceneMain) {
+		sceneBoss = SceneBoss();
 		sceneBoss.init(scene->getMainPlayer());
 		scene = &sceneBoss;
-	//	scene->init();
+	}
+}
+
+void Game::proceedToGame() {
+	if (scene == &sceneTutorial) {
+		sceneMain = SceneMain();
+		sceneMain.init(scene->getMainPlayer());
+		scene = &sceneMain;
 	}
 }
 
@@ -29,8 +38,7 @@ bool Game::update(int deltaTime)
 	return bPlay;
 }
 
-void Game::render()
-{
+void Game::render() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	scene->background();

@@ -21,6 +21,7 @@
     <ClCompile Include="..\SceneBoss.cpp" />
     <ClCompile Include="..\AlertGUI.cpp" />
     <ClCompile Include="..\Anastasio.cpp" />
+    <ClCompile Include="..\DialogGUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\libs\glm\glm\detail\_vectorize.hpp" />
@@ -45,8 +46,12 @@
     <ClInclude Include="..\SceneBoss.h" />
     <ClInclude Include="..\AlertGUI.h" />
     <ClInclude Include="..\Anastasio.h" />
+    <ClInclude Include="..\DialogGUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2D.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

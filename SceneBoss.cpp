@@ -1,6 +1,7 @@
 
 #include "SceneBoss.h"
 #include <glm/gtc/matrix_transform.hpp>
+#include "Constants.h"
 
 
 SceneBoss::SceneBoss() {
@@ -15,12 +16,10 @@ SceneBoss::~SceneBoss() {
 }
 
 
-
-void SceneBoss::init(MainPlayer* mPlayer) {
+void SceneBoss::init() {
 	playerXtiles = 1;
 	playerYtiles = 30;
-	Scene::init("images/castillo.png", "levels/Castillo.txt",  glm::vec2(playerXtiles , playerYtiles) );
-	Scene::combinePlayer(mPlayer);
+	Scene::init("images/castillo.png", "levels/Castillo.txt", glm::vec2(playerXtiles, playerYtiles));
 
 	bossStart = false;
 	//boss
@@ -32,6 +31,10 @@ void SceneBoss::init(MainPlayer* mPlayer) {
 	mainPlayer->setJumpMod(2);
 
 	createOgres();
+}
+void SceneBoss::init(MainPlayer* mPlayer) {
+	init();
+	Scene::combinePlayer(mPlayer);
 }
 
 void SceneBoss::update(int deltaTime) {
@@ -60,11 +63,14 @@ void SceneBoss::update(int deltaTime) {
 	}
 }
 
-void SceneBoss::render() {
-	Scene::render();
-	renderOgres();
-	if(bossStart)boss->render(); 
+bool SceneBoss::render() {
+	bool b = Scene::render();
+	if (b) {
+		renderOgres();
+		if (bossStart)boss->render();
+	}
 	Scene::renderGUI();	//IMPORTAAANT, despres de tots els renders
+	return b;
 }
 
 void SceneBoss::renderOgres() {

@@ -49,7 +49,7 @@ class MenuGUI {
 		bool showAnastasio();
 		void showHelp();
 
-
+		void showCraftButton(bool b);
 
     private:
 		void createCraftWindow();
@@ -123,5 +123,6 @@ class MenuGUI {
 
 		Anastasio *anastasioInstr;
 		bool showingAnastasio;
+		bool showCraftBut;
 	
 };

@@ -12,6 +12,7 @@ void MenuGUI::init(const std::string& resourceDirectory, MainPlayer* mPlayer, CE
 	showMenu = false;
 	showingAnastasio = false;
 	mainPlayer = mPlayer;
+	showCraftBut = false;
     // Check if the renderer and system were not already initialized
 	m_renderer = rend;
     if (m_renderer == nullptr) {
@@ -124,10 +125,10 @@ void MenuGUI::mouseClick(int x, int y) {
 			}
 		}
 		else if (x > x0 && x < x1) {
-			if (y > b1yt && y < b1yb) onMenuInstructionsClick();
-			else if (y > b2yt && y < b2yb) onMenuCraftClick();
+			if (y > b1yt && y < b1yb)onMenuCancelClick();
+			else if (y > b2yt && y < b2yb) onMenuInstructionsClick();
 			else if (y > b3yt && y < b3yb) onMenuExitClick();
-			else if (y > b4yt && y < b4yb) onMenuCancelClick();
+			else if (y > b4yt && y < b4yb) onMenuCraftClick();
 			else showMenu = false;
 		}
 		else showMenu = false;
@@ -204,6 +205,7 @@ void MenuGUI::createMenu() {
 	pushButton2 = (PushButton*)menuWin->getChild("Button2");
 	pushButton3 = (PushButton*)menuWin->getChild("Button3");
 	pushButton4 = (PushButton*)menuWin->getChild("Button4");
+	if (!showCraftBut) pushButton4->setProperty("Visible", "false");
 
 	x0 = 0.35*SCREEN_WIDTH;
 	x1 = 0.65*SCREEN_WIDTH;
@@ -219,9 +221,17 @@ void MenuGUI::createMenu() {
 
 	b4yt = 0.65*SCREEN_HEIGHT;
 	b4yb = 0.75*SCREEN_HEIGHT;
+
 }
 
 /** Crafting **/
+
+void MenuGUI::showCraftButton(bool b) {
+	showCraftBut = b;
+	if(showCraftBut)pushButton4->setProperty("Visible", "true");
+	else pushButton4->setProperty("Visible", "false");
+}
+
 
 void  MenuGUI::onMenuCraftClick() {
 	showCrafting = true;

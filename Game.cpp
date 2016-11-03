@@ -11,8 +11,12 @@ void Game::init()
 	sceneMain = SceneMain();
 	sceneBoss = SceneBoss();
 	sceneTutorial = SceneTutorial();
-	scene = &sceneTutorial;
+	scene = &sceneMain;
 	scene->init();
+}
+
+void Game::helpGetOut() {
+	scene->helpGetOut();
 }
 
 void Game::proceedToBoss() {

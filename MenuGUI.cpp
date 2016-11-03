@@ -195,6 +195,15 @@ void MenuGUI::showHelp() {
 	}
 }
 
+void MenuGUI::helpGetOut(bool b) {
+	if (b) {
+		std::pair<float, float> off = Game::instance().getOffsetCamera();
+		anastasioInstr->setPosition(glm::vec2(off.first + 32, off.second));
+		anastasioInstr->helpOut();
+		showingAnastasio = true;
+	}
+	else showingAnastasio = false;
+}
 
 void  MenuGUI::onMenuExitClick() {
 	exit(0);

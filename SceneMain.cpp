@@ -136,11 +136,19 @@ void SceneMain::playerOut() {
 
 void SceneMain::alertYesClicked() {
 	showingAlert = false;
-	Game::instance().playerOut(false);
+	if (mainPlayer->getLives() > 0) {
+		mainPlayer->setPosition(glm::vec2(1710, initPosMainPlayer.y * map->getTileSize()));
+		menu_gui.helpGetOut(false);
+	}
+	else Game::instance().playerOut(false);
 }
 
 void SceneMain::alertNoClicked() {
-	exit(0);
+	if (mainPlayer->getLives() > 0) {
+		showingAlert = false;
+		menu_gui.helpGetOut(false);
+	}
+	else exit(0);
 }
 
 void SceneMain::showCraftingMenu() {

@@ -21,5 +21,6 @@
     <Image height="16" name="OK" width="16" xPos="780" yPos="1202" />
     <Image height="128" name="Bell" width="128" xPos="650" yPos="1560" />
     <Image height="128" name="SpecialBell" width="128" xPos="650" yPos="1690" />
+    <Image height="128" name="QuestionMark" width="128" xPos="650" yPos="1820" />
     <!-- iconos: http://www.flaticon.es/icono-gratis/igual_225147 -->
 </Imageset>

@@ -19,6 +19,7 @@ public:
 	#define MATERIAL 2
 	#define SWORD 3
 	#define BELLITEM 4
+	#define BELLSPECIAL 5
 
 	Item * createItem(int type, int element, int dmg, int amount, CEGUI::Window* inventoryWindow);
 	Item(int typeP, int elementP, int dmgP, int amount, CEGUI::Window* inventoryWindow);

@@ -23,7 +23,6 @@ Scene::~Scene()
 
 void Scene::init(string background, string level, glm::vec2 initPosPlayer) {
 	showingAlert = false;
-	initPosMainPlayer = initPosPlayer;
 	initShaders();
 	backgroundTexture.loadFromFile(background, TEXTURE_PIXEL_FORMAT_RGBA);
 	backgroundTexture.setWrapS(GL_CLAMP_TO_EDGE);

@@ -67,7 +67,6 @@ protected:
 
 	bool showingAlert;
 	AlertGUI al;
-	glm::vec2 initPosMainPlayer;
 
 };
 

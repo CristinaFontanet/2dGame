@@ -4,6 +4,7 @@
 #include <vector>
 #include "TileMap.h"
 #include <ctime>
+#include "Constants.h"
 
 using namespace std;
 
@@ -384,7 +385,7 @@ glm::vec2 TileMap::getMapSize() {
 }
 
 void TileMap::createCaveAt(int x, int y) {
-	vector< vector< bool > > cellMap(19, vector<bool>(50, false));
+	vector< vector< bool > > cellMap(CAVE_WIDTH, vector<bool>(CAVE_HEIGHT, false));
 	cellMap = initCaves(cellMap);
 	for (int i = 0; i<4; i++) {
 		cellMap = caveStep(cellMap);
@@ -424,7 +425,7 @@ vector< vector <bool > > TileMap::initCaves(vector< vector <bool > > map) {
 
 
 vector< vector <bool > >  TileMap::caveStep(vector< vector <bool > > oldMap) {
-	vector< vector< bool > > newMap(19, vector<bool>(50, false));
+	vector< vector< bool > > newMap(CAVE_WIDTH, vector<bool>(CAVE_HEIGHT, false));
 	//Loop over each row and column of the map
 	for (int x = 0; x<oldMap.size(); x++) {
 		for (int y = 0; y<oldMap[0].size(); y++) {

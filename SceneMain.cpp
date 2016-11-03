@@ -137,7 +137,8 @@ void SceneMain::playerOut() {
 void SceneMain::alertYesClicked() {
 	showingAlert = false;
 	if (mainPlayer->getLives() > 0) {
-		mainPlayer->setPosition(glm::vec2(1710, initPosMainPlayer.y * map->getTileSize()));
+		glm::vec2 currentPos = mainPlayer->getPlayerPosition();
+		mainPlayer->setPosition(glm::vec2(currentPos.x-CAVE_WIDTH*map->getTileSize(), currentPos.y-CAVE_HEIGHT * map->getTileSize()));
 		menu_gui.helpGetOut(false);
 	}
 	else Game::instance().playerOut(false);

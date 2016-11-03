@@ -59,6 +59,10 @@ public:
 
 	void loopSound();
 
+	void playBossLoop();
+	
+	void playMainLoop();
+
 	bool dmgEnnemys(int dmg, glm::ivec2 dmgAt);
 
 	FMOD::System* getSoundSystem();
@@ -70,6 +74,9 @@ public:
 
 private:
 	FMOD::System *system;
+	FMOD::Sound     *mainLoop;
+	FMOD::Sound     *bossLoop;
+	FMOD::Channel   *channel1 = 0;
 	int mouseX, mouseY;
 	bool bPlay;                       // Continue to play game?
 	SceneMain sceneMain;

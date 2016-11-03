@@ -41,6 +41,7 @@ public:
 	Item* getGold();
 	Item* getDiamond();
 	Item* getBell();
+	Item* getSpecialItem();
 	void setTutorialPause(bool pause);
 
 	enum playerState {

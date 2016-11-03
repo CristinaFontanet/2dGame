@@ -2,7 +2,7 @@
 <GUILayout version="4">
 
 <Window name="RootWin" type="DefaultWindow">
-    <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}}" />
+    <Property name="Area" value="{{0,0},{0.2,0},{1,0},{1,0}}" />
 
 
     <Window name="Button1" type="TaharezLook/Button">

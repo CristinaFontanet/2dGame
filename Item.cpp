@@ -140,7 +140,7 @@ string Item::getMaterialString() {
 			break;
 		}
 		break;
-	case BELL:
+	case BELLITEM:
 		slot = "Slot8";
 		material = "Bell";
 		break;

@@ -365,7 +365,8 @@ void MainPlayer::setUpInventory(CEGUI::Window* inventoryWindow) {
 	inventory[4] = Item(MATERIAL, COAL, 0, 0, inventoryWindow);
 	inventory[5] = Item(MATERIAL, GOLD, 0, 0, inventoryWindow);
 	inventory[6] = Item(MATERIAL, DIAMOND, 0, 0, inventoryWindow);
-	inventory[7] = Item(BELL, 0, 0,1, inventoryWindow);
+	inventory[7] = Item(BELLITEM, 0, 0,0, inventoryWindow);
+	inventory[8] = Item(BELLITEM, 0, 0, 0, inventoryWindow);
 
 	equipedItem = &inventory[0];
 	equipedItem->setSelected(true);
@@ -394,6 +395,9 @@ Item* MainPlayer::getGold() {
 	return &inventory[5];
 }
 
+Item* MainPlayer::getSpecialItem() {
+	return &inventory[8];
+}
 void MainPlayer::materialDigged(int material) {
 	switch (material) {
 	case TUSK:
@@ -410,6 +414,9 @@ void MainPlayer::materialDigged(int material) {
 		break;
 	case DIAMOND:
 		inventory[6].addItem();
+		break;
+	case BELL:
+		inventory[8].addItem();
 		break;
 	default:
 		break;

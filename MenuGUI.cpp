@@ -111,13 +111,14 @@ void MenuGUI::mouseClick(int x, int y) {
 	//x: 313 y: 121
 	if (showMenu) {
 		if (showCrafting) {
-			cout << "x: " << x << ", y: " << y << endl;
 			if (x > c1x0 && x < c1x1) {
 				if (y > c1y0 && y < c1y1) craftSword();
 				else if (y > c2y0 && y < c2y1)craftPeak();
 				else if (y > c3y0 && y < c3y1) craftBell();
 				//else showCrafting = false;
 			}
+			if (x<166 || y<57 || x>629 || y>541) showCrafting = false;
+			cout << "x: " << x << ", y: " << y << endl;
 		//	else showCrafting = false;
 		}
 		else if (showingAnastasio) {
@@ -211,17 +212,17 @@ void MenuGUI::createMenu() {
 	x0 = 0.35*SCREEN_WIDTH;
 	x1 = 0.65*SCREEN_WIDTH;
 
-	b1yt = 0.2*SCREEN_HEIGHT;
-	b1yb = 0.3*SCREEN_HEIGHT;
+	b1yt = 217;
+	b1yb =263;
 
-	b2yt = 0.35*SCREEN_HEIGHT;
-	b2yb = 0.45*SCREEN_HEIGHT;
+	b2yt = 291;
+	b2yb = 333;
 
-	b3yt = 0.5*SCREEN_HEIGHT;
-	b3yb = 0.6*SCREEN_HEIGHT;
+	b3yt = 362;
+	b3yb = 406;
 
-	b4yt = 0.65*SCREEN_HEIGHT;
-	b4yb = 0.75*SCREEN_HEIGHT;
+	b4yt = 434;
+	b4yb = 478;
 
 }
 
@@ -360,7 +361,6 @@ bool MenuGUI::craftBell() {
 		system->playSound(hammerSound, 0, true, &playerChannel);
 		playerChannel->setPaused(false);
 		mainPlayer->getBell()->addItem();
-		mainPlayer->getGold()->reduceAmount(NUM_GOLD_NEEDED_BELL);
 		setCraftBell();
 		updateItemsCrafting();
 		cout << "YESS" << endl;
@@ -461,8 +461,8 @@ void MenuGUI::setCraftBell() {
 	if (currentBell->getAmount() == 0) {
 		res3Img1->setProperty("Image", "spritesheet_tiles/Bell");
 		res3ImgS1->setProperty("Image", "spritesheet_tiles/Bell");
-		res3Itm1Img->setProperty("Image", "spritesheet_tiles/DiamondSword");
-		res3Itm1SImg->setProperty("Image", "spritesheet_tiles/DiamondSword");
+		res3Itm1Img->setProperty("Image", "spritesheet_tiles/SpecialBell");
+		res3Itm1SImg->setProperty("Image", "spritesheet_tiles/SpecialBell");
 		res3Itm1Num->setProperty("Text", "1");
 		res3Itm2Img->setProperty("Image", "spritesheet_tiles/Gold");
 		res3Itm2SImg->setProperty("Image", "spritesheet_tiles/Gold");
@@ -573,7 +573,7 @@ void MenuGUI::updateItemsPeak() {
 void MenuGUI::updateItemsBell() {
 	Item *currentBell = mainPlayer->getBell();
 	if (currentBell->getAmount() == 0) {
-		if (mainPlayer->getSword()->element == DIAMOND) {
+		if (mainPlayer->getSpecialItem()->getAmount() != 0) {
 			res3Itm1SImg->setVisible(true);
 			correctSword = true;
 		}

@@ -86,7 +86,7 @@
                     </Window>
                 </Window>
 
-                <Window name="Button1" type="TaharezLook/Button">
+                <Window name="Button1" type="Vanilla/Button">
                     <Property name="Text" value="Craft" />
                     <Property name="Area" value="{{0.7741935,0},{0.4,0},{0.9677419,0},{0.6,0}}" />
                 </Window>
@@ -164,7 +164,7 @@
                     </Window>
                 </Window>
 
-                <Window name="Button1" type="TaharezLook/Button">
+                <Window name="Button1" type="Vanilla/Button">
                     <Property name="Text" value="Craft" />
                     <Property name="Area" value="{{0.7741935,0},{0.4,0},{0.9677419,0},{0.6,0}}" />
                 </Window>
@@ -241,7 +241,7 @@
                     </Window>
                 </Window>
 
-                <Window name="Button1" type="TaharezLook/Button">
+                <Window name="Button1" type="Vanilla/Button">
                     <Property name="Text" value="Craft" />
                     <Property name="Area" value="{{0.7741935,0},{0.4,0},{0.9677419,0},{0.6,0}}" />
                 </Window>

@@ -22,6 +22,7 @@ public:
 	void showMenu() {};
 	void showAnastasio() {};
 	void anyOtherKeyPressed();
+	bool isTutorialScene() { return true; }
 protected:
 
 	int playerXtiles, playerYtiles;

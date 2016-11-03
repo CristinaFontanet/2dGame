@@ -7,7 +7,7 @@
 
 CEGUI::OpenGL3Renderer* MenuGUI::m_renderer = nullptr;
 
-void MenuGUI::init(const std::string& resourceDirectory, MainPlayer* mPlayer, CEGUI::OpenGL3Renderer* rend, ShaderProgram &shaderProgram, TileMap * tileMap) {
+void MenuGUI::init(const std::string& resourceDirectory, MainPlayer* mPlayer, CEGUI::OpenGL3Renderer* rend, ShaderProgram &shaderProgram, TileMap * tileMap, int sceneType) {
 	showCrafting = false;
 	showMenu = false;
 	showingAnastasio = false;
@@ -63,7 +63,7 @@ void MenuGUI::init(const std::string& resourceDirectory, MainPlayer* mPlayer, CE
 
 	//anastasio
 	anastasioInstr = new Anastasio();
-	anastasioInstr->init(glm::ivec2(SCREEN_X, SCREEN_Y), shaderProgram, Anastasio::AnastasioType::INSTRUCTIONS);
+	anastasioInstr->init(glm::ivec2(SCREEN_X, SCREEN_Y), shaderProgram,sceneType);
 	//x: 32 // Y : 3428
 	anastasioInstr->setTileMap(tileMap);
 //	anastasioInstr->setPosition(glm::vec2(1370, 384));
@@ -178,7 +178,6 @@ void  MenuGUI::onMenuInstructionsClick() {
 	std::pair<float, float> off = Game::instance().getOffsetCamera();
 	anastasioInstr->setPosition(glm::vec2(off.first, off.second));
 	anastasioInstr->startInstructions();
-	//pushButton->setText("Button 1 clicked");
 }
 
 void MenuGUI::showHelp() {

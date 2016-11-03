@@ -11,7 +11,7 @@ void Game::init()
 	sceneMain = SceneMain();
 	sceneBoss = SceneBoss();
 	sceneTutorial = SceneTutorial();
-	scene = &sceneMain;
+	scene = &sceneTutorial;
 	scene->init();
 }
 
@@ -190,5 +190,10 @@ void Game::gg() {
 
 bool Game::isBossScene() {
 	return scene->isBossScene();
+}
+
+
+bool Game::isTutorialScene() {
+	return scene->isTutorialScene();
 }
 

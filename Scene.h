@@ -47,6 +47,8 @@ public:
 	void combinePlayer(MainPlayer* mPlayer);
 	virtual void showAnastasio();
 	virtual bool isBossScene() { return false; }
+	virtual bool isTutorialScene() { return false; }
+
 	virtual void anyOtherKeyPressed() {};
 	virtual void showCraftingMenu() {};
 protected:

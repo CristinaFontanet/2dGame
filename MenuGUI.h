@@ -28,7 +28,7 @@ class MenuGUI {
 
 			return G;
 		}
-        void init(const std::string& resourceDirectory, MainPlayer* mainPlayer, CEGUI::OpenGL3Renderer* rend, ShaderProgram &shaderProgram, TileMap * tileMap);
+        void init(const std::string& resourceDirectory, MainPlayer* mainPlayer, CEGUI::OpenGL3Renderer* rend, ShaderProgram &shaderProgram, TileMap * tileMap, int sceneType);
         void destroy();
 
         void draw();

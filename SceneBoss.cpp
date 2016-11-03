@@ -42,6 +42,7 @@ void SceneBoss::update(int deltaTime) {
 	Scene::update(deltaTime);
 	if (playerPos[0] / tileSize >= 130 && !bossStart) {
 		bossStart = true;
+		Game::instance().playBossLoop();
 		map->addMaterial(123 * tileSize, 36 * tileSize, playerPos[0], playerPos[1], LIM, 100);
 		map->addMaterial(123*tileSize,35*tileSize,playerPos[0],playerPos[1],LIM,100);
 		map->addMaterial(123 * tileSize, 34 * tileSize, playerPos[0], playerPos[1], LIM, 100);

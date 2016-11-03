@@ -7,11 +7,11 @@ void Game::init()
 	bPlay = true;
 	glClearColor(0.27f, 0.53f, 0.71f, 1.0f);
 	loopSound();
+	playMainLoop();
 	sceneMain = SceneMain();
 	sceneBoss = SceneBoss();
 	sceneTutorial = SceneTutorial();
 	scene = &sceneMain;
-
 	scene->init();
 }
 
@@ -121,16 +121,23 @@ int Game::getPressedKey() {
 }
 
 void Game::loopSound() {
-	FMOD::Sound     *sound1;
-	FMOD::Channel   *channel1 = 0;	
 	FMOD::System_Create(&system);
 	system->init(2, FMOD_INIT_NORMAL, NULL);
-	system->createSound("sounds/mainLoop.wav", FMOD_2D, 0, &sound1);
-	sound1->setMode(FMOD_LOOP_NORMAL);
-	system->playSound(sound1, 0, true, &channel1);
+	system->createSound("sounds/mainLoop.wav", FMOD_2D, 0, &mainLoop);
+	mainLoop->setMode(FMOD_LOOP_NORMAL);
+	system->createSound("sounds/mainLoop.wav", FMOD_2D, 0, &bossLoop);
+	bossLoop->setMode(FMOD_LOOP_NORMAL);
+}
+
+void Game::playBossLoop() {
+	system->playSound(bossLoop, 0, true, &channel1);
 	channel1->setPaused(false);
 }
 
+void Game::playMainLoop() {
+	system->playSound(mainLoop, 0, true, &channel1);
+	channel1->setPaused(false);
+}
 bool Game::dmgEnnemys(int dmg, glm::ivec2 dmgAt) {
 	return scene->dmgEnnemys(dmg, dmgAt);
 }
@@ -152,6 +159,7 @@ void Game::alertNoClicked() {
 	scene->alertNoClicked();
 }
 void Game::playerOut(bool resetPlayer) {
+	playMainLoop();
 	if (resetPlayer) {
 		sceneMain = SceneMain();
 		scene = &sceneMain;

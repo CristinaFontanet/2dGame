@@ -36,6 +36,8 @@ public:
 	void showHelp();
 	void stopAsking();
 
+	void showCred();
+
 private:
 	int anastasioType;
 	OwnTexture spritesheet;

@@ -125,7 +125,7 @@ class MenuGUI {
 
 		Anastasio *anastasioInstr;
 		bool showingAnastasio;
-
+		bool showingCred;
 		
 		FMOD::System *system;
 		FMOD::Channel   *playerChannel = 0;

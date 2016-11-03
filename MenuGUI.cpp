@@ -13,6 +13,7 @@ void MenuGUI::init(const std::string& resourceDirectory, MainPlayer* mPlayer, CE
 	showingAnastasio = false;
 	mainPlayer = mPlayer;
 	showCraftBut = false;
+	showingCred = false;
     // Check if the renderer and system were not already initialized
 	m_renderer = rend;
     if (m_renderer == nullptr) {
@@ -83,14 +84,28 @@ bool MenuGUI::render() {
 		anastasioInstr->render();
 		return false;
 	}
+	if (showingCred) {
+		anastasioInstr->render();
+		return false;
+	}
 	return true;
 }
 
 void MenuGUI::draw() {
 	if (!showingAnastasio) {
 		m_renderer->beginRendering();
-		if (showMenu) m_context_menu->draw();
-		if (showCrafting) m_context_craft->draw();
+		if (showMenu) {
+			m_context_menu->draw(); 
+			std::pair<float, float> off = Game::instance().getOffsetCamera();
+			showingCred = true;
+			anastasioInstr->setPosition(glm::vec2(off.first + 32, off.second));
+			anastasioInstr->showCred();
+		}
+		else showingCred = false;
+		if (showCrafting) {
+			m_context_craft->draw();
+			showingCred = false;
+		}
 		m_renderer->endRendering();
 		glDisable(GL_SCISSOR_TEST);
 	}

@@ -21,7 +21,7 @@ enum SpriteMoves {
 };
 
 enum BigSpriteMoves {
-	INSTR1, INSTR2, INSTR3, INSTR4, INSTR5, HELP1, HELP2, HELP3, HELP4, HELP5
+	INSTR1, INSTR2, INSTR3, INSTR4, INSTR5, HELP1, HELP2, HELP3, HELP4, HELP5, CRED
 };
 
 
@@ -57,6 +57,7 @@ void Anastasio::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram,
 		sprite->setAnimationSpeed(INSTR1, ANIMATION_SPEED);
 		sprite->setAnimationSpeed(INSTR2, ANIMATION_SPEED);
 		sprite->setAnimationSpeed(INSTR3, ANIMATION_SPEED);
+		sprite->setAnimationSpeed(CRED, ANIMATION_SPEED);
 		sprite->addKeyframe(HELP1, glm::vec2(heightProp * 2, heightProp * 2));
 		sprite->addKeyframe(HELP2, glm::vec2(heightProp, heightProp*2));//ja pic d
 		sprite->addKeyframe(HELP3, glm::vec2(heightProp*3, heightProp * 2));	//ja esp d
@@ -67,6 +68,7 @@ void Anastasio::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram,
 		sprite->addKeyframe(INSTR3, glm::vec2(heightProp * 2, heightProp ));
 		sprite->addKeyframe(INSTR4, glm::vec2(heightProp * 3, heightProp ));
 		sprite->addKeyframe(INSTR5, glm::vec2(0.f, heightProp*2));
+		sprite->addKeyframe(CRED, glm::vec2(heightProp * 2, heightProp * 3));
 	}
 
 	tileMapDispl = tileMapPos;
@@ -104,8 +106,7 @@ void Anastasio::setTarget(MainPlayer *target){
 
 void Anastasio::render() {
 	if (anastasioType == TUTORIAL && tutorialEnded) spriteReady->render();
-	else sprite->render();
-	
+	else sprite->render();	
 }
 
 void Anastasio::renderGUI() {
@@ -191,4 +192,8 @@ bool Anastasio::nextText() {
 		}
 		else return false;
 	}
+}
+
+void Anastasio::showCred() {
+	sprite->changeAnimation(CRED);
 }

@@ -94,7 +94,6 @@ void MenuGUI::draw() {
 		m_renderer->endRendering();
 		glDisable(GL_SCISSOR_TEST);
 	}
-	else anastasioInstr->renderGUI();
 }
 
 void MenuGUI::loadScheme(const std::string& schemeFile) {

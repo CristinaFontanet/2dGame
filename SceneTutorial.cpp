@@ -2,6 +2,16 @@
 #include "SceneTutorial.h"
 #include "Game.h"
 
+#include <iostream>
+#include <cmath>
+#include <glm/gtc/matrix_transform.hpp>
+#include <CEGUI/CEGUI.h>
+#include <CEGUI/Window.h>
+#include <CEGUI/WindowManager.h>
+#include <CEGUI\RendererModules\Ogre\Renderer.h>
+#include <CEGUI\RendererModules\OpenGL\GL3Renderer.h>
+#include <GL/glut.h>
+
 SceneTutorial::SceneTutorial() {
 	map = NULL;
 	mainPlayer = NULL;
@@ -21,9 +31,11 @@ void SceneTutorial::init() {
 	anastasio = new Anastasio();
 	anastasio->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, Anastasio::AnastasioType::TUTORIAL);
 	anastasio->setTileMap(map);
-	anastasio->setPosition(glm::vec2(1370, 384));
+	anastasio->setPosition(glm::vec2(offsetXCamera, offsetYCamera));
 	anastasio->setTarget(mainPlayer);
-
+	anastasio->startTutorial();
+	projection = glm::ortho(0.f, float(tileSize*(map->getMapSize().x - 3)), float(tileSize*(map->getMapSize().x - 13)), 0.f);
+	projection = glm::translate(projection, glm::vec3(-32, 10*tileSize, 0.f));
 }
 
 void SceneTutorial::update(int deltaTime) {
@@ -36,21 +48,21 @@ void SceneTutorial::update(int deltaTime) {
 			showAlert("Are you ready to proceed?");
 		}
 	}
+	projection = glm::ortho(0.f, float(tileSize*(map->getMapSize().x - 3)), float(tileSize*(map->getMapSize().x - 13)), 0.f);
+	projection = glm::translate(projection, glm::vec3(-32, 10*tileSize, 0.f));
+
 }
 
 void SceneTutorial::alertYesClicked() {
-	std::cout << "YESS" << std::endl;
 	showingAlert = false;
 	Game::instance().proceedToGame();
 }
 
 void SceneTutorial::alertNoClicked() {
-	std::cout << "Noo" << std::endl;
 	showingAlert = false;
 	glm::vec2 pos = mainPlayer->getPlayerPosition();
 	pos.x -= 64;
 	mainPlayer->setPosition(pos);
-	anastasio->stopAsking();
 }
 
 bool SceneTutorial::render() {
@@ -59,7 +71,6 @@ bool SceneTutorial::render() {
 	anastasio->render();
 
 	Scene::renderGUI();	//IMPORTAAANT, despres de tots els renders
-	anastasio->renderGUI();
 	return true;
 }
 

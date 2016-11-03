@@ -19,7 +19,8 @@ public:
 	bool mouseClicked(int x, int y);
 	void alertYesClicked();
 	void alertNoClicked();
-
+	void showMenu() {};
+	void showAnastasio() {};
 protected:
 
 	int playerXtiles, playerYtiles;

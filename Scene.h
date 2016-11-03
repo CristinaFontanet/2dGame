@@ -14,8 +14,6 @@
 #include <CEGUI/RendererModules/OpenGL/GL3Renderer.h>
 #include "AlertGUI.h"
 
-
-
 #define INIT_BOSS_X_TILES 7
 #define INIT_BOSS_Y_TILES 8
 // Scene contains all the entities of our game.
@@ -37,7 +35,7 @@ public:
 	void initShaders();
 	void background();
 	virtual bool mouseClicked(int x, int y);
-	void showMenu();
+	virtual void showMenu();
 	std::pair<float, float> getOffsetCamera();
 	void selectItem(int num);
 	MainPlayer* getMainPlayer();
@@ -47,7 +45,7 @@ public:
 	virtual void killOgre(EnOgre * ogre) {};
 	virtual void gg() {};
 	void combinePlayer(MainPlayer* mPlayer);
-	void showAnastasio();
+	virtual void showAnastasio();
 	virtual bool isBossScene() { return false; }
 protected:
 	virtual void renderGUI();

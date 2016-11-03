@@ -357,7 +357,7 @@ void MainPlayer::combineInventory(MainPlayer* mPlayer) {
 
 
 void MainPlayer::setUpInventory(CEGUI::Window* inventoryWindow) {
-	inventory = vector<Item>(10);
+	inventory = vector<Item>(9);
 	inventory[0] = Item(PICKAXE, WOOD, 1, 1, inventoryWindow);
 	inventory[1] = Item(SWORD, TUSK, 3, 1, inventoryWindow);
 	inventory[2] = Item(MATERIAL, TUSK, 0, 0, inventoryWindow);

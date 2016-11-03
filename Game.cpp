@@ -177,16 +177,29 @@ void Game::alertNoClicked() {
 	scene->alertNoClicked();
 }
 void Game::playerOut(bool resetPlayer) {
+	loading = true;
+	background();
 	playMainLoop();
 	if (resetPlayer) {
 		sceneMain = SceneMain();
 		scene = &sceneMain;
 		scene->init();
+		loading = false;
 	}
 	else {
-		sceneMain = SceneMain();
-		sceneMain.init(scene->getMainPlayer());
-		scene = &sceneMain;
+		MainPlayer* p = scene->getMainPlayer();
+		if (scene == &sceneMain) {
+			sceneMainAux = SceneMain();
+			sceneMainAux.init(p);
+			scene = &sceneMainAux;
+		}
+		else {
+			sceneMain = SceneMain();
+			sceneMain.init(p);
+			scene = &sceneMain;
+		}
+		
+		loading = false;
 	}
 }
 

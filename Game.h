@@ -86,6 +86,7 @@ private:
 	int mouseX, mouseY;
 	bool bPlay;                       // Continue to play game?
 	SceneMain sceneMain;
+	SceneMain sceneMainAux;
 	SceneTutorial sceneTutorial;
 	SceneBoss sceneBoss;
 	Scene* scene;                      // Scene to render

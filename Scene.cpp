@@ -41,8 +41,10 @@ void Scene::init(string background, string level, glm::vec2 initPosPlayer) {
 	mainPlayer->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, inventoryWindow,livesWindow);
 	mainPlayer->setPosition(glm::vec2(initPosPlayer.x * map->getTileSize(), initPosPlayer.y * map->getTileSize()));
 	mainPlayer->setTileMap(map);
-
-	menu_gui.init("../GUI", mainPlayer, m_gui.getRenderer(), texProgram,map);
+	int sT = Anastasio::AnastasioType::INSTRUCTIONS;
+	if (isTutorialScene()) sT = Anastasio::AnastasioType::TUTORIAL;
+	
+	menu_gui.init("../GUI", mainPlayer, m_gui.getRenderer(), texProgram,map,sT);
 	
 
 

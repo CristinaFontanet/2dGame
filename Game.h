@@ -39,7 +39,15 @@ public:
 	void mouseMove(int x, int y);
 	void mousePress(int x, int y);
 	void mouseRelease(int x, int y);
-	
+	void alertYesClicked();
+	void alertNoClicked();
+
+	void playerOut(bool resetPlayer);
+
+	void noHP();
+
+	void gg();
+
 	bool getKey(int key) const;
 	bool getSpecialKey(int key) const;
 
@@ -51,15 +59,27 @@ public:
 
 	void loopSound();
 
+	void playBossLoop();
+	
+	void playMainLoop();
+
 	bool dmgEnnemys(int dmg, glm::ivec2 dmgAt);
 
 	FMOD::System* getSoundSystem();
 
 	void killOgre(EnOgre * ogre);
-
+	void proceedToBoss();
+	void proceedToGame();
+	bool isBossScene();
+	bool isTutorialScene();
+	void helpGetOut();
 
 private:
 	FMOD::System *system;
+	FMOD::Sound     *mainLoop;
+	FMOD::Sound     *bossLoop;
+	FMOD::Channel   *channel1 = 0;
+	FMOD::Channel   *channel2 = 0;
 	int mouseX, mouseY;
 	bool bPlay;                       // Continue to play game?
 	SceneMain sceneMain;
@@ -68,6 +88,7 @@ private:
 	Scene* scene;                      // Scene to render
 	bool keys[256], specialKeys[256]; // Store key states so that 
 	int pressedKey;                                 // we can have access at any time
+
 };
 
 

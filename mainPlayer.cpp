@@ -7,7 +7,7 @@
 #include "Game.h"
 
 #define JUMP_ANGLE_STEP 4
-#define JUMP_HEIGHT 90
+#define JUMP_HEIGHT 45
 #define FALL_STEP 4
 #define HEIGHTWALK 64
 #define WIDTHWALK 32
@@ -26,8 +26,10 @@ enum AttackSprites {
 
 void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram, CEGUI::Window* inventoryWindow, CEGUI::Window* livesWindiowP) {
 	live = 100;
+	jumpMod = 1;
 	animationInProgress = false;
 	bDamage = false;
+	tutorialPause = false;
 	setUpInventory(inventoryWindow);
 	setUpLives(livesWindiowP);
 	heightProp = 1.f / 32.f;
@@ -211,130 +213,151 @@ bool MainPlayer::isDiggingBottom() {
 }
 
 void MainPlayer::mouseClick(int x, int y) {
-	pair<int, int> offset = Game::instance().getOffsetCamera();
-	lastXclick = x + offset.first;
-	lastYclick = y + offset.second;
-	if (equipedItem->type == PICKAXE) digAnimation();
-	if (equipedItem->type == SWORD) attackAnimation();
-	if (equipedItem->type == MATERIAL) putMaterial();
-	if (equipedItem->type == BELL && getBell()->amount > 0) bellAnimation();
+	if (!tutorialPause) {
+		pair<int, int> offset = Game::instance().getOffsetCamera();
+		lastXclick = x + offset.first;
+		lastYclick = y + offset.second;
+		if (equipedItem->type == PICKAXE) digAnimation();
+		else if (equipedItem->type == SWORD) attackAnimation();
+		else if (equipedItem->type == MATERIAL) putMaterial();
+		else if (equipedItem->type == BELLITEM && getBell()->amount > 0) bellAnimation();
+	}
 }
-
+void MainPlayer::setTutorialPause(bool pause) {
+	tutorialPause = pause;
+}
 
 void MainPlayer::update(int deltaTime) {
-	spriteInvincible->update(deltaTime);
-	spriteAtac->update(deltaTime);
-	sprite->update(deltaTime);
-	if (bDamage) {
-	//	spriteInvincible->changeAnimation(INVINCIBLE);
-		int i = spriteInvincible->getCurrentNumKeyFrame();
-		if (spriteInvincible->getCurrentNumKeyFrame() == 8) {
-			bDamage = false;
+	if (!tutorialPause) {
+		spriteInvincible->update(deltaTime);
+		spriteAtac->update(deltaTime);
+		sprite->update(deltaTime);
+		if (bDamage) {
+			//	spriteInvincible->changeAnimation(INVINCIBLE);
+			int i = spriteInvincible->getCurrentNumKeyFrame();
+			if (spriteInvincible->getCurrentNumKeyFrame() == 8) {
+				bDamage = false;
+			}
 		}
-	}
 
-	if (isBellAnimationInProgress()) {
-		if (sprite->getCurrentNumKeyFrame() == 5) {
-			if (sprite->animation() == BELL_LEFT) sprite->changeAnimation(BELL_LEFT);
-			else sprite->changeAnimation(BELL_RIGHT);
+		if (isBellAnimationInProgress()) {
+			if (sprite->getCurrentNumKeyFrame() == 5) {
+				if (sprite->animation() == BELL_LEFT) sprite->changeAnimation(STAND_LEFT);
+				else sprite->changeAnimation(STAND_RIGHT);
+				animationInProgress = false;
+				Game::instance().proceedToBoss();
+			}
+		}
+
+		if (isDiggingBottom() || isDiggingLateral()) {
+			if (isDiggingLateral()) {
+				if (sprite->getCurrentNumKeyFrame() == 7) {
+					if (sprite->animation() == ARM1_LEFT)sprite->changeAnimation(STAND_LEFT);
+					else sprite->changeAnimation(STAND_RIGHT);
+					int material = map->dig(lastXclick, lastYclick, posPlayer.x, posPlayer.y + spriteWidth / 2, RANGE, equipedItem->dmg);
+					materialDigged(material);
+					animationInProgress = false;
+				}
+			}
+			else if (isDiggingBottom()) {
+				if (sprite->getCurrentNumKeyFrame() == 8) {
+					if (sprite->animation() == ARM1_LEFT_BOT)sprite->changeAnimation(STAND_LEFT);
+					else sprite->changeAnimation(STAND_RIGHT);
+					int material = map->dig(lastXclick, lastYclick, posPlayer.x, posPlayer.y + spriteWidth / 2, RANGE, equipedItem->dmg);
+					materialDigged(material);
+					animationInProgress = false;
+				}
+			}
+		}
+		else if (isAttacking() && spriteAtac->getCurrentNumKeyFrame() == 8) {
+			spriteState = NORMAL;
+			spriteAtac->changeAnimation(QUIET);
+			if (bLeft)sprite->changeAnimation(STAND_LEFT);
+			else sprite->changeAnimation(STAND_RIGHT);
 			animationInProgress = false;
 		}
-	}
 
-	if (isDiggingBottom() || isDiggingLateral()) {
-		if (isDiggingLateral()) {
-			if (sprite->getCurrentNumKeyFrame() == 7) {
-				if (sprite->animation() == ARM1_LEFT)sprite->changeAnimation(STAND_LEFT);
-				else sprite->changeAnimation(STAND_RIGHT);
-				int material = map->dig(lastXclick, lastYclick, posPlayer.x, posPlayer.y + spriteWidth / 2, RANGE,equipedItem->dmg);
-				materialDigged(material);
-				animationInProgress = false;
-			}
-		}
-		else if (isDiggingBottom()) {
-			if (sprite->getCurrentNumKeyFrame() == 8) {
-				if (sprite->animation() == ARM1_LEFT_BOT)sprite->changeAnimation(STAND_LEFT);
-				else sprite->changeAnimation(STAND_RIGHT);
-				int material = map->dig(lastXclick, lastYclick, posPlayer.x, posPlayer.y + spriteWidth / 2, RANGE, equipedItem->dmg);
-				materialDigged(material);
-				animationInProgress = false;
-			}
-		}
-	} 
-	else if (isAttacking() && spriteAtac->getCurrentNumKeyFrame() == 8) {
-		spriteState = NORMAL;
-		spriteAtac->changeAnimation(QUIET);
-		if (bLeft)sprite->changeAnimation(STAND_LEFT);
-		else sprite->changeAnimation(STAND_RIGHT);
-		animationInProgress = false;
-	}
-
-	if(!animationInProgress) {
-		spriteWidth = 32;
-		if (Game::instance().getSpecialKey(GLUT_KEY_LEFT) || Game::instance().getKey('a')) { //Moure dreta
-			bLeft = true;
-			if (sprite->animation() != MOVE_LEFT) sprite->changeAnimation(MOVE_LEFT);
-			posPlayer.x -= 2;
-			if (map->collisionMoveLeft(posPlayer, glm::ivec2(spriteWidth, 64))) {
-				posPlayer.x += 2;
-				sprite->changeAnimation(STAND_LEFT);
-			}
-		}
-		else if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT) || Game::instance().getKey('d')) { //Moure esquerre
-			bLeft = false;
-			if (sprite->animation() != MOVE_RIGHT) sprite->changeAnimation(MOVE_RIGHT);
-			posPlayer.x += 2;
-			if (map->collisionMoveRight(posPlayer, glm::ivec2(spriteWidth, 64))) { 	//si hi ha colisio, ens parem
+		if (!animationInProgress) {
+			spriteWidth = 32;
+			if (Game::instance().getSpecialKey(GLUT_KEY_LEFT) || Game::instance().getKey('a')) { //Moure dreta
+				bLeft = true;
+				if (sprite->animation() != MOVE_LEFT) sprite->changeAnimation(MOVE_LEFT);
 				posPlayer.x -= 2;
-				sprite->changeAnimation(STAND_RIGHT);
+				if (map->collisionMoveLeft(posPlayer, glm::ivec2(spriteWidth, 64))) {
+					posPlayer.x += 2;
+					sprite->changeAnimation(STAND_LEFT);
+				}
+			}
+			else if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT) || Game::instance().getKey('d')) { //Moure esquerre
+				bLeft = false;
+				if (sprite->animation() != MOVE_RIGHT) sprite->changeAnimation(MOVE_RIGHT);
+				posPlayer.x += 2;
+				if (map->collisionMoveRight(posPlayer, glm::ivec2(spriteWidth, 64))) { 	//si hi ha colisio, ens parem
+					posPlayer.x -= 2;
+					sprite->changeAnimation(STAND_RIGHT);
+				}
+			}
+			else {	//aturat
+				if (sprite->animation() == MOVE_RIGHT) {
+					sprite->changeAnimation(STAND_RIGHT);
+				}
+				else if (sprite->animation() != STAND_RIGHT) spriteStandLeft();
 			}
 		}
-		else {	//aturat
-			if (sprite->animation() == MOVE_RIGHT) {
-				sprite->changeAnimation(STAND_RIGHT);
-			}
-			else if (sprite->animation() != STAND_RIGHT) spriteStandLeft();
-		}
-	}  
-	marg = 0;
-	//POSICIO Y
-	if (bJumping) {
-		jumpAngle += JUMP_ANGLE_STEP;
-		if (jumpAngle == 180) {
-			bJumping = false;
-		}
-		else {
-			int posPlayerIniY = posPlayer.y;
-			posPlayer.y = int(startY - JUMP_HEIGHT * sin(3.14159f * jumpAngle / 180.f));
-			glm::ivec2 spritePos = posPlayer;
-			//48 = 64/4*3 per l'alçada real del sprite xq no funciona 48????
-			if (map->collisionMoveUp(spritePos, glm::ivec2(spriteWidth,50), &posPlayer.y, bLeft, marg)) {
+		marg = 0;
+		//POSICIO Y
+		if (bJumping) {
+			jumpAngle += JUMP_ANGLE_STEP - (0.5*jumpMod);
+			if (jumpAngle == 180) {
 				bJumping = false;
 			}
-			if (jumpAngle > 90) {
-				bJumping = !map->collisionMoveDown(spritePos, glm::ivec2(spriteWidth, 64), &posPlayer.y, bLeft, marg);
+			else {
+				int posPlayerIniY = posPlayer.y;
+				posPlayer.y = int(startY - (JUMP_HEIGHT + (32 * jumpMod)) * sin(3.14159f * jumpAngle / 180.f));
+				glm::ivec2 spritePos = posPlayer;
+				//48 = 64/4*3 per l'alçada real del sprite xq no funciona 48????
+				if (map->collisionMoveUp(spritePos, glm::ivec2(spriteWidth, 50), &posPlayer.y, bLeft, marg)) {
+					bJumping = false;
+				}
+				if (jumpAngle > 90) {
+					bJumping = !map->collisionMoveDown(spritePos, glm::ivec2(spriteWidth, 64), &posPlayer.y, bLeft, marg);
+				}
 			}
 		}
-	}
-	else {
-		posPlayer.y += FALL_STEP;
-		glm::ivec2 spritePos = posPlayer;
-		if (map->collisionMoveDown(spritePos, glm::ivec2(spriteWidth, 64), &posPlayer.y, bLeft, marg)) {
-			if (Game::instance().getSpecialKey(GLUT_KEY_UP) || Game::instance().getKey('w') || Game::instance().getKey(32)) {
-				bJumping = true;
-				jumpAngle = 0;
-				startY = posPlayer.y;
+		else {
+			posPlayer.y += FALL_STEP;
+			glm::ivec2 spritePos = posPlayer;
+			if (map->collisionMoveDown(spritePos, glm::ivec2(spriteWidth, 64), &posPlayer.y, bLeft, marg)) {
+				if (Game::instance().getSpecialKey(GLUT_KEY_UP) || Game::instance().getKey('w') || Game::instance().getKey(32)) {
+					bJumping = true;
+					jumpAngle = 0;
+					startY = posPlayer.y;
+				}
 			}
 		}
-	}
 
-	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
-	if(bLeft) spriteAtac->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x-ATTACKLEFTOFFSITE), float(tileMapDispl.y + posPlayer.y)));
-	else spriteAtac->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
+		sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
+		if (bLeft) spriteAtac->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x - ATTACKLEFTOFFSITE), float(tileMapDispl.y + posPlayer.y)));
+		else spriteAtac->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
+	}
 }
 
+int MainPlayer::getAmountItem(int i) {
+	return inventory[i].getAmount();
+}
+
+
+void MainPlayer::combineInventory(MainPlayer* mPlayer) {
+	for (int i = 0; i < inventory.size(); ++i) {
+		inventory[i].setAmount(mPlayer->getAmountItem(i));
+	}
+	getSword()->setElement(mPlayer->getSword()->getElement());
+	getPeak()->setElement(mPlayer->getPeak()->getElement());
+}
+
+
 void MainPlayer::setUpInventory(CEGUI::Window* inventoryWindow) {
-	inventory = vector<Item>(20);
+	inventory = vector<Item>(10);
 	inventory[0] = Item(PICKAXE, WOOD, 1, 1, inventoryWindow);
 	inventory[1] = Item(SWORD, TUSK, 3, 1, inventoryWindow);
 	inventory[2] = Item(MATERIAL, TUSK, 0, 0, inventoryWindow);
@@ -342,7 +365,8 @@ void MainPlayer::setUpInventory(CEGUI::Window* inventoryWindow) {
 	inventory[4] = Item(MATERIAL, COAL, 0, 0, inventoryWindow);
 	inventory[5] = Item(MATERIAL, GOLD, 0, 0, inventoryWindow);
 	inventory[6] = Item(MATERIAL, DIAMOND, 0, 0, inventoryWindow);
-	inventory[7] = Item(BELL, 0, 0, 0, inventoryWindow);
+	inventory[7] = Item(BELLITEM, 0, 0,0, inventoryWindow);
+	inventory[8] = Item(BELLSPECIAL, 0, 0, 0, inventoryWindow);
 
 	equipedItem = &inventory[0];
 	equipedItem->setSelected(true);
@@ -371,6 +395,10 @@ Item* MainPlayer::getGold() {
 	return &inventory[5];
 }
 
+Item* MainPlayer::getSpecialItem() {
+	return &inventory[8];
+}
+
 void MainPlayer::materialDigged(int material) {
 	switch (material) {
 	case TUSK:
@@ -387,6 +415,10 @@ void MainPlayer::materialDigged(int material) {
 		break;
 	case DIAMOND:
 		inventory[6].addItem();
+		break;
+	case BELL:
+		inventory[8].addItem();
+		Game::instance().helpGetOut();
 		break;
 	default:
 		break;
@@ -437,30 +469,40 @@ void MainPlayer::setUpLives(CEGUI::Window *livesWindowP) {
 }
 
 void MainPlayer::setLives(int numLives) {
-	if (numLives < 33) {
-		if (numLives == 16) windHeart1->setProperty("Image", "spritesheet_tiles/HeartHalf");
+	if (numLives <= 33) {
+		if (numLives > 16) windHeart1->setProperty("Image", "spritesheet_tiles/HeartFull");
+		else if (numLives <= 16) windHeart1->setProperty("Image", "spritesheet_tiles/HeartHalf");
 		else  windHeart1->setProperty("Image", "spritesheet_tiles/HeartEmpty");
 		windHeart2->setProperty("Image", "spritesheet_tiles/HeartEmpty");
 		windHeart3->setProperty("Image", "spritesheet_tiles/HeartEmpty");
 	}
 	else {
 		windHeart1->setProperty("Image", "spritesheet_tiles/HeartFull");
-		if (numLives < 66) {
-			if (numLives == 50) windHeart2->setProperty("Image", "spritesheet_tiles/HeartHalf");
+		if (numLives <= 66) {
+			if(numLives > 50 ) windHeart2->setProperty("Image", "spritesheet_tiles/HeartFull");
+			else if (numLives <= 50) windHeart2->setProperty("Image", "spritesheet_tiles/HeartHalf");
 			else  windHeart2->setProperty("Image", "spritesheet_tiles/HeartEmpty");
 			windHeart3->setProperty("Image", "spritesheet_tiles/HeartEmpty");
 		}
 		else {
 			windHeart2->setProperty("Image", "spritesheet_tiles/HeartFull");
 			if (numLives < 100) {
-				if (numLives == 83) windHeart3->setProperty("Image", "spritesheet_tiles/HeartHalf");
-				else  windHeart3->setProperty("Image", "spritesheet_tiles/HeartEmpty");
+				if(numLives > 83) windHeart3->setProperty("Image", "spritesheet_tiles/HeartFull");
+				else if (numLives <= 83) windHeart3->setProperty("Image", "spritesheet_tiles/HeartHalf");
+				else windHeart3->setProperty("Image", "spritesheet_tiles/HeartEmpty");
 			}
 			else  windHeart3->setProperty("Image", "spritesheet_tiles/HeartFull");
 		}
 	}
 }
 
+void MainPlayer::setHealth(int l) {
+	live = l;
+	setLives(live);
+}
+int MainPlayer::getLives() {
+	return live;
+}
 
 void MainPlayer::attackAnimation() {
 	spriteWidth = 64;
@@ -498,7 +540,8 @@ void MainPlayer::attackAnimation() {
 void MainPlayer::bellAnimation() {
 	spriteWidth = 64;
 	animationInProgress = true;
-
+	system->playSound(bellSound, 0, true, &playerChannel);
+	playerChannel->setPaused(false);
 	if (posPlayer.x > lastXclick && sprite->animation() != BELL_LEFT) sprite->changeAnimation(BELL_LEFT);
 	else if (posPlayer.x < lastXclick && sprite->animation() != BELL_RIGHT) sprite->changeAnimation(BELL_RIGHT);
 	//TODO: so campana
@@ -539,18 +582,30 @@ void MainPlayer::reciveDMG(int dmg) {
 		bDamage = true;
 		spriteInvincible->changeAnimation(0);
 		live -= dmg;
-		if (live < 0) live = 100;
 		setLives(live);
 
 		system->playSound(dmgSound, 0, true, &playerChannel);
 		playerChannel->setPaused(false);
-		cout << "Remaining: " << live << endl;
+		if (live <= 0) {
+			Game::instance().noHP();
+		}
 	}
+}
+
+void MainPlayer::heal(int heal) {
+	live += heal;
+	setLives(live);
+	cout << "Remaining: " << live << endl;
 }
 
 void MainPlayer::configSounds() {
 	system = Game::instance().getSoundSystem();
 	system->createSound("sounds/punched.wav", FMOD_2D, 0, &dmgSound);
 	system->createSound("sounds/dig.wav", FMOD_2D, 0, &digSound);
+	system->createSound("sounds/bell.wav", FMOD_2D, 0, &bellSound);
 
+}
+
+void MainPlayer::setJumpMod(int mod) {
+	jumpMod = mod;
 }

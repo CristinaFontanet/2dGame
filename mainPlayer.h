@@ -21,20 +21,28 @@ public:
 	void setPosition(const glm::vec2 &pos);
 	glm::vec2 getPlayerPosition();
 	void setLives(int numLives);
+	void setHealth(int l);
+	int getLives();
 	void digAnimation();
 	void attackAnimation();
 	void putMaterial();
 	void bellAnimation();
 	void reciveDMG(int dmg);
+	void heal(int heal);
 	void configSounds();
+	void setJumpMod(int mod);
 	void mouseClick(int x, int y);
 	void equipItem(int num);
+	void combineInventory(MainPlayer* mPlayer);
+	int getAmountItem(int i);
 	Item* getSword();
 	Item* getPeak();
 	Item* getRock();
 	Item* getGold();
 	Item* getDiamond();
 	Item* getBell();
+	Item* getSpecialItem();
+	void setTutorialPause(bool pause);
 
 	enum playerState {
 		WALKING, WEAPON1, WEAPON2, BYPET
@@ -77,6 +85,7 @@ private:
 	FMOD::Channel   *playerChannel = 0;
 	FMOD::Sound     *dmgSound;
 	FMOD::Sound     *digSound;
+	FMOD::Sound     *bellSound;
 	int spriteSize;
 	int marg;
 	int height, spriteWidth;
@@ -89,6 +98,8 @@ private:
 	vector<Item> inventory;
 	vector<pair<Item*, vector<pair<Item*, int>>*>> items;
 	vector<pair<Item*, int>> evolutionTuskSword;
+	int jumpMod;
+	bool tutorialPause;
 
 };
 

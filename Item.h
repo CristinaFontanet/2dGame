@@ -18,7 +18,8 @@ public:
 	#define PICKAXE 1
 	#define MATERIAL 2
 	#define SWORD 3
-	#define BELL 4
+	#define BELLITEM 4
+	#define BELLSPECIAL 5
 
 	Item * createItem(int type, int element, int dmg, int amount, CEGUI::Window* inventoryWindow);
 	Item(int typeP, int elementP, int dmgP, int amount, CEGUI::Window* inventoryWindow);
@@ -26,15 +27,17 @@ public:
 
 	void setAmount(int newAmount);
 	void reduceAmount(int num);
-	int getAmount();
 	string getMaterialString();
 	void addItem();
 	void setSelected(bool select);
 	void setWindowProperties();
+	void setElement(int element);
 	bool improveSword();
 	bool improvePeak();
 	vector<pair<Item*, int>>* getEvolveItemsNeeded();
 	void setEvolveItemsNeeded(vector<pair<Item*, int>>*);
+	int getAmount();
+	int getElement();
 	int type;
 	int element;
 	int dmg;
@@ -42,10 +45,10 @@ public:
 
 private:
 	vector<pair<Item*,int>> *evolveItems;
-	CEGUI::Window* windImage;
-	CEGUI::Window* windImageSelected;
-	CEGUI::Window* windAmount;
-	CEGUI::Window* windInventory;
+	CEGUI::Window* windImage = nullptr;
+	CEGUI::Window* windImageSelected = nullptr;
+	CEGUI::Window* windAmount = nullptr;
+	CEGUI::Window* windInventory = nullptr;
 	string slot;
 
 	struct evolveItem {

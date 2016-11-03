@@ -35,7 +35,9 @@ private:
 
 
 	OwnTexture spritesheet;
+	OwnTexture spritesheetFruit;
 	Sprite *sprite;
+	Sprite *fruitMode;
 	TileMap *map;
 	MainPlayer *player;
 	double heightProp;

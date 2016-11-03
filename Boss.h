@@ -35,6 +35,8 @@ public:
 
 	void reciveDmg(int dmg, glm::ivec2 dmgAt);
 
+	bool alive();
+
 private:
 
 	bool nextBool(double probability);
@@ -50,6 +52,7 @@ private:
 	bool bLeft;
 	bool bJumping;
 	bool attacking;
+	bool bFalling;
 	int jumpAngle, startY;
 	int live;
 	int fase,numAtF2;

@@ -3,7 +3,7 @@
 
 #include "Scene.h"
 #include "Ogre.h"
-
+#include "Anastasio.h"
 
 // Scene contains all the entities of our game.
 // It is responsible for updating and render them.
@@ -14,17 +14,19 @@ public:
 	~SceneTutorial();
 
 	void init();
-	void render();
+	bool render();
 	void update(int deltaTime);
-
-	bool dmgEnnemys(int dmg, glm::ivec2 dmgAt);
-	void killOgre(EnOgre * ogre);
-
+	bool mouseClicked(int x, int y);
+	void alertYesClicked();
+	void alertNoClicked();
+	void showMenu() {};
+	void showAnastasio() {};
+	void anyOtherKeyPressed();
+	bool isTutorialScene() { return true; }
 protected:
 
-	EnOgre *ogre1;
-	Enemy *pony;
 	int playerXtiles, playerYtiles;
+	Anastasio *anastasio;
 };
 
 #endif // _SCENE_INCLUDE

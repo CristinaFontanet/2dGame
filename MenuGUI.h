@@ -8,6 +8,8 @@
 #include <CEGUI/InputEvent.h>
 #include <glm/glm.hpp>
 #include "mainPlayer.h"
+#include "Anastasio.h"
+#include "fmod.hpp"
 
 using namespace CEGUI;
 
@@ -15,16 +17,22 @@ using namespace CEGUI;
 #define NUM_GOLD_NEEDED_SWORD 2
 #define NUM_DIAMOND_NEEDED_SWORD 2
 #define NUM_ROCKS_NEEDED_PEAK 2
-#define NUM_GOLD_NEEDED_PEAK 2
 #define NUM_DIAMOND_NEEDED_PEAK 2
 #define NUM_GOLD_NEEDED_BELL 2
 
 class MenuGUI {
     public:
-        void init(const std::string& resourceDirectory, MainPlayer* mainPlayer, CEGUI::OpenGL3Renderer* rend);
+
+		static MenuGUI &instance() {
+			static MenuGUI G;
+
+			return G;
+		}
+        void init(const std::string& resourceDirectory, MainPlayer* mainPlayer, CEGUI::OpenGL3Renderer* rend, ShaderProgram &shaderProgram, TileMap * tileMap, int sceneType);
         void destroy();
 
         void draw();
+		bool render();
 
         void setMouseCursor(const std::string& imageFile);
         void showMouseCursor();
@@ -39,8 +47,11 @@ class MenuGUI {
         static CEGUI::OpenGL3Renderer* getRenderer() { return m_renderer; }
 		CEGUI::GUIContext* getMenuContext();
 
-
-
+		bool showAnastasio();
+		void showHelp();
+		void showCraftMenu();
+		void showCraftButton(bool b);
+		void helpGetOut(bool b);
     private:
 		void createCraftWindow();
 		void createMenu();
@@ -55,7 +66,7 @@ class MenuGUI {
 		PushButton* pushButton2;
 		PushButton* pushButton3;
 		PushButton* pushButton4;
-		void  onMenu1Click();
+		void  onMenuInstructionsClick();
 		void  onMenuCraftClick();
 		void  onMenuExitClick();
 		void  onMenuCancelClick();
@@ -106,9 +117,22 @@ class MenuGUI {
 		void updateItemsSword();
 		void updateItemsPeak();
 		void updateItemsBell();
+		void configSounds();
+	
 		bool enoughtRocksSword;
 		bool enoughtRocksPeak;
 		bool enoughtGoldBell;
 		bool correctSword;
+
+		Anastasio *anastasioInstr;
+		bool showingAnastasio;
+		bool showingCred;
+		
+		FMOD::System *system;
+		FMOD::Channel   *playerChannel = 0;
+		FMOD::Sound     *errorSound;
+		FMOD::Sound     *hammerSound;
+
+		bool showCraftBut;
 	
 };

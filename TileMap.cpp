@@ -3,6 +3,8 @@
 #include <sstream>
 #include <vector>
 #include "TileMap.h"
+#include <ctime>
+#include "Constants.h"
 
 using namespace std;
 
@@ -21,7 +23,7 @@ TileMap::TileMap(const string &levelFile, const glm::vec2 &minCoords, ShaderProg
 }
 
 TileMap::~TileMap() {
-	if(map != NULL)
+	if(map != nullptr)
 		delete map;
 }
 
@@ -73,7 +75,7 @@ bool TileMap::loadLevel(const string &levelFile)
 	//map = new int[mapSize.x * mapSize.y];
 	//for(int j=0; j<mapSize.y; j++) {
 	map = new std::pair<int,int> [mapSize.x * mapSize.y];
-	materials = { COAL,DIAMOND,WOOD,TUSK,GOLD,ROCK };
+	materials = { COAL,DIAMOND,WOOD,TUSK,GOLD,ROCK,LIM, BELL};
 	for(int j=0; j<mapSize.y; j++)
 	{
 		getline(fin, line);
@@ -126,14 +128,13 @@ bool TileMap::loadLevel(const string &levelFile)
 					map[j*mapSize.x + i].second = 7;
 					break;
 				case 94: //FIn
-					map[j*mapSize.x + i].first = 108;
+					map[j*mapSize.x + i].first = 1;
 					map[j*mapSize.x + i].second = INT16_MAX;
 					break;
 			}
 		}
 	}
 	fin.close();
-	
 	return true;
 }
 
@@ -275,6 +276,7 @@ int TileMap::tileToMaterial(int x, int y) {
 	if (material == 19 ) return COAL;
 	if (material == 90) return GOLD;
 	if (material == 114) return DIAMOND;
+	if (material == BELL) return BELL;
 	return NONE;
 }
 
@@ -380,4 +382,119 @@ vector<glm::vec2> TileMap::getEnemiesPos() {
 
 glm::vec2 TileMap::getMapSize() {
 	return mapSize;
+}
+
+void TileMap::createCaveAt(int x, int y) {
+	vector< vector< bool > > cellMap(CAVE_WIDTH, vector<bool>(CAVE_HEIGHT, false));
+	cellMap = initCaves(cellMap);
+	for (int i = 0; i<4; i++) {
+		cellMap = caveStep(cellMap);
+	}
+	// ahora aplicamos la "plantilla" a una zona del mapa 
+	for (int i = 0; i < cellMap.size(); ++i) {
+		for (int j = 0; j < cellMap[0].size(); ++j) {
+			if (!cellMap[i][j] || ( j == 0)) {
+				map[(j+y)*mapSize.x + (i+x)].first = 0;
+				map[(j+y)*mapSize.x + (i+x)].second = 0;
+				deleteVertices(i+x, j+y);
+			}
+		}
+	}
+
+	bellItem = placeBellItem(cellMap);
+	addVertices(BELL, bellItem.x + x, bellItem.y + y);
+	int x2 = x + bellItem.x;
+	int y2 = y + bellItem.y;
+	map[(y2)*mapSize.x +  x2].first = BELL;
+	map[(y2)*mapSize.x +  x2].second = 1;
+
+}
+//generamos una "cueva" de unos 19x50 tiles 
+vector< vector <bool > > TileMap::initCaves(vector< vector <bool > > map) {
+	srand(time(0));
+	for (int x = 0; x < map.size(); x++) {
+		for (int y = 0; y < map[x].size(); y++) {
+			double r = ((double)rand() / (RAND_MAX));
+			if (r < 0.2) {
+				map[x][y] = true;
+			}
+		}
+	}
+	return map;
+}
+
+
+vector< vector <bool > >  TileMap::caveStep(vector< vector <bool > > oldMap) {
+	vector< vector< bool > > newMap(CAVE_WIDTH, vector<bool>(CAVE_HEIGHT, false));
+	//Loop over each row and column of the map
+	for (int x = 0; x<oldMap.size(); x++) {
+		for (int y = 0; y<oldMap[0].size(); y++) {
+			int nbs = vecinosVivos(oldMap, x, y);
+			if (oldMap[x][y]) { // si esta viva y tiene muy pocos vecinos la matamos
+				if (nbs < 1) {
+					newMap[x][y] = false;
+				}
+				else {
+					newMap[x][y] = true;
+				}
+			} 
+			else { // si esta muerta miramos si tiene vecinos para hacer nacer una nueva driller
+				if (nbs > 3) {
+					newMap[x][y] = true;
+				}
+				else {
+					newMap[x][y] = false;
+				}
+			}
+		}
+	}
+	return newMap;
+}
+
+
+int  TileMap::vecinosVivos(vector< vector <bool > > map, int x, int y) {
+	int count = 0;
+	for (int i = -1; i<2; i++) {
+		for (int j = -1; j<2; j++) {
+			int neighbourX = x + i;
+			int neighbourY = y + j;
+			if (i == 0 && j == 0) {
+				//Wtf no podemos ser vecinos nuestros 
+			}
+			//miramos si estamos en los limites
+			else if (neighbourX < 0 || neighbourY < 0 || neighbourX >= map.size() || neighbourY >= map[0].size()) {
+				count = count + 1;
+			}
+			//Si es true hay vecino
+			else if (map[neighbourX][neighbourY]) {
+				count = count + 1;
+			}
+		}
+	}
+	return count;
+}
+
+
+bool TileMap::nextBool(double probability)
+{
+	return rand() <  probability * ((double)RAND_MAX + 1.0);
+}
+
+glm::vec2 TileMap::placeBellItem(vector< vector <bool > > map) {
+	int xT = 0;
+	int yT = 0;
+	for (int x = 0; x < map.size(); x++) {
+		for (int y = 0; y < map[0].size(); y++) {
+			if (!map[x][y]) {
+				int nbs = vecinosVivos(map, x, y);
+				if (nbs >= 5) { // mas de 5 vecinos vivos
+					if (y > yT) {
+						xT = x;
+						yT = y;
+					}
+				}
+			}
+		}
+	}
+	return glm::vec2(xT, yT);
 }

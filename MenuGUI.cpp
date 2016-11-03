@@ -3,13 +3,17 @@
 #include <iostream>
 #include <vector>
 #include "Constants.h"
+#include "Game.h"
 
 CEGUI::OpenGL3Renderer* MenuGUI::m_renderer = nullptr;
 
-void MenuGUI::init(const std::string& resourceDirectory, MainPlayer* mPlayer, CEGUI::OpenGL3Renderer* rend) {
+void MenuGUI::init(const std::string& resourceDirectory, MainPlayer* mPlayer, CEGUI::OpenGL3Renderer* rend, ShaderProgram &shaderProgram, TileMap * tileMap, int sceneType) {
 	showCrafting = false;
 	showMenu = false;
+	showingAnastasio = false;
 	mainPlayer = mPlayer;
+	showCraftBut = false;
+	showingCred = false;
     // Check if the renderer and system were not already initialized
 	m_renderer = rend;
     if (m_renderer == nullptr) {
@@ -57,18 +61,54 @@ void MenuGUI::init(const std::string& resourceDirectory, MainPlayer* mPlayer, CE
 	createMenu();
 	createCraftWindow();
 
+	//anastasio
+	anastasioInstr = new Anastasio();
+	anastasioInstr->init(glm::ivec2(SCREEN_X, SCREEN_Y), shaderProgram,sceneType);
+	//x: 32 // Y : 3428
+	anastasioInstr->setTileMap(tileMap);
+//	anastasioInstr->setPosition(glm::vec2(1370, 384));
+	anastasioInstr->setTarget(mainPlayer);
+	configSounds();
 }
 
 void MenuGUI::destroy() {
     CEGUI::System::getSingleton().destroyGUIContext(*m_context_menu);
 }
 
+bool MenuGUI::showAnastasio() {
+	return showingAnastasio;
+}
+
+bool MenuGUI::render() {
+	if(showingAnastasio) {
+		anastasioInstr->render();
+		return false;
+	}
+	if (showingCred) {
+		anastasioInstr->render();
+		return false;
+	}
+	return true;
+}
+
 void MenuGUI::draw() {
-    m_renderer->beginRendering();
-	if(showMenu) m_context_menu->draw();
-	if (showCrafting) m_context_craft->draw();
-    m_renderer->endRendering();
-    glDisable(GL_SCISSOR_TEST);
+	if (!showingAnastasio) {
+		m_renderer->beginRendering();
+		if (showMenu) {
+			m_context_menu->draw(); 
+			std::pair<float, float> off = Game::instance().getOffsetCamera();
+			showingCred = true;
+			anastasioInstr->setPosition(glm::vec2(off.first + 32, off.second));
+			anastasioInstr->showCred();
+		}
+		else showingCred = false;
+		if (showCrafting) {
+			m_context_craft->draw();
+			showingCred = false;
+		}
+		m_renderer->endRendering();
+		glDisable(GL_SCISSOR_TEST);
+	}
 }
 
 void MenuGUI::loadScheme(const std::string& schemeFile) {
@@ -85,19 +125,29 @@ void MenuGUI::mouseClick(int x, int y) {
 	//x: 313 y: 121
 	if (showMenu) {
 		if (showCrafting) {
-			cout << "x: " << x << ", y: " << y << endl;
 			if (x > c1x0 && x < c1x1) {
 				if (y > c1y0 && y < c1y1) craftSword();
 				else if (y > c2y0 && y < c2y1)craftPeak();
 				else if (y > c3y0 && y < c3y1) craftBell();
+				//else showCrafting = false;
+			}
+			if (x<166 || y<57 || x>629 || y>541) showCrafting = false;
+			cout << "x: " << x << ", y: " << y << endl;
+		//	else showCrafting = false;
+		}
+		else if (showingAnastasio) {
+			if (!anastasioInstr->nextText()) {
+				showingAnastasio = false;
 			}
 		}
 		else if (x > x0 && x < x1) {
-			if (y > b1yt && y < b1yb) onMenu1Click();
-			else if (y > b2yt && y < b2yb) onMenuCraftClick();
+			if (y > b1yt && y < b1yb)onMenuCancelClick();
+			else if (y > b2yt && y < b2yb) onMenuInstructionsClick();
 			else if (y > b3yt && y < b3yb) onMenuExitClick();
-			else if (y > b4yt && y < b4yb) onMenuCancelClick();
+			else if (y > b4yt && y < b4yb) onMenuCraftClick();
+			else showMenu = false;
 		}
+		else showMenu = false;
 	}
 }
 
@@ -116,16 +166,43 @@ void MenuGUI::hideMouseCursor() {
 /** MENU **/
 void MenuGUI::showMenuClicked() {
 	if (showMenu) {
-		if (showCrafting) showCrafting = false;
+		if (showingAnastasio) showingAnastasio = false;
+		else if (showCrafting) showCrafting = false;
 		else showMenu = false;
 	}
 	else showMenu = true;
 }
 
-void  MenuGUI::onMenu1Click() {
-	pushButton->setText("Button 1 clicked");
+void  MenuGUI::onMenuInstructionsClick() {
+	showingAnastasio = true;
+	std::pair<float, float> off = Game::instance().getOffsetCamera();
+	anastasioInstr->setPosition(glm::vec2(off.first, off.second));
+	anastasioInstr->startInstructions();
 }
 
+void MenuGUI::showHelp() {
+	if (!showingAnastasio) {
+		showMenu = true;
+		showingAnastasio = true;
+		std::pair<float, float> off = Game::instance().getOffsetCamera();
+		anastasioInstr->setPosition(glm::vec2(off.first, off.second));
+		anastasioInstr->showHelp();
+	}
+	else {
+		showingAnastasio = false;
+		showMenu = false;
+	}
+}
+
+void MenuGUI::helpGetOut(bool b) {
+	if (b) {
+		std::pair<float, float> off = Game::instance().getOffsetCamera();
+		anastasioInstr->setPosition(glm::vec2(off.first + 32, off.second));
+		anastasioInstr->helpOut();
+		showingAnastasio = true;
+	}
+	else showingAnastasio = false;
+}
 
 void  MenuGUI::onMenuExitClick() {
 	exit(0);
@@ -152,24 +229,33 @@ void MenuGUI::createMenu() {
 	pushButton2 = (PushButton*)menuWin->getChild("Button2");
 	pushButton3 = (PushButton*)menuWin->getChild("Button3");
 	pushButton4 = (PushButton*)menuWin->getChild("Button4");
+	if (!showCraftBut) pushButton4->setProperty("Visible", "false");
 
 	x0 = 0.35*SCREEN_WIDTH;
 	x1 = 0.65*SCREEN_WIDTH;
 
-	b1yt = 0.2*SCREEN_HEIGHT;
-	b1yb = 0.3*SCREEN_HEIGHT;
+	b1yt = 217;
+	b1yb =263;
 
-	b2yt = 0.35*SCREEN_HEIGHT;
-	b2yb = 0.45*SCREEN_HEIGHT;
+	b2yt = 291;
+	b2yb = 333;
 
-	b3yt = 0.5*SCREEN_HEIGHT;
-	b3yb = 0.6*SCREEN_HEIGHT;
+	b3yt = 362;
+	b3yb = 406;
 
-	b4yt = 0.65*SCREEN_HEIGHT;
-	b4yb = 0.75*SCREEN_HEIGHT;
+	b4yt = 434;
+	b4yb = 478;
+
 }
 
 /** Crafting **/
+
+void MenuGUI::showCraftButton(bool b) {
+	showCraftBut = b;
+	if(showCraftBut)pushButton4->setProperty("Visible", "true");
+	else pushButton4->setProperty("Visible", "false");
+}
+
 
 void  MenuGUI::onMenuCraftClick() {
 	showCrafting = true;
@@ -240,48 +326,70 @@ void MenuGUI::createCraftWindow() {
 
 bool MenuGUI::craftSword() {
 	if (enoughtRocksSword) {
-		//TODO: So guai
+		enoughtRocksSword = false;
+		switch (mainPlayer->getSword()->getElement()) {
+		case TUSK:
+			mainPlayer->getRock()->reduceAmount(NUM_ROCKS_NEEDED_SWORD);
+			break;
+		case ROCK:
+			mainPlayer->getGold()->reduceAmount(NUM_GOLD_NEEDED_SWORD);
+			break;
+		case GOLD:
+			mainPlayer->getDiamond()->reduceAmount(NUM_DIAMOND_NEEDED_SWORD);
+			break;
+		}
+		system->playSound(hammerSound, 0, true, &playerChannel);
+		playerChannel->setPaused(false);
 		mainPlayer->getSword()->improveSword();
-		mainPlayer->getRock()->reduceAmount(NUM_ROCKS_NEEDED_SWORD);
 		setCraftSword();
 		updateItemsCrafting();
 		cout << "YESS" << endl;
 	}
 	else {
-		//TODO: so error
-		cout << "NOO" << endl;
+		system->playSound(errorSound, 0, true, &playerChannel);
+		playerChannel->setPaused(false);
 	}
 	return true;
 }
 
 bool MenuGUI::craftPeak() {
 	if (enoughtRocksPeak) {
-		//TODO: So guai
+		enoughtRocksPeak = false;
+		system->playSound(hammerSound, 0, true, &playerChannel);
+		playerChannel->setPaused(false);
+		switch (mainPlayer->getPeak()->getElement()) {
+		case WOOD:
+			mainPlayer->getRock()->reduceAmount(NUM_ROCKS_NEEDED_PEAK);
+			break;
+		case ROCK:
+			mainPlayer->getDiamond()->reduceAmount(NUM_DIAMOND_NEEDED_PEAK);
+			break;
+		}
 		mainPlayer->getPeak()->improvePeak();
-		mainPlayer->getRock()->reduceAmount(NUM_ROCKS_NEEDED_PEAK);
+		
 		setCraftPeak();
 		updateItemsCrafting();
-		cout << "YESS" << endl;
 	}
 	else {
-		//TODO: so error
-		cout << "NOO" << endl;
+		system->playSound(errorSound, 0, true, &playerChannel);	
+		playerChannel->setPaused(false);
 	}
 	return true;
 }
 
 bool MenuGUI::craftBell() {
 	if (enoughtGoldBell && correctSword) {
-		//TODO: So guai
+		enoughtGoldBell = false;
+		system->playSound(hammerSound, 0, true, &playerChannel);
+		playerChannel->setPaused(false);
 		mainPlayer->getBell()->addItem();
-		mainPlayer->getGold()->reduceAmount(NUM_GOLD_NEEDED_BELL);
 		setCraftBell();
 		updateItemsCrafting();
 		cout << "YESS" << endl;
 	}
 	else {
-		//TODO: so error
-		cout << "NOO" << endl;
+		system->playSound(errorSound, 0, true, &playerChannel);
+		playerChannel->setPaused(false);
 	}
 	return true;
 }
@@ -355,7 +463,7 @@ void MenuGUI::setCraftPeak() {
 		res2Itm1Num->setProperty("Text", "1");
 		res2Itm2Img->setProperty("Image", "spritesheet_tiles/Diamond");
 		res2Itm2SImg->setProperty("Image", "spritesheet_tiles/Diamond");
-		res2Itm2Num->setProperty("Text", to_string(NUM_GOLD_NEEDED_PEAK));
+		res2Itm2Num->setProperty("Text", to_string(NUM_DIAMOND_NEEDED_PEAK));
 		break;
 	case DIAMOND:
 		res2Img1->setProperty("Image", "spritesheet_tiles/OK");
@@ -375,8 +483,8 @@ void MenuGUI::setCraftBell() {
 	if (currentBell->getAmount() == 0) {
 		res3Img1->setProperty("Image", "spritesheet_tiles/Bell");
 		res3ImgS1->setProperty("Image", "spritesheet_tiles/Bell");
-		res3Itm1Img->setProperty("Image", "spritesheet_tiles/DiamondSword");
-		res3Itm1SImg->setProperty("Image", "spritesheet_tiles/DiamondSword");
+		res3Itm1Img->setProperty("Image", "spritesheet_tiles/SpecialBell");
+		res3Itm1SImg->setProperty("Image", "spritesheet_tiles/SpecialBell");
 		res3Itm1Num->setProperty("Text", "1");
 		res3Itm2Img->setProperty("Image", "spritesheet_tiles/Gold");
 		res3Itm2SImg->setProperty("Image", "spritesheet_tiles/Gold");
@@ -464,7 +572,7 @@ void MenuGUI::updateItemsPeak() {
 		}
 		break;
 	case ROCK:
-		if (mainPlayer->getGold()->getAmount() >= NUM_GOLD_NEEDED_SWORD) {
+		if (mainPlayer->getDiamond()->getAmount() >= NUM_DIAMOND_NEEDED_PEAK) {
 			res2Itm2SImg->setVisible(true);
 			enoughtRocksPeak = true;
 			res2ImgS1->setVisible(true);
@@ -486,9 +594,8 @@ void MenuGUI::updateItemsPeak() {
 
 void MenuGUI::updateItemsBell() {
 	Item *currentBell = mainPlayer->getBell();
-	
 	if (currentBell->getAmount() == 0) {
-		if (mainPlayer->getSword()->element == DIAMOND) {
+		if (mainPlayer->getSpecialItem()->getAmount() != 0) {
 			res3Itm1SImg->setVisible(true);
 			correctSword = true;
 		}
@@ -499,13 +606,14 @@ void MenuGUI::updateItemsBell() {
 		if (mainPlayer->getGold()->getAmount() >= NUM_GOLD_NEEDED_BELL) {
 			res3Itm2SImg->setVisible(true);
 			enoughtGoldBell = true;
-			res3ImgS1->setVisible(true);
 		}
 		else {
 			res3Itm2SImg->setVisible(false);
-			res3ImgS1->setVisible(false);
 			enoughtGoldBell = false;
 		}
+
+		if (enoughtGoldBell && correctSword)res3ImgS1->setVisible(true);
+		else res3ImgS1->setVisible(false);
 	}
 	else {
 		res3Itm2SImg->setVisible(false);
@@ -513,4 +621,26 @@ void MenuGUI::updateItemsBell() {
 		res3ImgS1->setVisible(false);
 		enoughtGoldBell = false;
 	}
+}
+
+void MenuGUI::configSounds() {
+	system = Game::instance().getSoundSystem();
+	system->createSound("sounds/errorSound.wav", FMOD_2D, 0, &errorSound);
+
+	system->createSound("sounds/hammer.wav", FMOD_2D, 0, &hammerSound);
+}
+
+void MenuGUI::showCraftMenu() {
+	if (!showCrafting && !showMenu) {
+		showMenu = !showMenu;
+		showCrafting = !showCrafting;
+	}
+	else if (!showCrafting && showMenu) {
+		showCrafting = !showCrafting;
+	}
+	else {
+		showMenu = !showMenu;
+		showCrafting = !showCrafting;
+	}
+	updateItemsCrafting();
 }

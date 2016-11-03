@@ -7,11 +7,30 @@ void Game::init()
 	bPlay = true;
 	glClearColor(0.27f, 0.53f, 0.71f, 1.0f);
 	loopSound();
+	playMainLoop();
 	sceneMain = SceneMain();
-	//sceneBoss = SceneBoss();
-//	sceneTutorial = SceneTutorial();
-	scene = &sceneMain;
+	sceneBoss = SceneBoss();
+	sceneTutorial = SceneTutorial();
+	scene = &sceneTutorial;
 	scene->init();
+}
+
+void Game::helpGetOut() {
+	scene->helpGetOut();
+}
+
+void Game::proceedToBoss() {
+	if (scene == &sceneMain) {
+		sceneBoss.init(scene->getMainPlayer());
+		scene = &sceneBoss;
+	}
+}
+
+void Game::proceedToGame() {
+	if (scene == &sceneTutorial) {
+		sceneMain.init(scene->getMainPlayer());
+		scene = &sceneMain;
+	}
 }
 
 bool Game::update(int deltaTime)
@@ -21,8 +40,7 @@ bool Game::update(int deltaTime)
 	return bPlay;
 }
 
-void Game::render()
-{
+void Game::render() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	scene->background();
@@ -34,15 +52,18 @@ void Game::keyPressed(int key)
 	pressedKey = key;
 	if(key == 27) // Escape code
 		scene->showMenu();
-	if (key == '1') scene->selectItem(0);
-	if (key =='2') scene->selectItem(1);
-	if (key == '3') scene->selectItem(2);
-	if (key == '4') scene->selectItem(3);
-	if (key == '5') scene->selectItem(4);
-	if (key == '6') scene->selectItem(5);
-	if (key == '7') scene->selectItem(6);
-	if (key == '8') scene->selectItem(7);
-	if (key == 'M' || key == 'm') scene->showMenu();
+	else if (key == '1') scene->selectItem(0);
+	else if (key =='2') scene->selectItem(1);
+	else if (key == '3') scene->selectItem(2);
+	else if (key == '4') scene->selectItem(3);
+	else if (key == '5') scene->selectItem(4);
+	else if (key == '6') scene->selectItem(5);
+	else if (key == '7') scene->selectItem(6);
+	else if (key == '8') scene->selectItem(7);
+	else if (key == 'M' || key == 'm') scene->showMenu();
+	else if (key == 'L' || key == 'l') scene->showAnastasio();
+	else if (key == 'C' || key == 'c') scene->showCraftingMenu();
+	else if(key!=32 && key != 'a' && key != 'A'&& key != 'w' && key != 'W'&& key != 'd' && key != 'D') scene->anyOtherKeyPressed();
 	keys[key] = true;
 }
 
@@ -106,16 +127,25 @@ int Game::getPressedKey() {
 }
 
 void Game::loopSound() {
-	FMOD::Sound     *sound1;
-	FMOD::Channel   *channel1 = 0;	
 	FMOD::System_Create(&system);
 	system->init(2, FMOD_INIT_NORMAL, NULL);
-	system->createSound("sounds/mainLoop.wav", FMOD_2D, 0, &sound1);
-	sound1->setMode(FMOD_LOOP_NORMAL);
-	system->playSound(sound1, 0, true, &channel1);
-	channel1->setPaused(false);
+	system->createSound("sounds/mainLoop.wav", FMOD_2D, 0, &mainLoop);
+	mainLoop->setMode(FMOD_LOOP_NORMAL);
+	system->createSound("sounds/bossLoop.wav", FMOD_2D, 0, &bossLoop);
+	bossLoop->setMode(FMOD_LOOP_NORMAL);
 }
 
+void Game::playBossLoop() {
+	channel1->setPaused(true);
+	system->playSound(bossLoop, 0, true, &channel2);
+	channel2->setPaused(false);
+}
+
+void Game::playMainLoop() {
+	channel2->setPaused(true);
+	system->playSound(mainLoop, 0, true, &channel1);
+	channel1->setPaused(false);
+}
 bool Game::dmgEnnemys(int dmg, glm::ivec2 dmgAt) {
 	return scene->dmgEnnemys(dmg, dmgAt);
 }
@@ -127,3 +157,43 @@ FMOD::System* Game::getSoundSystem() {
 void Game::killOgre(EnOgre* ogre) {
 	scene->killOgre(ogre);
 }
+
+
+void Game::alertYesClicked() {
+	scene->alertYesClicked();
+}
+
+void Game::alertNoClicked() {
+	scene->alertNoClicked();
+}
+void Game::playerOut(bool resetPlayer) {
+	playMainLoop();
+	if (resetPlayer) {
+		sceneMain = SceneMain();
+		scene = &sceneMain;
+		scene->init();
+	}
+	else {
+		sceneMain = SceneMain();
+		sceneMain.init(scene->getMainPlayer());
+		scene = &sceneMain;
+	}
+}
+
+void Game::noHP() {
+	scene->playerOut();
+}
+
+void Game::gg() {
+	scene->gg();
+}
+
+bool Game::isBossScene() {
+	return scene->isBossScene();
+}
+
+
+bool Game::isTutorialScene() {
+	return scene->isTutorialScene();
+}
+

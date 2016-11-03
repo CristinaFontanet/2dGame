@@ -1,0 +1,4 @@
+<Imageset autoScaled="vertical" imagefile="dialog.png" name="dialog" nativeHorzRes="640" nativeVertRes="900" version="2">
+    <Image height="170" name="Op1" width="507" xPos="0" yPos="0" />
+    <Image height="173" name="Op2" width="529" xPos="0" yPos="172" />
+</Imageset>

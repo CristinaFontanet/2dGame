@@ -140,7 +140,7 @@ string Item::getMaterialString() {
 			break;
 		}
 		break;
-	case BELL:
+	case BELLITEM:
 		slot = "Slot8";
 		material = "Bell";
 		break;
@@ -159,15 +159,22 @@ void Item::setWindowProperties() {
 			if (sl1 != nullptr) {
 				windImage = sl1->getChild("Image");
 				windImageSelected = sl1->getChild("ImageS");
-				windImage->setProperty("Image", "spritesheet_tiles/" + material);
-				windImageSelected->setProperty("Image", "spritesheet_tiles/" + material);
 				windImageSelected->setVisible(false);
 				windImage->setVisible(true);
 				windAmount = sl1->getChild("Quant");
 				windAmount->setProperty("Text", to_string(amount));
 				//windAmount->setProperty("HorzFormatting", "HorzCentred");
+				if (type == BELLITEM && amount == 0) {
+					windImage->setProperty("Image", "spritesheet_tiles/QuestionMark");
+					windImageSelected->setProperty("Image", "spritesheet_tiles/QuestionMark");
+				}
+				else {
+					windImage->setProperty("Image", "spritesheet_tiles/" + material);
+					windImageSelected->setProperty("Image", "spritesheet_tiles/" + material);
+				}
 			}
 		}
+		
 	}
 }
 
@@ -179,6 +186,10 @@ int Item::getAmount() {
 	return amount;
 }
 
+int Item::getElement() {
+	return element;
+}
+
 void Item::reduceAmount(int num) {
 	amount -= num;
 	if (windAmount != nullptr)
@@ -187,8 +198,13 @@ void Item::reduceAmount(int num) {
 
 void Item::addItem() {
 	amount += 1;
-	if (windAmount != nullptr)
+	if (windAmount != nullptr) {
 		windAmount->setProperty("Text", to_string(amount));
+		if (type == BELLITEM && amount != 0) {
+			windImage->setProperty("Image", "spritesheet_tiles/Bell");
+			windImageSelected->setProperty("Image", "spritesheet_tiles/Bell");
+		}
+	}
 }
 
 void Item::setAmount(int newAmount) {
@@ -196,6 +212,11 @@ void Item::setAmount(int newAmount) {
 	if (windAmount != nullptr)
 		windAmount->setProperty("Text", to_string(amount));
 	
+}
+
+void Item::setElement(int elem) {
+	element = elem;
+	setWindowProperties();
 }
 
 void Item::setSelected(bool select) {

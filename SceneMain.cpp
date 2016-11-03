@@ -12,7 +12,6 @@
 
 SceneMain::SceneMain() {
 	map = NULL;
-//	player = NULL;
 	mainPlayer = NULL;
 	enemy = NULL;
 	pony = NULL;
@@ -23,6 +22,10 @@ SceneMain::~SceneMain() {
 	if (enemy != NULL) delete enemy;
 	if (pony != NULL) delete pony;
 }
+void SceneMain::init(MainPlayer* mPlayer) {
+	init();
+	Scene::combinePlayer(mPlayer);
+}
 
 void SceneMain::init() {
 	playerXtiles = 1;
@@ -30,40 +33,43 @@ void SceneMain::init() {
 
 	Scene::init("images/background.png", "levels/levelTerraria300.txt",glm::vec2 (playerXtiles, playerYtiles));
 
-
+	map->createCaveAt(57,109);
 	enemy = new Enemy();
 	enemy->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
-	enemy->setPosition(glm::vec2(playerXtiles * map->getTileSize(), playerYtiles * map->getTileSize()));
+	enemy->setPosition(glm::vec2((playerXtiles+50) * map->getTileSize(), (playerYtiles-10) * map->getTileSize()));
 	enemy->setTileMap(map);
 	enemy->setTarget(mainPlayer);
 
 	pony = new Enemy();
 	pony->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
-	pony->setPosition(glm::vec2(playerXtiles * map->getTileSize(), playerYtiles * map->getTileSize()));
+	pony->setPosition(glm::vec2((playerXtiles+230) * map->getTileSize(), (playerYtiles-10) * map->getTileSize()));
 	pony->setTileMap(map);
 	pony->setTarget(mainPlayer);
 	
 	createOgres();
+	menu_gui.showCraftButton(true);
 }
 
 void SceneMain::update(int deltaTime) {
 	Scene::update(deltaTime);
 	//no cal fer update del mapa xq aquest no te animacions ni res 
-	if(!menu_gui.isMenuShowing()) {		//PAUSA si s'esta mostrant el menu
+	if(!menu_gui.isMenuShowing() && !showingAlert) {		//PAUSA si s'esta mostrant el menu
 		enemy->update(deltaTime);
 		pony->update(deltaTime);
 		updateOgres(deltaTime);
 	}
+
 }
 
-void SceneMain::render() {
-	Scene::render();
-
-	enemy->render(); //linia blanca
-	pony->render();	//linia blanca
-	renderOgres();	//linia negre
-
+bool SceneMain::render() {
+	bool b = Scene::render();
+	if (b) {
+		enemy->render(); //linia blanca
+		pony->render();	//linia blanca
+		renderOgres();	//linia negre
+	}
 	Scene::renderGUI();	//IMPORTAAANT, despres de tots els renders
+	return true;
 }
 
 void SceneMain::renderOgres() {
@@ -121,4 +127,31 @@ void SceneMain::createOgres() {
 		}
 	}
 	
+}
+
+void SceneMain::playerOut() {
+	showingAlert = true;
+	showAlert("Do you want to continue?");
+}
+
+void SceneMain::alertYesClicked() {
+	showingAlert = false;
+	if (mainPlayer->getLives() > 0) {
+		glm::vec2 currentPos = mainPlayer->getPlayerPosition();
+		mainPlayer->setPosition(glm::vec2(currentPos.x-CAVE_WIDTH*map->getTileSize(), currentPos.y-CAVE_HEIGHT * map->getTileSize()));
+		menu_gui.helpGetOut(false);
+	}
+	else Game::instance().playerOut(false);
+}
+
+void SceneMain::alertNoClicked() {
+	if (mainPlayer->getLives() > 0) {
+		showingAlert = false;
+		menu_gui.helpGetOut(false);
+	}
+	else exit(0);
+}
+
+void SceneMain::showCraftingMenu() {
+	menu_gui.showCraftMenu();
 }

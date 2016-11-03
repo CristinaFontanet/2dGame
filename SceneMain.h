@@ -3,9 +3,6 @@
 
 #include "Scene.h"
 
-
-
-
 // Scene contains all the entities of our game.
 // It is responsible for updating and render them.
 class SceneMain: public Scene {
@@ -14,8 +11,9 @@ public:
 	SceneMain();
 	~SceneMain();
 
+	void init(MainPlayer* mPlayer);
 	void init();
-	void render();
+	bool render();
 	void update(int deltaTime);
 
 
@@ -26,12 +24,17 @@ public:
 	void killOgre(EnOgre * ogre);
 	void updateArrayOgres(EnOgre * ogre);
 	void updateOgres(EnOgre * ogre);
+	void playerOut();
+	void alertYesClicked();
+	void alertNoClicked();
+	void showCraftingMenu();
 protected:
 	void createOgres();
+
 	EnOgre *ogre1;
+	vector<EnOgre*> ogres;
 	Enemy *enemy;
 	Enemy *pony;
-	vector<EnOgre*> ogres;
 	vector<EnOgre*> ogresToDelete;
 	vector<glm::vec2> posOgres;
 

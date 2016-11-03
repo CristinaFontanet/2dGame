@@ -13,7 +13,8 @@
 
 enum SpriteMoves {
 	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT, ATTACKING_RIGHT, ATTACKING_LEFT, TAIL_RIGHT, TAIL_LEFT,
-	START_BALL_LEFT, START_BALL_RIGHT, BALL,EXH_LEFT, EXH_RIGHT, START_SECOND_LEFT, START_SECOND_RIGHT, SECOND_RIGHT, SECOND_LEFT
+	START_BALL_LEFT, START_BALL_RIGHT, BALL,EXH_LEFT, EXH_RIGHT, START_SECOND_LEFT, START_SECOND_RIGHT, SECOND_RIGHT, SECOND_LEFT,
+	START_JUMP, JUMP 
 };
 
 void Boss::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram) {
@@ -22,9 +23,10 @@ void Boss::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram) {
 	double yoffset = 1.f / 32.f;
 	fase = 1;
 	numAtF2 = 0;
-	live = 100;
+	live = 50;
 	bLeft = true;
 	bJumping = false;
+	bFalling = false;
 	attacking = false;
 	spritesheet.loadFromFile("images/dragonBoss.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	sprite = Sprite::createSprite(glm::ivec2(128, 128), glm::vec2(widhtProp, heightProp), &spritesheet, &shaderProgram);
@@ -69,7 +71,7 @@ void Boss::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram) {
 	sprite->addKeyframe(TAIL_LEFT, glm::vec2(widhtProp * 3, heightProp * 1));
 	sprite->addKeyframe(TAIL_LEFT, glm::vec2(widhtProp * 2, heightProp * 1));
 
-	sprite->setAnimationSpeed(TAIL_RIGHT, ANIMATION_SPEED / 2);
+	sprite->setAnimationSpeed(TAIL_RIGHT, ANIMATION_SPEED / 4);
 	sprite->addKeyframe(TAIL_RIGHT, glm::vec2(widhtProp * 0, heightProp * 3));
 	sprite->addKeyframe(TAIL_RIGHT, glm::vec2(widhtProp * 1, heightProp * 3));
 	sprite->addKeyframe(TAIL_RIGHT, glm::vec2(widhtProp * 1, heightProp * 3));
@@ -78,7 +80,7 @@ void Boss::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram) {
 
 
 	
-	sprite->setAnimationSpeed(EXH_LEFT, ANIMATION_SPEED/2);
+	sprite->setAnimationSpeed(EXH_LEFT, ANIMATION_SPEED/4);
 	sprite->addKeyframe(EXH_LEFT, glm::vec2(0.f, 0.f));
 	sprite->addKeyframe(EXH_LEFT, glm::vec2(widhtProp * 1, 0.f));
 	sprite->addKeyframe(EXH_LEFT, glm::vec2(0.f, 0.f));
@@ -138,6 +140,18 @@ void Boss::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram) {
 	sprite->addKeyframe(SECOND_RIGHT, glm::vec2(widhtProp * 1, heightProp * 9));
 
 
+	sprite->setAnimationSpeed(JUMP, ANIMATION_SPEED);
+	sprite->addKeyframe(JUMP, glm::vec2(widhtProp * 0, heightProp * 1));
+	sprite->addKeyframe(JUMP, glm::vec2(widhtProp * 0, heightProp * 1));
+	sprite->addKeyframe(JUMP, glm::vec2(widhtProp * 0, heightProp * 1));
+	sprite->addKeyframe(JUMP, glm::vec2(widhtProp * 0, heightProp * 1));
+
+	sprite->setAnimationSpeed(START_JUMP, ANIMATION_SPEED / 3);
+	sprite->addKeyframe(START_JUMP, glm::vec2(widhtProp * 1, heightProp * 1));
+	sprite->addKeyframe(START_JUMP, glm::vec2(widhtProp * 1, heightProp * 1));
+
+
+
 	tileMapDispl = tileMapPos;
 	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posSpriteEnemy.x - 32  ), float(tileMapDispl.y + posSpriteEnemy.y -64)));
 
@@ -177,8 +191,8 @@ void Boss::update(int deltaTime) {
 		//si estamos en progreso de atacar hacemos daño en nujestra area
 		
 
-		if (live < 40) fase3();
-		else if (live < 70) {
+		if (live < 20) fase3();
+		else if (live < 35) {
 			if (attacking) {
 				if (sprite->getCurrentNumKeyFrame() == 3) {
 					attacking = false;
@@ -243,6 +257,7 @@ void Boss::update(int deltaTime) {
 		}
 		sprite->setPosition(glm::vec2(float(tileMapDispl.x + posSpriteEnemy.x - 32), float(tileMapDispl.y + posSpriteEnemy.y - 64)));
 	}
+	else Game::instance().gg();
 }
 
 
@@ -254,33 +269,96 @@ void Boss::followAndAttckPlayer() {
 	int tileXEnemy = posSpriteEnemy.x / tileSize;
 	int tileYEnemy = posSpriteEnemy.y / tileSize;
 	int xDist = tileXPlayer - tileXEnemy;
-	if ((abs(xDist) < 2) || (!bLeft && abs(xDist) < 2)) {
-		attacking = true;
-		if (bLeft) {
+	int yDist =  tileYPlayer - tileYEnemy;
+	if ((abs(xDist) <= 0)) {
+		if (bLeft && abs(yDist) < 3 && !bJumping && !bFalling) {
+			attacking = true;
 			if(nextBool(0.6))sprite->changeAnimation(ATTACKING_LEFT);
 			else sprite->changeAnimation(TAIL_LEFT);
 		}
-		else {
+		else if (!bLeft && abs(yDist) < 3 && !bJumping && !bFalling) {
+			attacking = true;
 			if (nextBool(0.6))sprite->changeAnimation(ATTACKING_RIGHT);
 			else sprite->changeAnimation(TAIL_RIGHT);
 		}
+		else if(yDist >= 3 || bFalling) { // esta abajo 
+			if (sprite->animation() != JUMP) {
+				bFalling = true;
+				sprite->changeAnimation(JUMP);
+			}
+			else if (sprite->animation() == JUMP) {
+				posSpriteEnemy.y += 8;
+				if (yDist < 2) bFalling = false;
+			}
+		}
+		else if (yDist <= -3 || bJumping) {//salta pequeña langiosta
+			if (sprite->animation() != JUMP && sprite->animation() != START_JUMP) {
+				bJumping = true;
+				sprite->changeAnimation(START_JUMP);
+			}
+			else if (sprite->animation() == JUMP) {
+				posSpriteEnemy.y -= 8;
+				if (yDist > 3) bJumping = false;
+			}
+			else {
+				if (sprite->getCurrentNumKeyFrame() == 1) {
+					sprite->changeAnimation(JUMP);
+					posSpriteEnemy.y -= 8;
+				}
+			}
+		}
 	}
-	else if (xDist < 0) {
+	else if (xDist < 0) 
+	{ 
 		bLeft = true;
 		if (!map->collisionMoveLeft(posSpriteEnemy, glm::ivec2(spriteWidth, 64))) {
+			bJumping = false;
 			if (sprite->animation() != MOVE_LEFT) sprite->changeAnimation(MOVE_LEFT);
 			posSpriteEnemy.x -= 2;
 		}
-		else  sprite->changeAnimation(STAND_LEFT);
-	}
+		else {
+			if (sprite->animation() != JUMP && sprite->animation() != START_JUMP) {
+				bJumping = true;
+				sprite->changeAnimation(START_JUMP);
+			}
+			else if (sprite->animation() == JUMP) {
+				posSpriteEnemy.y -= 8;
+				posSpriteEnemy.x -= 2;
+				if (yDist > 3) bJumping = false;
+			}
+			else {
+				if (sprite->getCurrentNumKeyFrame() == 1) {
+					sprite->changeAnimation(JUMP);
+					posSpriteEnemy.y -= 8;
+				}
+			}
+		}
+	}  //move left
 	else {
 		bLeft = false;
 		if (!map->collisionMoveRight(posSpriteEnemy, glm::ivec2(spriteWidth, 64))) {
+			bJumping = false;
 			if (sprite->animation() != MOVE_RIGHT) sprite->changeAnimation(MOVE_RIGHT);
 			posSpriteEnemy.x += 2;
 		}
-		else sprite->changeAnimation(STAND_RIGHT);
-	}
+		else {
+			if (sprite->animation() != JUMP && sprite->animation() != START_JUMP) {
+				bJumping = true;
+				sprite->changeAnimation(START_JUMP);
+			}
+			else if (sprite->animation() == JUMP) {
+				posSpriteEnemy.y -= 8;
+				posSpriteEnemy.x += 2;
+				if (yDist > 3) bJumping = false;
+			}
+			else {
+				if (sprite->getCurrentNumKeyFrame() == 1) {
+					sprite->changeAnimation(JUMP);
+					posSpriteEnemy.y -= 8;
+				}
+			}
+		}
+	} // Move right
 }
 
 void Boss::fase2() {
@@ -291,6 +369,9 @@ void Boss::fase2() {
 	int tileXEnemy = posSpriteEnemy.x / tileSize;
 	int tileYEnemy = posSpriteEnemy.y / tileSize;
 	int xDist = tileXPlayer - tileXEnemy;
+	int yDist = tileYPlayer - tileYEnemy;
+	
+	
 	if (fase < 2) {
 		fase = 2;
 		if (bLeft) sprite->changeAnimation(START_SECOND_LEFT);
@@ -314,27 +395,91 @@ void Boss::fase2() {
 		}
 	}
 	else if ((abs(xDist) < 2) || (!bLeft && abs(xDist) < 3)) {
-		attacking = true;
-		numAtF2++;
-		if (bLeft) sprite->changeAnimation(SECOND_LEFT);
-		else sprite->changeAnimation(SECOND_RIGHT);
+		if(abs(yDist) < 3 && !bJumping && !bFalling){
+			attacking = true;
+			numAtF2++;
+			if (bLeft) sprite->changeAnimation(SECOND_LEFT);
+			else sprite->changeAnimation(SECOND_RIGHT);
+		}
+		else if (yDist >= 3 || bFalling) { // esta abajo 
+			if (sprite->animation() != JUMP) {
+				bFalling = true;
+				sprite->changeAnimation(JUMP);
+			}
+			else if (sprite->animation() == JUMP) {
+				posSpriteEnemy.y += 8;
+				if (yDist < 2) bFalling = false;
+			}
+		}
+		else if (yDist <= -3 || bJumping) {//salta pequeña langiosta
+			if (sprite->animation() != JUMP && sprite->animation() != START_JUMP) {
+				bJumping = true;
+				sprite->changeAnimation(START_JUMP);
+			}
+			else if (sprite->animation() == JUMP) {
+				posSpriteEnemy.y -= 8;
+				if (yDist > 3) bJumping = false;
+			}
+			else {
+				if (sprite->getCurrentNumKeyFrame() == 1) {
+					sprite->changeAnimation(JUMP);
+					posSpriteEnemy.y -= 8;
+				}
+			}
+		}
 	}
-	else if (xDist < 0) {
+	else if (xDist < 0)
+	{
 		bLeft = true;
 		if (!map->collisionMoveLeft(posSpriteEnemy, glm::ivec2(spriteWidth, 64))) {
-			if (sprite->animation() != MOVE_LEFT ) sprite->changeAnimation(MOVE_LEFT);
+			bJumping = false;
+			if (sprite->animation() != MOVE_LEFT) sprite->changeAnimation(MOVE_LEFT);
 			posSpriteEnemy.x -= 2;
 		}
-		else  sprite->changeAnimation(STAND_LEFT);
-	}
+		else {
+			if (sprite->animation() != JUMP && sprite->animation() != START_JUMP) {
+				bJumping = true;
+				sprite->changeAnimation(START_JUMP);
+			}
+			else if (sprite->animation() == JUMP) {
+				posSpriteEnemy.y -= 8;
+				posSpriteEnemy.x -= 2;
+				if (yDist > 3) bJumping = false;
+			}
+			else {
+				if (sprite->getCurrentNumKeyFrame() == 1) {
+					sprite->changeAnimation(JUMP);
+					posSpriteEnemy.y -= 8;
+				}
+			}
+		}
+	}  //move left
 	else {
 		bLeft = false;
 		if (!map->collisionMoveRight(posSpriteEnemy, glm::ivec2(spriteWidth, 64))) {
+			bJumping = false;
 			if (sprite->animation() != MOVE_RIGHT) sprite->changeAnimation(MOVE_RIGHT);
 			posSpriteEnemy.x += 2;
 		}
-		else sprite->changeAnimation(STAND_RIGHT);
-	}
+		else {
+			if (sprite->animation() != JUMP && sprite->animation() != START_JUMP) {
+				bJumping = true;
+				sprite->changeAnimation(START_JUMP);
+			}
+			else if (sprite->animation() == JUMP) {
+				posSpriteEnemy.y -= 8;
+				posSpriteEnemy.x += 2;
+				if (yDist > 3) bJumping = false;
+			}
+			else {
+				if (sprite->getCurrentNumKeyFrame() == 1) {
+					sprite->changeAnimation(JUMP);
+					posSpriteEnemy.y -= 8;
+				}
+			}
+		}
+	} // Move right
+	
 }
 
 void Boss::fase3() {
@@ -367,14 +512,14 @@ void Boss::fase3() {
 	else {
 		if (bLeft) {
 			bLeft = false;
-			if (nextBool(0.4)) sprite->changeAnimation(EXH_RIGHT);
+			if (nextBool(0.7)) sprite->changeAnimation(EXH_RIGHT);
 		}
 		else {
 			posSpriteEnemy.x += 2;
 			if (map->collisionMoveRight(posSpriteEnemy, glm::ivec2(spriteWidth, 64))) { 	//si hi ha colisio, ens parem
 				posSpriteEnemy.x -= 2;
 				bLeft = true;
-				if (nextBool(0.4)) sprite->changeAnimation(EXH_LEFT);
+				if (nextBool(0.7)) sprite->changeAnimation(EXH_LEFT);
 			}
 		}
 	}
@@ -404,7 +549,7 @@ void Boss::reciveDmg(int dmg , glm::ivec2 dmgAt) {
 	int tileXEnemy = posSpriteEnemy.x / tileSize;
 	int tileYEnemy = posSpriteEnemy.y / tileSize;
 	bool playerInRange = (abs(tileXEnemy - dmgX) < 5);
-	if (playerInRange && sprite->animation() != BALL) {
+	if (playerInRange && sprite->animation() != BALL && sprite->animation() != START_SECOND_LEFT && sprite->animation() != START_SECOND_RIGHT) {
 		if (bLeft) {
 			for (int x = 0; x < 2; ++x) {
 				for (int y = -1; y < 2; ++y) {
@@ -425,5 +570,9 @@ void Boss::reciveDmg(int dmg , glm::ivec2 dmgAt) {
 
 		}
 	}
-	cout << "Boss liv" << live << endl;
+	cout << "Boss liv :" << live << endl;
+}
+
+bool Boss::alive() {
+	return live > 0;
 }

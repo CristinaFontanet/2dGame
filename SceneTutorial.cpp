@@ -36,6 +36,7 @@ void SceneTutorial::init() {
 	anastasio->startTutorial();
 	projection = glm::ortho(0.f, float(tileSize*(map->getMapSize().x - 3)), float(tileSize*(map->getMapSize().x - 13)), 0.f);
 	projection = glm::translate(projection, glm::vec3(-32, 10*tileSize, 0.f));
+	menu_gui.showMenuClicked();
 }
 
 void SceneTutorial::update(int deltaTime) {
@@ -72,8 +73,7 @@ void SceneTutorial::anyOtherKeyPressed() {
 
 bool SceneTutorial::render() {
 	Scene::render();
-
-	anastasio->render();
+	if(!menu_gui.isMenuShowing())anastasio->render();
 
 	Scene::renderGUI();	//IMPORTAAANT, despres de tots els renders
 	return true;

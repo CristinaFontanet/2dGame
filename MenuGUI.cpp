@@ -63,7 +63,8 @@ void MenuGUI::init(const std::string& resourceDirectory, MainPlayer* mPlayer, CE
 
 	//anastasio
 	anastasioInstr = new Anastasio();
-	anastasioInstr->init(glm::ivec2(SCREEN_X, SCREEN_Y), shaderProgram, Anastasio::AnastasioType::INSTRUCTIONS);
+	if(Game::instance().isTutorialScene()) anastasioInstr->init(glm::ivec2(SCREEN_X, SCREEN_Y), shaderProgram, Anastasio::AnastasioType::TUTORIAL);
+	else anastasioInstr->init(glm::ivec2(SCREEN_X, SCREEN_Y), shaderProgram, Anastasio::AnastasioType::INSTRUCTIONS);
 	//x: 32 // Y : 3428
 	anastasioInstr->setTileMap(tileMap);
 //	anastasioInstr->setPosition(glm::vec2(1370, 384));
@@ -178,7 +179,6 @@ void  MenuGUI::onMenuInstructionsClick() {
 	std::pair<float, float> off = Game::instance().getOffsetCamera();
 	anastasioInstr->setPosition(glm::vec2(off.first, off.second));
 	anastasioInstr->startInstructions();
-	//pushButton->setText("Button 1 clicked");
 }
 
 void MenuGUI::showHelp() {

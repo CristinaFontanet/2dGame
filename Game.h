@@ -71,6 +71,7 @@ public:
 	void proceedToBoss();
 	void proceedToGame();
 	bool isBossScene();
+	bool isTutorialScene();
 	void helpGetOut();
 
 private:

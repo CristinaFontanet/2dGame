@@ -87,7 +87,10 @@ void Anastasio::setTileMap(TileMap *tileMap) {
 void Anastasio::setPosition(const glm::vec2 &pos) {
 	int tilS = map->getTileSize();
 	posEnemy = pos;
-	if(anastasioType == TUTORIAL) sprite->setPosition(glm::vec2(float((map->getMapSize().x-5)*tilS - SPRITE_SIZE_BIG), float((map->getMapSize().y-23)*tilS-SPRITE_SIZE_BIG)));
+	if (anastasioType == TUTORIAL) {
+	sprite->setPosition(glm::vec2(float((map->getMapSize().x - 2)*tilS - SPRITE_SIZE_BIG), float((map->getMapSize().y - 23)*tilS - SPRITE_SIZE_BIG)));
+	//	else sprite->setPosition(glm::vec2(float((map->getMapSize().x - 5)*tilS - SPRITE_SIZE_BIG), float((map->getMapSize().y - 23)*tilS - SPRITE_SIZE_BIG)));
+	}
 	else sprite->setPosition(glm::vec2(float(pos.x+ SCREEN_WIDTH - SPRITE_SIZE_SMALL), float(pos.y+ SCREEN_HEIGHT - SPRITE_SIZE_SMALL) ));
 }
 

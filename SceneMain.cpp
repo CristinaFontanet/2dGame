@@ -151,3 +151,7 @@ void SceneMain::alertNoClicked() {
 	}
 	else exit(0);
 }
+
+void SceneMain::showCraftingMenu() {
+	menu_gui.showCraftMenu();
+}

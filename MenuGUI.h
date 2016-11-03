@@ -49,7 +49,7 @@ class MenuGUI {
 
 		bool showAnastasio();
 		void showHelp();
-
+		void showCraftMenu();
 		void showCraftButton(bool b);
 		void helpGetOut(bool b);
     private:
@@ -118,6 +118,7 @@ class MenuGUI {
 		void updateItemsPeak();
 		void updateItemsBell();
 		void configSounds();
+	
 		bool enoughtRocksSword;
 		bool enoughtRocksPeak;
 		bool enoughtGoldBell;

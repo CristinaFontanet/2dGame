@@ -210,7 +210,7 @@ bool Game::isTutorialScene() {
 
 
 void Game::initBackground() {
-	backgroundTexture.loadFromFile("images/castillo.png", TEXTURE_PIXEL_FORMAT_RGBA);
+	backgroundTexture.loadFromFile("images/loading.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	backgroundTexture.setWrapS(GL_CLAMP_TO_EDGE);
 	backgroundTexture.setWrapT(GL_CLAMP_TO_EDGE);
 	backgroundTexture.setMinFilter(GL_NEAREST);

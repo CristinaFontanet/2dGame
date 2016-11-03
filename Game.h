@@ -28,6 +28,7 @@ public:
 	}
 	
 	void init();
+	void initBackground();
 	bool update(int deltaTime);
 	void render();
 	
@@ -73,8 +74,10 @@ public:
 	bool isBossScene();
 	bool isTutorialScene();
 	void helpGetOut();
-
 private:
+	bool loading;
+	OwnTexture backgroundTexture;
+	void  background();
 	FMOD::System *system;
 	FMOD::Sound     *mainLoop;
 	FMOD::Sound     *bossLoop;
@@ -94,4 +97,38 @@ private:
 
 #endif // _GAME_INCLUDE
 
+/*
 
+
+glMatrixMode(GL_PROJECTION);
+glPushMatrix();
+glLoadIdentity();
+//glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f)
+gluOrtho2D(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
+
+glMatrixMode(GL_MODELVIEW);
+glPushMatrix();
+glLoadIdentity();
+// Draw your quad here in screen coordinates
+
+backgroundTexture.use();
+
+glBegin(GL_QUADS);
+glTexCoord2f(0 + 0.05, 1);
+glVertex3f(0.0f, float(SCREEN_HEIGHT - 1), 0.f);
+
+glTexCoord2f(1 - 0.05, 1);
+glVertex3f(float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
+
+glTexCoord2f(1 - 0.05, 0);
+glVertex3f(float(SCREEN_WIDTH - 1), 0.f, 0.f);
+
+glTexCoord2f(0 + 0.05, 0);
+glVertex3f(0.0f, 0.f, 0.f);
+glEnd();
+//end draw background quad
+glMatrixMode(GL_PROJECTION);
+glPopMatrix();
+glMatrixMode(GL_MODELVIEW);
+glPopMatrix();
+*/

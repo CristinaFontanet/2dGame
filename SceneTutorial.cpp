@@ -60,9 +60,8 @@ void SceneTutorial::alertYesClicked() {
 
 void SceneTutorial::alertNoClicked() {
 	showingAlert = false;
-	glm::vec2 pos = mainPlayer->getPlayerPosition();
-	pos.x -= 64;
-	mainPlayer->setPosition(pos);
+	anastasio->startTutorial();
+
 }
 
 bool SceneTutorial::render() {
@@ -77,7 +76,9 @@ bool SceneTutorial::render() {
 bool SceneTutorial::mouseClicked(int x, int y) {
 	bool used = Scene::mouseClicked(x, y);
 	if (!used) {
-		return anastasio->nextText();
+		if (!anastasio->nextText()) {
+			showAlert("Are you ready to proceed?");
+		}
 	}
 	return used;
 }

@@ -38,6 +38,8 @@ void Anastasio::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram,
 	sprite->setAnimationSpeed(INSTR1, ANIMATION_SPEED);
 	sprite->setAnimationSpeed(INSTR2, ANIMATION_SPEED);
 	sprite->setAnimationSpeed(INSTR3, ANIMATION_SPEED);
+	sprite->setAnimationSpeed(INSTR4, ANIMATION_SPEED);
+	sprite->setAnimationSpeed(INSTR5, ANIMATION_SPEED);
 	sprite->setAnimationSpeed(HELP1, ANIMATION_SPEED);
 	sprite->setAnimationSpeed(HELP2, ANIMATION_SPEED);
 	sprite->setAnimationSpeed(HELP3, ANIMATION_SPEED);

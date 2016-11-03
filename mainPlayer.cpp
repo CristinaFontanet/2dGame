@@ -538,7 +538,8 @@ void MainPlayer::attackAnimation() {
 void MainPlayer::bellAnimation() {
 	spriteWidth = 64;
 	animationInProgress = true;
-
+	system->playSound(bellSound, 0, true, &playerChannel);
+	playerChannel->setPaused(false);
 	if (posPlayer.x > lastXclick && sprite->animation() != BELL_LEFT) sprite->changeAnimation(BELL_LEFT);
 	else if (posPlayer.x < lastXclick && sprite->animation() != BELL_RIGHT) sprite->changeAnimation(BELL_RIGHT);
 	//TODO: so campana
@@ -599,6 +600,7 @@ void MainPlayer::configSounds() {
 	system = Game::instance().getSoundSystem();
 	system->createSound("sounds/punched.wav", FMOD_2D, 0, &dmgSound);
 	system->createSound("sounds/dig.wav", FMOD_2D, 0, &digSound);
+	system->createSound("sounds/bell.wav", FMOD_2D, 0, &bellSound);
 
 }
 

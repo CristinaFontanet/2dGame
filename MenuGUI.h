@@ -9,6 +9,7 @@
 #include <glm/glm.hpp>
 #include "mainPlayer.h"
 #include "Anastasio.h"
+#include "fmod.hpp"
 
 using namespace CEGUI;
 
@@ -116,6 +117,7 @@ class MenuGUI {
 		void updateItemsSword();
 		void updateItemsPeak();
 		void updateItemsBell();
+		void configSounds();
 		bool enoughtRocksSword;
 		bool enoughtRocksPeak;
 		bool enoughtGoldBell;
@@ -123,6 +125,13 @@ class MenuGUI {
 
 		Anastasio *anastasioInstr;
 		bool showingAnastasio;
+
+		
+		FMOD::System *system;
+		FMOD::Channel   *playerChannel = 0;
+		FMOD::Sound     *errorSound;
+		FMOD::Sound     *hammerSound;
+
 		bool showCraftBut;
 	
 };

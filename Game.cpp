@@ -10,66 +10,12 @@ void Game::init() {
 	background();
 	loopSound();
 	playMainLoop();
-}
-
-void Game::start() {
 	sceneMain = SceneMain();
-	//	sceneMain.init();
 	sceneBoss = SceneBoss();
-	//sceneBoss.init();
 	sceneTutorial = SceneTutorial();
-	//	sceneTutorial.init();
 	scene = &sceneTutorial;
 	scene->init();
 	loading = false;
-}
-
-void Game::initBackground() {
-	backgroundTexture.loadFromFile("images/castillo.png", TEXTURE_PIXEL_FORMAT_RGBA);
-	backgroundTexture.setWrapS(GL_CLAMP_TO_EDGE);
-	backgroundTexture.setWrapT(GL_CLAMP_TO_EDGE);
-	backgroundTexture.setMinFilter(GL_NEAREST);
-	backgroundTexture.setMagFilter(GL_NEAREST);
-}
-
-void  Game::background() {
-
-//	glClearColor(0.0, 0.0, 0.0, 1.0);
-	glClear(GL_COLOR_BUFFER_BIT);
-
-	// background render
-
-	glOrtho(0.0f, 1024.0, 512.0, 0.0, 0.0, 1.f);
-
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-
-	glEnable(GL_TEXTURE_2D);
-	backgroundTexture.use();
-	//glBindTexture(GL_TEXTURE_2D, backgroundTexture);
-
-	glBegin(GL_QUADS);
-	glTexCoord2d(0.0, 0.0); glVertex2d(0.0, 0.0);
-	glTexCoord2d(1.0, 0.0); glVertex2d(1024.0, 0.0);
-	glTexCoord2d(1.0, 1.0); glVertex2d(1024.0, 512.0);
-	glTexCoord2d(0.0, 1.0); glVertex2d(0.0, 512.0);
-	glEnd();
-
-	// foreground render - added code, not working
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-
-	glColor3f(0.0f, 0.0f, 1.0f);
-
-	glBegin(GL_QUADS);
-	glVertex2d(500.0, 400.0);
-	glVertex2d(500.0, 500.0);
-	glVertex2d(600.0, 400.0);
-	glVertex2d(600.0, 500.0);
-	glEnd();
-
-	glutSwapBuffers();
 }
 
 void Game::helpGetOut() {
@@ -78,8 +24,11 @@ void Game::helpGetOut() {
 
 void Game::proceedToBoss() {
 	if (scene == &sceneMain) {
+		loading = true;
+		background();
 		sceneBoss.init(scene->getMainPlayer());
 		scene = &sceneBoss;
+		loading = false;
 	}
 }
 
@@ -258,3 +207,47 @@ bool Game::isTutorialScene() {
 	return scene->isTutorialScene();
 }
 
+
+
+void Game::initBackground() {
+	backgroundTexture.loadFromFile("images/castillo.png", TEXTURE_PIXEL_FORMAT_RGBA);
+	backgroundTexture.setWrapS(GL_CLAMP_TO_EDGE);
+	backgroundTexture.setWrapT(GL_CLAMP_TO_EDGE);
+	backgroundTexture.setMinFilter(GL_NEAREST);
+	backgroundTexture.setMagFilter(GL_NEAREST);
+}
+
+void  Game::background() {
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	// background render
+
+	glOrtho(0.0f, 1024.0, 512.0, 0.0, 0.0, 1.f);
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+	glEnable(GL_TEXTURE_2D);
+	backgroundTexture.use();
+	//glBindTexture(GL_TEXTURE_2D, backgroundTexture);
+
+	glBegin(GL_QUADS);
+	glTexCoord2d(0.0, 0.0); glVertex2d(0.0, 0.0);
+	glTexCoord2d(1.0, 0.0); glVertex2d(1024.0, 0.0);
+	glTexCoord2d(1.0, 1.0); glVertex2d(1024.0, 512.0);
+	glTexCoord2d(0.0, 1.0); glVertex2d(0.0, 512.0);
+	glEnd();
+
+	// foreground render - added code, not working
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+	glBegin(GL_QUADS);
+	glVertex2d(500.0, 400.0);
+	glVertex2d(500.0, 500.0);
+	glVertex2d(600.0, 400.0);
+	glVertex2d(600.0, 500.0);
+	glEnd();
+
+	glutSwapBuffers();
+}

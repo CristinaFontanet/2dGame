@@ -74,7 +74,6 @@ public:
 	bool isBossScene();
 	bool isTutorialScene();
 	void helpGetOut();
-	void start();
 private:
 	bool loading;
 	OwnTexture backgroundTexture;

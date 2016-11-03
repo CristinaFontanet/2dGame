@@ -33,6 +33,7 @@ public:
 
 	void startInstructions();
 	void showHelp();
+	void helpOut();
 	void startTutorial();
 
 	void showCred();

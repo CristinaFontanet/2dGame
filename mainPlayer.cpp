@@ -398,6 +398,7 @@ Item* MainPlayer::getGold() {
 Item* MainPlayer::getSpecialItem() {
 	return &inventory[8];
 }
+
 void MainPlayer::materialDigged(int material) {
 	switch (material) {
 	case TUSK:
@@ -417,6 +418,7 @@ void MainPlayer::materialDigged(int material) {
 		break;
 	case BELL:
 		inventory[8].addItem();
+		Game::instance().helpGetOut();
 		break;
 	default:
 		break;

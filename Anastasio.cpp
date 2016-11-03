@@ -15,7 +15,7 @@
 #define SPRITE_SIZE_SMALL 300
 
 enum BigSpriteMoves {
-	INSTR1_1,INSTR1_2, INSTR1_3, INSTR1_4, INSTR1, INSTR2, INSTR3, INSTR4, INSTR5, HELP1, HELP2, HELP3, HELP4, HELP5, CRED
+	INSTR1_1,INSTR1_2, INSTR1_3, INSTR1_4, INSTR1, INSTR2, INSTR3, INSTR4, INSTR5, HELP1, HELP2, HELP3, HELP4, HELP5, CRED, HELPOUT
 };
 
 
@@ -47,6 +47,7 @@ void Anastasio::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram,
 	sprite->setAnimationSpeed(HELP4, ANIMATION_SPEED);
 	sprite->setAnimationSpeed(HELP5, ANIMATION_SPEED);
 	sprite->setAnimationSpeed(CRED, ANIMATION_SPEED);
+	sprite->setAnimationSpeed(HELPOUT, ANIMATION_SPEED);
 		sprite->addKeyframe(INSTR1_1, glm::vec2(0.f, 0.f));
 		sprite->addKeyframe(INSTR1_2, glm::vec2(prop, 0.f));
 		sprite->addKeyframe(INSTR1_3, glm::vec2(prop * 2, 0.f));
@@ -62,6 +63,7 @@ void Anastasio::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram,
 		sprite->addKeyframe(HELP4, glm::vec2(prop, prop * 2));	//ja bell
 		sprite->addKeyframe(HELP5, glm::vec2(0.f, prop * 3));	//castell
 		sprite->addKeyframe(CRED, glm::vec2(prop * 2, prop * 3));
+		sprite->addKeyframe(HELPOUT, glm::vec2(prop, prop * 3));	//castell
 
 	tileMapDispl = tileMapPos;
 }
@@ -101,6 +103,10 @@ bool Anastasio::update(int deltaTime) {
 	sprite->update(deltaTime);
 
 	return false;
+}
+
+void Anastasio::helpOut() {
+	sprite->changeAnimation(HELPOUT);
 }
 
 void Anastasio::showHelp() {

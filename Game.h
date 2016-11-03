@@ -71,6 +71,7 @@ public:
 	void proceedToBoss();
 	void proceedToGame();
 	bool isBossScene();
+	void helpGetOut();
 
 private:
 	FMOD::System *system;

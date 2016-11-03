@@ -31,7 +31,7 @@ public:
 	virtual void alertNoClicked();
 
 	virtual void playerOut() {};
-
+	void helpGetOut();
 	void initShaders();
 	void background();
 	virtual bool mouseClicked(int x, int y);
@@ -67,6 +67,7 @@ protected:
 
 	bool showingAlert;
 	AlertGUI al;
+	glm::vec2 initPosMainPlayer;
 
 };
 

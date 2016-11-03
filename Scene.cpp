@@ -23,6 +23,7 @@ Scene::~Scene()
 
 void Scene::init(string background, string level, glm::vec2 initPosPlayer) {
 	showingAlert = false;
+	initPosMainPlayer = initPosPlayer;
 	initShaders();
 	backgroundTexture.loadFromFile(background, TEXTURE_PIXEL_FORMAT_RGBA);
 	backgroundTexture.setWrapS(GL_CLAMP_TO_EDGE);
@@ -261,6 +262,11 @@ void Scene::combinePlayer(MainPlayer* mPlayer) {
 
 }
 
-void  Scene::showAnastasio() {
+void Scene::showAnastasio() {
 	menu_gui.showHelp();
+}
+
+void Scene::helpGetOut() {
+	menu_gui.helpGetOut(true);
+	showAlert("Do you want to return to surface?");
 }

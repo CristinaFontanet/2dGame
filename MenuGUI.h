@@ -51,7 +51,7 @@ class MenuGUI {
 		void showHelp();
 
 		void showCraftButton(bool b);
-
+		void helpGetOut(bool b);
     private:
 		void createCraftWindow();
 		void createMenu();

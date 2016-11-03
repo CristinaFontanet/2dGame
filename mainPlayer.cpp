@@ -218,9 +218,9 @@ void MainPlayer::mouseClick(int x, int y) {
 		lastXclick = x + offset.first;
 		lastYclick = y + offset.second;
 		if (equipedItem->type == PICKAXE) digAnimation();
-		if (equipedItem->type == SWORD) attackAnimation();
-		if (equipedItem->type == MATERIAL) putMaterial();
-		if (equipedItem->type == BELL && getBell()->amount > 0) bellAnimation();
+		else if (equipedItem->type == SWORD) attackAnimation();
+		else if (equipedItem->type == MATERIAL) putMaterial();
+		else if (equipedItem->type == BELLITEM && getBell()->amount > 0) bellAnimation();
 	}
 }
 void MainPlayer::setTutorialPause(bool pause) {

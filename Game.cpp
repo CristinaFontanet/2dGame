@@ -48,16 +48,17 @@ void Game::keyPressed(int key)
 	pressedKey = key;
 	if(key == 27) // Escape code
 		scene->showMenu();
-	if (key == '1') scene->selectItem(0);
-	if (key =='2') scene->selectItem(1);
-	if (key == '3') scene->selectItem(2);
-	if (key == '4') scene->selectItem(3);
-	if (key == '5') scene->selectItem(4);
-	if (key == '6') scene->selectItem(5);
-	if (key == '7') scene->selectItem(6);
-	if (key == '8') scene->selectItem(7);
-	if (key == 'M' || key == 'm') scene->showMenu();
-	if (key == 'L' || key == 'l') scene->showAnastasio();
+	else if (key == '1') scene->selectItem(0);
+	else if (key =='2') scene->selectItem(1);
+	else if (key == '3') scene->selectItem(2);
+	else if (key == '4') scene->selectItem(3);
+	else if (key == '5') scene->selectItem(4);
+	else if (key == '6') scene->selectItem(5);
+	else if (key == '7') scene->selectItem(6);
+	else if (key == '8') scene->selectItem(7);
+	else if (key == 'M' || key == 'm') scene->showMenu();
+	else if (key == 'L' || key == 'l') scene->showAnastasio();
+	else if(key!=32 && key != 'a' && key != 'A'&& key != 'w' && key != 'W'&& key != 'd' && key != 'D') scene->anyOtherKeyPressed();
 	keys[key] = true;
 }
 

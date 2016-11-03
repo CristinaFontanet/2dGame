@@ -63,6 +63,12 @@ void SceneTutorial::alertNoClicked() {
 	anastasio->startTutorial();
 
 }
+void SceneTutorial::anyOtherKeyPressed() {
+	if (!anastasio->nextText()) {
+		showAlert("Are you ready to proceed?");
+	}
+}
+
 
 bool SceneTutorial::render() {
 	Scene::render();

@@ -21,6 +21,7 @@ public:
 	void alertNoClicked();
 	void showMenu() {};
 	void showAnastasio() {};
+	void anyOtherKeyPressed();
 protected:
 
 	int playerXtiles, playerYtiles;

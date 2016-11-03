@@ -47,6 +47,7 @@ public:
 	void combinePlayer(MainPlayer* mPlayer);
 	virtual void showAnastasio();
 	virtual bool isBossScene() { return false; }
+	virtual void anyOtherKeyPressed() {};
 protected:
 	virtual void renderGUI();
 	TileMap *map;

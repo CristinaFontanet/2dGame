@@ -77,6 +77,7 @@ private:
 	FMOD::Sound     *mainLoop;
 	FMOD::Sound     *bossLoop;
 	FMOD::Channel   *channel1 = 0;
+	FMOD::Channel   *channel2 = 0;
 	int mouseX, mouseY;
 	bool bPlay;                       // Continue to play game?
 	SceneMain sceneMain;

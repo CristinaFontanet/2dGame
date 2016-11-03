@@ -125,16 +125,18 @@ void Game::loopSound() {
 	system->init(2, FMOD_INIT_NORMAL, NULL);
 	system->createSound("sounds/mainLoop.wav", FMOD_2D, 0, &mainLoop);
 	mainLoop->setMode(FMOD_LOOP_NORMAL);
-	system->createSound("sounds/mainLoop.wav", FMOD_2D, 0, &bossLoop);
+	system->createSound("sounds/bossLoop.wav", FMOD_2D, 0, &bossLoop);
 	bossLoop->setMode(FMOD_LOOP_NORMAL);
 }
 
 void Game::playBossLoop() {
-	system->playSound(bossLoop, 0, true, &channel1);
-	channel1->setPaused(false);
+	channel1->setPaused(true);
+	system->playSound(bossLoop, 0, true, &channel2);
+	channel2->setPaused(false);
 }
 
 void Game::playMainLoop() {
+	channel2->setPaused(true);
 	system->playSound(mainLoop, 0, true, &channel1);
 	channel1->setPaused(false);
 }

@@ -23,7 +23,7 @@ void EnOgre::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram) {
 	heightProp = 1.f / 2.f;
 	widhtProp = 1.f / 6.f;
 	double yoffset = 1.f / 32.f;
-	live = 10;
+	live = 9;
 	bLeft = true;
 	bJumping = false;
 	attacking = false;
@@ -120,7 +120,7 @@ void EnOgre::update(int deltaTime) {
 					for (int y = -1; y < 2; ++y) {
 						int xDmgOgre = tileXEnemy - x;
 						int yDmgOgre = tileYEnemy + y;
-						if (tileXPlayer == xDmgOgre && tileYPlayer == yDmgOgre) player->reciveDMG(5);
+						if (tileXPlayer == xDmgOgre && tileYPlayer == yDmgOgre) player->reciveDMG(8);
 					}
 				}
 			}
@@ -129,7 +129,7 @@ void EnOgre::update(int deltaTime) {
 					for (int y = -1; y < 2; ++y) {
 						int xDmgOgre = tileXEnemy + x;
 						int yDmgOgre = tileYEnemy + y;
-						if (tileXPlayer == xDmgOgre && tileYPlayer == yDmgOgre) player->reciveDMG(5);
+						if (tileXPlayer == xDmgOgre && tileYPlayer == yDmgOgre) player->reciveDMG(8);
 					}
 				}
 			}
@@ -227,8 +227,7 @@ bool EnOgre::reciveDmg(int dmg , glm::ivec2 dmgAt) {
 					int xEn = tileXEnemy - x;
 					int yEn = tileYEnemy + y;
 					if (dmgX == xEn && dmgY == yEn) {
-						live -= dmg;
-						cout << "He rebut " << endl;
+						live -= (dmg + dmg / 2);
 						return true;
 					}
 				}
@@ -240,8 +239,7 @@ bool EnOgre::reciveDmg(int dmg , glm::ivec2 dmgAt) {
 					int xEn = tileXEnemy + x;
 					int yEn = tileYEnemy + y;
 					if (dmgX == xEn && dmgY == yEn) {
-						live -= dmg;
-						cout << "He rebut " << endl;
+						live -= (dmg+ dmg/2);
 						return true;
 					}
 				}

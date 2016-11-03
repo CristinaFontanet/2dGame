@@ -621,3 +621,18 @@ void MenuGUI::configSounds() {
 
 	system->createSound("sounds/hammer.wav", FMOD_2D, 0, &hammerSound);
 }
+
+void MenuGUI::showCraftMenu() {
+	if (!showCrafting && !showMenu) {
+		showMenu = !showMenu;
+		showCrafting = !showCrafting;
+	}
+	else if (!showCrafting && showMenu) {
+		showCrafting = !showCrafting;
+	}
+	else {
+		showMenu = !showMenu;
+		showCrafting = !showCrafting;
+	}
+	updateItemsCrafting();
+}

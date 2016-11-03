@@ -58,6 +58,7 @@ void Game::keyPressed(int key)
 	else if (key == '8') scene->selectItem(7);
 	else if (key == 'M' || key == 'm') scene->showMenu();
 	else if (key == 'L' || key == 'l') scene->showAnastasio();
+	else if (key == 'C' || key == 'c') scene->showCraftingMenu();
 	else if(key!=32 && key != 'a' && key != 'A'&& key != 'w' && key != 'W'&& key != 'd' && key != 'D') scene->anyOtherKeyPressed();
 	keys[key] = true;
 }

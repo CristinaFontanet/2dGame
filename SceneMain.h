@@ -27,6 +27,7 @@ public:
 	void playerOut();
 	void alertYesClicked();
 	void alertNoClicked();
+	void showCraftingMenu();
 protected:
 	void createOgres();
 

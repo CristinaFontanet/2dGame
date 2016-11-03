@@ -142,3 +142,7 @@ void SceneMain::alertYesClicked() {
 void SceneMain::alertNoClicked() {
 	exit(0);
 }
+
+void SceneMain::showCraftingMenu() {
+	menu_gui.showCraftMenu();
+}

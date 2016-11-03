@@ -48,6 +48,7 @@ public:
 	virtual void showAnastasio();
 	virtual bool isBossScene() { return false; }
 	virtual void anyOtherKeyPressed() {};
+	virtual void showCraftingMenu() {};
 protected:
 	virtual void renderGUI();
 	TileMap *map;

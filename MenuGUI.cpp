@@ -358,7 +358,6 @@ bool MenuGUI::craftBell() {
 		enoughtGoldBell = false;
 		//TODO: So guai
 		mainPlayer->getBell()->addItem();
-		mainPlayer->getGold()->reduceAmount(NUM_GOLD_NEEDED_BELL);
 		setCraftBell();
 		updateItemsCrafting();
 		cout << "YESS" << endl;
@@ -459,8 +458,8 @@ void MenuGUI::setCraftBell() {
 	if (currentBell->getAmount() == 0) {
 		res3Img1->setProperty("Image", "spritesheet_tiles/Bell");
 		res3ImgS1->setProperty("Image", "spritesheet_tiles/Bell");
-		res3Itm1Img->setProperty("Image", "spritesheet_tiles/DiamondSword");
-		res3Itm1SImg->setProperty("Image", "spritesheet_tiles/DiamondSword");
+		res3Itm1Img->setProperty("Image", "spritesheet_tiles/SpecialBell");
+		res3Itm1SImg->setProperty("Image", "spritesheet_tiles/SpecialBell");
 		res3Itm1Num->setProperty("Text", "1");
 		res3Itm2Img->setProperty("Image", "spritesheet_tiles/Gold");
 		res3Itm2SImg->setProperty("Image", "spritesheet_tiles/Gold");
@@ -571,7 +570,7 @@ void MenuGUI::updateItemsPeak() {
 void MenuGUI::updateItemsBell() {
 	Item *currentBell = mainPlayer->getBell();
 	if (currentBell->getAmount() == 0) {
-		if (mainPlayer->getSword()->element == DIAMOND) {
+		if (mainPlayer->getSpecialItem()->getAmount() != 0) {
 			res3Itm1SImg->setVisible(true);
 			correctSword = true;
 		}

@@ -10,8 +10,6 @@ void Game::init() {
 	background();
 	loopSound();
 	playMainLoop();
-//	sceneMain = SceneMain();
-//	sceneBoss = SceneBoss();
 	sceneTutorial = SceneTutorial();
 	scene = &sceneTutorial;
 	scene->init();

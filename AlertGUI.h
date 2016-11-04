@@ -17,8 +17,6 @@ class AlertGUI {
         void destroy();
 
         void draw();
-		void mouseClick(int x, int y);
-		void showMenuClicked();
 
         void setFont(const std::string& fontFile);
 		void loadScheme(const std::string& schemeFile);
@@ -29,10 +27,5 @@ class AlertGUI {
     private:
         static CEGUI::OpenGL3Renderer* m_renderer;
 		CEGUI::GUIContext* m_context = nullptr;
-		CEGUI::Window* m_root_menu = nullptr;
-		PushButton* pushButtonYes;
-		PushButton* pushButtonNo;
 
-		void  onMenuYesClick();
-		void  onMenuNoClick();
 };

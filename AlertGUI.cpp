@@ -48,7 +48,6 @@ void AlertGUI::init(const std::string& resourceDirectory, CEGUI::OpenGL3Renderer
 	ImageManager::getSingleton().loadImageset("TaharezLook.imageset", "imagesets");
 	ImageManager::getSingleton().loadImageset("spritesheet_tiles.imageset", "imagesets");
 	
-
 	m_context = &System::getSingleton().createGUIContext(m_renderer->getDefaultRenderTarget());
 	Window* menuWin = WindowManager::getSingleton().loadLayoutFromFile("AlertUI.layout");
 	menuWin->setMousePassThroughEnabled(true); // this is important!
@@ -77,20 +76,6 @@ void AlertGUI::loadScheme(const std::string& schemeFile) {
 void AlertGUI::setFont(const std::string& fontFile) {
    // CEGUI::FontManager::getSingleton().createFromFile(fontFile + ".font");
     m_context->setDefaultFont(fontFile);
-}
-
-/** MOUSE **/
-void AlertGUI::mouseClick(int x, int y) {
-	//x: 313 y: 121
-	
-}
-
-void  AlertGUI::onMenuNoClick() {
-	//exit(0);
-}
-
-void  AlertGUI::onMenuYesClick() {
-	//showMenu = false;
 }
 
 CEGUI::GUIContext*  AlertGUI::getContext() {

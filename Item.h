@@ -24,18 +24,8 @@ public:
 	Item * createItem(int type, int element, int dmg, int amount, CEGUI::Window* inventoryWindow);
 	Item(int typeP, int elementP, int dmgP, int amount, CEGUI::Window* inventoryWindow);
 	Item();
-
-	void setAmount(int newAmount);
-	void reduceAmount(int num);
+	/** Getters */
 	string getMaterialString();
-	void addItem();
-	void setSelected(bool select);
-	void setWindowProperties();
-	void setElement(int element);
-	bool improveSword();
-	bool improvePeak();
-	vector<pair<Item*, int>>* getEvolveItemsNeeded();
-	void setEvolveItemsNeeded(vector<pair<Item*, int>>*);
 	int getAmount();
 	int getElement();
 	int type;
@@ -43,8 +33,19 @@ public:
 	int dmg;
 	int amount;
 
+	/** Setters*/
+	void setAmount(int newAmount);
+	void setSelected(bool select);
+	void setWindowProperties();
+	void setElement(int element);
+
+	/** Actions*/
+	bool improveSword();
+	bool improvePeak();
+	void addItem();
+	void reduceAmount(int num);
+
 private:
-	vector<pair<Item*,int>> *evolveItems;
 	CEGUI::Window* windImage = nullptr;
 	CEGUI::Window* windImageSelected = nullptr;
 	CEGUI::Window* windAmount = nullptr;

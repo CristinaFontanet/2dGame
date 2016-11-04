@@ -21,9 +21,6 @@ enum BigSpriteMoves {
 
 void Anastasio::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram, int type) {
 	anastasioType = type;
-	tutorialEnded = false;
-	showingDialog = false;
-	asking = false;
 	currentText = 0;
 	prop = 1.f / 4.f;
 	bigSpritesheet.loadFromFile("images/AnastasioTexto.png", TEXTURE_PIXEL_FORMAT_RGBA);
@@ -87,10 +84,7 @@ void Anastasio::setTileMap(TileMap *tileMap) {
 void Anastasio::setPosition(const glm::vec2 &pos) {
 	int tilS = map->getTileSize();
 	posEnemy = pos;
-	if (anastasioType == TUTORIAL) {
-	sprite->setPosition(glm::vec2(float((map->getMapSize().x - 2)*tilS - SPRITE_SIZE_BIG), float((map->getMapSize().y - 23)*tilS - SPRITE_SIZE_BIG)));
-	//	else sprite->setPosition(glm::vec2(float((map->getMapSize().x - 5)*tilS - SPRITE_SIZE_BIG), float((map->getMapSize().y - 23)*tilS - SPRITE_SIZE_BIG)));
-	}
+	if (anastasioType == TUTORIAL) sprite->setPosition(glm::vec2(float((map->getMapSize().x - 2)*tilS - SPRITE_SIZE_BIG), float((map->getMapSize().y - 23)*tilS - SPRITE_SIZE_BIG)));
 	else sprite->setPosition(glm::vec2(float(pos.x+ SCREEN_WIDTH - SPRITE_SIZE_SMALL), float(pos.y+ SCREEN_HEIGHT - SPRITE_SIZE_SMALL) ));
 }
 
@@ -104,7 +98,6 @@ void Anastasio::render() {
 
 bool Anastasio::update(int deltaTime) {
 	sprite->update(deltaTime);
-
 	return false;
 }
 
@@ -115,29 +108,18 @@ void Anastasio::helpOut() {
 void Anastasio::showHelp() {
 	isHelp = true;
 	if (!Game::instance().isBossScene()) {
-		if (player->getPeak()->getElement() == WOOD) {
-			sprite->changeAnimation(HELP1);
-		}
-		else if (player->getSword()->getElement() == TUSK || player->getSword()->getElement() == ROCK) {
+		if (player->getPeak()->getElement() == WOOD) sprite->changeAnimation(HELP1);
+		else if (player->getSword()->getElement() == TUSK || player->getSword()->getElement() == ROCK) 
 			sprite->changeAnimation(HELP2);
-		}
-		else if (player->getBell()->getAmount() == 0) {
-			sprite->changeAnimation(HELP3);
-		}
-		else {
-			sprite->changeAnimation(HELP4);
-		}
+		else if (player->getBell()->getAmount() == 0)  sprite->changeAnimation(HELP3);
+		else  sprite->changeAnimation(HELP4);
 	}
-	else {
-		sprite->changeAnimation(HELP5);
-	}
+	else  sprite->changeAnimation(HELP5);
 }
 
 bool Anastasio::nextText() {
 	currentText++;
-	if (isHelp) {
-		return false;
-	}
+	if (isHelp) return false;
 	else {
 		if (currentText < 9) {
 			sprite->changeAnimation(currentText);

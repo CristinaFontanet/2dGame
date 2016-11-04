@@ -29,7 +29,6 @@ void MainPlayer::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram
 	jumpMod = 1;
 	animationInProgress = false;
 	bDamage = false;
-	tutorialPause = false;
 	setUpInventory(inventoryWindow);
 	setUpLives(livesWindiowP);
 	heightProp = 1.f / 32.f;
@@ -213,7 +212,7 @@ bool MainPlayer::isDiggingBottom() {
 }
 
 void MainPlayer::mouseClick(int x, int y) {
-	if (!tutorialPause) {
+
 		pair<int, int> offset = Game::instance().getOffsetCamera();
 		lastXclick = x + offset.first;
 		lastYclick = y + offset.second;
@@ -221,14 +220,9 @@ void MainPlayer::mouseClick(int x, int y) {
 		else if (equipedItem->type == SWORD) attackAnimation();
 		else if (equipedItem->type == MATERIAL) putMaterial();
 		else if (equipedItem->type == BELLITEM && getBell()->amount > 0) bellAnimation();
-	}
+	
 }
-void MainPlayer::setTutorialPause(bool pause) {
-	tutorialPause = pause;
-}
-
 void MainPlayer::update(int deltaTime) {
-	if (!tutorialPause) {
 		spriteInvincible->update(deltaTime);
 		spriteAtac->update(deltaTime);
 		sprite->update(deltaTime);
@@ -339,7 +333,7 @@ void MainPlayer::update(int deltaTime) {
 		sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 		if (bLeft) spriteAtac->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x - ATTACKLEFTOFFSITE), float(tileMapDispl.y + posPlayer.y)));
 		else spriteAtac->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
-	}
+	
 }
 
 int MainPlayer::getAmountItem(int i) {

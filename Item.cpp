@@ -11,10 +11,6 @@ Item *Item::createItem(int type, int element, int dmg, int amount, CEGUI::Window
 	return item;
 }
 
-vector<pair<Item*, int>>* Item::getEvolveItemsNeeded() {
-	return evolveItems;
-}
-
 //Pre: te els materials i es resten
 bool Item::improveSword() {
 	if (type == SWORD) {
@@ -68,7 +64,6 @@ Item::Item(int typeP, int elementP, int dmgP, int initialAmount, CEGUI::Window* 
 	dmg = dmgP;
 	windInventory = inventoryWindow;
 	amount = initialAmount;
-	evolveItems = &vector<pair<Item*, int>>();
 	setWindowProperties();
 }
 

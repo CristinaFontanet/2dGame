@@ -28,31 +28,28 @@ public:
 	bool nextText();
 
 	enum AnastasioType {
-		TUTORIAL, INSTRUCTIONS, HELP
+		TUTORIAL, INSTRUCTIONS
 	};
 
 	void startInstructions();
 	void showHelp();
-	void helpOut();
 	void startTutorial();
-
 	void showCred();
+
+	void helpOut();
 
 private:
 	int anastasioType;
+	int currentText;
+	int isHelp;
+	double prop;
+	glm::ivec2 tileMapDispl, posEnemy;
+
 	OwnTexture bigSpritesheet;
 	Sprite *sprite;
 	TileMap *map;
 	MainPlayer *player;
-	double prop;
-	glm::ivec2 tileMapDispl, posEnemy;
 
-	bool tutorialEnded;
-	bool showingDialog;
-	bool asking;
-	int currentText;
-	int isHelp;
-	bool playerColision();
 
 };
 

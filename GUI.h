@@ -23,7 +23,7 @@ namespace Bengine {
         void hideMouseCursor();
         void setFont(const std::string& fontFile);
 		void loadScheme(const std::string& schemeFile);
-        // Getters
+        /** Getters */
         static CEGUI::OpenGL3Renderer* getRenderer() { return m_renderer; }
         const CEGUI::GUIContext* getContext() { return m_context_inv; }
 		CEGUI::Window* Bengine::GUI::getInventoryWindow();
@@ -32,6 +32,7 @@ namespace Bengine {
     private:
 		void createInventory();
 		void createLives();
+
         static CEGUI::OpenGL3Renderer* m_renderer;
         CEGUI::GUIContext* m_context_inv = nullptr;
 		CEGUI::GUIContext* m_context_lives = nullptr;

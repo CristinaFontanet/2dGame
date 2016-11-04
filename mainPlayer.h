@@ -17,12 +17,6 @@ public:
 	void init(const glm::ivec2 & tileMapPos, ShaderProgram & shaderProgram, CEGUI::Window * inventoryWindow, CEGUI::Window * livesWindow);
 	void update(int deltaTime);
 	void render();
-	void setTileMap(TileMap *tileMap);
-	void setPosition(const glm::vec2 &pos);
-	glm::vec2 getPlayerPosition();
-	void setLives(int numLives);
-	void setHealth(int l);
-	int getLives();
 	void digAnimation();
 	void attackAnimation();
 	void putMaterial();
@@ -30,19 +24,7 @@ public:
 	void reciveDMG(int dmg);
 	void heal(int heal);
 	void configSounds();
-	void setJumpMod(int mod);
 	void mouseClick(int x, int y);
-	void equipItem(int num);
-	void combineInventory(MainPlayer* mPlayer);
-	int getAmountItem(int i);
-	Item* getSword();
-	Item* getPeak();
-	Item* getRock();
-	Item* getGold();
-	Item* getDiamond();
-	Item* getBell();
-	Item* getSpecialItem();
-	void setTutorialPause(bool pause);
 
 	enum playerState {
 		WALKING, WEAPON1, WEAPON2, BYPET
@@ -51,6 +33,28 @@ public:
 	enum SpriteState {
 		NORMAL, ATTACKING
 	};
+
+	/** Setters */
+	void setTileMap(TileMap *tileMap);
+	void setPosition(const glm::vec2 &pos);
+	void setLives(int numLives);
+	void setHealth(int l);
+	void setTutorialPause(bool pause);
+	void combineInventory(MainPlayer* mPlayer);
+	void equipItem(int num);
+	void setJumpMod(int mod);
+
+	/**  Getters */
+	Item* getSword();
+	Item* getPeak();
+	Item* getRock();
+	Item* getGold();
+	Item* getDiamond();
+	Item* getBell();
+	Item* getSpecialItem();
+	int getAmountItem(int i);
+	int getLives();
+	glm::vec2 getPlayerPosition();
 
 private:
 	void setUpInventory(CEGUI::Window* inventoryWindow);
@@ -61,12 +65,21 @@ private:
 	bool isDiggingBottom();
 	bool isAttacking();
 	bool isBellAnimationInProgress();
-	bool bJumping;
-	bool bLeft;
-	bool bDamage;
-	glm::ivec2 tileMapDispl, posPlayer;
-	int jumpAngle, startY;
+
+	bool bJumping, bLeft, bDamage;
+	bool animationInProgress;
+	double heightProp, widhtProp;
 	int live;
+	int jumpAngle, startY;
+	int spriteState, spriteSize;
+	int marg;
+	int height, spriteWidth;
+	int digCount;
+	int lastDeltaTime;
+	int currentAnimation;
+	int lastXclick, lastYclick;
+	int jumpMod;
+	glm::ivec2 tileMapDispl, posPlayer;
 	OwnTexture spritesheet;
 	OwnTexture spritesheetAtac;
 	OwnTexture spritesheetInvincible;
@@ -74,32 +87,17 @@ private:
 	Sprite *spriteAtac;
 	Sprite *spriteInvincible;
 	TileMap *map;
-	int spriteState;
 	CEGUI::Window* windHeart1;
 	CEGUI::Window* windHeart2;
 	CEGUI::Window* windHeart3;
 	CEGUI::Window* livesWindow;
-	double heightProp;
-	double widhtProp;
 	FMOD::System *system;
-	FMOD::Channel   *playerChannel = 0;
-	FMOD::Sound     *dmgSound;
-	FMOD::Sound     *digSound;
-	FMOD::Sound     *bellSound;
-	int spriteSize;
-	int marg;
-	int height, spriteWidth;
-	int digCount;
-	int lastDeltaTime;
-	bool animationInProgress;
-	int currentAnimation;
-	int lastXclick, lastYclick;
+	FMOD::Channel *playerChannel = 0;
+	FMOD::Sound *dmgSound;
+	FMOD::Sound *digSound;
+	FMOD::Sound *bellSound;
 	Item* equipedItem; 
 	vector<Item> inventory;
-	vector<pair<Item*, vector<pair<Item*, int>>*>> items;
-	vector<pair<Item*, int>> evolutionTuskSword;
-	int jumpMod;
-	bool tutorialPause;
 
 };
 

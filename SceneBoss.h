@@ -4,7 +4,6 @@
 #include "Scene.h"
 #include "Boss.h"
 
-
 // Scene contains all the entities of our game.
 // It is responsible for updating and render them.
 class SceneBoss: public Scene {
@@ -20,17 +19,19 @@ public:
 
 	bool dmgEnnemys(int dmg, glm::ivec2 dmgAt);
 	void killOgre(EnOgre * ogre);
-	void updateArrayOgres(EnOgre * ogre);
-	void createOgres();
 	void playerOut();
 	void alertYesClicked();
 	void alertNoClicked();
 	void gg();
-	void renderOgres();
-	void updateOgres(int deltaTime);
+
+	/** Getters*/
 	bool isBossScene() { return true; }
 
 protected:
+	void updateArrayOgres(EnOgre * ogre);
+	void createOgres();
+	void renderOgres();
+	void updateOgres(int deltaTime);
 	bool bossStart;
 	Boss* boss;
 	int playerXtiles, playerYtiles;

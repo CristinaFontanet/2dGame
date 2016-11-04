@@ -27,46 +27,48 @@ public:
 	virtual void init() {};
 	virtual bool render();
 	virtual void update(int deltaTime);
-	virtual void alertYesClicked();
-	virtual void alertNoClicked();
 
-	virtual void playerOut() {};
 	void helpGetOut();
 	void initShaders();
 	void background();
+	void selectItem(int num);
+	void showAlert(string text);
+	void combinePlayer(MainPlayer* mPlayer);
+
+	/** Virtuals*/
+	virtual void alertYesClicked();
+	virtual void alertNoClicked();
+	virtual void playerOut() {};
+	virtual void showAnastasio();
 	virtual bool mouseClicked(int x, int y);
 	virtual void showMenu();
-	std::pair<float, float> getOffsetCamera();
-	void selectItem(int num);
-	MainPlayer* getMainPlayer();
-	void showAlert(string text);
-
-	virtual bool dmgEnnemys(int dmg, glm::ivec2 dmgAt) { return false; };
-	virtual void killOgre(EnOgre * ogre) {};
-	virtual void gg() {};
-	void combinePlayer(MainPlayer* mPlayer);
-	virtual void showAnastasio();
-	virtual bool isBossScene() { return false; }
-	virtual bool isTutorialScene() { return false; }
-
 	virtual void anyOtherKeyPressed() {};
 	virtual void showCraftingMenu() {};
+	virtual void killOgre(EnOgre * ogre) {};
+	virtual void gg() {};
+	virtual bool dmgEnnemys(int dmg, glm::ivec2 dmgAt) { return false; };
+
+	/** Getters */
+	virtual bool isBossScene() { return false; }
+	virtual bool isTutorialScene() { return false; }
+	MainPlayer* getMainPlayer();
+	std::pair<float, float> getOffsetCamera();
+
 protected:
 	virtual void renderGUI();
-	TileMap *map;
-	MainPlayer *mainPlayer;
 	bool showingMenu;
 	int minXOffset, minYOffset,tileSize;
-	glm::vec2 mapSize;
-
-	ShaderProgram texProgram;
-	float currentTime;
-	OwnTexture backgroundTexture;
-	glm::vec2 playerPos;
-	glm::mat4 projection;
 	float offsetXCamera, offsetYCamera;
+	float currentTime;
+	glm::vec2 mapSize;
+	glm::vec2 playerPos;
+	OwnTexture backgroundTexture;
+	glm::mat4 projection;
+	ShaderProgram texProgram;
 	Bengine::GUI m_gui;
 	MenuGUI menu_gui;
+	TileMap *map;
+	MainPlayer *mainPlayer;
 
 	bool showingAlert;
 	AlertGUI al;

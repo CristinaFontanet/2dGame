@@ -69,16 +69,13 @@ private:
 	bool bJumping, bLeft, bDamage;
 	bool animationInProgress;
 	double heightProp, widhtProp;
-	int live;
+	int live, currentAnimation;
 	int jumpAngle, startY;
 	int spriteState, spriteSize;
-	int marg;
+	int marg, jumpMod;
 	int height, spriteWidth;
-	int digCount;
-	int lastDeltaTime;
-	int currentAnimation;
-	int lastXclick, lastYclick;
-	int jumpMod;
+	int lastDeltaTime, lastXclick, lastYclick;
+
 	glm::ivec2 tileMapDispl, posPlayer;
 	OwnTexture spritesheet;
 	OwnTexture spritesheetAtac;

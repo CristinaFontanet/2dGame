@@ -16,20 +16,19 @@ public:
 	bool render();
 	void update(int deltaTime);
 
-
-	void renderOgres();
-
-	void updateOgres(int deltaTime);
 	bool dmgEnnemys(int dmg, glm::ivec2 dmgAt);
 	void killOgre(EnOgre * ogre);
-	void updateArrayOgres(EnOgre * ogre);
-	void updateOgres(EnOgre * ogre);
 	void playerOut();
 	void alertYesClicked();
 	void alertNoClicked();
 	void showCraftingMenu();
+
 protected:
 	void createOgres();
+	void renderOgres();
+	void updateOgres(int deltaTime);
+	void updateArrayOgres(EnOgre * ogre);
+	void updateOgres(EnOgre * ogre);
 
 	EnOgre *ogre1;
 	vector<EnOgre*> ogres;

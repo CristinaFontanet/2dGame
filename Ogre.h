@@ -33,7 +33,6 @@ private:
 
 	bool nextBool(double probability);
 
-
 	OwnTexture spritesheet;
 	OwnTexture spritesheetFruit;
 	Sprite *sprite;
@@ -43,8 +42,7 @@ private:
 	double heightProp;
 	double widhtProp;
 	glm::ivec2 tileMapDispl, posEnemy;
-	bool bLeft;
-	bool bJumping;
+	bool bLeft, bJumping;
 	bool attacking;
 	bool curative;
 	int jumpAngle, startY;

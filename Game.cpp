@@ -10,8 +10,8 @@ void Game::init() {
 	background();
 	loopSound();
 	playMainLoop();
-	sceneMain = SceneMain();
-	sceneBoss = SceneBoss();
+//	sceneMain = SceneMain();
+//	sceneBoss = SceneBoss();
 	sceneTutorial = SceneTutorial();
 	scene = &sceneTutorial;
 	scene->init();
@@ -26,6 +26,7 @@ void Game::proceedToBoss() {
 	if (scene == &sceneMain) {
 		loading = true;
 		background();
+		sceneBoss = SceneBoss();
 		sceneBoss.init(scene->getMainPlayer());
 		scene = &sceneBoss;
 		loading = false;

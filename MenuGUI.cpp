@@ -383,6 +383,7 @@ bool MenuGUI::craftBell() {
 		system->playSound(hammerSound, 0, true, &playerChannel);
 		playerChannel->setPaused(false);
 		mainPlayer->getBell()->addItem();
+		mainPlayer->getGold()->reduceAmount(NUM_GOLD_NEEDED_BELL);
 		setCraftBell();
 		updateItemsCrafting();
 		cout << "YESS" << endl;

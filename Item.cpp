@@ -209,8 +209,14 @@ void Item::addItem() {
 
 void Item::setAmount(int newAmount) {
 	amount = newAmount;
-	if (windAmount != nullptr)
+	if (windAmount != nullptr) {
 		windAmount->setProperty("Text", to_string(amount));
+		if (type == BELLITEM && amount != 0) {
+			windImage->setProperty("Image", "spritesheet_tiles/Bell");
+			windImageSelected->setProperty("Image", "spritesheet_tiles/Bell");
+		}
+	}
+		
 	
 }
 

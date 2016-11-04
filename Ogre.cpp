@@ -227,7 +227,7 @@ bool EnOgre::reciveDmg(int dmg , glm::ivec2 dmgAt) {
 					int xEn = tileXEnemy - x;
 					int yEn = tileYEnemy + y;
 					if (dmgX == xEn && dmgY == yEn) {
-						live -= (dmg + dmg / 2);
+						live -= (dmg);
 						return true;
 					}
 				}
@@ -239,7 +239,7 @@ bool EnOgre::reciveDmg(int dmg , glm::ivec2 dmgAt) {
 					int xEn = tileXEnemy + x;
 					int yEn = tileYEnemy + y;
 					if (dmgX == xEn && dmgY == yEn) {
-						live -= (dmg+ dmg/2);
+						live -= (dmg);
 						return true;
 					}
 				}

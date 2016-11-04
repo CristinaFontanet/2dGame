@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><DEFECTS><DEFECT>
     <SFA>
-      <FILEPATH>f:\projects\vj_game\libs\cegui\cegui\</FILEPATH>
+      <FILEPATH>g:\7quatri\vj16\terraria\2dgame\libs\cegui\cegui\</FILEPATH>
       <FILENAME>propertyhelper.h</FILENAME>
       <LINE>210</LINE>
       <COLUMN>14</COLUMN>
@@ -13,7 +13,7 @@
     <PATH></PATH>
   </DEFECT><DEFECT>
     <SFA>
-      <FILEPATH>f:\projects\vj_game\libs\cegui\cegui\</FILEPATH>
+      <FILEPATH>g:\7quatri\vj16\terraria\2dgame\libs\cegui\cegui\</FILEPATH>
       <FILENAME>propertyhelper.h</FILENAME>
       <LINE>242</LINE>
       <COLUMN>14</COLUMN>
@@ -26,7 +26,7 @@
     <PATH></PATH>
   </DEFECT><DEFECT>
     <SFA>
-      <FILEPATH>f:\projects\vj_game\libs\cegui\cegui\</FILEPATH>
+      <FILEPATH>g:\7quatri\vj16\terraria\2dgame\libs\cegui\cegui\</FILEPATH>
       <FILENAME>propertyhelper.h</FILENAME>
       <LINE>275</LINE>
       <COLUMN>14</COLUMN>
@@ -39,7 +39,7 @@
     <PATH></PATH>
   </DEFECT><DEFECT>
     <SFA>
-      <FILEPATH>f:\projects\vj_game\libs\cegui\cegui\</FILEPATH>
+      <FILEPATH>g:\7quatri\vj16\terraria\2dgame\libs\cegui\cegui\</FILEPATH>
       <FILENAME>propertyhelper.h</FILENAME>
       <LINE>308</LINE>
       <COLUMN>14</COLUMN>
@@ -52,7 +52,7 @@
     <PATH></PATH>
   </DEFECT><DEFECT>
     <SFA>
-      <FILEPATH>f:\projects\vj_game\libs\cegui\cegui\</FILEPATH>
+      <FILEPATH>g:\7quatri\vj16\terraria\2dgame\libs\cegui\cegui\</FILEPATH>
       <FILENAME>propertyhelper.h</FILENAME>
       <LINE>341</LINE>
       <COLUMN>14</COLUMN>
@@ -65,7 +65,7 @@
     <PATH></PATH>
   </DEFECT><DEFECT>
     <SFA>
-      <FILEPATH>f:\projects\vj_game\libs\cegui\cegui\</FILEPATH>
+      <FILEPATH>g:\7quatri\vj16\terraria\2dgame\libs\cegui\cegui\</FILEPATH>
       <FILENAME>propertyhelper.h</FILENAME>
       <LINE>405</LINE>
       <COLUMN>14</COLUMN>
@@ -78,7 +78,7 @@
     <PATH></PATH>
   </DEFECT><DEFECT>
     <SFA>
-      <FILEPATH>f:\projects\vj_game\libs\cegui\cegui\</FILEPATH>
+      <FILEPATH>g:\7quatri\vj16\terraria\2dgame\libs\cegui\cegui\</FILEPATH>
       <FILENAME>propertyhelper.h</FILENAME>
       <LINE>530</LINE>
       <COLUMN>14</COLUMN>
@@ -91,7 +91,7 @@
     <PATH></PATH>
   </DEFECT><DEFECT>
     <SFA>
-      <FILEPATH>f:\projects\vj_game\libs\cegui\cegui\</FILEPATH>
+      <FILEPATH>g:\7quatri\vj16\terraria\2dgame\libs\cegui\cegui\</FILEPATH>
       <FILENAME>propertyhelper.h</FILENAME>
       <LINE>563</LINE>
       <COLUMN>14</COLUMN>
@@ -104,7 +104,7 @@
     <PATH></PATH>
   </DEFECT><DEFECT>
     <SFA>
-      <FILEPATH>f:\projects\vj_game\libs\cegui\cegui\</FILEPATH>
+      <FILEPATH>g:\7quatri\vj16\terraria\2dgame\libs\cegui\cegui\</FILEPATH>
       <FILENAME>propertyhelper.h</FILENAME>
       <LINE>596</LINE>
       <COLUMN>14</COLUMN>
@@ -117,7 +117,7 @@
     <PATH></PATH>
   </DEFECT><DEFECT>
     <SFA>
-      <FILEPATH>f:\projects\vj_game\libs\cegui\cegui\</FILEPATH>
+      <FILEPATH>g:\7quatri\vj16\terraria\2dgame\libs\cegui\cegui\</FILEPATH>
       <FILENAME>propertyhelper.h</FILENAME>
       <LINE>631</LINE>
       <COLUMN>18</COLUMN>
@@ -130,7 +130,7 @@
     <PATH></PATH>
   </DEFECT><DEFECT>
     <SFA>
-      <FILEPATH>f:\projects\vj_game\libs\cegui\cegui\</FILEPATH>
+      <FILEPATH>g:\7quatri\vj16\terraria\2dgame\libs\cegui\cegui\</FILEPATH>
       <FILENAME>propertyhelper.h</FILENAME>
       <LINE>638</LINE>
       <COLUMN>18</COLUMN>
@@ -143,7 +143,7 @@
     <PATH></PATH>
   </DEFECT><DEFECT>
     <SFA>
-      <FILEPATH>f:\projects\vj_game\libs\cegui\cegui\</FILEPATH>
+      <FILEPATH>g:\7quatri\vj16\terraria\2dgame\libs\cegui\cegui\</FILEPATH>
       <FILENAME>propertyhelper.h</FILENAME>
       <LINE>671</LINE>
       <COLUMN>14</COLUMN>
@@ -156,7 +156,7 @@
     <PATH></PATH>
   </DEFECT><DEFECT>
     <SFA>
-      <FILEPATH>f:\projects\vj_game\libs\cegui\cegui\</FILEPATH>
+      <FILEPATH>g:\7quatri\vj16\terraria\2dgame\libs\cegui\cegui\</FILEPATH>
       <FILENAME>propertyhelper.h</FILENAME>
       <LINE>726</LINE>
       <COLUMN>14</COLUMN>
@@ -169,7 +169,7 @@
     <PATH></PATH>
   </DEFECT><DEFECT>
     <SFA>
-      <FILEPATH>f:\projects\vj_game\libs\cegui\cegui\</FILEPATH>
+      <FILEPATH>g:\7quatri\vj16\terraria\2dgame\libs\cegui\cegui\</FILEPATH>
       <FILENAME>propertyhelper.h</FILENAME>
       <LINE>761</LINE>
       <COLUMN>18</COLUMN>
@@ -182,7 +182,7 @@
     <PATH></PATH>
   </DEFECT><DEFECT>
     <SFA>
-      <FILEPATH>f:\projects\vj_game\libs\cegui\cegui\</FILEPATH>
+      <FILEPATH>g:\7quatri\vj16\terraria\2dgame\libs\cegui\cegui\</FILEPATH>
       <FILENAME>propertyhelper.h</FILENAME>
       <LINE>766</LINE>
       <COLUMN>14</COLUMN>
@@ -195,7 +195,7 @@
     <PATH></PATH>
   </DEFECT><DEFECT>
     <SFA>
-      <FILEPATH>f:\projects\vj_game\libs\cegui\cegui\</FILEPATH>
+      <FILEPATH>g:\7quatri\vj16\terraria\2dgame\libs\cegui\cegui\</FILEPATH>
       <FILENAME>propertyhelper.h</FILENAME>
       <LINE>799</LINE>
       <COLUMN>14</COLUMN>
@@ -208,7 +208,7 @@
     <PATH></PATH>
   </DEFECT><DEFECT>
     <SFA>
-      <FILEPATH>f:\projects\vj_game\libs\cegui\cegui\</FILEPATH>
+      <FILEPATH>g:\7quatri\vj16\terraria\2dgame\libs\cegui\cegui\</FILEPATH>
       <FILENAME>propertyhelper.h</FILENAME>
       <LINE>832</LINE>
       <COLUMN>14</COLUMN>
@@ -221,7 +221,7 @@
     <PATH></PATH>
   </DEFECT><DEFECT>
     <SFA>
-      <FILEPATH>f:\projects\vj_game\libs\cegui\cegui\</FILEPATH>
+      <FILEPATH>g:\7quatri\vj16\terraria\2dgame\libs\cegui\cegui\</FILEPATH>
       <FILENAME>propertyhelper.h</FILENAME>
       <LINE>868</LINE>
       <COLUMN>14</COLUMN>
@@ -234,7 +234,7 @@
     <PATH></PATH>
   </DEFECT><DEFECT>
     <SFA>
-      <FILEPATH>f:\projects\vj_game\libs\cegui\cegui\</FILEPATH>
+      <FILEPATH>g:\7quatri\vj16\terraria\2dgame\libs\cegui\cegui\</FILEPATH>
       <FILENAME>propertyhelper.h</FILENAME>
       <LINE>904</LINE>
       <COLUMN>14</COLUMN>
@@ -247,7 +247,7 @@
     <PATH></PATH>
   </DEFECT><DEFECT>
     <SFA>
-      <FILEPATH>f:\projects\vj_game\libs\cegui\cegui\</FILEPATH>
+      <FILEPATH>g:\7quatri\vj16\terraria\2dgame\libs\cegui\cegui\</FILEPATH>
       <FILENAME>propertyhelper.h</FILENAME>
       <LINE>948</LINE>
       <COLUMN>14</COLUMN>
@@ -260,7 +260,7 @@
     <PATH></PATH>
   </DEFECT><DEFECT>
     <SFA>
-      <FILEPATH>f:\projects\vj_game\libs\cegui\cegui\widgets\</FILEPATH>
+      <FILEPATH>g:\7quatri\vj16\terraria\2dgame\libs\cegui\cegui\widgets\</FILEPATH>
       <FILENAME>thumb.h</FILENAME>
       <LINE>348</LINE>
       <COLUMN>14</COLUMN>

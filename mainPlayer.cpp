@@ -279,7 +279,7 @@ void MainPlayer::update(int deltaTime) {
 
 		if (!animationInProgress) {
 			spriteWidth = 32;
-			if (Game::instance().getSpecialKey(GLUT_KEY_LEFT) || Game::instance().getKey('a')) { //Moure dreta
+			if (Game::instance().getSpecialKey(GLUT_KEY_LEFT) || Game::instance().getKey('a') || Game::instance().getKey('A')) { //Moure dreta
 				bLeft = true;
 				if (sprite->animation() != MOVE_LEFT) sprite->changeAnimation(MOVE_LEFT);
 				posPlayer.x -= 2;
@@ -288,7 +288,7 @@ void MainPlayer::update(int deltaTime) {
 					sprite->changeAnimation(STAND_LEFT);
 				}
 			}
-			else if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT) || Game::instance().getKey('d')) { //Moure esquerre
+			else if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT) || Game::instance().getKey('d') || Game::instance().getKey('D')) { //Moure esquerre
 				bLeft = false;
 				if (sprite->animation() != MOVE_RIGHT) sprite->changeAnimation(MOVE_RIGHT);
 				posPlayer.x += 2;
@@ -328,7 +328,7 @@ void MainPlayer::update(int deltaTime) {
 			posPlayer.y += FALL_STEP;
 			glm::ivec2 spritePos = posPlayer;
 			if (map->collisionMoveDown(spritePos, glm::ivec2(spriteWidth, 64), &posPlayer.y, bLeft, marg)) {
-				if (Game::instance().getSpecialKey(GLUT_KEY_UP) || Game::instance().getKey('w') || Game::instance().getKey(32)) {
+				if (Game::instance().getSpecialKey(GLUT_KEY_UP) || Game::instance().getKey('w') || Game::instance().getKey('W') || Game::instance().getKey(32)) {
 					bJumping = true;
 					jumpAngle = 0;
 					startY = posPlayer.y;

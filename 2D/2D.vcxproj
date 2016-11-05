@@ -11,37 +11,64 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\AlertGUI.cpp" />
+    <ClCompile Include="..\Anastasio.cpp" />
+    <ClCompile Include="..\Boss.cpp" />
+    <ClCompile Include="..\DialogGUI.cpp" />
+    <ClCompile Include="..\Enemy.cpp" />
+    <ClCompile Include="..\MenuGUI.cpp" />
+    <ClCompile Include="..\Ogre.cpp" />
     <ClCompile Include="..\Game.cpp" />
+    <ClCompile Include="..\GUI.cpp" />
+    <ClCompile Include="..\Item.cpp" />
     <ClCompile Include="..\main.cpp" />
-    <ClCompile Include="..\P_boss.cpp" />
-    <ClCompile Include="..\P_conillet.cpp" />
+    <ClCompile Include="..\mainPlayer.cpp" />
     <ClCompile Include="..\Scene.cpp" />
+    <ClCompile Include="..\SceneBoss.cpp" />
+    <ClCompile Include="..\SceneMain.cpp" />
+    <ClCompile Include="..\SceneTutorial.cpp" />
     <ClCompile Include="..\Shader.cpp" />
     <ClCompile Include="..\ShaderProgram.cpp" />
     <ClCompile Include="..\Sprite.cpp" />
-    <ClCompile Include="..\Texture.cpp" />
+    <ClCompile Include="..\OwnTexture.cpp" />
     <ClCompile Include="..\TileMap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\libs\glm\glm\detail\_vectorize.hpp" />
+    <ClInclude Include="..\AlertGUI.h" />
+    <ClInclude Include="..\Anastasio.h" />
+    <ClInclude Include="..\Boss.h" />
+    <ClInclude Include="..\Constants.h" />
+    <ClInclude Include="..\DialogGUI.h" />
+    <ClInclude Include="..\Enemy.h" />
+    <ClInclude Include="..\MenuGUI.h" />
+    <ClInclude Include="..\Ogre.h" />
     <ClInclude Include="..\Game.h" />
-    <ClInclude Include="..\P_boss.h" />
-    <ClInclude Include="..\P_conillet.h" />
+    <ClInclude Include="..\GUI.h" />
+    <ClInclude Include="..\Item.h" />
+    <ClInclude Include="..\mainPlayer.h" />
     <ClInclude Include="..\Scene.h" />
+    <ClInclude Include="..\SceneBoss.h" />
+    <ClInclude Include="..\SceneMain.h" />
+    <ClInclude Include="..\SceneTutorial.h" />
     <ClInclude Include="..\Shader.h" />
     <ClInclude Include="..\ShaderProgram.h" />
     <ClInclude Include="..\Sprite.h" />
-    <ClInclude Include="..\Texture.h" />
+    <ClInclude Include="..\OwnTexture.h" />
     <ClInclude Include="..\TileMap.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2D.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5BE6CA2A-E5A8-40CC-9015-047CE0C78036}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>My01window</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -54,7 +81,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -72,6 +99,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <CodeAnalysisRuleSet>C:\Program Files (x86)\Microsoft Visual Studio 14.0\Team Tools\Static Analysis Tools\Rule Sets\NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -80,13 +109,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\libs\Simple OpenGL Image Library\src;..\libs\freeglut\include;..\libs\glew-1.13.0\include;..\libs\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\libs\freetype-2.3.5-1-bin\include;..\libs\freetype-2.3.5-1-bin\include\freetype2;..\libs\FMOD\inc;..\libs\CEGUI;..\libs\Simple OpenGL Image Library\src;..\libs\freeglut\include;..\libs\glew-1.13.0\include;..\libs\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\libs\Simple OpenGL Image Library\projects\VC9\Debug;..\libs\freeglut\lib;..\libs\glew-1.13.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SOIL.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\libs\freetype-2.3.5-1-bin\lib;..\libs\CEGUI;..\libs\FMOD;..\libs\Simple OpenGL Image Library\projects\VC9\Debug;..\libs\freeglut\lib;..\libs\cegui;..\libs\glew-1.13.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SOIL.lib;glew32.lib;CEGUIBase-0_d.lib;CEGUIOpenGLRenderer-0_d.lib;fmod_vc.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -98,15 +127,17 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\libs\Simple OpenGL Image Library\src;..\..\..\libs\freeglut\include;..\..\..\libs\glew-1.13.0\include;..\..\..\libs\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\libs\freetype-2.3.5-1-bin\include;..\libs\freetype-2.3.5-1-bin\include\freetype2;..\libs\CEGUI;..\libs\Simple OpenGL Image Library\src;..\libs\freeglut\include;..\libs\glew-1.13.0\include;..\libs\glm;..\libs\FMOD\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <EnablePREfast>true</EnablePREfast>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>..\..\..\libs\Simple OpenGL Image Library\projects\VC9\Debug;..\..\..\libs\freeglut\lib;..\..\..\libs\glew-1.13.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SOIL.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\libs\freetype-2.3.5-1-bin\lib;..\libs\CEGUI;..\libs\Simple OpenGL Image Library\projects\VC9\Debug;..\libs\freeglut\lib;..\libs\cegui;..\libs\FMOD\inc;..\libs\glew-1.13.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SOIL.lib;glew32.lib;CEGUIBase-0.lib;CEGUIOpenGLRenderer-0.lib;freetype.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

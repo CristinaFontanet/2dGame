@@ -3,77 +3,172 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "Scene.h"
 #include "Game.h"
+#include <CEGUI/CEGUI.h>
+#include <CEGUI/Window.h>
+#include <CEGUI/WindowManager.h>
+#include <CEGUI\RendererModules\Ogre\Renderer.h>
+#include <CEGUI\RendererModules\OpenGL\GL3Renderer.h>
+#include <GL/glut.h>
 
-
-#define SCREEN_X 32
-#define SCREEN_Y 16
-
-#define INIT_PLAYER_X_TILES 4
-#define INIT_PLAYER_Y_TILES 10
-#define INIT_BOSS_X_TILES 7
-#define INIT_BOSS_Y_TILES 8
-
-
-
-Scene::Scene()
-{
+Scene::Scene() {
 	map = NULL;
-	player = NULL;
-	boss = NULL;
+	mainPlayer = NULL;
 }
 
 Scene::~Scene()
 {
-	if(map != NULL)
-		delete map;
-	if(player != NULL)
-		delete player;
-	if (boss != NULL)
-		delete boss;
+	if(map != NULL) delete map;
+	if (mainPlayer != NULL) delete mainPlayer;
 }
 
-
-void Scene::init()
-{
+void Scene::init(string background, string level, glm::vec2 initPosPlayer) {
+	showingAlert = false;
 	initShaders();
-	map = TileMap::createTileMap("levels/levelTerraria.txt", glm::vec2(0, 0), texProgram);
-	player = new P_conillet();
-	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
-	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
-	player->setTileMap(map);
-	//boss
-	boss = new P_boss();
-	boss->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
-	boss->setPosition(glm::vec2(INIT_BOSS_X_TILES * map->getTileSize(), INIT_BOSS_Y_TILES * map->getTileSize()));
-	boss->setTileMap(map);
+	backgroundTexture.loadFromFile(background, TEXTURE_PIXEL_FORMAT_RGBA);
+	backgroundTexture.setWrapS(GL_CLAMP_TO_EDGE);
+	backgroundTexture.setWrapT(GL_CLAMP_TO_EDGE);
+	backgroundTexture.setMinFilter(GL_NEAREST);
+	backgroundTexture.setMagFilter(GL_NEAREST);
+
+	map = TileMap::createTileMap(level, glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
+
+	//GUI
+	m_gui.init("../GUI");
+	Window* inventoryWindow = m_gui.getInventoryWindow();
+	Window* livesWindow = m_gui.getLivesWindow();
+	//Main Player
+	mainPlayer = new MainPlayer();
+	mainPlayer->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, inventoryWindow,livesWindow);
+	mainPlayer->setPosition(glm::vec2(initPosPlayer.x * map->getTileSize(), initPosPlayer.y * map->getTileSize()));
+	mainPlayer->setTileMap(map);
+	int sT = Anastasio::AnastasioType::INSTRUCTIONS;
+	if (isTutorialScene()) sT = Anastasio::AnastasioType::TUTORIAL;
+	
+	menu_gui.init("../GUI", mainPlayer, m_gui.getRenderer(), texProgram,map,sT);
+	
+
+
+	playerPos = mainPlayer->getPlayerPosition();
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
+	tileSize = map->getTileSize();
+	mapSize = map->getMapSize();
+	minXOffset = 1+(SCREEN_WIDTH / tileSize) / 2;
+	minYOffset = (SCREEN_HEIGHT / tileSize) / 2;
 
-
-	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
-
+	if (initPosPlayer.x < minXOffset) offsetXCamera = 0 * -tileSize;
+	else if (initPosPlayer.x > (mapSize.x-minXOffset)) offsetXCamera = (mapSize.x - minXOffset*2) * -tileSize;
+	else offsetXCamera = (initPosPlayer.x - minXOffset) * -tileSize;
+	offsetYCamera = SCREEN_WIDTH / 2 - playerPos[1] * 1.025;
+	projection = glm::translate(projection, glm::vec3(offsetXCamera, offsetYCamera, 0.f));
 	currentTime = 0.0f;
+
 }
 
-void Scene::update(int deltaTime)
-{
-	currentTime += deltaTime;
-	player->update(deltaTime);
-	boss->update(deltaTime);
+void Scene::update(int deltaTime) {
+	//no cal fer update del mapa xq aquest no te animacions ni res 
+	//anastasioInstr->update(deltaTime);
+	if (!menu_gui.isMenuShowing() && !showingAlert) {		//PAUSA si s'esta mostrant el menu
+		currentTime += deltaTime;
+
+		mainPlayer->update(deltaTime);
+		float incy, incx = 0;
+		incy = playerPos[1] - mainPlayer->getPlayerPosition()[1];
+		offsetYCamera += incy;
+
+		if ((((playerPos[0]) - (SCREEN_WIDTH / 2)) >= 0) && (playerPos[0] < ((tileSize * mapSize.x) - (SCREEN_WIDTH / 2)))) {
+			incx = playerPos[0] - mainPlayer->getPlayerPosition()[0];
+			offsetXCamera += incx;
+		}
+		projection = glm::translate(projection, glm::vec3(incx, incy, 0.f));
+		playerPos = mainPlayer->getPlayerPosition();
+	}
+
 }
 
-void Scene::render()
-{
-	glm::mat4 modelview;
+void Scene::renderGUI() {
+	menu_gui.draw();		//Ha de ser el 1r xq te un render a dins
+	m_gui.draw();
+	if (showingAlert) al.draw();
+}
 
-	texProgram.use();
-	texProgram.setUniformMatrix4f("projection", projection);
-	texProgram.setUniform4f("color", 1.0f, 1.0f, 1.0f, 1.0f);
-	modelview = glm::mat4(1.0f);
-	texProgram.setUniformMatrix4f("modelview", modelview);
-	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
-	map->render();
-	player->render();
-	boss->render();
+bool Scene::render() {
+		glm::mat4 modelview;
+		texProgram.use();
+		texProgram.setUniformMatrix4f("projection", projection);
+		texProgram.setUniform4f("color", 1.0f, 1.0f, 1.0f, 1.0f);
+		texProgram.setUniformMatrix4f("modelview", modelview);
+		texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
+		map->render();
+
+		mainPlayer->render();
+
+		return menu_gui.render();
+}
+
+void Scene::showMenu() {
+	menu_gui.showMenuClicked();
+}
+
+
+void Scene::alertYesClicked() {
+	std::cout << "YESS" << std::endl;
+	showingAlert = false;
+}
+
+void Scene::alertNoClicked() {
+	std::cout << "Noo" << std::endl;
+	showingAlert = false;
+}
+
+bool Scene::mouseClicked(int x, int y) {
+	if (showingAlert) {
+		//std::cout << "x: " << x << ", y:" << y << std::endl;
+		if (y > 280 && y < 315) {
+			if (x > 224 && x < 340) Game::instance().alertYesClicked();
+			else if(x > 374 && x <495) Game::instance().alertNoClicked();
+		}
+		return true;
+	}
+	else if (!menu_gui.isMenuShowing()) {
+		if (y > 5 && y < 55) {
+			if (x > 10 && x < 60) {
+				selectItem(0);
+				return true;
+			}
+			else if (x > 70 && x < 120) {
+				selectItem(1);
+				return true;
+			}
+			else if (x > 130 && x < 180) {
+				selectItem(2);
+				return true;
+			}
+			else if (x > 190 && x < 240) {
+				selectItem(3);
+				return true;
+			}
+			else if (x > 250 && x < 300) {
+				selectItem(4);
+				return true;
+			}
+			else if (x > 310 && x < 360) {
+				selectItem(5);
+				return true;
+			}
+			else if (x > 370 && x < 420) {
+				selectItem(6);
+				return true;
+			}
+			else if (x > 430 && x < 480) {
+				selectItem(7);
+				return true;
+			}
+		}
+		mainPlayer->mouseClick(x, y);
+		return false;
+	}
+	else menu_gui.mouseClick(x, y);
+	return true;
 }
 
 void Scene::initShaders()
@@ -107,4 +202,72 @@ void Scene::initShaders()
 }
 
 
+void Scene::selectItem(int num) {
+	if (!menu_gui.isMenuShowing()) mainPlayer->equipItem(num);
+}
 
+std::pair<float, float> Scene::getOffsetCamera() {
+	pair <float, float> offset;
+	offset.first = -1 * offsetXCamera;
+	offset.second = -1 * offsetYCamera;
+	return offset;
+}
+
+void Scene::showAlert(string text) {
+	al.init("../GUI", MenuGUI::instance().getRenderer(), text);
+	showingAlert = true;
+}
+
+void  Scene::background(){
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+	//glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f)
+	gluOrtho2D(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
+
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glLoadIdentity();
+	// Draw your quad here in screen coordinates
+
+	backgroundTexture.use();
+
+	glBegin(GL_QUADS);
+		glTexCoord2f(0+0.05, 1);
+		glVertex3f(0.0f, float(SCREEN_HEIGHT-1), 0.f);
+
+		glTexCoord2f(1-0.05, 1);
+		glVertex3f(float(SCREEN_WIDTH-1),float(SCREEN_HEIGHT-1), 0.f);
+
+		glTexCoord2f(1-0.05, 0);
+		glVertex3f(float(SCREEN_WIDTH-1),0.f, 0.f);
+
+		glTexCoord2f(0+0.05, 0);
+		glVertex3f(0.0f, 0.f, 0.f);
+	glEnd();
+	//end draw background quad 
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+	glMatrixMode(GL_MODELVIEW);
+	glPopMatrix();
+
+}
+
+MainPlayer* Scene::getMainPlayer() {
+	return mainPlayer;
+}
+
+void Scene::combinePlayer(MainPlayer* mPlayer) {
+	mainPlayer->combineInventory(mPlayer);
+	mainPlayer->setLives(mPlayer->getLives());
+
+}
+
+void Scene::showAnastasio() {
+	menu_gui.showHelp();
+}
+
+void Scene::helpGetOut() {
+	menu_gui.helpGetOut(true);
+	showAlert("Do you want to return to surface?");
+}

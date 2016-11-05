@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DEFECTS>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>c:\users\cristina\documents\2dgame\libs\cegui\cegui\</FILEPATH>
+      <FILENAME>propertyhelper.h</FILENAME>
+      <LINE>210</LINE>
+      <COLUMN>14</COLUMN>
+    </SFA>
+    <DEFECTCODE>6031</DEFECTCODE>
+    <DESCRIPTION>Se omitió el valor devuelto: 'sscanf'.</DESCRIPTION>
+    <FUNCTION>CEGUI::PropertyHelper&lt;float&gt;::fromString</FUNCTION>
+    <DECORATED>?fromString@?$PropertyHelper@M@CEGUI@@SAMABVString@2@@Z</DECORATED>
+    <FUNCLINE>207</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>c:\users\cristina\documents\2dgame\libs\cegui\cegui\</FILEPATH>
+      <FILENAME>propertyhelper.h</FILENAME>
+      <LINE>242</LINE>
+      <COLUMN>14</COLUMN>
+    </SFA>
+    <DEFECTCODE>6031</DEFECTCODE>
+    <DESCRIPTION>Se omitió el valor devuelto: 'sscanf'.</DESCRIPTION>
+    <FUNCTION>CEGUI::PropertyHelper&lt;double&gt;::fromString</FUNCTION>
+    <DECORATED>?fromString@?$PropertyHelper@N@CEGUI@@SANABVString@2@@Z</DECORATED>
+    <FUNCLINE>239</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>c:\users\cristina\documents\2dgame\libs\cegui\cegui\</FILEPATH>
+      <FILENAME>propertyhelper.h</FILENAME>
+      <LINE>275</LINE>
+      <COLUMN>14</COLUMN>
+    </SFA>
+    <DEFECTCODE>6031</DEFECTCODE>
+    <DESCRIPTION>Se omitió el valor devuelto: 'sscanf'.</DESCRIPTION>
+    <FUNCTION>CEGUI::PropertyHelper&lt;int&gt;::fromString</FUNCTION>
+    <DECORATED>?fromString@?$PropertyHelper@H@CEGUI@@SAHABVString@2@@Z</DECORATED>
+    <FUNCLINE>272</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>c:\users\cristina\documents\2dgame\libs\cegui\cegui\</FILEPATH>
+      <FILENAME>propertyhelper.h</FILENAME>
+      <LINE>308</LINE>
+      <COLUMN>14</COLUMN>
+    </SFA>
+    <DEFECTCODE>6031</DEFECTCODE>
+    <DESCRIPTION>Se omitió el valor devuelto: 'sscanf'.</DESCRIPTION>
+    <FUNCTION>CEGUI::PropertyHelper&lt;unsigned int&gt;::fromString</FUNCTION>
+    <DECORATED>?fromString@?$PropertyHelper@I@CEGUI@@SAIABVString@2@@Z</DECORATED>
+    <FUNCLINE>305</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>c:\users\cristina\documents\2dgame\libs\cegui\cegui\</FILEPATH>
+      <FILENAME>propertyhelper.h</FILENAME>
+      <LINE>341</LINE>
+      <COLUMN>14</COLUMN>
+    </SFA>
+    <DEFECTCODE>6031</DEFECTCODE>
+    <DESCRIPTION>Se omitió el valor devuelto: 'sscanf'.</DESCRIPTION>
+    <FUNCTION>CEGUI::PropertyHelper&lt;unsigned __int64&gt;::fromString</FUNCTION>
+    <DECORATED>?fromString@?$PropertyHelper@_K@CEGUI@@SA_KABVString@2@@Z</DECORATED>
+    <FUNCLINE>338</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>c:\users\cristina\documents\2dgame\libs\cegui\cegui\</FILEPATH>
+      <FILENAME>propertyhelper.h</FILENAME>
+      <LINE>405</LINE>
+      <COLUMN>14</COLUMN>
+    </SFA>
+    <DEFECTCODE>6031</DEFECTCODE>
+    <DESCRIPTION>Se omitió el valor devuelto: 'sscanf'.</DESCRIPTION>
+    <FUNCTION>CEGUI::PropertyHelper&lt;unsigned long&gt;::fromString</FUNCTION>
+    <DECORATED>?fromString@?$PropertyHelper@K@CEGUI@@SAKABVString@2@@Z</DECORATED>
+    <FUNCLINE>402</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>c:\users\cristina\documents\2dgame\libs\cegui\cegui\</FILEPATH>
+      <FILENAME>propertyhelper.h</FILENAME>
+      <LINE>530</LINE>
+      <COLUMN>14</COLUMN>
+    </SFA>
+    <DEFECTCODE>6031</DEFECTCODE>
+    <DESCRIPTION>Se omitió el valor devuelto: 'sscanf'.</DESCRIPTION>
+    <FUNCTION>CEGUI::PropertyHelper&lt;CEGUI::Size&lt;float&gt; &gt;::fromString</FUNCTION>
+    <DECORATED>?fromString@?$PropertyHelper@V?$Size@M@CEGUI@@@CEGUI@@SA?AV?$Size@M@2@ABVString@2@@Z</DECORATED>
+    <FUNCLINE>527</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>c:\users\cristina\documents\2dgame\libs\cegui\cegui\</FILEPATH>
+      <FILENAME>propertyhelper.h</FILENAME>
+      <LINE>563</LINE>
+      <COLUMN>14</COLUMN>
+    </SFA>
+    <DEFECTCODE>6031</DEFECTCODE>
+    <DESCRIPTION>Se omitió el valor devuelto: 'sscanf'.</DESCRIPTION>
+    <FUNCTION>CEGUI::PropertyHelper&lt;CEGUI::Vector2&lt;float&gt; &gt;::fromString</FUNCTION>
+    <DECORATED>?fromString@?$PropertyHelper@V?$Vector2@M@CEGUI@@@CEGUI@@SA?AV?$Vector2@M@2@ABVString@2@@Z</DECORATED>
+    <FUNCLINE>560</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>c:\users\cristina\documents\2dgame\libs\cegui\cegui\</FILEPATH>
+      <FILENAME>propertyhelper.h</FILENAME>
+      <LINE>596</LINE>
+      <COLUMN>14</COLUMN>
+    </SFA>
+    <DEFECTCODE>6031</DEFECTCODE>
+    <DESCRIPTION>Se omitió el valor devuelto: 'sscanf'.</DESCRIPTION>
+    <FUNCTION>CEGUI::PropertyHelper&lt;CEGUI::Vector3&lt;float&gt; &gt;::fromString</FUNCTION>
+    <DECORATED>?fromString@?$PropertyHelper@V?$Vector3@M@CEGUI@@@CEGUI@@SA?AV?$Vector3@M@2@ABVString@2@@Z</DECORATED>
+    <FUNCLINE>593</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>c:\users\cristina\documents\2dgame\libs\cegui\cegui\</FILEPATH>
+      <FILENAME>propertyhelper.h</FILENAME>
+      <LINE>631</LINE>
+      <COLUMN>18</COLUMN>
+    </SFA>
+    <DEFECTCODE>6031</DEFECTCODE>
+    <DESCRIPTION>Se omitió el valor devuelto: 'sscanf'.</DESCRIPTION>
+    <FUNCTION>CEGUI::PropertyHelper&lt;CEGUI::Quaternion&gt;::fromString</FUNCTION>
+    <DECORATED>?fromString@?$PropertyHelper@VQuaternion@CEGUI@@@CEGUI@@SA?AVQuaternion@2@ABVString@2@@Z</DECORATED>
+    <FUNCLINE>626</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>c:\users\cristina\documents\2dgame\libs\cegui\cegui\</FILEPATH>
+      <FILENAME>propertyhelper.h</FILENAME>
+      <LINE>638</LINE>
+      <COLUMN>18</COLUMN>
+    </SFA>
+    <DEFECTCODE>6031</DEFECTCODE>
+    <DESCRIPTION>Se omitió el valor devuelto: 'sscanf'.</DESCRIPTION>
+    <FUNCTION>CEGUI::PropertyHelper&lt;CEGUI::Quaternion&gt;::fromString</FUNCTION>
+    <DECORATED>?fromString@?$PropertyHelper@VQuaternion@CEGUI@@@CEGUI@@SA?AVQuaternion@2@ABVString@2@@Z</DECORATED>
+    <FUNCLINE>626</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>c:\users\cristina\documents\2dgame\libs\cegui\cegui\</FILEPATH>
+      <FILENAME>propertyhelper.h</FILENAME>
+      <LINE>671</LINE>
+      <COLUMN>14</COLUMN>
+    </SFA>
+    <DEFECTCODE>6031</DEFECTCODE>
+    <DESCRIPTION>Se omitió el valor devuelto: 'sscanf'.</DESCRIPTION>
+    <FUNCTION>CEGUI::PropertyHelper&lt;CEGUI::Rect&lt;float&gt; &gt;::fromString</FUNCTION>
+    <DECORATED>?fromString@?$PropertyHelper@V?$Rect@M@CEGUI@@@CEGUI@@SA?AV?$Rect@M@2@ABVString@2@@Z</DECORATED>
+    <FUNCLINE>668</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>c:\users\cristina\documents\2dgame\libs\cegui\cegui\</FILEPATH>
+      <FILENAME>propertyhelper.h</FILENAME>
+      <LINE>726</LINE>
+      <COLUMN>14</COLUMN>
+    </SFA>
+    <DEFECTCODE>6031</DEFECTCODE>
+    <DESCRIPTION>Se omitió el valor devuelto: 'sscanf'.</DESCRIPTION>
+    <FUNCTION>CEGUI::PropertyHelper&lt;CEGUI::Colour&gt;::fromString</FUNCTION>
+    <DECORATED>?fromString@?$PropertyHelper@VColour@CEGUI@@@CEGUI@@SA?AVColour@2@ABVString@2@@Z</DECORATED>
+    <FUNCLINE>723</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>c:\users\cristina\documents\2dgame\libs\cegui\cegui\</FILEPATH>
+      <FILENAME>propertyhelper.h</FILENAME>
+      <LINE>761</LINE>
+      <COLUMN>18</COLUMN>
+    </SFA>
+    <DEFECTCODE>6031</DEFECTCODE>
+    <DESCRIPTION>Se omitió el valor devuelto: 'sscanf'.</DESCRIPTION>
+    <FUNCTION>CEGUI::PropertyHelper&lt;CEGUI::ColourRect&gt;::fromString</FUNCTION>
+    <DECORATED>?fromString@?$PropertyHelper@VColourRect@CEGUI@@@CEGUI@@SA?AVColourRect@2@ABVString@2@@Z</DECORATED>
+    <FUNCLINE>756</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>c:\users\cristina\documents\2dgame\libs\cegui\cegui\</FILEPATH>
+      <FILENAME>propertyhelper.h</FILENAME>
+      <LINE>766</LINE>
+      <COLUMN>14</COLUMN>
+    </SFA>
+    <DEFECTCODE>6031</DEFECTCODE>
+    <DESCRIPTION>Se omitió el valor devuelto: 'sscanf'.</DESCRIPTION>
+    <FUNCTION>CEGUI::PropertyHelper&lt;CEGUI::ColourRect&gt;::fromString</FUNCTION>
+    <DECORATED>?fromString@?$PropertyHelper@VColourRect@CEGUI@@@CEGUI@@SA?AVColourRect@2@ABVString@2@@Z</DECORATED>
+    <FUNCLINE>756</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>c:\users\cristina\documents\2dgame\libs\cegui\cegui\</FILEPATH>
+      <FILENAME>propertyhelper.h</FILENAME>
+      <LINE>799</LINE>
+      <COLUMN>14</COLUMN>
+    </SFA>
+    <DEFECTCODE>6031</DEFECTCODE>
+    <DESCRIPTION>Se omitió el valor devuelto: 'sscanf'.</DESCRIPTION>
+    <FUNCTION>CEGUI::PropertyHelper&lt;CEGUI::UDim&gt;::fromString</FUNCTION>
+    <DECORATED>?fromString@?$PropertyHelper@VUDim@CEGUI@@@CEGUI@@SA?AVUDim@2@ABVString@2@@Z</DECORATED>
+    <FUNCLINE>796</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>c:\users\cristina\documents\2dgame\libs\cegui\cegui\</FILEPATH>
+      <FILENAME>propertyhelper.h</FILENAME>
+      <LINE>832</LINE>
+      <COLUMN>14</COLUMN>
+    </SFA>
+    <DEFECTCODE>6031</DEFECTCODE>
+    <DESCRIPTION>Se omitió el valor devuelto: 'sscanf'.</DESCRIPTION>
+    <FUNCTION>CEGUI::PropertyHelper&lt;CEGUI::Vector2&lt;CEGUI::UDim&gt; &gt;::fromString</FUNCTION>
+    <DECORATED>?fromString@?$PropertyHelper@V?$Vector2@VUDim@CEGUI@@@CEGUI@@@CEGUI@@SA?AV?$Vector2@VUDim@CEGUI@@@2@ABVString@2@@Z</DECORATED>
+    <FUNCLINE>829</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>c:\users\cristina\documents\2dgame\libs\cegui\cegui\</FILEPATH>
+      <FILENAME>propertyhelper.h</FILENAME>
+      <LINE>868</LINE>
+      <COLUMN>14</COLUMN>
+    </SFA>
+    <DEFECTCODE>6031</DEFECTCODE>
+    <DESCRIPTION>Se omitió el valor devuelto: 'sscanf'.</DESCRIPTION>
+    <FUNCTION>CEGUI::PropertyHelper&lt;CEGUI::Size&lt;CEGUI::UDim&gt; &gt;::fromString</FUNCTION>
+    <DECORATED>?fromString@?$PropertyHelper@V?$Size@VUDim@CEGUI@@@CEGUI@@@CEGUI@@SA?AV?$Size@VUDim@CEGUI@@@2@ABVString@2@@Z</DECORATED>
+    <FUNCLINE>865</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>c:\users\cristina\documents\2dgame\libs\cegui\cegui\</FILEPATH>
+      <FILENAME>propertyhelper.h</FILENAME>
+      <LINE>904</LINE>
+      <COLUMN>14</COLUMN>
+    </SFA>
+    <DEFECTCODE>6031</DEFECTCODE>
+    <DESCRIPTION>Se omitió el valor devuelto: 'sscanf'.</DESCRIPTION>
+    <FUNCTION>CEGUI::PropertyHelper&lt;CEGUI::Rect&lt;CEGUI::UDim&gt; &gt;::fromString</FUNCTION>
+    <DECORATED>?fromString@?$PropertyHelper@V?$Rect@VUDim@CEGUI@@@CEGUI@@@CEGUI@@SA?AV?$Rect@VUDim@CEGUI@@@2@ABVString@2@@Z</DECORATED>
+    <FUNCLINE>901</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>c:\users\cristina\documents\2dgame\libs\cegui\cegui\</FILEPATH>
+      <FILENAME>propertyhelper.h</FILENAME>
+      <LINE>948</LINE>
+      <COLUMN>14</COLUMN>
+    </SFA>
+    <DEFECTCODE>6031</DEFECTCODE>
+    <DESCRIPTION>Se omitió el valor devuelto: 'sscanf'.</DESCRIPTION>
+    <FUNCTION>CEGUI::PropertyHelper&lt;CEGUI::UBox&gt;::fromString</FUNCTION>
+    <DECORATED>?fromString@?$PropertyHelper@VUBox@CEGUI@@@CEGUI@@SA?AVUBox@2@ABVString@2@@Z</DECORATED>
+    <FUNCLINE>945</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>c:\users\cristina\documents\2dgame\libs\cegui\cegui\widgets\</FILEPATH>
+      <FILENAME>thumb.h</FILENAME>
+      <LINE>348</LINE>
+      <COLUMN>14</COLUMN>
+    </SFA>
+    <DEFECTCODE>6031</DEFECTCODE>
+    <DESCRIPTION>Se omitió el valor devuelto: 'sscanf'.</DESCRIPTION>
+    <FUNCTION>CEGUI::PropertyHelper&lt;std::pair&lt;float,float&gt; &gt;::fromString</FUNCTION>
+    <DECORATED>?fromString@?$PropertyHelper@U?$pair@MM@std@@@CEGUI@@SA?AU?$pair@MM@std@@ABVString@2@@Z</DECORATED>
+    <FUNCLINE>345</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+</DEFECTS>

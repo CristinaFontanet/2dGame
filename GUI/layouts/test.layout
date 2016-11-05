@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<GUILayout version="4">
+    <Window type="DefaultWindow" name="inventory">
+        <Window type="TaharezLook/FrameWindow" name="testWindow">
+            <Property name="Text" value="Hello World!" />
+        </Window>
+    </Window>
+</GUILayout>

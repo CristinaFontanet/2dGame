@@ -36,27 +36,28 @@ static void specialDownCallback(int key, int x, int y)
 }
 
 // If a special key is released this callback is called
-
 static void specialUpCallback(int key, int x, int y)
 {
 	Game::instance().specialKeyReleased(key);
 }
 
 // Same for changes in mouse cursor position
-
 static void motionCallback(int x, int y)
 {
 	Game::instance().mouseMove(x, y);
 }
 
 // Same for mouse button presses or releases
-
-static void mouseCallback(int button, int state, int x, int y)
-{
+static void mouseCallback(int button, int state, int x, int y) {
 	if(state == GLUT_DOWN)
-		Game::instance().mousePress(button);
+		Game::instance().mousePress(x,y);
 	else if(state == GLUT_UP)
-		Game::instance().mouseRelease(button);
+		Game::instance().mouseRelease( x,y);
+}
+
+static void mouseMove(int x, int y)
+{
+	CEGUI::System::getSingleton().getDefaultGUIContext().injectMousePosition(x, y);
 }
 
 static void drawCallback()
@@ -65,8 +66,7 @@ static void drawCallback()
 	glutSwapBuffers();
 }
 
-static void idleCallback()
-{
+static void idleCallback() {
 	int currentTime = glutGet(GLUT_ELAPSED_TIME);
 	int deltaTime = currentTime - prevTime;
 	
@@ -80,16 +80,20 @@ static void idleCallback()
 	}
 }
 
+void resize(int width, int height) {
+	// we ignore the params and do:
+	glutReshapeWindow(SCREEN_WIDTH, SCREEN_HEIGHT);
+}
 
 int main(int argc, char **argv)
 {
 	// GLUT initialization
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
-	glutInitWindowPosition(100, 100);
+	glutInitWindowPosition(100, 20);
 	glutInitWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-
-	glutCreateWindow(argv[0]);
+	glutCreateWindow(argv[0] );
+	glutReshapeFunc(resize);
 	glutDisplayFunc(drawCallback);
 	glutIdleFunc(idleCallback);
 	glutKeyboardFunc(keyboardDownCallback);
@@ -98,6 +102,7 @@ int main(int argc, char **argv)
 	glutSpecialUpFunc(specialUpCallback);
 	glutMouseFunc(mouseCallback);
 	glutMotionFunc(motionCallback);
+	glutPassiveMotionFunc(mouseMove);
 
 	// GLEW will take care of OpenGL extension functions
 	glewExperimental = GL_TRUE;
